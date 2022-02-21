@@ -1,13 +1,139 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./assets/fonts/font.css";
+@import "./layouts/sidebar/sidebar.css";
+@import "./components/Modal/style.css";
+
+body{
+  padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Iran-sans" !important;
+  @apply bg-gray-100 !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Custom Scrollbar */
+@media (min-width: 1024px){
+  .custom-scroll::-webkit-scrollbar {
+    margin-left: 5px;
+    width: 10px;
+    transition: 0.2s;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    @apply bg-gray-300
+  }
+}
+
+
+.rt-td *{
+  overflow-y: visible !important;
+  white-space: normal !important;
+}
+.rdt_TableCell *{
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.rdt_TableCol_Sortable div{
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container-sm, .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .container-md, .container-sm, .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .container-lg, .container-md, .container-sm, .container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1320px;
+  }
+}
+
+
+
+/* MODAL */
+.modal {
+  z-index: 99999;
+  @apply overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 justify-center items-center md:h-full md:inset-0;
+
+  & .modal-wrapper {
+    @apply relative px-4 w-full h-full bg-slate-800 bg-opacity-30 flex items-center justify-center;
+
+    & .modal-content {
+      @apply relative bg-white w-full max-w-lg rounded-lg shadow;
+
+      &.modal-sm{
+        @apply max-w-md;
+      }
+
+      &.modal-md{
+        @apply max-w-lg;
+      }
+
+      &.modal-lg{
+        @apply max-w-4xl;
+      }
+
+      &.modal-xl{
+        @apply max-w-7xl;
+      }
+
+      & .modal-header {
+        @apply flex justify-between items-center p-5 rounded-t border-b;
+
+        & .modal-title {
+          @apply text-xl font-semibold text-gray-900 lg:text-lg;
+        }
+
+        & .close-modal {
+          @apply text-white bg-rose-500 hover:bg-rose-600 rounded-lg text-sm p-1.5 inline-flex items-center;
+        }
+      }
+
+      & .modal-body {
+        @apply p-6 space-y-6 h-full overflow-auto;
+
+        &.no-padding{
+          @apply pt-0;
+        }
+
+        & {
+          @apply leading-relaxed text-slate-700 text-base;
+        }
+      }
+    }
+  }
 }

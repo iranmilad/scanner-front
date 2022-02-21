@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { MantineProvider } from '@mantine/core';
+import rtlPlugin from 'stylis-plugin-rtl';
+import {BrowserRouter,Routes, Route , Link} from 'react-router-dom';
+import Home from './pages/home/index';
+import { theme } from './helper/theme';
 
-function App() {
+
+
+const App = ()=>{
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <MantineProvider 
+    theme={theme}
+    emotionOptions={{ key: 'mantine', stylisPlugins: [rtlPlugin] }}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home/>} />
+              <Route path="gg" element={
+                <div>
+                  <Link to="/"><a>Home</a></Link>
+                </div>
+              } />
+            </Routes>
+          </BrowserRouter>
+    </MantineProvider>
+  )
 }
 
-export default App;
+export default App

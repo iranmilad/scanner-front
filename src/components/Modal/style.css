@@ -1,0 +1,51 @@
+.modal {
+  @apply overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 z-50 justify-center items-center md:h-full md:inset-0;
+
+  & .modal-wrapper {
+    @apply relative px-4 w-full h-full bg-slate-800 bg-opacity-30 flex items-center justify-center;
+
+    & .modal-content {
+      @apply relative bg-white w-full max-w-lg rounded-lg shadow;
+
+      &.modal-sm{
+        @apply max-w-md;
+      }
+
+      &.modal-md{
+        @apply max-w-lg;
+      }
+
+      &.modal-lg{
+        @apply max-w-4xl;
+      }
+
+      &.modal-xl{
+        @apply max-w-7xl;
+      }
+
+      & .modal-header {
+        @apply flex justify-between items-start p-5 rounded-t border-b;
+
+        & .modal-title {
+          @apply text-xl font-semibold text-gray-900 lg:text-2xl;
+        }
+
+        & .close-modal {
+          @apply text-white bg-rose-500 hover:bg-rose-600 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center;
+        }
+      }
+
+      & .modal-body {
+        @apply p-6 space-y-6 max-h-96 overflow-auto;
+
+        &.no-padding{
+          @apply pt-0;
+        }
+
+        & {
+          @apply leading-relaxed text-slate-700 text-base;
+        }
+      }
+    }
+  }
+}
