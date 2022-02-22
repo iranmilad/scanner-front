@@ -1,6 +1,5 @@
-import { Group, Paper, SimpleGrid, Text } from '@mantine/core';
+import { Paper, SimpleGrid, Text } from '@mantine/core';
 import { Component } from 'react';
-import colors from 'tailwindcss/colors';
 import Logo from '../../assets/images/logo.png';
 import IChart from '../../components/IChart';
 import ChartData from '../IChart/chartData';

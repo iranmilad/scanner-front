@@ -3,11 +3,8 @@ import { Menu ,Transition} from '@headlessui/react';
 import { headers } from '../../helper/fakeData';
 import Logo from '../../assets/images/logo.png';
 import chartLogo from '../../assets/images/treemap-chart.png';
-import colors from 'tailwindcss/colors';
-import { Drawer, Button, Group } from '@mantine/core';
 
 const Header = (props) => {
-  const [opened, setOpened] = useState(true);
   return (
     <div className=" bg-gray-100">
       <div className="flex flex-row justify-between items-center p-4 bg-slate-800 h-16 shadow-sm fixed top-0 w-full" style={{zIndex: 99}}>
@@ -16,7 +13,7 @@ const Header = (props) => {
         >
           <div className="block lg:hidden">
             <button
-              onClick={()=>setOpened(!opened)}
+              onClick={()=>props.setOpen()}
               className="py-2.5 px-3 flex justify-center items-center border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
             >
               <i className="fa-solid fa-bars text-lg"></i>

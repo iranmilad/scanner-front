@@ -14,10 +14,7 @@ const recentSearch = [
   },
 ]
 
-const Sidebar = ({onClose,open})=>{
-  const onCloseDrawer = ()=>{
-    onClose(false)
-  }
+const Sidebar = ({setOpen,open})=>{
   let marginRight;
 
   switch (open){
@@ -45,7 +42,7 @@ const Sidebar = ({onClose,open})=>{
     <div className={classes}>
       <div className='w-full flex items-center justify-between h-16'>
       <img src={Logo}  width="150" />
-        <button onClick={onCloseDrawer} className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-indigo-50 rounded-md flex items-center justify-center">
+        <button onClick={()=>setOpen()} className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-indigo-50 rounded-md flex items-center justify-center">
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
       </div>
