@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import "./assets/fonts/font.css"
 import './assets/css/tailwind.css';
 import "./assets/css/all.min.css";
 

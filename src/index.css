@@ -2,9 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./assets/fonts/font.css";
-@import "./layouts/sidebar/sidebar.css";
-@import "./components/Modal/style.css";
+.sideMenu {
+  @apply bg-slate-700 overflow-scroll transition-all duration-500 items-start
+   fixed z-50 top-0 right-0 w-72 h-screen
+    sm:h-screen sm:overflow-auto px-2.5;
+  z-index: 999;
+}
+
 
 body{
   padding: 0;
@@ -79,61 +83,5 @@ body{
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1320px;
-  }
-}
-
-
-
-/* MODAL */
-.modal {
-  z-index: 99999;
-  @apply overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-4 justify-center items-center md:h-full md:inset-0;
-
-  & .modal-wrapper {
-    @apply relative px-4 w-full h-full bg-slate-800 bg-opacity-30 flex items-center justify-center;
-
-    & .modal-content {
-      @apply relative bg-white w-full max-w-lg rounded-lg shadow;
-
-      &.modal-sm{
-        @apply max-w-md;
-      }
-
-      &.modal-md{
-        @apply max-w-lg;
-      }
-
-      &.modal-lg{
-        @apply max-w-4xl;
-      }
-
-      &.modal-xl{
-        @apply max-w-7xl;
-      }
-
-      & .modal-header {
-        @apply flex justify-between items-center p-5 rounded-t border-b;
-
-        & .modal-title {
-          @apply text-xl font-semibold text-gray-900 lg:text-lg;
-        }
-
-        & .close-modal {
-          @apply text-white bg-rose-500 hover:bg-rose-600 rounded-lg text-sm p-1.5 inline-flex items-center;
-        }
-      }
-
-      & .modal-body {
-        @apply p-6 space-y-6 h-full overflow-auto;
-
-        &.no-padding{
-          @apply pt-0;
-        }
-
-        & {
-          @apply leading-relaxed text-slate-700 text-base;
-        }
-      }
-    }
   }
 }

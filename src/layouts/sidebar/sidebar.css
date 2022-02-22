@@ -1,6 +1,0 @@
-.sideMenu {
-  @apply bg-slate-700 overflow-scroll transition-all duration-500 items-start
-   fixed z-50 top-0 right-0 w-72 h-screen
-    sm:h-screen sm:overflow-auto px-2.5;
-  z-index: 999;
-}
