@@ -14,7 +14,7 @@ body{
   padding: 0;
   margin: 0;
   font-family: "Iran-sans" !important;
-  @apply bg-gray-100 !important;
+  @apply bg-white !important;
 }
 
 /* Custom Scrollbar */

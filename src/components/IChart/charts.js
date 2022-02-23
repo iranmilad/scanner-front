@@ -3,6 +3,7 @@ export const barChart = {
   options: {
     chart: {
       type: 'bar',
+      distributed:true,
       toolbar: {
         show: true,
         offsetX: 0,
@@ -89,7 +90,8 @@ export const polarAreaChart = {
 export const areaChart = {
   options:{
     chart: {
-      type: 'area'
+      type: 'area',
+      fontFamily: 'Iran-sans',
     },
     dataLabels: {
       enabled: false
@@ -109,6 +111,7 @@ export const lineChart = {
   options:{
     chart: {
       type: "line",
+      fontFamily: 'Iran-sans',
     },
     dataLabels:{
       enabled: false

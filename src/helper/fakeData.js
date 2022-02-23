@@ -161,6 +161,7 @@ export const firstChart = {
   special: 'A1',
   series: [
     {
+      name: "تعداد نماد ها",
       data: [2, 49, 44, 118, 94, 88, 107, 53, 60, 9, 57, 3],
     },
   ],
@@ -189,6 +190,7 @@ export const fourchart = {
   special: 'A4',
   series: [
     {
+      name: "ارزش سفارشات",
       data: ['323.3B', '271.9B'],
     },
   ],
@@ -198,7 +200,7 @@ export const fiveChart = {
   special: 'A5',
   series: [
     {
-      name: 'Desktops',
+      name: 'ورود پول',
       data: randomNumber(),
     },
   ],
@@ -208,7 +210,7 @@ export const sixChart = {
   special: 'A6',
   series: [
     {
-      name: 'Desktops',
+      name: 'ورود پول',
       data: randomNumber(),
     },
   ],
@@ -218,7 +220,7 @@ export const sevenChart = {
   special: 'A7',
   series: [
     {
-      name: 'Desktops',
+      name: 'ورود پول',
       data: randomNumber(),
     },
   ],
@@ -228,7 +230,7 @@ export const eightChart = {
   special: 'A8',
   series: [
     {
-      name: 'Desktops',
+      name: 'ورود پول',
       data: randomNumber(),
     },
   ],
@@ -284,6 +286,7 @@ export const A13 = {
   special: 'A13',
   series: [
     {
+      name: "نماد",
       data: [61, 56, 200, 122, 90, 54],
     },
   ],

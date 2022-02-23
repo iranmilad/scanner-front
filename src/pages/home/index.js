@@ -1,4 +1,4 @@
-import { Component} from "react";
+import React from "react";
 import MainLayout from "../../layouts/mainLayout";
 import {
   summaryOfRetailTable,
@@ -11,7 +11,7 @@ import LoopChart from '../../components/LoopChart';
 import { firstChart ,twoChart , threeChart,fourchart , fiveChart , sixChart,sevenChart,eightChart,A9,A10,A11,A12,A13,A14,A15,A16,A17,A18} from "../../helper/fakeData";
 import { Helmet } from "react-helmet";
 
-class Home extends Component{
+class Home extends React.PureComponent{
   state = {
     charts: [],
   }

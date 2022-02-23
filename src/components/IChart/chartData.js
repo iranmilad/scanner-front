@@ -9,7 +9,9 @@ const ChartData = {
     options: {
       plotOptions: {
         horizontal: false,
-        distributed: true
+        bar:{
+          distributed: true
+        }
       },
       colors: ['#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26'],
       labels: [    'پایین تر از منفی 5',
@@ -32,7 +34,7 @@ const ChartData = {
       xaxis: {
         labels: {
           show: true,
-          offsetY: 90,
+          offsetY: 70,
           offsetX: -25,
         },
         category: [    'پایین تر از منفی 5',
@@ -100,14 +102,27 @@ const ChartData = {
           horizontal: true,
         }
       },
-      labels: ["فروش","خرید"],
       colors: ['#E91E63', '#66DA26'],
+      dataLabels:{
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+        },
+      },
       xaxis: {
         labels: {
-          enabled:false
+          enabled:false,
         },
-        categories: ["فروش","خرید"],
-      }
+        categories: [
+          "فروش",
+          "خرید"
+        ]
+      },
+      yaxis: {
+        labels: {
+          show: false
+        }
+      },
     }
   },
   A5: {
@@ -268,9 +283,11 @@ const ChartData = {
     options: {
       plotOptions: {
         horizontal: false,
-        distributed: true
+        bar:{
+          distributed: true
+        }
       },
-      colors: ['#66DA26','#ff0'],
+      colors: [colors.rose[500],colors.rose[500],colors.rose[500],colors.emerald[500],colors.emerald[500],colors.emerald[500],],
       labels: [
         "صف فروش",
         ["صف فروش",
@@ -289,8 +306,7 @@ const ChartData = {
       xaxis: {
         labels: {
           show: true,
-          rotate: 0,
-          // offsetY: 90
+          offsetY:108
         },
         categories: [
           "صف فروش",
