@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import {
   ActionIcon,
   Box,
@@ -11,24 +12,69 @@ import {
   SimpleGrid,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../assets/images/logo.png';
-import TextField from '../../components/FormsUI/TextField';
-import CheckboxField from '../../components/FormsUI/Checkbox';
-import schema from './schema';
+import Logo from '../../../assets/images/logo.png';
+import TextField from '../../../components/FormsUI/TextField';
+import CheckboxField from '../../../components/FormsUI/Checkbox';
+import {registerStepOne} from './schema';
 import { TiChartLine } from 'react-icons/ti';
 import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import {ImArrowLeft2} from 'react-icons/im';
-import actionBG from '../../assets/images/action.png';
+import actionBG from '../../../assets/images/action.png';
+import {clearLocalStorage} from '../../../helper/localStorage';
+import {History} from '../../../helper/history';
+import { registerAPI } from '../../../apis/auth';
+import { connect } from 'react-redux';
+import VerifyForm from './verifyForm';
 
 class Register extends React.PureComponent {
-  handleRegister(values){
-    console.log(values);
+  state = {
+    loading: false,
+    verify: false,
+    datas: {},
+  }
+
+  componentDidMount(){
+    clearLocalStorage();
+  }
+  handleRegister({values,actions}){
+    delete values.acceptTerms;
+    this.setState({loading: true});
+    registerAPI({url:"/user/register",data:values},)
+    .then(res => {
+      this.setState({
+        loading:false,
+        verify: res.data.data,
+        datas: values
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      this.setState({
+        loading: false,
+      });
+      let errors = {};
+      for(let item of Object.entries(err.response.data.errors)){
+        errors[item[0]] = item[1][0];
+      }
+      actions.setErrors(errors);
+    })
+  }
+  changeMobile(e){
+    // this.setState(prev=>({
+    //   ...prev,
+    //   loading:false,
+    //   verify: false,
+    // }))
+    this.setState({
+      loading:false,
+      verify: false,
+    })
   }
   render() {
     const INITIAL_FORM_STATE = {
-      username: '',
-      phone: '',
+      last_name: '',
+      mobile: '',
       password: '',
       acceptTerms: false,
     };
@@ -36,7 +82,7 @@ class Register extends React.PureComponent {
       <Box className="overflow-hidden h-screen ">
         <SimpleGrid cols={2} spacing={0}
         breakpoints={[
-          {maxWidth: "lg" ,cols:1}
+          {maxWidth: "md" ,cols:1}
         ]}
         sx={{ margin: 0 }}>
           <Box
@@ -61,20 +107,24 @@ class Register extends React.PureComponent {
                   به راحتی یک حساب کاربری ایجاد کنید و از تمام مزایای وبسایت
                   استفاده کنید
                 </Text>
+                {this.state.verify ? (
+                  <VerifyForm changeMobile={this.changeMobile} verify={this.state.verify} mobile={this.state.datas.mobile} />
+                ) : (
                 <Formik
                   initialValues={INITIAL_FORM_STATE}
-                  validationSchema={schema}
-                  onSubmit={value => this.handleRegister(value)}
+                  validationSchema={registerStepOne}
+                  onSubmit={(values,actions) => this.handleRegister({values,actions})}
                 >
                   <Form className="w-[90%] mt-7">
                     <TextField
-                      label={<Text size="sm">نام کاربری</Text>}
-                      name="username"
+                      label={<Text size="sm">نام خانوادگی</Text>}
+                      name="last_name"
                     />
                     <Space h="lg" />
                     <TextField
                       label={<Text size="sm">شماره تلفن همراه</Text>}
-                      name="phone"
+                      name="mobile"
+                      
                     />
 
                     <Space h="lg" />
@@ -83,6 +133,7 @@ class Register extends React.PureComponent {
                       dir="ltr"
                       label={<Text size="sm">رمز عبور</Text>}
                       name="password"
+                      
                     />
                     <Space h="lg" />
                     <CheckboxField 
@@ -90,25 +141,26 @@ class Register extends React.PureComponent {
                       color="indigo"
                       name="acceptTerms"  />
                     <Space h="lg" />
-                    <Button fullWidth radius="md" color="indigo" type="submit">
+                    <Button fullWidth radius="md" color="indigo" type="submit" loading={this.state.loading}>
                       ثبت نام
                     </Button>
                     <Group position="center" className="flex items-end h-32">
                       <Text color={colors.slate[500]} size="sm">
                         حساب کاربری دارید ?{' '}
-                        <Link to="#">
                           <Text
                             className="inline-block mr-3"
                             color="indigo"
                             weight="bold"
+                            sx={{cursor:"pointer"}}
+                            onClick={()=>History.push('/login')}
                           >
                             ورود
                           </Text>
-                        </Link>
                       </Text>
                     </Group>
                   </Form>
                 </Formik>
+                )}
               </Box>
             </Group>
           </Box>
@@ -120,7 +172,7 @@ class Register extends React.PureComponent {
               position: 'relative',
             })}
           >
-            <img className="w-full h-full z-20 opacity-70" src={actionBG} />
+            <img className="w-full h-full object-cover z-20 opacity-70" src={actionBG} />
             <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70" />
             <Box className="absolute top-0 lef-0 w-full h-full z-40 p-10">
               <Group position="apart">
@@ -129,7 +181,7 @@ class Register extends React.PureComponent {
                   width={200}
                   src={Logo}
                 />
-                <Link to="/"><ActionIcon variant='light' color="indigo" size="lg"><ImArrowLeft2 size={20} /></ActionIcon></Link>
+                <ActionIcon onClick={()=>History.push('/home')} variant='light' color="indigo" size="lg"><ImArrowLeft2 size={20} /></ActionIcon>
               </Group>
             </Box>
           </Box>
@@ -139,4 +191,8 @@ class Register extends React.PureComponent {
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  loading: state.main.loading
+});
+
+export default connect(mapStateToProps)(Register);

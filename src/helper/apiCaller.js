@@ -1,34 +1,36 @@
 import axios from 'axios';
+import {getLocalStorage,clearLocalStorage} from './localStorage';
 
-const ApiCaller = ()=>{
-
-  /**
-   * a instance of axios for call the api
-   * @type {AxiosInstance} axios
-   */
+const ApiCaller = (config)=>{
+	
   const axiosInstance = axios.create({
-    headers:{},
+    headers:{
+			"Accept": "application/json",
+			"Content-Type": "application/json"
+		},
     responseType: 'json',
+		baseURL: 'http://sub1.clawar-services.org/api'
   });
 
-  // handle errors globally for all requests
-  axiosInstance.interceptors.request.use(
-    response => {
-      return response;
-    },
-    error=>{
-      const {response,data} = error;
-      if(response){
-        Promise.reject(response)
-      }
-      if(data){
-        Promise.reject(data)
-      }
-      return Promise.reject(error);
-    }
-  )
+	axiosInstance.interceptors.request.use(
+		res => {
+			return res;
+		},
+		error => {
+			return Promise.reject(error);
+		}
+	)
 
+	axiosInstance.interceptors.response.use(
+		response => {
+			return response;
+		},
+		error => {
+			return Promise.reject(error);
+		}
+	)
   return axiosInstance
 }
+
 
 export default ApiCaller;

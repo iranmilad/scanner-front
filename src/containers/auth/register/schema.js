@@ -3,12 +3,12 @@ import { Text } from '@mantine/core';
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
-const schema = Yup.object().shape({
-  username: Yup.string()
-  .required("نام کاربری را وارد کنید")
-    .min(4, 'نام کاربری باید حداقل 4 کاراکتر باشد')
-    .max(50, 'نام کاربری باید حداکثر 50 کاراکتر باشد'),
-  phone: Yup.string()
+export const registerStepOne = Yup.object().shape({
+  last_name: Yup.string()
+  .required("نام خانوادگی را وارد کنید")
+    .min(3, 'نام خانوادگی باید حداقل 3 کاراکتر باشد')
+    .max(50, 'نام خانوادگی باید حداکثر 50 کاراکتر باشد'),
+  mobile: Yup.string()
   .required("شماره تلفن را وارد کنید")
   .matches(phoneRegExp, 'شماره تلفن معتبر نیست')
   .min(10, "شماره تلفن معتبر نیست")
@@ -22,4 +22,7 @@ const schema = Yup.object().shape({
   .required()
 })
 
-export default schema;
+export const verirySchema = Yup.object().shape({
+  verifyCode: Yup.number()
+  .required("کد تایید را وارد کنید")
+});

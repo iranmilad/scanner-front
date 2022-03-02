@@ -11,7 +11,7 @@ const TextField = ({name,type,...otherProps})=>{
     color: 'indigo',
     radius: 'md',
     size: 'md',
-    autoComplete: 'off'
+    // autoComplete: 'off'
   }
   if(mata && mata.touched && mata.error){
     configFields.error = <Text size="xs">{mata.error}</Text>;
