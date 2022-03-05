@@ -2,6 +2,7 @@ import React from 'react';
 
 const Register = React.lazy(()=> import("../containers/auth/register"));
 const Login = React.lazy(()=>import("../containers/auth/login"));
+const ResetPassword = React.lazy(()=>import("../containers/auth/resetPassword"))
 
 export const authRoutes = [
   {
@@ -14,4 +15,9 @@ export const authRoutes = [
     component: Register,
     layout: 'auth'
   },
+  {
+    path: '/resetpassword',
+    component: ResetPassword,
+    layout: 'auth'
+  }
 ]

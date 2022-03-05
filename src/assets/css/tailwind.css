@@ -395,8 +395,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100vh;
 }.h-32 {
   height: 8rem;
-}.h-10 {
-  height: 2.5rem;
 }.w-96 {
   width: 24rem;
 }.w-full {
@@ -405,14 +403,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 20rem;
 }.w-\[90\%\] {
   width: 90%;
+}.w-\[80\%\] {
+  width: 80%;
 }.w-56 {
   width: 14rem;
 }.w-4 {
   width: 1rem;
 }.w-\[70\%\] {
   width: 70%;
-}.w-10 {
-  width: 2.5rem;
 }.origin-top-right {
   transform-origin: top right;
 }.-translate-x-1\/2 {
@@ -811,6 +809,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-offset-width: 2px;
 }@media (min-width: 768px) {.sm\:flex {
     display: flex;
+  }.sm\:w-\[50\%\] {
+    width: 50%;
   }.sm\:w-60 {
     width: 15rem;
   }
@@ -832,6 +832,8 @@ Ensure the default browser behavior of the `hidden` attribute.
     display: flex;
   }.lg\:hidden {
     display: none;
+  }.lg\:w-\[55\%\] {
+    width: 55%;
   }.lg\:w-96 {
     width: 24rem;
   }.lg\:pt-\[8rem\] {

@@ -21,7 +21,7 @@ import { Formik, Form } from 'formik';
 import { Link } from 'react-router-dom';
 import {ImArrowLeft2} from 'react-icons/im';
 import actionBG from '../../../assets/images/action.png';
-import {clearLocalStorage} from '../../../helper/localStorage';
+import {clearLocalStorage,getLocalStorage} from '../../../helper/localStorage';
 import {History} from '../../../helper/history';
 import { registerAPI } from '../../../apis/auth';
 import { connect } from 'react-redux';
@@ -35,12 +35,19 @@ class Register extends React.PureComponent {
   }
 
   componentDidMount(){
-    clearLocalStorage();
+    let storage = getLocalStorage('userToken');
+    console.log(storage);
+    if(!storage){
+      clearLocalStorage();
+    }
+    else{
+      History.push('/home');
+    }
   }
   handleRegister({values,actions}){
     delete values.acceptTerms;
     this.setState({loading: true});
-    registerAPI({url:"/user/register",data:values},)
+    registerAPI({url:"/user/register",data:values})
     .then(res => {
       this.setState({
         loading:false,
@@ -60,17 +67,8 @@ class Register extends React.PureComponent {
       actions.setErrors(errors);
     })
   }
-  changeMobile(e){
-    // this.setState(prev=>({
-    //   ...prev,
-    //   loading:false,
-    //   verify: false,
-    // }))
-    this.setState({
-      loading:false,
-      verify: false,
-    })
-  }
+
+  
   render() {
     const INITIAL_FORM_STATE = {
       last_name: '',
@@ -108,7 +106,7 @@ class Register extends React.PureComponent {
                   استفاده کنید
                 </Text>
                 {this.state.verify ? (
-                  <VerifyForm changeMobile={this.changeMobile} verify={this.state.verify} mobile={this.state.datas.mobile} />
+                  <VerifyForm verify={this.state.verify} userData={this.state.datas} mobile={this.state.datas.mobile} />
                 ) : (
                 <Formik
                   initialValues={INITIAL_FORM_STATE}

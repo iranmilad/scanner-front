@@ -8,3 +8,7 @@ export const registerAPI = ({url,data})=>{
 export const loginAPI = ({url,data})=>{
   return ApiCaller().post(url,data);
 }
+
+export const rememberPasswordAPI = ({url,data})=>{
+  return ApiCaller().post(url,data);
+}

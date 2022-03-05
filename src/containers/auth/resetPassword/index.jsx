@@ -15,9 +15,9 @@ import {ImArrowLeft2} from 'react-icons/im';
 import loginImage from '../../../assets/images/login.jpg';
 import {clearLocalStorage,getLocalStorage} from '../../../helper/localStorage';
 import {History} from '../../../helper/history';
-import LoginForm from './loginForm';
+import ResetForm from './resetForm';
 
-class Login extends React.PureComponent {
+class ResetPassword extends React.PureComponent {
 
 
   componentDidMount(){
@@ -40,11 +40,11 @@ class Login extends React.PureComponent {
         sx={{ margin: 0 }}>
           <Box
             span={6}
-            className="overflow-auto"
+            className="overflow-auto w-full"
             sx={{ height: '100vh', paddingTop: '25px' }}
           >
-            <Group position="center">
-              <Box className="flex flex-col items-center px-4">
+            <Group position="center" className='w-full'>
+              <Box className="flex flex-col items-center px-4 w-full">
                 <ActionIcon
                   color="indigo"
                   size="xl"
@@ -55,11 +55,11 @@ class Login extends React.PureComponent {
                   <TiChartLine size={22} />
                 </ActionIcon>
                 <Space h="xl" />
-                <Title order={3}>ورود</Title>
+                <Title order={3}>فراموشی رمز عبور</Title>
                 <Text className='text-center' size="sm" mt={10} color={colors.slate[400]}>
-                  به راحتی به حساب کاربری خود وارد شوید و از تمام مزایای وبسایت استفاده کنید
+                  به راحتی رمز عبور حساب کاربری خود تغییر دهید و از تمام مزایای وبسایت استفاده کنید
                 </Text>
-                  <LoginForm />
+                  <ResetForm />
               </Box>
             </Group>
           </Box>
@@ -91,4 +91,4 @@ class Login extends React.PureComponent {
 }
 
 
-export default Login;
+export default ResetPassword;
