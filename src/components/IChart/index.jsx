@@ -2,16 +2,25 @@ import { Component } from 'react';
 import lodash from 'lodash';
 import Chart from 'react-apexcharts';
 import { Group, Loader } from '@mantine/core';
-import {chartType} from './functions';
+import { chartType } from './functions';
 import ChartData from './chartData';
 
-
+/**
+ * IChart for handle the every chart
+ * @component
+ * @example
+ * return (
+ * <IChart
+ *  type={'line'}
+ *  series={data}
+ *  options={options}
+ * />
+ */
 class IChart extends Component {
   state = {
     series: this.props.series.series,
     options: chartType(this.props.special),
   };
-
 
   render() {
     return (
@@ -33,7 +42,6 @@ class IChart extends Component {
     );
   }
 }
-
 
 // a function for generate clock time from 9:00 to 14:00 with every 1 min
 export const clockTime = () => {

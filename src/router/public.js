@@ -4,7 +4,7 @@ const Home = React.lazy(()=> import("../containers/home"));
 
 export const publicRoute = [
   {
-    path: "/home",
+    path: "/",
     component: Home,
     layout: 'public'
   }

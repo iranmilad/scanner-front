@@ -6,6 +6,7 @@ import { loginAPI } from '../../../apis/auth';
 import { loginSchema } from './schema';
 import TextField from '../../../components/FormsUI/TextField';
 import colors from 'tailwindcss/colors';
+import { Link } from 'react-router-dom';
 import {
   setLocalStorage,
   setLocalStorageWithExpiry,
@@ -31,7 +32,7 @@ class LoginForm extends React.PureComponent {
         }));
         setLocalStorage('userToken', res.data.data.access_token);
         setTimeout(() => {
-          History.push('/home');
+          window.location.href = '/';
         }, 4000);
       })
       .catch((err) => {
@@ -78,13 +79,17 @@ class LoginForm extends React.PureComponent {
             name="password"
           />
           <Space h="lg" />
-          <Anchor
-            onClick={() => History.push('/resetpassword')}
-            color="indigo"
-            size="sm"
-          >
-            فراموشی رمز عبور
-          </Anchor>
+          <Link to="/resetpassword">
+            <Anchor
+              className="inline-block"
+              size='sm'
+              color="indigo"
+              weight="normal"
+              sx={{ cursor: 'pointer' }}
+            >
+              فراموشی رمز عبور
+            </Anchor>
+          </Link>
           <Space h="lg" />
           <Button
             fullWidth
@@ -98,15 +103,16 @@ class LoginForm extends React.PureComponent {
           <Group position="center" className="flex items-end h-32">
             <Text color={colors.slate[500]} size="sm">
               نیاز به حساب کاربری دارید ؟{' '}
-              <Text
-                className="inline-block mr-3"
-                color="indigo"
-                weight="bold"
-                sx={{ cursor: 'pointer' }}
-                onClick={() => History.push('/register')}
-              >
-                ثبت نام
-              </Text>
+              <Link to="/register">
+                <Text
+                  className="inline-block mr-3"
+                  color="indigo"
+                  weight="bold"
+                  sx={{ cursor: 'pointer' }}
+                >
+                  ثبت نام
+                </Text>
+              </Link>
             </Text>
           </Group>
         </Form>

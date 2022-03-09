@@ -2,7 +2,11 @@ import { barChart, polarAreaChart ,areaChart , lineChart} from './charts';
 import {Map} from 'immutable';
 import ChartData from './chartData';
 
-
+/**
+ * 
+ * @param {string} special 
+ * @returns {Object}
+ */
 export const chartType = (special)=>{
   let chartType = ChartData[special];
   let options = Map();

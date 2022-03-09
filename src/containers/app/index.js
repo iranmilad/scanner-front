@@ -1,7 +1,5 @@
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter,Switch, Route } from 'react-router-dom';
 import { PublicLayout, AuthLayout } from '../../layout';
-import { ConnectedRouter } from 'connected-react-router';
-import { History } from '../../helper/history';
 import Routes from '../../router';
 import { withRouter } from 'react-router';
 import NotFound from '../../components/notFound';
@@ -47,22 +45,13 @@ export default () => {
 		});
 	};
 
-	const validPath = ['/home'];
 
-	if (
-		!getLocalStorage('userToken') &&
-		(validPath.indexOf(window.location.pathname) === -1 || window.location.pathname === '/')
-	) {
-		window.location.replace('/home');
-		return null;
-	} else {
-		return (
-			<ConnectedRouter history={History}>
-				<Switch>
-					{switchRoutes()}
-					<Route component={NotFound} />
-				</Switch>
-			</ConnectedRouter>
-		);
-	}
+	return (
+		<BrowserRouter  >
+			<Switch>
+				{switchRoutes()}
+				<Route component={NotFound} />
+			</Switch>
+		</BrowserRouter>
+	);
 };

@@ -11,33 +11,36 @@ import {
 import colors from 'tailwindcss/colors';
 import Logo from '../../../assets/images/logo.png';
 import { TiChartLine } from 'react-icons/ti';
-import {ImArrowLeft2} from 'react-icons/im';
+import { ImArrowLeft2 } from 'react-icons/im';
 import loginImage from '../../../assets/images/login.jpg';
-import {clearLocalStorage,getLocalStorage} from '../../../helper/localStorage';
-import {History} from '../../../helper/history';
+import {
+  clearLocalStorage,
+  getLocalStorage,
+} from '../../../helper/localStorage';
+import { History } from '../../../helper/history';
 import LoginForm from './loginForm';
+import { Link } from 'react-router-dom';
 
 class Login extends React.PureComponent {
-
-
-  componentDidMount(){
+  constructor(){
+    super();
     let storage = getLocalStorage('userToken');
-    if(!storage){
+    if (!storage) {
       clearLocalStorage();
-    }
-    else{
-      History.push('/home');
+    } else {
+      window.location.href = "/";
     }
   }
 
   render() {
     return (
       <Box className="overflow-hidden h-screen ">
-        <SimpleGrid cols={2} spacing={0}
-        breakpoints={[
-          {maxWidth: "md" ,cols:1}
-        ]}
-        sx={{ margin: 0 }}>
+        <SimpleGrid
+          cols={2}
+          spacing={0}
+          breakpoints={[{ maxWidth: 'md', cols: 1 }]}
+          sx={{ margin: 0 }}
+        >
           <Box
             span={6}
             className="overflow-auto"
@@ -56,10 +59,16 @@ class Login extends React.PureComponent {
                 </ActionIcon>
                 <Space h="xl" />
                 <Title order={3}>ورود</Title>
-                <Text className='text-center' size="sm" mt={10} color={colors.slate[400]}>
-                  به راحتی به حساب کاربری خود وارد شوید و از تمام مزایای وبسایت استفاده کنید
+                <Text
+                  className="text-center"
+                  size="sm"
+                  mt={10}
+                  color={colors.slate[400]}
+                >
+                  به راحتی به حساب کاربری خود وارد شوید و از تمام مزایای وبسایت
+                  استفاده کنید
                 </Text>
-                  <LoginForm />
+                <LoginForm />
               </Box>
             </Group>
           </Box>
@@ -71,7 +80,10 @@ class Login extends React.PureComponent {
               position: 'relative',
             })}
           >
-            <img className="w-full h-full object-cover z-20 opacity-70" src={loginImage} />
+            <img
+              className="w-full h-full object-cover z-20 opacity-70"
+              src={loginImage}
+            />
             <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70" />
             <Box className="absolute top-0 lef-0 w-full h-full z-40 p-10">
               <Group position="apart">
@@ -80,15 +92,18 @@ class Login extends React.PureComponent {
                   width={200}
                   src={Logo}
                 />
-                <ActionIcon onClick={()=>History.push('/home')} variant='light' color="indigo" size="lg"><ImArrowLeft2 size={20} /></ActionIcon>
+                <Link to="/">
+                  <ActionIcon variant="light" color="indigo" size="lg">
+                    <ImArrowLeft2 size={20} />
+                  </ActionIcon>
+                </Link>
               </Group>
             </Box>
           </Box>
-        </SimpleGrid >
+        </SimpleGrid>
       </Box>
     );
   }
 }
-
 
 export default Login;

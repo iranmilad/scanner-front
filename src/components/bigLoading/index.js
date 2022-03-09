@@ -1,5 +1,13 @@
 import { Center, Loader,Text } from "@mantine/core"
 
+/**
+ * Big Loading Component is a fullscreen loading
+ * @component
+ * @example
+ * return (
+ * <BigLoading />
+ * )
+ */
 const BigLoading = ()=>{
   return (
     <Center sx={(theme)=>({height:"100vh",flexDirection:"column",zIndex:9999999999})}>

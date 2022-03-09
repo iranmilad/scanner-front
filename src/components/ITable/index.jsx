@@ -4,6 +4,16 @@ import lodash from 'lodash';
 import { Group, Loader, Paper, Text } from '@mantine/core';
 import {TableDesign} from '../../helper/theme';
 
+/**
+ * ITable for handle the every table
+ * @component
+ * @example
+ * return (
+ * <ITable
+ *  data={data}
+ *  columns={columns}
+ * />
+ */
 class ITable extends Component {
   state = {
     header: [],

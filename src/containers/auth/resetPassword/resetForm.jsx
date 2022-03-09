@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { Space, Button, Group, Text, Alert, Anchor } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import { History } from '../../../helper/history';
 import { rememberPasswordAPI } from '../../../apis/auth';
 import { verifyMobileShema } from './schema';
@@ -34,7 +35,13 @@ class ResetForm extends React.PureComponent {
           History.push('/login');
         }, 4000);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          success: false,
+          mobile: values.mobile,
+        });
+      });
   }
   render() {
     const INITIAL_FORM_STATE = {
@@ -86,15 +93,16 @@ class ResetForm extends React.PureComponent {
               <Group position="center" className="flex items-end h-32">
                 <Text color={colors.slate[500]} size="sm">
                   رمز عبور خود را تغییر داده اید ؟{' '}
-                  <Text
-                    className="inline-block mr-3"
-                    color="indigo"
-                    weight="bold"
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => History.push('/login')}
-                  >
-                    ورود
-                  </Text>
+                  <Link to="/login">
+                    <Text
+                      className="inline-block mr-3"
+                      color="indigo"
+                      weight="bold"
+                      sx={{ cursor: 'pointer' }}
+                    >
+                      ورود
+                    </Text>
+                  </Link>
                 </Text>
               </Group>
             </Form>
