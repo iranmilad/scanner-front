@@ -3,6 +3,7 @@ import { headers } from '../../../../helper/fakeData';
 import Logo from '../../../../assets/images/logo.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
+import { Link } from 'react-router-dom';
 
 const Header = (props) => {
   return (
@@ -21,14 +22,16 @@ const Header = (props) => {
             </button>
           </div>
           <div className="hidden lg:block">
-            <img src={Logo} width="150" />
+            <Link to='/'>
+              <img src={Logo} width="150" />
+            </Link>
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">
             <Autocomplete
               color="indigo"
               placeholder="جستجوی نماد / شرکت"
               rightSection={
-                <ActionIcon variant='transparent'>
+                <ActionIcon variant="transparent">
                   <i className="fa-duotone fa-magnifying-glass text-slate-300 w[10%] mx-auto"></i>
                 </ActionIcon>
               }
@@ -62,7 +65,5 @@ const Header = (props) => {
     </div>
   );
 };
-
-
 
 export default Header;

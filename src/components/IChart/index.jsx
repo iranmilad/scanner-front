@@ -4,6 +4,8 @@ import Chart from 'react-apexcharts';
 import { Group, Loader } from '@mantine/core';
 import { chartType } from './functions';
 import ChartData from './chartData';
+import { connect } from 'react-redux';
+import { setModal } from '../../redux/reducers/main';
 
 /**
  * IChart for handle the every chart
@@ -17,15 +19,26 @@ import ChartData from './chartData';
  * />
  */
 class IChart extends Component {
-  state = {
-    series: this.props.series.series,
-    options: chartType(this.props.special),
-  };
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  componentDidMount() {
+    
+    let options = chartType(this.props.special);
+    let extraEvents = Object.assign({},options?.chart?.events, {reducer:{setModal:this.props.setModal}});
+    options.chart.events = extraEvents;
+    this.setState({
+      series: this.props.series.series,
+      options,
+    })
+  }
 
   render() {
     return (
       <>
-        {lodash.isEmpty(this.state.series) ? (
+        {lodash.isEmpty(this.state) ? (
           <Group position="center">
             <Loader color="indigo" variant="bars" />
           </Group>
@@ -54,4 +67,11 @@ export const clockTime = () => {
   return arr;
 };
 
-export default IChart;
+/**
+ * Dispatch to props
+ */
+const mapDispatchToProps = (dispatch) => ({
+  setModal: (prop) => dispatch(setModal(prop)),
+});
+
+export default connect(null, mapDispatchToProps)(IChart);

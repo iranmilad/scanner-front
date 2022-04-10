@@ -11,6 +11,14 @@ const ChartData = {
         horizontal: false,
         bar:{
           distributed: true
+        },
+      },
+      chart:{
+        fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function(event, chartContext, config){
+            this.reducer.setModal({show:true,content: 'tree' });
+          }
         }
       },
       colors: ['#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26'],
@@ -332,12 +340,23 @@ const ChartData = {
         }
       },
       colors: ['#E91E63', '#66DA26',colors.blue[500]],
+      dataLabels:{
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+        },
+      },
       xaxis: {
         labels: {
-          enabled:true
+          enabled:false,
         },
         categories: ["خوب","عالی","متوسط"]
-      }
+      },
+      yaxis: {
+        labels: {
+          show: false
+        }
+      },
     }
   },
   A15: {

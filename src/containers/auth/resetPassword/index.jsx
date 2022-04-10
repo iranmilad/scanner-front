@@ -22,7 +22,8 @@ import { History } from '../../../helper/history';
 import ResetForm from './resetForm';
 
 class ResetPassword extends React.PureComponent {
-  componentDidMount() {
+  constructor() {
+    super();
     let storage = getLocalStorage('userToken');
     if (!storage) {
       clearLocalStorage();

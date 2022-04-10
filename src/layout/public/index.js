@@ -9,8 +9,8 @@ export default ({ Component, route }) => {
       <Header />
       {/* <Sidebar open={open} setOpen={closeMenu}  /> */}
       <button onClick={()=> History.push('/register')}>Register Page</button>
-      <div className="pt-16 lg:pt-[8rem] bg-gray-100 pb-20">
-        <div className="container pt-7">
+      <div className="pt-16 lg:pt-[7rem] bg-gray-100 pb-20">
+        <div className="container pt-3">
           <div className="my-4">
             <Suspense fallback={<BigLoading />}>
               <Component route={route} />

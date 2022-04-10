@@ -18,7 +18,7 @@ export const masterData = [
 export const headers = [
   {
     name: 'خانه',
-    link: '#',
+    link: '/',
     icon: 'fa-duotone fa-house-chimney',
   },
   {
@@ -108,7 +108,7 @@ export const headers = [
   },
   {
     name: 'نقشه بازار',
-    link: '#',
+    link: '/treemap',
     icon: 'fa-solid fa-objects-column',
   },
   {

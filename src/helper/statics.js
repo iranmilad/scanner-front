@@ -93,7 +93,6 @@ export const Separated_statistics_micro_transactions = {
       n1: '6.9 B',
       n2: '2,691.5 B',
       n3: '15.7 M',
-
       n4: '15.2 M',
       n5: '1.03',
       n6: '-342 B',

@@ -9,6 +9,12 @@
   z-index: 999;
 }
 
+.tooltip-div{
+  @apply flex w-full items-center justify-between my-3;
+  text-align: right;
+  direction: rtl;
+}
+
 
 body{
   padding: 0;

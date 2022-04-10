@@ -31,13 +31,8 @@ import { connect } from 'react-redux';
 import VerifyForm from './verifyForm';
 
 class Register extends React.PureComponent {
-  state = {
-    loading: false,
-    verify: false,
-    datas: {},
-  };
-
-  componentDidMount() {
+  constructor() {
+    super();
     let storage = getLocalStorage('userToken');
     console.log(storage);
     if (!storage) {
@@ -46,6 +41,12 @@ class Register extends React.PureComponent {
       window.location.href = '/';
     }
   }
+  state = {
+    loading: false,
+    verify: false,
+    datas: {},
+  };
+
   handleRegister({ values, actions }) {
     delete values.acceptTerms;
     this.setState({ loading: true });

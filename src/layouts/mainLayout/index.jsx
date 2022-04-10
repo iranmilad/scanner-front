@@ -14,6 +14,7 @@ const MainLayout = (props)=>{
       <div className='mt-16 lg:mt-[8rem] bg-gray-100 pb-20'>
         <div className='container pt-7'>
           <Title  order={3}>{props.title}</Title>
+          hello
           <div className='my-4'>
             {props.children}
           </div>
