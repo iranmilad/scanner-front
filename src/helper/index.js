@@ -1,3 +1,5 @@
+import colors from "tailwindcss/colors";
+
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber(){
   let arr = [];
@@ -16,3 +18,32 @@ export function clockTime(){
   }
   return arr;
 };
+
+/**
+ * change data format for table
+ * @param {object} param - Object params
+ * @param {array} param.dataSelf
+ * @param {object} param.config
+ * @returns {object} 
+ */
+export function tableWorker({config,dataSelf}){
+  if(! config) Error('config is not defined');
+  if(! dataSelf) Error('data is not defined');
+  let instanceOfData = [...dataSelf];
+  instanceOfData.map((item,index)=>{
+    for(let [key,value] of Object.entries(item)){
+      if(config[key]){
+        if(config[key].link){
+          instanceOfData[index][key] = <a target="_blank" style={{color:colors.blue[500]}} href={`${config[key]?.href}/${item.originalId}`}>{value}</a>
+        }
+        else if (config[key].colorize){
+          /**
+           * @type {string}
+           */
+          let dataNumber = value;
+          dataNumber = dataNumber.replace(/[a-zA-Z]/g, '');
+        }
+      }
+    }
+  });
+}

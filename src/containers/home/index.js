@@ -25,6 +25,7 @@ import {
   Separated_statistics_micro_transactions,
   Real_Legal,
   Summary_exchanges,
+  summary_config
 } from '../../helper/statics';
 import ITable from '../../components/ITable';
 import LoopChart from '../../components/LoopChart';
@@ -35,6 +36,7 @@ import { getModal } from '../../redux/reducers/main';
 import TreeModal from './treemapModal';
 import { useDispatch } from 'react-redux';
 import { setModal } from '../../redux/reducers/main';
+import {tableWorker} from '../../helper'
 
 export default () => {
   const [charts, setCharts] = useState([]);
@@ -60,6 +62,11 @@ export default () => {
       A18,
     ]);
   }, []);
+
+  tableWorker({
+    config: summary_config,
+    dataSelf: Summary_exchanges.data
+  });
 
   const modal = useSelector((state) => getModal(state));
   const ModalContent = modal.content;
@@ -89,7 +96,7 @@ export default () => {
       />
       <ITable data={Real_Legal} title="حقیقی حقوقی" />
       <LoopChart charts={charts} />
-      <ITable data={Summary_exchanges} title="خلاصه معاملات صنایع بورس" />
+      <ITable data={Summary_exchanges} title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)" />
     </>
   );
 };

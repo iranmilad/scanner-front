@@ -458,6 +458,188 @@ const ChartData = {
         categories: clockTime()
       }
     }
+  },
+  IndustryChart1: {
+    title: 'محدوده قیمتی آخرین معامله نماد های گروه',
+    type: 'bar',
+    auth: false,
+    options: {
+      plotOptions: {
+        horizontal: false,
+        bar:{
+          distributed: true
+        },
+      },
+      chart:{
+        fontFamily: 'Iran-sans',
+      },
+      colors: ['#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#E91E63','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26','#66DA26'],
+      labels: [    'پایین تر از منفی 5',
+      'منفی 4 تا منفی 5',
+      'منفی 3 تا منفی 4',
+      'منفی 2 تا منفی 3',
+      'منفی 1 تا منفی 2',
+      'صفر تا منفی 1',
+      'صفر تا مثبت 1',
+      'مثبت 1 تا مثبت 2',
+      'مثبت 2 تا مثبت 3',
+      'مثبت 3 تا مثبت 4',
+      'مثبت 4 تا مثبت 5',
+      'بالاتر از مثبت 5'],
+      dataLabels: {
+        style: {
+          colors: [colors.slate[700]],
+        },
+      },
+      xaxis: {
+        labels: {
+          show: true,
+          offsetY: 70,
+          offsetX: -25,
+        },
+        category: [    'پایین تر از منفی 5',
+        'منفی 4 تا منفی 5',
+        'منفی 3 تا منفی 4',
+        'منفی 2 تا منفی 3',
+        'منفی 1 تا منفی 2',
+        'صفر تا منفی 1',
+        'صفر تا مثبت 1',
+        'مثبت 1 تا مثبت 2',
+        'مثبت 2 تا مثبت 3',
+        'مثبت 3 تا مثبت 4',
+        'مثبت 4 تا مثبت 5',
+        'بالاتر از مثبت 5',]
+      }
+    }
+  },
+  IndustryChart2: {
+    title: 'ارزش کل سفارش های روی تابلو گروه به میلیارد تومان',
+    type: 'bar',
+    auth: false,
+    options: {
+      plotOptions:{
+        bar: {
+          distributed: true,
+          borderRadius: 4,
+          horizontal: true,
+        }
+      },
+      colors: ['#E91E63', '#66DA26'],
+      dataLabels:{
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+        },
+      },
+      xaxis: {
+        labels: {
+          enabled:false,
+        },
+        categories: [
+          "فروش",
+          "خرید"
+        ]
+      },
+      yaxis: {
+        labels: {
+          show: false
+        }
+      },
+    }
+  },
+  IndustryChart3: {
+    title: 'تغییرات سرانه های خرید و فروش گروه به میلیون تومان',
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        type: 'line',
+        animations: {
+          enabled: true,
+          easing: 'linear',
+          dynamicAnimation: {
+            speed: 1000
+          }
+        },
+        fontFamily: 'Iran-sans',
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      xaxis:{
+        category: clockTime()
+      },
+      legend: {
+        show: false
+      },
+      colors: ['#E91E63', '#66DA26'],
+      tooltip:{
+        y:{
+          formatter: (value) => {
+            return value
+          }
+        }
+      }
+    }
+  },
+  IndustryChart4: {
+    title: 'تغییرات ورود پول اشخاص حقیقی به میلیارد تومان',
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        fontFamily: 'Iran-sans',
+      },
+      xaxis:{
+        category: clockTime()
+      },
+      legend: {
+        show: false
+      },
+      colors: [colors.indigo[900]],
+      tooltip:{
+        y:{
+          formatter: (value) => {
+            return value
+          }
+        }
+      }
+    }
+  },
+  IndustryChart5: {
+    title: 'تغییرات ارزش کل سفارش ها به میلیارد تومان',
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        type: 'line',
+        animations: {
+          enabled: true,
+          easing: 'linear',
+          dynamicAnimation: {
+            speed: 1000
+          }
+        },
+        fontFamily: 'Iran-sans',
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      xaxis:{
+        category: clockTime()
+      },
+      legend: {
+        show: false
+      },
+      colors: ['#E91E63', '#66DA26'],
+      tooltip:{
+        y:{
+          formatter: (value) => {
+            return value
+          }
+        }
+      }
+    }
   }
 }
 

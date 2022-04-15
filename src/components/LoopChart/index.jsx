@@ -1,4 +1,4 @@
-import { Paper, SimpleGrid, Text } from '@mantine/core';
+import { Grid, Paper, SimpleGrid, Text } from '@mantine/core';
 import { Component } from 'react';
 import Logo from '../../assets/images/logo.png';
 import IChart from '../../components/IChart';
@@ -22,30 +22,34 @@ class LoopChart extends Component {
   }
   render() {
     return (
-      <SimpleGrid cols={2} breakpoints={[{ maxWidth: 'md', cols: 1 }]} my="lg">
+      <Grid grow my="lg" columns={12} align="stretch">
         {this.props.charts.length > 0 &&
           this.props.charts.map((chart, index) =>
             ChartData[chart.special].auth ? (
-              <Paper key={index} shadow="xs" padding="lg" radius="md">
-                <Text order={4} mb="lg">
-                  {ChartData[chart.special].title}
-                </Text>
-                {this.state.auth ? (
-                  <IChart special={chart.special} series={chart} />
-                ) : (
-                  <Lock key={index} image={Logo} />
-                )}
-              </Paper>
+              <Grid.Col lg={6} md={12}>
+                <Paper key={index} shadow="xs" padding="lg" radius="md">
+                  <Text order={4} mb="lg">
+                    {ChartData[chart.special].title}
+                  </Text>
+                  {this.state.auth ? (
+                    <IChart special={chart.special} series={chart} />
+                  ) : (
+                    <Lock key={index} image={Logo} />
+                  )}
+                </Paper>
+              </Grid.Col>
             ) : (
-              <Paper key={index} shadow="xs" padding="lg" radius="md">
-                <Text order={4} mb="lg">
-                  {ChartData[chart.special].title}
-                </Text>
-                <IChart special={chart.special} series={chart} />
-              </Paper>
+              <Grid.Col lg={6} md={12}>
+                <Paper key={index} shadow="xs" padding="lg" radius="md">
+                  <Text order={4} mb="lg">
+                    {ChartData[chart.special].title}
+                  </Text>
+                  <IChart special={chart.special} series={chart} />
+                </Paper>
+              </Grid.Col>
             )
           )}
-      </SimpleGrid>
+      </Grid>
     );
   }
 }
