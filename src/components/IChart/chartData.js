@@ -98,7 +98,7 @@ const ChartData = {
         fontFamily: 'Iran-sans',
       },
       xaxis: {
-        category: clockTime(),
+        categories: clockTime(),
       },
       legend: {
         show: false,
@@ -133,8 +133,8 @@ const ChartData = {
         enabled: true,
         formatter: function (val, opt) {
           let value = val;
-          if (val > 1000000) {
-            value = `${Math.floor(val / 1000000)} M`;
+          if (val > 1000000000 || val < -1000000000) {
+            value = `${Math.floor(val / 1000000000)} B`;
           }
           return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + value;
         },
@@ -169,8 +169,8 @@ const ChartData = {
         labels: {
           formatter: function (val, opt) {
             let value = val;
-            if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
             }
             return value;
           },
@@ -195,8 +195,8 @@ const ChartData = {
         labels: {
           formatter: function (val, opt) {
             let value = val;
-            if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
             }
             return value;
           },
@@ -220,8 +220,8 @@ const ChartData = {
         labels: {
           formatter: function (val, opt) {
             let value = val;
-            if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
             }
             return value;
           },
@@ -263,15 +263,15 @@ const ChartData = {
         fontFamily: 'Iran-sans',
       },
       xaxis: {
-        category: clockTime(),
+        categories: clockTime(),
       },
       yaxis: {
         show: true,
         labels: {
           formatter: function (val, opt) {
             let value = val;
-            if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
             }
             return value;
           },
@@ -374,9 +374,10 @@ const ChartData = {
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
-        horizontal: false,
         bar: {
           distributed: true,
+          borderRadius: 4,
+          horizontal: true,
         },
       },
       colors: [
@@ -388,8 +389,9 @@ const ChartData = {
         colors.emerald[500],
       ],
       dataLabels: {
-        style: {
-          colors: [colors.slate[700]],
+        enabled: true,
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val;
         },
       },
       xaxis: {
@@ -553,8 +555,8 @@ const ChartData = {
         labels: {
           formatter: function (val, opt) {
             let value = val;
-            if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
             }
             return value;
           },
