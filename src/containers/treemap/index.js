@@ -1,166 +1,158 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Group, Paper, Text, Title, Loader } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsTreeChart from 'highcharts/modules/treemap';
 import HighchartsHeatmap from 'highcharts/modules/heatmap';
-import colors from 'tailwindcss/colors';
 import treeConfig from './config';
+import { connect } from 'react-redux';
+import { selectConfig } from '../../redux/reducers/config';
+import { getTreeMap } from '../../apis/treemap';
+import axios from 'axios'
 
 HighchartsHeatmap(Highcharts);
 HighchartsTreeChart(Highcharts);
 
-const Treemap = () => {
-  let [chartData, setChartData] = useState([]);
-  let [loading, setLoading] = useState(false);
+class Treemap extends Component {
+  state = {
+    loading: false,
+    chartData: [],
+  };
+  componentDidMount(){
+    this.setState(prev => ({
+      ...prev,
+      loading:true
+    }));
+    let treemap = this.props.config.needs.chartAndtables;
+    treemap = treemap.find(item => item.key === 'treemap');
 
-  useEffect(()=>{
-    let data = [
-      {
-        id: 'A',
-        name: 'سبزیجات',
-        farhad: 'ali',
-      },
-      {
-        id: 5122,
-        name: 'کلم پیچ',
-        parent: 'A',
-        value: 6,
-        level: 1,
-        colorValue: 6,
-        displayValue: '+۳٫۴۶ %',
-        more: {
-          realName: 'پیچ',
-          endPrice: '123.456',
-          lastDeal: '123.456',
-          count: '12.345',
-          volume: '123456758',
-          value: '123.456',
-          time: '12:34',
-        },
-        drillLvl: 1,
-      },
-      {
-        id: 512,
-        name: 'کلم سر',
-        parent: 'A',
-        value: 4,
-        colorValue: 4,
-        drillLvl: 1,
-      },
-      {
-        id: 'B',
-        name: 'میوه ها',
-      },
-      {
-        id: 124,
-        name: 'سیب',
-        parent: 'B',
-        value: 20,
-        colorValue: 20,
-        drillLvl: 1,
-      },
-    ];
-    setChartData(data);
-    
-  },[])
+    getTreeMap('/marketMap')
+    .then(res => {
+      this.setState({
+        loading:false,
+        chartData:res.data.data
+      })
+    })
+    .catch(err => {
+      console.log(err.response.status);
+    });
 
-  return (
-    <>
-      <Helmet>
-        <title>نقشه بازار</title>
-      </Helmet>
-      <Title order={3} mb="lg">
-        نقشه بازار
-      </Title>
-      <Paper shadow="xs" p="lg" sx={{ overflow: 'hidden' }}>
-        <div className="my-4 mx-4">
-          {loading === false ? (
-            <React.Fragment>
-              {chartData.length > 0 && <Heatmap treeData={chartData} setLoading={setLoading} />}
-              <Group position="apart" mt="lg">
-                <Text size="xs">آخرین معامله : DATE</Text>
-                <div className="inline-flex items-center">
-                  <span className="text-xs ml-3 ">بازدهی - </span>
-                  <div className="flex items-center bg-gradient-to-r from-[#D62D4D] to-[#02AD65]">
-                    <span
-                      title="بیش از +4"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    >
-                      +4
-                    </span>
-                    <span
-                      title="از +2 تا +4"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    >
-                      +2
-                    </span>
-                    <span
-                      title="از +1 تا +2"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    >
-                      +1
-                    </span>
-                    <span
-                      title="1(-/+)"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    ></span>
-                    <span
-                      title="از -1 تا -2"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent] tracking-widest"
-                      dir="ltr"
-                    >
-                      -1
-                    </span>
-                    <span
-                      title="از -2 تا -4"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    >
-                      -2
-                    </span>
-                    <span
-                      title="بیش از -4"
-                      className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                      dir="ltr"
-                    >
-                      -4
-                    </span>
+    // setInterval(()=>{
+    //   getTreeMap('/marketMap')
+    //   .then(res => {
+    //     this.setState(prev => ({
+    //       loading: true,
+    //       chartData: res.data.data
+    //     }))
+    //   })
+    // },treemap.refresh_time * 1000)
+  }
+  setLoading(){
+    this.setState(prev => ({
+      ...prev,
+      loading:false
+    }))
+  }
+  render() {
+    return (
+      <>
+        <Helmet>
+          <title>نقشه بازار</title>
+        </Helmet>
+        <Title order={3} mb="lg">
+          نقشه بازار
+        </Title>
+        <Paper shadow="xs" p="lg" sx={{ overflow: 'hidden' }}>
+          <div className="my-4 mx-4">
+            {this.state.loading === false ? (
+              <React.Fragment>
+                {this.state.chartData.length > 0 && (
+                  <Heatmap treeData={this.state.chartData} setLoading={this.setLoading.bind(this)} />
+                )}
+                <Group position="apart" mt="lg">
+                  <Text size="xs">آخرین معامله : DATE</Text>
+                  <div className="inline-flex items-center">
+                    <span className="text-xs ml-3 ">بازدهی - </span>
+                    <div className="flex items-center bg-gradient-to-r from-[#D62D4D] to-[#02AD65]">
+                      <span
+                        title="بیش از +4"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      >
+                        +4
+                      </span>
+                      <span
+                        title="از +2 تا +4"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      >
+                        +2
+                      </span>
+                      <span
+                        title="از +1 تا +2"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      >
+                        +1
+                      </span>
+                      <span
+                        title="1(-/+)"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      ></span>
+                      <span
+                        title="از -1 تا -2"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent] tracking-widest"
+                        dir="ltr"
+                      >
+                        -1
+                      </span>
+                      <span
+                        title="از -2 تا -4"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      >
+                        -2
+                      </span>
+                      <span
+                        title="بیش از -4"
+                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
+                        dir="ltr"
+                      >
+                        -4
+                      </span>
+                    </div>
+                    <span className="text-xs mr-3">بازدهی + </span>
                   </div>
-                  <span className="text-xs mr-3">بازدهی + </span>
-                </div>
+                </Group>
+              </React.Fragment>
+            ) : (
+              <Group position="center">
+                <Loader color="indigo" size="xl" variant="dots" />
               </Group>
-            </React.Fragment>
-          ) : (
-            <Group position="center">
-              <Loader color="indigo" size="xl" variant="dots" />
-            </Group>
-          )}
-        </div>
-      </Paper>
-    </>
-  );
-};
+            )}
+          </div>
+        </Paper>
+      </>
+    );
+  }
+}
 
 /**
  * Heatmap just renders a heatmap chart
- * @param {Object} heatParam 
+ * @param {Object} heatParam
  * @param {ArrayBuffer} heatParam.treeData - list of data to be used in heatmap
  * @param {Function} heatParam.setLoading - an hook to set loading state
  */
-export const Heatmap = ({treeData,setLoading}) => {
+export const Heatmap = ({ treeData, setLoading }) => {
   const [data, setData] = useState(treeConfig);
 
   /**
    * get data from Heatmap params
    * mix data and config
    */
-  useEffect(async() => {
+  useEffect(async () => {
     setLoading(true);
     let primeConfig = Object.assign({}, data);
     primeConfig.series[0].data = treeData;
@@ -169,7 +161,7 @@ export const Heatmap = ({treeData,setLoading}) => {
       primeConfig.colorAxis,
       setValueRange(treeData)
     );
-    setData(primeConfig)
+    setData(primeConfig);
     setLoading(false);
   }, []);
 
@@ -212,9 +204,11 @@ export const Heatmap = ({treeData,setLoading}) => {
     };
   }
 
-  return (
-    <HighchartsReact highcharts={Highcharts} options={data} />
-  )
+  return <HighchartsReact highcharts={Highcharts} options={data} />;
 };
 
-export default Treemap;
+const mapStateToProps = (state) => ({
+  config: state.config
+})
+
+export default connect(mapStateToProps)(Treemap);

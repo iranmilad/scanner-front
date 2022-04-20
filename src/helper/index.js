@@ -8,16 +8,25 @@ export function randomNumber(){
   }
   return arr;
 };
-// a function for generate clock time from 9:00 to 14:00 with every 1 min
+// a function for generate clock time from 9:00 to 13:00 with every 15 minutes
 export function clockTime(){
   let arr = [];
-  for (let i = 9; i < 15; i++) {
-    for (let j = 0; j < 60; j++) {
-      arr.push(`${i}:${j}`);
+  for (let i = 9; i < 14; i++) {
+    for (let j = 0; j < 4; j++) {
+      arr.push(i + ":" + (j * 15));
     }
   }
   return arr;
 };
+// export function clockTime(){
+//   let arr = [];
+//   for (let i = 9; i < 15; i++) {
+//     for (let j = 0; j < 60; j++) {
+//       arr.push(`${i}:${j}`);
+//     }
+//   }
+//   return arr;
+// };
 
 /**
  * change data format for table

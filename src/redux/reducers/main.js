@@ -10,7 +10,7 @@ const slice = createSlice({
     },
     setModal: (state,action) => {
       state.modal = action.payload;
-    }
+    },
   }
 })
 

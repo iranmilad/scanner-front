@@ -60,7 +60,7 @@ const config = {
     {
       type: 'treemap',
       name: 'نقشه کامل',
-      layoutAlgorithm: 'squarified',
+      layoutAlgorithm: 'stripes',
       allowDrillToNode: true,
       style: {
         fontFamily: 'Iran-sans',

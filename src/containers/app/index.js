@@ -4,8 +4,17 @@ import Routes from '../../router';
 import { withRouter } from 'react-router';
 import NotFound from '../../components/notFound';
 import { getLocalStorage } from '../../helper/localStorage';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getConfig } from '../../apis/main/main';
+import {setConfig} from '../../redux/reducers/config';
+import BigLoading from '../../components/bigLoading';
 
 export default () => {
+	// dispatching states
+	const dispatch = useDispatch();
+	let [loading,setLoading] = useState(false);
+
 	const layoutManager = (item, key) => {
 		switch (item.layout) {
 			case 'public':
@@ -39,19 +48,45 @@ export default () => {
 		}
 	};
 
+	/**
+	 * use router in a loop to render all routes
+	 * @returns {void}
+	 */
 	const switchRoutes = () => {
 		return Routes.map((route, key) => {
 			return layoutManager(route, key);
 		});
 	};
 
+	/**
+	 * send request to server every 2 second
+	 * get all configs for first time
+	 * set config to redux
+	 */
+	useEffect(()=>{
+		setLoading(true);
+		getConfig('/home/data')
+		.then(res => {
+			dispatch(setConfig(res.data))
+			setLoading(false);
+		})
+		.catch(err=>{});
+	},[]);
+
+
 
 	return (
-		<BrowserRouter  >
+		<>		
+		{loading ? (
+			<BigLoading />
+		) : (
+			<BrowserRouter  >
 			<Switch>
 				{switchRoutes()}
 				<Route component={NotFound} />
 			</Switch>
 		</BrowserRouter>
+		)}
+		</>
 	);
 };

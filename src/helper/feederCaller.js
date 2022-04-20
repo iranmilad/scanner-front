@@ -3,17 +3,12 @@ import {getLocalStorage,clearLocalStorage} from './localStorage';
 import configStore from '../redux/store';
 import { getApiPath } from '../redux/reducers/main';
 
-const ApiCaller = (config)=>{
+const FeederCaller = (config)=>{
 
-	
   const axiosInstance = axios.create({
-    headers:{
-			"Accept": "application/json",
-			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-		},
+    headers:{},
     responseType: 'json',
-		baseURL: 'http://sub1.clawar-services.org/api'
+		baseURL: 'http://88.99.19.131:8000/api'
   });
 
 	axiosInstance.interceptors.request.use(
@@ -25,16 +20,16 @@ const ApiCaller = (config)=>{
 		}
 	)
 
-	axiosInstance.interceptors.response.use(
-		response => {
-			return response;
-		},
-		error => {
-			return Promise.reject(error);
-		}
-	)
+	// axiosInstance.interceptors.response.use(
+	// 	response => {
+	// 		return response;
+	// 	},
+	// 	error => {
+	// 		return Promise.reject(error);
+	// 	}
+	// )
   return axiosInstance
 }
 
 
-export default ApiCaller;
+export default FeederCaller;

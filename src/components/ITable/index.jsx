@@ -15,26 +15,20 @@ import {TableDesign} from '../../helper/theme';
  * />
  */
 class ITable extends Component {
-  state = {
-    header: [],
-    data: [],
-  };
-  componentDidMount() {
-    this.setState({
-      header: this.props.data.header,
-      data: this.props.data.data,
-    });
-  }
+
   render() {
     return (
       <Paper padding="xl" radius="md" shadow="xs" mt="xl">
         <Group position='apart'>
           <Text mb={'lg'}>{this.props.title}</Text>
         </Group>
-        {lodash.isEmpty(this.state.data) || lodash.isEmpty(this.state.header) ? (
-          <Loader variant="bars" color="indigo" />
+        {this.props.column && this.props.data ? (
+
+          <DataTable columns={this.props.column} data={this.props.data} customStyles={TableDesign} />
         ) : (
-          <DataTable columns={this.state.header} data={this.state.data} customStyles={TableDesign}/>
+          <Group position='center'>
+            <Loader color="indigo" size="md" variant='dots' />
+          </Group>
         )}
       </Paper>
     );

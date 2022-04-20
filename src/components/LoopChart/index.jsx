@@ -22,29 +22,29 @@ class LoopChart extends Component {
   }
   render() {
     return (
-      <Grid grow my="lg" columns={12} align="stretch">
+      <Grid grow my="lg" columns={12} align="stretch" justify="center">
         {this.props.charts.length > 0 &&
           this.props.charts.map((chart, index) =>
-            ChartData[chart.special].auth ? (
-              <Grid.Col lg={6} md={12}>
-                <Paper key={index} shadow="xs" padding="lg" radius="md">
+            chart.active === false ? (
+              <Grid.Col lg={6} md={12} key={index}>
+                <Paper key={index} shadow="xs" padding="lg" radius="md" sx={{height:"100%"}}>
                   <Text order={4} mb="lg">
-                    {ChartData[chart.special].title}
+                    {chart.title}
                   </Text>
                   {this.state.auth ? (
-                    <IChart special={chart.special} series={chart} />
+                    <IChart refreshTime={chart.refresh_time} feeder_url={chart.feeder_url} />
                   ) : (
                     <Lock key={index} image={Logo} />
                   )}
                 </Paper>
               </Grid.Col>
             ) : (
-              <Grid.Col lg={6} md={12}>
-                <Paper key={index} shadow="xs" padding="lg" radius="md">
+              <Grid.Col lg={6} md={12} key="index">
+                <Paper key={index} shadow="xs" padding="lg" radius="md" sx={{height:"100%"}}>
                   <Text order={4} mb="lg">
-                    {ChartData[chart.special].title}
+                    {chart.title}
                   </Text>
-                  <IChart special={chart.special} series={chart} />
+                  <IChart refreshTime={chart.refresh_time} feeder_url={chart.feeder_url} />
                 </Paper>
               </Grid.Col>
             )

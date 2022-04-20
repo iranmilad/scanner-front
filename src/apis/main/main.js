@@ -25,3 +25,13 @@ export const getMasterData = (url)=>{
 export const getIndustryData = (url)=>{
   return ApiCaller().get(url);
 }
+
+
+/**
+ * Get all tables and charts configs
+ * @param {string} url 
+ * @returns {Promise}
+ */
+export const getConfig = (url)=>{
+  return ApiCaller().get(url);
+}

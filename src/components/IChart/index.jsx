@@ -6,6 +6,7 @@ import { chartType } from './functions';
 import ChartData from './chartData';
 import { connect } from 'react-redux';
 import { setModal } from '../../redux/reducers/main';
+import { getChart } from '../../apis/charts';
 
 /**
  * IChart for handle the every chart
@@ -25,14 +26,30 @@ class IChart extends Component {
   }
 
   componentDidMount() {
-    
-    let options = chartType(this.props.special);
-    let extraEvents = Object.assign({},options?.chart?.events, {reducer:{setModal:this.props.setModal}});
-    options.chart.events = extraEvents;
-    this.setState({
-      series: this.props.series.series,
-      options,
-    })
+    // let options = chartType(this.props.special);
+    // let extraEvents = Object.assign({},options?.chart?.events, {reducer:{setModal:this.props.setModal}});
+    // options.chart.events = extraEvents;
+    // this.setState({
+    //   series: this.props.series.series,
+    //   options,
+    // })
+    this.worker();
+
+    setInterval(()=>{
+      this.worker();
+    },15 * 60 * 1000)
+  }
+
+  worker() {
+    getChart(this.props.feeder_url)
+      .then((res) => {
+        this.setState({
+          series: res.data.data.series,
+          options: ChartData[res.data.data.special].options,
+          type: ChartData[res.data.data.special].type,
+        });
+      })
+      .catch((err) => {});
   }
 
   render() {
@@ -40,14 +57,14 @@ class IChart extends Component {
       <>
         {lodash.isEmpty(this.state) ? (
           <Group position="center">
-            <Loader color="indigo" variant="bars" />
+            <Loader color="indigo" variant="dots" />
           </Group>
         ) : (
           <Chart
             width="100%"
             options={this.state.options}
             series={this.state.series}
-            type={ChartData[this.props.special].type}
+            type={this.state.type}
             height={350}
           />
         )}
