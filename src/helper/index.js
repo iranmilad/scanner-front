@@ -1,4 +1,5 @@
 import colors from "tailwindcss/colors";
+import ls from 'localstorage-slim'
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber(){
@@ -56,3 +57,13 @@ export function tableWorker({config,dataSelf}){
     }
   });
 }
+
+
+/**
+ * Set grid column
+ */
+export const gridColumn = (tabIndex,setState)=>{
+  let grid = ls.get('grids');
+  if(grid === null) ls.set('grids',tabIndex);
+  else ls.set('grids',tabIndex);
+} 

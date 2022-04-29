@@ -1,8 +1,17 @@
 import { Component } from 'react';
 import DataTable from 'react-data-table-component';
 import lodash from 'lodash';
-import { Group, Loader, Paper, Text } from '@mantine/core';
-import {TableDesign} from '../../helper/theme';
+import {
+  Card,
+  Group,
+  Loader,
+  Paper,
+  SimpleGrid,
+  Text,
+  Badge,
+  Button,
+} from '@mantine/core';
+import { TableDesign } from '../../helper/theme';
 
 /**
  * ITable for handle the every table
@@ -15,20 +24,28 @@ import {TableDesign} from '../../helper/theme';
  * />
  */
 class ITable extends Component {
-
   render() {
+    let ExtraChild = this.props.extraChild;
     return (
       <Paper padding="xl" radius="md" shadow="xs" mt="xl">
-        <Group position='apart'>
+        <Group position="apart">
           <Text mb={'lg'}>{this.props.title}</Text>
         </Group>
         {this.props.column && this.props.data ? (
-
-          <DataTable columns={this.props.column} data={this.props.data} customStyles={TableDesign} />
+          <>
+            <DataTable
+              columns={this.props.column}
+              data={this.props.data}
+              customStyles={TableDesign}
+            />
+            {this.props.children}
+          </>
         ) : (
-          <Group position='center'>
-            <Loader color="indigo" size="md" variant='dots' />
-          </Group>
+          <>
+            <Group position="center">
+              <Loader color="indigo" size="md" variant="dots" />
+            </Group>
+          </>
         )}
       </Paper>
     );

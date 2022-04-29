@@ -380,23 +380,30 @@ const ChartData = {
           horizontal: true,
         },
       },
+      legend: {
+        show: false,
+      },
       colors: [
         colors.rose[500],
-        colors.rose[500],
-        colors.rose[500],
+        colors.pink[500],
+        colors.orange[500],
         colors.emerald[500],
-        colors.emerald[500],
-        colors.emerald[500],
+        colors.indigo[500],
+        colors.purple[500],
       ],
       dataLabels: {
         enabled: true,
+        textAnchor: 'end',
         formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val;
+        },
+        style: {
+          colors: ['#000']
         },
       },
       xaxis: {
         labels: {
-          show: false,
+          show: true,
           offsetY: 108,
         },
         categories: [
@@ -535,7 +542,7 @@ const ChartData = {
   },
   A18: {
     title: 'تغیرات ارزش معاملات در هر دقیقه',
-    type: 'bar',
+    type: 'area',
     auth: true,
     options: {
       chart: {
@@ -546,7 +553,7 @@ const ChartData = {
       },
       xaxis: {
         labels: {
-          show: false,
+          show: true,
         },
         categories: clockTime(),
       },

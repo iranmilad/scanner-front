@@ -6,7 +6,7 @@ const Footer = () => {
           <div>
             <p className="text-white text-sm">
               <span className="text-white">
-                کلیه حقوق برای وبسایت تریدرز آرنا محفوظ می باشد.
+              کلیه حقوق این وبسایت متعلق به شرکت ایده نگار ماهان است
               </span>
             </p>
           </div>

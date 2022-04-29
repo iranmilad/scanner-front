@@ -8,3 +8,7 @@ import FeederCaller from '../../helper/feederCaller'
 export const getChart = (url)=>{
   return FeederCaller().get(url);
 }
+
+export const getNews = (url)=>{
+  return FeederCaller().get(url);
+}

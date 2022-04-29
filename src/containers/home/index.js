@@ -18,7 +18,8 @@ import { useDispatch, connect } from 'react-redux';
 import { setModal } from '../../redux/reducers/main';
 import { tableWorker } from '../../helper';
 import { getTable } from '../../apis/tables';
-import _ from 'lodash'
+import _ from 'lodash';
+import NewsTable from './news'
 
 class Index extends Component {
   constructor(props) {
@@ -155,7 +156,11 @@ class Index extends Component {
           title="آمار تفکیک شده معاملات خرد"
         />
         <ITable column={this.state.table3.header}
-          data={this.state.table3.data} title="حقیقی حقوقی" />
+          data={this.state.table3.data} title="حقیقی حقوقی"
+        >
+        </ITable>
+          <NewsTable />
+          
         <LoopChart charts={this.state.charts} />
         <ITable column={this.state.table4.header}
           data={this.state.table4.data} title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)" />

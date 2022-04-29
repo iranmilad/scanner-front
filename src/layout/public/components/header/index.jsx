@@ -1,6 +1,6 @@
 import { ActionIcon, Autocomplete } from '@mantine/core';
 import { headers } from '../../../../helper/fakeData';
-import Logo from '../../../../assets/images/logo.png';
+import LogoWhite from '../../../../assets/images/logo-white.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
 import { Link } from 'react-router-dom';
@@ -23,7 +23,7 @@ const Header = (props) => {
           </div>
           <div className="hidden lg:block">
             <Link to='/'>
-              <img src={Logo} width="150" />
+              <img src={LogoWhite} width="150" />
             </Link>
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">

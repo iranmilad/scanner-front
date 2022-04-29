@@ -30,7 +30,7 @@ class Home extends React.PureComponent{
         <ITable data={summaryOfRetailTable} title="خلاصه معاملات خرد سهام و صندوق ها" />
         <ITable data={Separated_statistics_micro_transactions} title="آمار تفکیک شده معاملات خرد" />
         <ITable data={Real_Legal} title="حقیقی حقوقی" />
-        <LoopChart charts={this.state.charts} />
+        {/* <LoopChart charts={this.state.charts} /> */}
         <ITable data={Summary_exchanges} title="خلاصه معاملات صنایع بورس" />
       </MainLayout>
     </>
