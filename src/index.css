@@ -91,3 +91,24 @@ body{
     max-width: 1320px;
   }
 }
+
+.anychart-tooltip{
+  @apply w-72 bg-white text-black py-4 border-2 border-black !important;
+}
+
+.anychart-tooltip-title{
+  font-family: "Iran-sans" !important;
+  @apply font-bold text-center border-b-0
+}
+
+.anychart-tooltip-separator {
+  @apply rounded-md h-0.5 bg-gray-400 my-4 font-persian
+}
+
+.treeamp-tooltip-table tr {
+  @apply my-3
+}
+
+.anychart-credits{
+  display: none !important;
+}

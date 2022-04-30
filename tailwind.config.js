@@ -20,6 +20,9 @@ module.exports = {
       md: '992px',
       lg: '1200px',
       xl: '1400px'
+    },
+    fontFamily: {
+      "persian": ["iran-sans", "sans-serif"],
     }
   },
   plugins: [],

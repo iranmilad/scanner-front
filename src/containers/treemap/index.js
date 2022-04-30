@@ -1,214 +1,211 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Group, Paper, Text, Title, Loader } from '@mantine/core';
+import { Paper, Loader, Center } from '@mantine/core';
 import { Helmet } from 'react-helmet';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import HighchartsTreeChart from 'highcharts/modules/treemap';
-import HighchartsHeatmap from 'highcharts/modules/heatmap';
-import treeConfig from './config';
 import { connect } from 'react-redux';
-import { selectConfig } from '../../redux/reducers/config';
 import { getTreeMap } from '../../apis/treemap';
-import axios from 'axios'
-
-HighchartsHeatmap(Highcharts);
-HighchartsTreeChart(Highcharts);
+import AnyChart from 'anychart-react';
+import anychart from 'anychart';
 
 class Treemap extends Component {
-  state = {
-    loading: false,
-    chartData: [],
-  };
-  componentDidMount(){
-    this.setState(prev => ({
-      ...prev,
-      loading:true
-    }));
-    let treemap = this.props.config.needs.chartAndtables;
-    treemap = treemap.find(item => item.key === 'treemap');
-
-    getTreeMap('/marketMap')
-    .then(res => {
-      this.setState({
-        loading:false,
-        chartData:res.data.data
-      })
-    })
-    .catch(err => {
-      console.log(err.response.status);
-    });
-
-    // setInterval(()=>{
-    //   getTreeMap('/marketMap')
-    //   .then(res => {
-    //     this.setState(prev => ({
-    //       loading: true,
-    //       chartData: res.data.data
-    //     }))
-    //   })
-    // },treemap.refresh_time * 1000)
+  /**
+   * Constructor Function
+   */
+  constructor() {
+    super();
+    this.state = {
+      loading: false,
+      chart: anychart.treeMap([]),
+    };
+    this.chartSettings();
+    this.chartTitle();
+    this.chartLegend();
+    this.chartHeader();
+    this.chartLabels();
+    this.chartTooltip();
   }
-  setLoading(){
-    this.setState(prev => ({
+
+  /**
+   * Fetch data from server
+   */
+  fetchData() {
+    this.setState((prev) => ({
       ...prev,
-      loading:false
-    }))
+      loading: true,
+    }));
+    getTreeMap('marketMap').then(async (res) => {
+      let data = anychart.data.tree(res.data.data, 'as-table');
+      this.setState({
+        loading: false,
+      });
+      this.state.chart.data(data);
+    });
+  }
+
+  componentDidMount() {
+    this.fetchData();
+    /**
+     * @type {array}
+     */
+    let treeConfig = this.props.config.needs.chartAndtables;
+    treeConfig = treeConfig.find((item) => item.key === 'treemap');
+    setInterval(() => this.fetchData(), treeConfig.refresh_time * 1000);
+  }
+
+  /**
+   * Set normal settings to chart
+   * @returns {void}
+   */
+  chartSettings() {
+    this.state.chart
+      .padding([10, 10, 10, 20])
+      // setting the number of levels shown
+      .maxDepth(2)
+      .selectionMode('none');
+
+    this.state.chart.autoRedraw(true);
+
+    // set credits
+    this.state.chart.credits().enabled(false);
+    return Promise.resolve();
+  }
+
+  /**
+   * Customize chart title
+   * @returns {void}
+   */
+  chartTitle() {
+    this.state.chart.title().enabled(true).useHtml(true).padding([0, 0, 20, 0]);
+    return Promise.resolve();
+  }
+
+  /**
+   * Customize Chart legend
+   * @returns {void}
+   */
+  chartLegend() {
+    this.state.chart
+      .legend()
+      .enabled(false)
+      .padding([0, 0, 0, 20])
+      .position('right')
+      .align('top')
+      .itemsLayout('vertical');
+    return Promise.resolve();
+  }
+
+  /**
+   * Customize Chart Headers
+   * @returns {void}
+   */
+  chartHeader() {
+    this.state.chart
+      .headers()
+      .background('#4b5563')
+      .fontColor('#fff')
+      .fontFamily('Iran-sans')
+      .padding(5)
+      .format(function () {
+        return this.getData('name');
+      });
+    return Promise.resolve();
+  }
+
+  /**
+   * Customize Chart Labels
+   * @returns {void}
+   */
+  chartLabels() {
+    this.state.chart
+      .labels()
+      .fontFamily('Iran-sans')
+      .useHtml(true)
+      .fontColor('#fff')
+      .fontSize(12)
+      .textOverflow('')
+      .format(function () {
+        if (this.oc.kg.Ai.treemap_pointBounds.width > 30) {
+          return `${this.getData('name')}<br/>${this.getData('displayValue')}`;
+        }
+        return ``;
+      });
+    return Promise.resolve();
+  }
+
+  /**
+   * Customize Chart Tooltip
+   * @returns {void}
+   */
+  chartTooltip() {
+    this.state.chart
+      .tooltip()
+      .fontFamily('Irans-sans')
+      .useHtml(true)
+      .titleFormat(function () {
+        return `<span>${this.getData('name')}</span>`;
+      })
+      .format(function () {
+        return `<table class="w-full font-persian treeamp-tooltip-table">
+          <tbody>
+            <tr>
+              <td>${this.getData('realName') ? 'نام واقعی' : ''}</td>
+              <td class="text-left">${this.getData('realName') || ''}</td>
+            </tr>
+            <tr>
+            <td>${this.getData('endPrice') ? 'قیمت نهایی' : ''}</td>
+            <td class="text-left">${this.getData('endPrice') || ''}</td>
+          </tr>
+            <tr>
+            <td>${this.getData('lastDeal') ? 'آخرین معامله' : ''}</td>
+            <td class="text-left">${this.getData('lastDeal') || ''}</td>
+          </tr>
+          <tr>
+          <td>${this.getData('count') ? 'تعداد' : ''}</td>
+          <td class="text-left">${this.getData('count') || ''}</td>
+        </tr>
+        <tr>
+          <td>${this.getData('volume') ? 'حجم' : ''}</td>
+          <td class="text-left">${this.getData('volume') || ''}</td>
+        </tr>
+        <tr>
+          <td>${this.getData('value') ? 'ارزش' : ''}</td>
+          <td class="text-left">${this.getData('value') || ''}</td>
+        </tr>
+        <tr>
+          <td>${this.getData('time') ? 'زمان' : ''}</td>
+          <td class="text-left">${this.getData('time') || ''}</td>
+        </tr>
+          </tbody>
+        </table>`;
+      });
+    return Promise.resolve();
   }
   render() {
     return (
       <>
-        <Helmet>
-          <title>نقشه بازار</title>
-        </Helmet>
-        <Title order={3} mb="lg">
-          نقشه بازار
-        </Title>
-        <Paper shadow="xs" p="lg" sx={{ overflow: 'hidden' }}>
-          <div className="my-4 mx-4">
-            {this.state.loading === false ? (
-              <React.Fragment>
-                {this.state.chartData.length > 0 && (
-                  <Heatmap treeData={this.state.chartData} setLoading={this.setLoading.bind(this)} />
-                )}
-                <Group position="apart" mt="lg">
-                  <Text size="xs">آخرین معامله : DATE</Text>
-                  <div className="inline-flex items-center">
-                    <span className="text-xs ml-3 ">بازدهی - </span>
-                    <div className="flex items-center bg-gradient-to-r from-[#D62D4D] to-[#02AD65]">
-                      <span
-                        title="بیش از +4"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      >
-                        +4
-                      </span>
-                      <span
-                        title="از +2 تا +4"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      >
-                        +2
-                      </span>
-                      <span
-                        title="از +1 تا +2"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      >
-                        +1
-                      </span>
-                      <span
-                        title="1(-/+)"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      ></span>
-                      <span
-                        title="از -1 تا -2"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent] tracking-widest"
-                        dir="ltr"
-                      >
-                        -1
-                      </span>
-                      <span
-                        title="از -2 تا -4"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      >
-                        -2
-                      </span>
-                      <span
-                        title="بیش از -4"
-                        className="h-8 w-9 text-xs flex items-center justify-center text-white cursor-default select-none bg-transparent tracking-widest"
-                        dir="ltr"
-                      >
-                        -4
-                      </span>
-                    </div>
-                    <span className="text-xs mr-3">بازدهی + </span>
-                  </div>
-                </Group>
-              </React.Fragment>
-            ) : (
-              <Group position="center">
-                <Loader color="indigo" size="xl" variant="dots" />
-              </Group>
-            )}
-          </div>
-        </Paper>
+      <Helmet>
+        <title>نقشه بازار</title>
+      </Helmet>
+        {this.state.loading ? (
+          <Paper>
+            <Center style={{ height: '600px' }}>
+              <Loader />
+            </Center>
+          </Paper>
+        ) : (
+          <AnyChart
+            contextMenu={false}
+            height={600}
+            instance={this.state.chart}
+            title="نقشه بازار"
+          />
+        )}
       </>
     );
   }
 }
 
-/**
- * Heatmap just renders a heatmap chart
- * @param {Object} heatParam
- * @param {ArrayBuffer} heatParam.treeData - list of data to be used in heatmap
- * @param {Function} heatParam.setLoading - an hook to set loading state
- */
-export const Heatmap = ({ treeData, setLoading }) => {
-  const [data, setData] = useState(treeConfig);
-
-  /**
-   * get data from Heatmap params
-   * mix data and config
-   */
-  useEffect(async () => {
-    setLoading(true);
-    let primeConfig = Object.assign({}, data);
-    primeConfig.series[0].data = treeData;
-    primeConfig.colorAxis = Object.assign(
-      {},
-      primeConfig.colorAxis,
-      setValueRange(treeData)
-    );
-    setData(primeConfig);
-    setLoading(false);
-  }, []);
-
-  /**
-   * Set maximum and minimum color value for treemap chart
-   * @param {object} data
-   * @returns {Object} min and max value of data
-   */
-  function setValueRange(data) {
-    let numberOfData = 0;
-    let maxValue = 0;
-    let minValue = 0;
-    data.map((item) => {
-      if ('value' in item) numberOfData++;
-    });
-
-    // find maximum value
-    for (let i = 0; i < data.length; i++) {
-      if ('value' in data[i]) {
-        if (data[i].value > maxValue) maxValue = data[i].value;
-      }
-    }
-
-    // find minimum value
-    let firstNumber = false;
-    for (let j = 0; j < data.length; j++) {
-      if ('value' in data[j]) {
-        if (firstNumber === false) {
-          firstNumber = true;
-          minValue = data[j].value;
-        } else {
-          if (data[j].value < minValue) minValue = data[j].value;
-        }
-      }
-    }
-
-    return {
-      min: minValue,
-      max: maxValue,
-    };
-  }
-
-  return <HighchartsReact highcharts={Highcharts} options={data} />;
-};
-
 const mapStateToProps = (state) => ({
-  config: state.config
-})
+  config: state.config,
+});
 
 export default connect(mapStateToProps)(Treemap);

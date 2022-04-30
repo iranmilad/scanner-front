@@ -294,16 +294,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }.visible {
   visibility: visible;
-}.static {
-  position: static;
 }.fixed {
   position: fixed;
 }.absolute {
   position: absolute;
 }.relative {
   position: relative;
-}.sticky {
-  position: sticky;
 }.left-1\/2 {
   left: 50%;
 }.top-1\/2 {
@@ -324,14 +320,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   z-index: 40;
 }.col-span-3 {
   grid-column: span 3 / span 3;
-}.m-1 {
-  margin: 0.25rem;
 }.my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
 }.my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -346,10 +337,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: auto;
 }.mt-10 {
   margin-top: 2.5rem;
-}.ml-3 {
-  margin-left: 0.75rem;
-}.mr-3 {
-  margin-right: 0.75rem;
 }.mt-16 {
   margin-top: 4rem;
 }.-mr-\[1000px\] {
@@ -372,8 +359,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 1rem;
 }.mb-5 {
   margin-bottom: 1.25rem;
+}.ml-3 {
+  margin-left: 0.75rem;
 }.mt-7 {
   margin-top: 1.75rem;
+}.mr-3 {
+  margin-right: 0.75rem;
 }.mr-10 {
   margin-right: 2.5rem;
 }.ml-2 {
@@ -384,30 +375,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: block;
 }.inline-block {
   display: inline-block;
-}.inline {
-  display: inline;
 }.flex {
   display: flex;
-}.inline-flex {
-  display: inline-flex;
 }.table {
   display: table;
 }.grid {
   display: grid;
-}.contents {
-  display: contents;
 }.hidden {
   display: none;
-}.h-1 {
-  height: 0.25rem;
-}.h-2 {
-  height: 0.5rem;
 }.h-56 {
   height: 14rem;
 }.h-full {
   height: 100%;
-}.h-8 {
-  height: 2rem;
 }.h-16 {
   height: 4rem;
 }.h-0 {
@@ -418,22 +397,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100vh;
 }.h-32 {
   height: 8rem;
-}.w-5 {
-  width: 1.25rem;
-}.w-4 {
-  width: 1rem;
-}.w-3 {
-  width: 0.75rem;
-}.w-2 {
-  width: 0.5rem;
-}.w-1 {
-  width: 0.25rem;
 }.w-96 {
   width: 24rem;
 }.w-full {
   width: 100%;
-}.w-9 {
-  width: 2.25rem;
 }.w-80 {
   width: 20rem;
 }.w-\[90\%\] {
@@ -442,6 +409,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 80%;
 }.w-56 {
   width: 14rem;
+}.w-4 {
+  width: 1rem;
 }.w-\[70\%\] {
   width: 70%;
 }.grow {
@@ -467,17 +436,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }.transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}.cursor-default {
-  cursor: default;
-}.select-none {
-  -webkit-user-select: none;
-          user-select: none;
-}.resize {
-  resize: both;
 }.list-outside {
   list-style-position: outside;
-}.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }.grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }.flex-row {
@@ -513,8 +473,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   overflow: auto;
 }.overflow-hidden {
   overflow: hidden;
-}.break-all {
-  word-break: break-all;
 }.rounded {
   border-radius: 0.25rem;
 }.rounded-lg {
@@ -527,10 +485,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.rounded-b-md {
   border-bottom-right-radius: 0.375rem;
   border-bottom-left-radius: 0.375rem;
-}.border {
-  border-width: 1px;
 }.border-2 {
   border-width: 2px;
+}.border {
+  border-width: 1px;
 }.border-b-0 {
   border-bottom-width: 0px;
 }.border-t-0 {
@@ -545,8 +503,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.bg-slate-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(39 46 72 / var(--tw-bg-opacity));
-}.bg-transparent {
-  background-color: transparent;
 }.bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
@@ -563,13 +519,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 0.8;
 }.bg-opacity-70 {
   --tw-bg-opacity: 0.7;
-}.bg-gradient-to-r {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}.from-\[\#D62D4D\] {
-  --tw-gradient-from: #D62D4D;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(214 45 77 / 0));
-}.to-\[\#02AD65\] {
-  --tw-gradient-to: #02AD65;
 }.object-cover {
   object-fit: cover;
 }.p-2 {
@@ -626,12 +575,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-align: center;
 }.text-right {
   text-align: right;
+}.font-persian {
+  font-family: iran-sans, sans-serif;
 }.text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
-}.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
 }.text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -646,6 +594,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
+}.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }.text-\[13px\] {
   font-size: 13px;
 }.text-\[9px\] {
@@ -654,13 +605,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-weight: 700;
 }.font-medium {
   font-weight: 500;
-}.italic {
-  font-style: italic;
-}.ordinal {
-  --tw-ordinal: ordinal;
-  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
-}.tracking-widest {
-  letter-spacing: 0.1em;
 }.text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -691,12 +635,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
-}.underline {
-  text-decoration-line: underline;
-}.overline {
-  text-decoration-line: overline;
-}.line-through {
-  text-decoration-line: line-through;
 }.opacity-100 {
   opacity: 1;
 }.opacity-0 {
@@ -718,8 +656,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }.outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
-}.outline {
-  outline-style: solid;
 }.ring-1 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -729,9 +665,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
 }.ring-opacity-5 {
   --tw-ring-opacity: 0.05;
-}.blur {
-  --tw-blur: blur(8px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }.brightness-200 {
   --tw-brightness: brightness(2);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -854,6 +787,34 @@ Ensure the default browser behavior of the `hidden` attribute.
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1320px;
   }
+}.anychart-tooltip {
+  width: 18rem !important;
+  border-width: 2px !important;
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity)) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+  --tw-text-opacity: 1 !important;
+  color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
+}.anychart-tooltip-title{
+  font-family: "Iran-sans" !important;
+  border-bottom-width: 0px;
+  text-align: center;
+  font-weight: 700}.anychart-tooltip-separator {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: 0.125rem;
+  border-radius: 0.375rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+  font-family: iran-sans, sans-serif;
+}.treeamp-tooltip-table tr {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}.anychart-credits{
+  display: none !important;
 }.placeholder\:text-gray-400::placeholder {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -895,8 +856,6 @@ Ensure the default browser behavior of the `hidden` attribute.
     width: 50%;
   }.sm\:w-60 {
     width: 15rem;
-  }.sm\:grid-cols-1 {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }@media (min-width: 992px) {.md\:flex {
     display: flex;

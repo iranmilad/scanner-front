@@ -1,6 +1,6 @@
 import { Group, Loader } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import { Heatmap } from '../../treemap/index';
+import Treemap from '../../treemap/index';
 
 function Index() {
   let [chartData, setChartData] = useState([]);
@@ -59,7 +59,7 @@ function Index() {
       <Group position='center'>
         <Loader color="indigo" size="xl" variant='dots' />
       </Group>
-    ) : chartData.length > 0 && <Heatmap treeData={chartData} setLoading={setLoading} />}
+    ) : chartData.length > 0 && <Treemap treeData={chartData} setLoading={setLoading} />}
 
     </>
   );
