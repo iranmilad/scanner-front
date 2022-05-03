@@ -8,7 +8,7 @@ const FeederCaller = (config)=>{
   const axiosInstance = axios.create({
     headers:{},
     responseType: 'json',
-		baseURL: 'http://88.99.19.131:8000/api'
+		baseURL: 'https://feed.tseshow.com/api'
   });
 
 	axiosInstance.interceptors.request.use(

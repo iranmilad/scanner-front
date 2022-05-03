@@ -20,7 +20,7 @@ body{
   padding: 0;
   margin: 0;
   font-family: "Iran-sans" !important;
-  @apply bg-white !important;
+  @apply bg-white overflow-x-hidden !important;
 }
 
 /* Custom Scrollbar */

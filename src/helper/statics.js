@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { Text } from '@mantine/core';
+import colors from 'tailwindcss/colors';
 export const totalSummeryGroupState = {
   header: [
     {
@@ -23,10 +26,12 @@ export const totalSummeryGroupState = {
     {
       name: 'قدرت خرید',
       selector: (row) => row.n5,
+      cell: (row) => <ColorizeTag row={row.n5} />,
     },
     {
       name: 'ورود پول حقیقی',
       selector: (row) => row.n6,
+      cell: (row) => <ColorizeTag row={row.n6} />,
     },
   ],
 };
@@ -62,11 +67,13 @@ export const summaryTrans = {
     {
       name: 'قدرت خرید',
       selector: (row) => row.n4,
+      cell: (row) => <ColorizeTag row={row.n4} />,
       sortable: true,
     },
     {
       name: 'ورود پول حقیقی',
       selector: (row) => row.n5,
+      cell: (row) => <ColorizeTag row={row.n5} />,
       sortable: true,
     },
   ],
@@ -105,7 +112,11 @@ export const totalSummerStockLOrN = {
   ],
 };
 
-const EmailCustom = (row) => <a href="mailto://" style={{width:'200px'}} >{row.n0}</a>;
+const EmailCustom = (row) => (
+  <a href="mailto://" style={{ width: '200px' }}>
+    {row.n0}
+  </a>
+);
 
 export const totalSummeryIndustrials = {
   header: [
@@ -118,7 +129,7 @@ export const totalSummeryIndustrials = {
       name: 'نام گروه',
       selector: (row) => row.n0,
       sortable: true,
-      cell: (row) => <EmailCustom {...row} />,
+      cell: (row) => <LinkTag link={`/industries/${row.id}`} text={row.n0} />,
       grow: 3,
     },
     {
@@ -155,11 +166,13 @@ export const totalSummeryIndustrials = {
       name: 'تراز سفارش ها',
       selector: (row) => row.n7,
       sortable: true,
+      cell: (row) => <ColorizeTag row={row.n7} />,
     },
     {
       name: 'هم وزن',
       selector: (row) => row.n8,
       sortable: true,
+      cell: (row) => <ColorizeTag row={row.n8} />,
     },
     {
       name: 'سرانه خرید',
@@ -175,6 +188,7 @@ export const totalSummeryIndustrials = {
       name: 'قدرت خرید',
       selector: (row) => row.n11,
       sortable: true,
+      cell: (row) => <ColorizeTag row={row.n11} />,
     },
     {
       name: 'درصد خرید حقیقی',
@@ -190,6 +204,7 @@ export const totalSummeryIndustrials = {
       name: 'ورود پول حقیقی',
       selector: (row) => row.n14,
       sortable: true,
+      cell: (row) => <ColorizeTag row={row.n14} />,
     },
   ],
 };
@@ -359,3 +374,41 @@ export const industries_table3 = {
     },
   },
 };
+
+/**
+ * creates a link 
+ * @param {row} link data or specia key 
+ */
+function LinkTag ({link,text}){
+  return (
+    <Link to={link}>
+      <Text size='sm' color='blue' sx={{width:"150px"}}>
+        {text}
+      </Text>
+    </Link>
+  )
+}
+
+/**
+ * gets data and returns a tag with color
+ * @param {string} row text or number for colorization
+ * @returns 
+ */
+function ColorizeTag({ row }) {
+  // remove letters from row and convert to number
+  let regex = new RegExp(/[a-zA-Z]/, 'g');
+  let number = row;
+  regex.exec(row) ? number = row.replaceAll(row.match(regex), '') : number = row;
+  if (number > 0) {
+    return (
+      <span className="bg-emerald-500 rounded-sm text-white px-1" dir="ltr">
+        {row}
+      </span>
+    );
+  }
+  return (
+    <span className="bg-red-500 rounded-sm text-white px-1" dir="ltr">
+      {row}
+    </span>
+  );
+}

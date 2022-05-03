@@ -133,7 +133,7 @@ class Index extends Component {
     return (
       <>
         <Helmet>
-          <title></title>
+          <title>Tseshow</title>
         </Helmet>
         {/* <Modal
           opened={modal.show}
@@ -172,5 +172,9 @@ class Index extends Component {
 const mapStateToProps = (state) => ({
   config: state.config,
 });
+
+const mapDispatchToProps = (dispatch) => ({
+  setIndustries: (data) => dispatch(setIndustries(data)),
+})
 
 export default connect(mapStateToProps)(Index);

@@ -13,7 +13,7 @@ const ApiCaller = (config)=>{
 			"Access-Control-Allow-Origin": "*",
 		},
     responseType: 'json',
-		baseURL: 'http://sub1.clawar-services.org/api'
+		baseURL: 'https://user.tseshow.com/api'
   });
 
 	axiosInstance.interceptors.request.use(

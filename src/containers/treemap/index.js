@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { Paper, Loader, Center } from '@mantine/core';
+import { Paper, Loader, Center, Button } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { getTreeMap } from '../../apis/treemap';
@@ -13,11 +13,10 @@ class Treemap extends Component {
   constructor() {
     super();
     this.state = {
-      loading: false,
+      loading: true,
       chart: anychart.treeMap([]),
     };
     this.chartSettings();
-    this.chartTitle();
     this.chartLegend();
     this.chartHeader();
     this.chartLabels();
@@ -28,20 +27,14 @@ class Treemap extends Component {
    * Fetch data from server
    */
   fetchData() {
-    this.setState((prev) => ({
-      ...prev,
-      loading: true,
-    }));
     getTreeMap('marketMap').then(async (res) => {
       let data = anychart.data.tree(res.data.data, 'as-table');
-      this.setState({
-        loading: false,
-      });
       this.state.chart.data(data);
     });
   }
 
   componentDidMount() {
+    this.setState({ loading: false });
     this.fetchData();
     /**
      * @type {array}
@@ -51,30 +44,24 @@ class Treemap extends Component {
     setInterval(() => this.fetchData(), treeConfig.refresh_time * 1000);
   }
 
+  componentWillUnmount() {
+    this.setState({ loading: false });
+  }
+
   /**
    * Set normal settings to chart
    * @returns {void}
    */
   chartSettings() {
     this.state.chart
-      .padding([10, 10, 10, 20])
       // setting the number of levels shown
       .maxDepth(2)
       .selectionMode('none');
 
-    this.state.chart.autoRedraw(true);
-
     // set credits
     this.state.chart.credits().enabled(false);
-    return Promise.resolve();
-  }
-
-  /**
-   * Customize chart title
-   * @returns {void}
-   */
-  chartTitle() {
-    this.state.chart.title().enabled(true).useHtml(true).padding([0, 0, 20, 0]);
+    this.state.chart.headersDisplayMode('always-show');
+    this.state.chart.normal().stroke('#333333', 2);
     return Promise.resolve();
   }
 
@@ -100,7 +87,7 @@ class Treemap extends Component {
   chartHeader() {
     this.state.chart
       .headers()
-      .background('#4b5563')
+      .background('#333333')
       .fontColor('#fff')
       .fontFamily('Iran-sans')
       .padding(5)
@@ -146,6 +133,12 @@ class Treemap extends Component {
       .format(function () {
         return `<table class="w-full font-persian treeamp-tooltip-table">
           <tbody>
+          <tr>
+              <td>${this.getData('displayValue') ? 'درصد تغییرات' : ''}</td>
+              <td class="text-left" dir="ltr">${
+                this.getData('displayValue') || ''
+              }</td>
+            </tr>
             <tr>
               <td>${this.getData('realName') ? 'نام واقعی' : ''}</td>
               <td class="text-left">${this.getData('realName') || ''}</td>
@@ -179,25 +172,36 @@ class Treemap extends Component {
       });
     return Promise.resolve();
   }
+
+  /**
+   * Enter Full screen mode chart
+   * @returns {void}
+   */
+  enterFullScreen = ()=> {
+    this.state.chart.fullScreen(true);
+  }
   render() {
     return (
       <>
-      <Helmet>
-        <title>نقشه بازار</title>
-      </Helmet>
+        <Helmet>
+          <title>نقشه بازار</title>
+        </Helmet>
         {this.state.loading ? (
           <Paper>
-            <Center style={{ height: '600px' }}>
-              <Loader />
+            <Center style={{ height: '800px' }}>
+              <Loader variant='dots' color="indigo" />
             </Center>
           </Paper>
         ) : (
-          <AnyChart
-            contextMenu={false}
-            height={600}
-            instance={this.state.chart}
-            title="نقشه بازار"
-          />
+          <Paper>
+            <Button ml="sm" mt="sm" size='xs' color="indigo" onClick={this.enterFullScreen}>تمام صفحه</Button>
+            <AnyChart
+              contextMenu={false}
+              height={850}
+              instance={this.state.chart}
+              title=""
+            />
+          </Paper>
         )}
       </>
     );
