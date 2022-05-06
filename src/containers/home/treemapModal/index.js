@@ -57,7 +57,7 @@ function Index() {
     <>
     {loading ? (
       <Group position='center'>
-        <Loader color="indigo" size="xl" variant='dots' />
+        <Loader color="blue" size="xl" variant='dots' />
       </Group>
     ) : chartData.length > 0 && <Treemap treeData={chartData} setLoading={setLoading} />}
 

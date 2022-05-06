@@ -57,7 +57,7 @@ class IChart extends Component {
       <>
         {lodash.isEmpty(this.state) ? (
           <Group position="center">
-            <Loader color="indigo" variant="dots" />
+            <Loader color="blue" variant="dots" />
           </Group>
         ) : (
           <Chart

@@ -39,7 +39,7 @@ function NewsTable() {
               <Link to={item.link}>
                 <Button
                   variant="light"
-                  color="indigo"
+                  color="blue"
                   fullWidth
                   style={{ marginTop: 14 }}
                 >ادامه مطلب</Button>

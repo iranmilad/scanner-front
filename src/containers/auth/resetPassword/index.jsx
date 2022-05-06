@@ -54,7 +54,7 @@ class ResetPassword extends React.PureComponent {
               <Group position="center" className="w-full">
                 <Box className="flex flex-col items-center px-4 w-full">
                   <ActionIcon
-                    color="indigo"
+                    color="blue"
                     size="xl"
                     radius="xl"
                     variant="filled"
@@ -98,7 +98,7 @@ class ResetPassword extends React.PureComponent {
                     src={Logo}
                   />
                   <Link to="/">
-                    <ActionIcon variant="light" color="indigo" size="lg">
+                    <ActionIcon variant="light" color="blue" size="lg">
                       <ImArrowLeft2 size={20} />
                     </ActionIcon>
                   </Link>

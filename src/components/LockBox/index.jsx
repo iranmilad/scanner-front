@@ -17,7 +17,7 @@ function Lockbox({ image }) {
           برای استفاده از این قابلیت به حساب کاربری خود وارد شوید
         </Text>
         <Link to="/login">
-          <Button color="indigo" sx={{ fontWeight: 'normal' }}>
+          <Button color="blue" sx={{ fontWeight: 'normal' }}>
             ورود
           </Button>
         </Link>

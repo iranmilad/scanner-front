@@ -84,7 +84,7 @@ class ResetForm extends React.PureComponent {
               <Button
                 fullWidth
                 radius="md"
-                color="indigo"
+                color="blue"
                 type="submit"
                 loading={this.state.loading}
               >
@@ -96,7 +96,7 @@ class ResetForm extends React.PureComponent {
                   <Link to="/login">
                     <Text
                       className="inline-block mr-3"
-                      color="indigo"
+                      color="blue"
                       weight="bold"
                       sx={{ cursor: 'pointer' }}
                     >

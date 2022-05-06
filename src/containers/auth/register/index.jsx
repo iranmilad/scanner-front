@@ -99,7 +99,7 @@ class Register extends React.PureComponent {
               <Group position="center">
                 <Box className="flex flex-col items-center px-4">
                   <ActionIcon
-                    color="indigo"
+                    color="blue"
                     size="xl"
                     radius="xl"
                     variant="filled"
@@ -153,14 +153,14 @@ class Register extends React.PureComponent {
                         <Space h="lg" />
                         <CheckboxField
                           label="کلیه قوانین سایت را مطالعه کرده و میپذیرم"
-                          color="indigo"
+                          color="blue"
                           name="acceptTerms"
                         />
                         <Space h="lg" />
                         <Button
                           fullWidth
                           radius="md"
-                          color="indigo"
+                          color="blue"
                           type="submit"
                           loading={this.state.loading}
                         >
@@ -175,7 +175,7 @@ class Register extends React.PureComponent {
                             <Link to="/login">
                               <Text
                                 className="inline-block mr-3"
-                                color="indigo"
+                                color="blue"
                                 weight="bold"
                                 sx={{ cursor: 'pointer' }}
                               >
@@ -211,7 +211,7 @@ class Register extends React.PureComponent {
                     src={Logo}
                   />
                   <Link to="/">
-                    <ActionIcon variant="light" color="indigo" size="lg">
+                    <ActionIcon variant="light" color="blue" size="lg">
                       <ImArrowLeft2 size={20} />
                     </ActionIcon>
                   </Link>

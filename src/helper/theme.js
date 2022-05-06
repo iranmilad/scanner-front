@@ -9,7 +9,7 @@ export const TableDesign = {
   },
   headCells: {
     style:{
-        backgroundColor: colors.slate[200],
+      backgroundColor: colors.slate[200],
       fontWeight: "bold",
       color: colors.slate[600],
       overflow: "visible",
@@ -24,7 +24,6 @@ export const TableDesign = {
       textAlign: "right",
       overflow: "visible",
       paddingRight: "30px",
-
       "&:hover": {
         backgroundColor: colors.gray[50]
       },

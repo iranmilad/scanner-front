@@ -11,7 +11,7 @@ const DesktopMenu = ({ data }) => {
           {item.children ? (
             <Menu key={id} as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="flex items-center hover:text-indigo-500 text-slate-600">
+                <Menu.Button className="flex items-center hover:text-blue-500 text-slate-600">
                   <i className={`${item.icon} ml-2`}></i>
                   <span className="text-sm">{item.name}</span>
                   <i className="fa-solid fa-chevron-down text-xs text-slate-600 mr-3"></i>
@@ -49,7 +49,7 @@ const DesktopMenu = ({ data }) => {
             </Menu>
           ) : (
             <Link to={item.link}>
-              <button className="py-2 px-3 text-slate-600 hover:text-indigo-500 text-sm flex items-center">
+              <button className="py-2 px-3 text-slate-600 hover:text-blue-500 text-sm flex items-center">
                 {id === 5 ? (
                   <img src={chartLogo} className="w-4 ml-2" />
                 ) : (

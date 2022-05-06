@@ -1,228 +1,168 @@
-import { Center, Paper, Text, Select, Group } from '@mantine/core';
+import {
+  Center,
+  Paper,
+  Text,
+  Select,
+  Group,
+  Title,
+  Button,
+  Menu,
+  ActionIcon,
+  Grid,
+} from '@mantine/core';
 import React, { Component, useEffect, useState } from 'react';
 import { getIndustryData } from '../../apis/main/main';
 import ITable from '../../components/ITable';
 import {
   industries_table1,
   industries_table2,
-  industries_table3,
+  industries_table3_type1,
+  industries_table3_type2,
 } from '../../helper/statics';
-import { firstChart } from '../../helper/fakeData';
-import LoopChart from '../../components/LoopChart';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { randomNumber } from '../../helper';
 import { connect } from 'react-redux';
-
-// function Index({ route }) {
-//   let { id } = route.match.params;
-//   let [loading, setLoading] = useState(true);
-//   let [industry, setIndustry] = useState(null);
-//   let [industrieLists, setIndustrieLists] = useState([]);
-//   useEffect(() => {
-//     // getIndustryData(`/industries/${id}`)
-//     //   .then((res) => {
-//     //     setLoading(false);
-//     //     setIndustry(res.data);
-//     //   })
-//     //   .catch((err) => {
-//     //     setLoading(false);
-//     //   });
-//     setLoading(false);
-//     setIndustrieLists([
-//       { value: 'react', label: 'React' },
-//       { value: 'ng', label: 'Angular' },
-//       { value: 'svelte', label: 'Svelte' },
-//       { value: 'vue', label: 'Vue' },
-//     ]);
-//     let response = {
-//       groupName: 'استخراج کانه های فلزی',
-//       groupId: '1',
-//       general: [
-//         {
-//           n0: '183.4 M',
-//           n1: '173 B',
-//           n2: '0.25',
-//           n3: '0.25',
-//           n4: '0.25',
-//           n5: '0.25',
-//         },
-//       ],
-//       realLegal: [
-//         {
-//           n0: '6,042',
-//           n1: '640.5 B',
-//           n2: '42.21',
-//           n3: '19.6	',
-//           n4: '297.4 B',
-//           n5: '4,576',
-//           n6: 'حقیقی',
-//         },
-//         {
-//           n0: '6,042',
-//           n1: '640.5 B',
-//           n2: '42.21',
-//           n3: '19.6	',
-//           n4: '297.4 B',
-//           n5: '4,576',
-//           n6: 'حقوقی',
-//         },
-//       ],
-//       chart1: {
-//         special: 'IndustryChart1',
-//         series: [
-//           {
-//             name: 'تعداد نماد ها',
-//             data: [2, 49, 44, 118, 94, 88, 107, 53, 60, 9, 57, 3],
-//           },
-//         ],
-//       },
-//       chart2: {
-//         special: 'IndustryChart2',
-//         series: [
-//           {
-//             name: 'ارزش سفارشات',
-//             data: ['4', '27.2'],
-//           },
-//         ],
-//       },
-//       chart3: {
-//         special: 'IndustryChart3',
-//         series: [
-//           {
-//             name: 'مثبت',
-//             data: randomNumber(),
-//           },
-//           {
-//             name: 'منفی',
-//             data: randomNumber(),
-//           },
-//         ],
-//       },
-//       chart4: {
-//         special: 'IndustryChart4',
-//         series: [
-//           {
-//             name: 'ورود پول',
-//             data: randomNumber(),
-//           },
-//         ],
-//       },
-//       chart5: {
-//         special: 'IndustryChart5',
-//         series: [
-//           {
-//             name: 'فروش',
-//             data: randomNumber(),
-//           },
-//           {
-//             name: 'خرید',
-//             data: randomNumber(),
-//           },
-//         ],
-//       },
-//       allGroup: [
-//         {
-//           originalId: 212,
-//           originalName: 'بجهرم',
-//           n0: '15.7 M	',
-//           n1: '15.2 M	',
-//           n2: '0.2',
-//           n3: '0.2',
-//           n4: '0.2',
-//           n5: '0.2',
-//           n6: '0.2',
-//           n7: '0.2',
-//           n8: '0.2',
-//           n9: '0.2',
-//           n10: '0.2',
-//           n11: '0.2',
-//           n12: '0.2',
-//           n13: '0.2',
-//           n14: '0.2',
-//           n15: '0.2',
-//         },
-//       ],
-//     };
-//     industries_table1.data = response.general;
-//     industries_table2.data = response.realLegal;
-//     industries_table3.data = response.allGroup;
-
-//     setIndustry({
-//       groupName: response.groupName,
-//       groupId: response.groupId,
-//       general: industries_table1,
-//       realLegal: industries_table2,
-//       charts: [response.chart1, response.chart2, response.chart3, response.chart4, response.chart5],
-//       allGroup: industries_table3,
-//     });
-//   }, []);
-//   return (
-//     <>
-//       <Helmet>
-//         <title>دیده بان گروه</title>
-//       </Helmet>
-//       {industry && loading === false ? (
-//         <>
-//           <Group position="apart">
-//             <Text size="sm" weight="bold">
-//               گروه {industry.groupName}
-//             </Text>
-//             <Select
-//               data={industrieLists}
-//               placeholder="انتخاب کنید"
-//               dropdownComponent="div"
-//             />
-//           </Group>
-//           <ITable data={industry.general} title="خلاصه معاملات" />
-//           <ITable data={industry.realLegal} title="جدول حقیقی حقوقی" />
-//           <LoopChart charts={industry.charts} />
-//           <ITable
-//             data={industry.allGroup}
-//             title={`دیده بان گروه ${industry?.groupName}`}
-//           />
-//         </>
-//       ) : (
-//         <Paper padding="xl" radius="md" shadow="xs" mt="xl">
-//           <Center>
-//             <Text size="sm">
-//               موردی یافت نشد ( از این لیست گروه صنایع مد نظر خود را انتخاب کنید)
-//             </Text>
-//           </Center>
-//           <Center mt="lg">
-//             <Select
-//               placeholder="انتخاب کنید"
-//               dropdownComponent="div"
-//               onChange={(e) => console.log(e)}
-//               data={[
-//                 { value: 'react', label: 'React' },
-//                 { value: 'ng', label: 'Angular' },
-//                 { value: 'svelte', label: 'Svelte' },
-//                 { value: 'vue', label: 'Vue' },
-//               ]}
-//             />
-//           </Center>
-//         </Paper>
-//       )}
-//     </>
-//   );
-// }
+import _ from 'lodash';
+import { getIndustry, getTable } from '../../apis/tables';
+import { BsGridFill } from 'react-icons/bs';
+import Chart from '../../components/Chart';
+import { getChart } from '../../apis/charts';
 
 class Index extends Component {
-  state = {
-    loading: false,
-    industry: null,
-  };
-  componentDidMount() {
-    this.setState({ loading: true });
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      industries: [],
+      error: false,
+      table1: [],
+      table2: [],
+      table3: [],
+      chart1: [],
+      chart2: [],
+      chart3: [],
+      chart4: [],
+      chart5: [],
+      interval: false,
+      industryLists :[]
+    };
+    this.id = props.route.match.params.id;
   }
+
+  table1() {
+    this.setState({ loading: true });
+    getTable(
+      `/industries/totalIndustriesActivity/${this.id}`
+    )
+      .then((res) => {
+        this.setState({ table1: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  table2() {
+    this.setState({ loading: true });
+    getTable(
+      `/industries/totalIndustriesStockLOrN/${this.id}`
+    )
+      .then((res) => {
+        this.setState({ table2: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  table3() {
+    this.setState({ loading: true });
+    getTable(
+      `/industries/totalIndustrialsStocks/${this.id}`
+    )
+      .then((res) => {
+        this.setState({ table3: res.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  chart1(){
+    getChart(`/industries/totalIndustriesStockPresent/${this.id}`)
+    .then((res) => {
+      this.setState({ chart1: res.data.data, loading: false });
+    })
+    .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  chart2(){
+    getChart(`/industries/totalIndustriesStockValueQueue/${this.id}`)
+    .then((res) => {
+      this.setState({ chart2: res.data.data, loading: false });
+    })
+    .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  chart3(){
+    getChart(`/industries/totalIndustriesChangeBuySellHeadsHistory/${this.id}`)
+    .then((res) => {
+      this.setState({ chart3: res.data.data, loading: false });
+    })
+    .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  chart4(){
+    getChart(`/industries/totalIndustriesEnterManyBuyerIHistory/${this.id}`)
+    .then((res) => {
+      this.setState({ chart4: res.data.data, loading: false });
+    })
+    .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  chart5(){
+    getChart(`/industries/totalIndustriesMarketOrderValueHistory/${this.id}`)
+    .then((res) => {
+      this.setState({ chart5: res.data.data, loading: false });
+    })
+    .catch((err) => this.setState({ error: true, loading: false }));
+  }
+
+  getIndustryList(){
+    getChart('/industries/totalIndustriesGroup')
+    .then(res => {
+      this.setState({ industryLists: res.data.data, loading: false });
+    })
+    .catch(err => {
+      this.setState({ error: true, loading: false });
+    })
+  }
+
+
+  industry_history(id) {
+    let host = window.location.host;
+    window.location.replace(`http://${host}/industries/${id}`);
+  }
+
+  componentDidMount() {
+    this.getIndustryList();
+    this.setState({ loading: true });
+    this.table1();
+    this.table2();
+    this.table3();
+    this.chart1();
+    this.chart2();
+    this.chart3();
+    this.chart4();
+    this.chart5();
+  }
+
+  componentWillUnmount() {
+    this.setState({ interval: false });
+  }
+
   render() {
     return (
       <>
         <Helmet>
           <title>دیده بان گروه</title>
         </Helmet>
-        {this.state.industry.length > 0 && this.state.loading === false ? (
-          <H2></H2>
+        {/* {this.state.error === false && this.state.loading === false ? (
+          
         ) : (
           <Paper padding="xl" radius="md" shadow="xs" mt="xl">
             <Center>
@@ -236,23 +176,81 @@ class Index extends Component {
                 placeholder="انتخاب کنید"
                 dropdownComponent="div"
                 onChange={(e) => console.log(e)}
-                data={[
-                  { value: 'react', label: 'React' },
-                  { value: 'ng', label: 'Angular' },
-                  { value: 'svelte', label: 'Svelte' },
-                  { value: 'vue', label: 'Vue' },
-                ]}
+                data={this.state.industries}
               />
             </Center>
           </Paper>
-        )}
+        )} */}
+        <Group position="apart" mt="my">
+          <Text size="lg">دیده بان صنعت</Text>
+          <Menu
+            transition="rotate-right"
+            transitionDuration={100}
+            transitionTimingFunction="ease"
+            dir="rtl"
+            title="گروه ها"
+            control={<Button size="xs">انتخاب صنعت</Button>}
+            sx={(theme) => ({
+              '& .mantine-Menu-body': {
+                maxHeight: '300px !important',
+                overflowY: 'auto',
+              },
+            })}
+          >
+            {this.state.industryLists.map((item, id) => (
+              <Menu.Item key={id} onClick={() => this.industry_history(item.value)}>
+                {item.name}
+              </Menu.Item>
+            ))}
+          </Menu>
+        </Group>
+        <ITable
+          title="گروه صندوق های درآمد ثابت و مختلط"
+          data={this.state.table1}
+          column={industries_table1.header}
+        />
+        <ITable
+          title="جدول حقیقی حقوقی"
+          data={this.state.table2}
+          column={industries_table2.header}
+        />
+        <Grid grow mt="lg">
+          <Grid.Col sm={12} lg={6}>
+            <Chart data={this.state.chart1} title='محدوده قیمتی آخرین معامله نماد' />
+          </Grid.Col>
+          <Grid.Col sm={12} lg={6}>
+          <Chart data={this.state.chart2} title='ارزش کل سفارش های روی تابلو گروه به میلیارد تومان' />
+          </Grid.Col>
+          <Grid.Col sm={12} lg={6}>
+          <Chart data={this.state.chart3} title='تغیرات سرانه های خرید و فروش گروه به میلیون تومان' />
+          </Grid.Col>
+          <Grid.Col sm={12} lg={6}>
+          <Chart data={this.state.chart4} title='تغییرات ورود پول اشخاص حقیقی به میلیارد تومان' />
+          </Grid.Col>
+          <Grid.Col span={6}>
+          <Chart data={this.state.chart5} title='تغییرات ارزش کل سفارش ها به میلیارد تومان' />
+          </Grid.Col>
+          
+        </Grid>
+
+        {'type' in this.state.table3 ? (
+          <ITable
+            title="دیده بان گروه صندوق های درآمد ثابت و مختلط"
+            data={this.state.table3.data}
+            column={
+              this.state.table3.type == 1
+                ? industries_table3_type1.header
+                : industries_table3_type2.header
+            }
+          />
+        ) : null}
       </>
     );
   }
 }
 
-const mapStateToProps = (state)=>({
-  industry: state.config.industries,
+const mapStateToProps = (state) =>({
+  industryGroups: state.config.industriesGroups,
 })
 
 export default connect(mapStateToProps)(Index);

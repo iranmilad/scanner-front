@@ -19,7 +19,8 @@ import { setModal } from '../../redux/reducers/main';
 import { tableWorker } from '../../helper';
 import { getTable } from '../../apis/tables';
 import _ from 'lodash';
-import NewsTable from './news'
+import NewsTable from './news';
+import {setIndustries} from '../../redux/reducers/config';
 
 class Index extends Component {
   constructor(props) {
@@ -86,14 +87,14 @@ class Index extends Component {
     }))
   }
   componentDidMount() {
+    this.setCharts();
     this.setTable1()
     let config = this.props.config.needs.chartAndtables;
     let table1 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    this.setCharts();
 
-    setInterval(()=>{
+    this.interval1= setInterval(()=>{
       this.setTable1();
     },table1[0].refresh_time * 1000);
 
@@ -102,7 +103,7 @@ class Index extends Component {
     let table2 = config2.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    setInterval(()=>{
+    this.interval2 = setInterval(()=>{
       this.setTable2();
     },table2[0].refresh_time * 1000);
 
@@ -111,7 +112,7 @@ class Index extends Component {
     let table3 = config3.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    setInterval(()=>{
+    this.interval3 = setInterval(()=>{
       this.setTable3();
     },table3[0].refresh_time * 1000);
 
@@ -120,9 +121,16 @@ class Index extends Component {
     let table4 = config4.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    setInterval(()=>{
+    this.interval4 = setInterval(()=>{
       this.setTable4();
     },table4[0].refresh_time * 1000);
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.interval1);
+    clearInterval(this.interval2);
+    clearInterval(this.interval3);
+    clearInterval(this.interval4);
   }
 
 
@@ -173,8 +181,8 @@ const mapStateToProps = (state) => ({
   config: state.config,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setIndustries: (data) => dispatch(setIndustries(data)),
-})
+// const mapDispatchToProps = (dispatch) => ({
+//   setIndustry: (data) => dispatch(setIndustries(data)),
+// })
 
 export default connect(mapStateToProps)(Index);

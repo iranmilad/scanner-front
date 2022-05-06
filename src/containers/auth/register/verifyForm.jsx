@@ -100,7 +100,7 @@ class VerifyForm extends React.PureComponent {
             {this.state.success === 'success' ? (
               <>
                 <Space h="lg" />
-                <Alert title="ثبت نام با موفقیت انجام شد" color="indigo">
+                <Alert title="ثبت نام با موفقیت انجام شد" color="blue">
                   <Group position="apart">
                     <Text size="sm">
                       به طور خودکار به صفحه ورود هدایت میشود
@@ -140,12 +140,12 @@ class VerifyForm extends React.PureComponent {
                     this.state.time < 0 ? this.sendAgainCode() : null
                   }
                   sx={{cursor: this.state.time < 0 ? 'pointer': 'not-allowed'}}
-                  color={this.state.time < 0 ? 'indigo' : '#ccc'}
+                  color={this.state.time < 0 ? 'blue' : '#ccc'}
                 >
                   ارسال مجدد
                 </Text>
                 {this.state.time > 0 && (
-                  <Text color="indigo" size="sm">
+                  <Text color="blue" size="sm">
                     {this.state.time === 60 ? '1:00' : this.state.time < 10 ? `0:0${this.state.time}`: `0:${this.state.time}`}
                   </Text>
                 )}
@@ -155,7 +155,7 @@ class VerifyForm extends React.PureComponent {
               <Button
                 fullWidth
                 radius="md"
-                color="indigo"
+                color="blue"
                 type="submit"
                 loading={this.state.loading}
               >

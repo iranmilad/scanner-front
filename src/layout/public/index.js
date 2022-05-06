@@ -13,13 +13,12 @@ export default ({ Component, route }) => {
     <>
       <Header setOpen={openMenu} />
       <Sidebar open={open} setOpen={closeMenu}  />
-      <button onClick={()=> History.push('/register')}>Register Page</button>
       <Container>
         
       </Container>
-      <div className="pt-16 lg:pt-[7rem] bg-gray-100 pb-20">
+      <div className="pt-16 lg:pt-[7rem] bg-gray-100 pb-20 min-h-screen">
         <div className="container pt-3">
-          <div className="my-4">
+          <div className="my-4 mt-10">
             <Suspense fallback={<BigLoading />}>
               <Component route={route} />
             </Suspense>

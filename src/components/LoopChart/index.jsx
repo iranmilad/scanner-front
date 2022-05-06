@@ -70,8 +70,8 @@ class LoopChart extends Component {
                   borderRadius: theme.radius.sm,
                 },
                 tabActive: {
-                  backgroundColor: theme.colors.indigo[7],
-                  borderColor: theme.colors.indigo[7],
+                  backgroundColor: theme.colors.blue[7],
+                  borderColor: theme.colors.blue[7],
                   color: theme.white,
                 },
               })}
@@ -84,33 +84,35 @@ class LoopChart extends Component {
             </Tabs>
           </Group>
         </MediaQuery> */}
-        <div className="grid gap-8 lg:grid-cols-3 mt-10 justify-items-stretch grid-cols-1">
+
+        <Grid grow mt="lg">
           {this.props.charts.length > 0 &&
             this.props.charts.map((chart, index) =>
               chart.active === false ? (
-                <Paper
-                  key={index}
-                  shadow="xs"
-                  padding="lg"
-                  radius="md"
-                  sx={{ height: '100%' }}
-                >
-                  <Text order={4} mb="lg">
-                    {chart.title}
-                  </Text>
-                  {this.state.auth ? (
-                    <IChart
-                      refreshTime={chart.refresh_time}
-                      feeder_url={chart.feeder_url}
-                    />
-                  ) : (
-                    <Lock key={index} image={Logo} />
-                  )}
-                </Paper>
-              ) : (
-                <div  key={index} className={`${index === 15 ? 'col-span-3' : ''}`}>
+                <Grid.Col sm={12} md={6} lg={4}>
                   <Paper
-                    
+                    key={index}
+                    shadow="xs"
+                    padding="lg"
+                    radius="md"
+                    sx={{ height: '100%' }}
+                  >
+                    <Text order={4} mb="lg">
+                      {chart.title}
+                    </Text>
+                    {this.state.auth ? (
+                      <IChart
+                        refreshTime={chart.refresh_time}
+                        feeder_url={chart.feeder_url}
+                      />
+                    ) : (
+                      <Lock key={index} image={Logo} />
+                    )}
+                  </Paper>
+                </Grid.Col>
+              ) : (
+                <Grid.Col sm={12} md={6} lg={4}>
+                  <Paper
                     shadow="xs"
                     padding="lg"
                     radius="md"
@@ -124,10 +126,10 @@ class LoopChart extends Component {
                       feeder_url={chart.feeder_url}
                     />
                   </Paper>
-                </div>
+                </Grid.Col>
               )
             )}
-        </div>
+        </Grid>
       </>
     );
   }

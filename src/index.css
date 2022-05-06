@@ -45,6 +45,11 @@ body{
 .rdt_TableCell *{
   overflow: visible !important;
   white-space: normal !important;
+  direction: ltr;
+}
+
+.rdt_TableHead{
+  background-color: red;
 }
 
 .rdt_TableCol_Sortable div{
@@ -111,4 +116,10 @@ body{
 
 .anychart-credits{
   display: none !important;
+}
+
+.mantine-Menu-body{
+  max-height: 200px !important;
+  overflow-y: scroll !important;
+  z-index: 1 !important;
 }

@@ -42,7 +42,7 @@ const Sidebar = ({setOpen,open})=>{
     <div className={classes}>
       <div className='w-full flex items-center justify-between h-16'>
       <img src={Logo}  width="150" />
-        <button onClick={()=>setOpen()} className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-indigo-50 rounded-md flex items-center justify-center">
+        <button onClick={()=>setOpen()} className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-blue-50 rounded-md flex items-center justify-center">
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
       </div>
@@ -65,9 +65,9 @@ const Sidebar = ({setOpen,open})=>{
 const SearchMenu = ({recentSearch})=>{
   return (
     <div className='w-full mt-9'>
-      <div className="w-full flex justify-between items-center bg-slate-800 rounded-md pl-2 border-2 border-transparent focus-within:border-indigo-600 transition-all">
+      <div className="w-full flex justify-between items-center bg-slate-800 rounded-md pl-2 border-2 border-transparent focus-within:border-blue-600 transition-all">
         <input type="text" placeholder="جستجوی نماد / شرکت" className="p-2 bg-slate-800 rounded-md text-sm w-80 outline-none placeholder:text-gray-400 " />
-        <i className="fa-duotone fa-magnifying-glass text-indigo-500"></i>
+        <i className="fa-duotone fa-magnifying-glass text-blue-500"></i>
       </div>
 
       <div className='w-full mt-10 flex items-center justify-between'>

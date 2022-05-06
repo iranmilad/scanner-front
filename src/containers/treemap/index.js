@@ -41,11 +41,11 @@ class Treemap extends Component {
      */
     let treeConfig = this.props.config.needs.chartAndtables;
     treeConfig = treeConfig.find((item) => item.key === 'treemap');
-    setInterval(() => this.fetchData(), treeConfig.refresh_time * 1000);
+    this.interval = setInterval(() => this.fetchData(), treeConfig.refresh_time * 1000);
   }
 
   componentWillUnmount() {
-    this.setState({ loading: false });
+    clearInterval(this.interval);
   }
 
   /**
@@ -189,12 +189,12 @@ class Treemap extends Component {
         {this.state.loading ? (
           <Paper>
             <Center style={{ height: '800px' }}>
-              <Loader variant='dots' color="indigo" />
+              <Loader variant='dots' color="blue" />
             </Center>
           </Paper>
         ) : (
           <Paper>
-            <Button ml="sm" mt="sm" size='xs' color="indigo" onClick={this.enterFullScreen}>تمام صفحه</Button>
+            <Button ml="sm" mt="sm" size='xs' color="blue" onClick={this.enterFullScreen}>تمام صفحه</Button>
             <AnyChart
               contextMenu={false}
               height={850}

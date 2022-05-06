@@ -19,9 +19,6 @@ class PrivateSection extends React.PureComponent {
           <button className="hidden sm:flex py-2 px-3 bg-slate-700 text-slate-300 transition-all hover:bg-slate-600 rounded-md ml-3 items-center justify-center">
             <i className="fa-duotone fa-expand"></i>
           </button>
-          <button className="hidden sm:flex py-2 px-3 bg-slate-700 text-slate-300 transition-all hover:bg-slate-600 rounded-md ml-3 items-center justify-center">
-            <i className="fa-duotone fa-brightness"></i>
-          </button>
           <button className="hidden sm:flex py-2 px-3 bg-slate-700 text-slate-300 transition-all hover:bg-slate-600 rounded-md ml-3 lg:ml-8 items-center justify-center">
             <i className="fa-duotone fa-bell"></i>
           </button>
@@ -54,7 +51,7 @@ class PrivateSection extends React.PureComponent {
          >
           <Button
             sx={{ fontWeight: 'normal' }}
-            color="indigo"
+            color="blue"
           >
             ورود
           </Button>

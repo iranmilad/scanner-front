@@ -1,3 +1,4 @@
+import React from 'react';
 import { Component } from 'react';
 import DataTable from 'react-data-table-component';
 import lodash from 'lodash';
@@ -23,33 +24,24 @@ import { TableDesign } from '../../helper/theme';
  *  columns={columns}
  * />
  */
-class ITable extends Component {
-  render() {
-    let ExtraChild = this.props.extraChild;
-    return (
-      <Paper padding="xl" radius="md" shadow="xs" mt="xl">
-        <Group position="apart">
-          <Text mb={'lg'}>{this.props.title}</Text>
-        </Group>
-        {this.props.column && this.props.data ? (
-          <>
-            <DataTable
-              columns={this.props.column}
-              data={this.props.data}
-              customStyles={TableDesign}
-            />
-            {this.props.children}
-          </>
-        ) : (
-          <>
-            <Group position="center">
-              <Loader color="indigo" size="md" variant="dots" />
-            </Group>
-          </>
-        )}
-      </Paper>
-    );
-  }
-}
+
+const ITable = ({ title, column, data, children, customStyles, ...other }) => {
+  return (
+    <Paper padding="xl" radius="md" shadow="xs" mt="xl">
+      <Group position="apart">
+        <Text mb={'lg'}>{title}</Text>
+      </Group>
+        <DataTable
+          columns={column}
+          data={data}
+          progressPending={data ? false : true}
+          progressComponent={<Loader variant='dots' color='blue' />}
+          customStyles={customStyles ? customStyles : TableDesign}
+          {...other}
+        />
+        {children}
+    </Paper>
+  );
+};
 
 export default ITable;

@@ -23,7 +23,7 @@ export const headers = [
   },
   {
     name: 'سوابق بازار',
-    link: '#',
+    link: '/industries/history/A00',
     icon: 'fa-duotone fa-file-waveform',
   },
   {

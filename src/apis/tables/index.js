@@ -8,3 +8,12 @@ import FeederCaller from '../../helper/feederCaller'
 export const getTable = (url)=>{
   return FeederCaller().get(url);
 }
+
+/**
+ * get industrial groups
+ * @param {string} url 
+ * @returns 
+ */
+export const getIndustry = (url)=>{
+  return FeederCaller().get(url);
+}

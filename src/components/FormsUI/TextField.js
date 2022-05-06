@@ -17,7 +17,7 @@ const TextField = ({ name, type, ...otherProps }) => {
     ...field,
     ...otherProps,
     variant: 'filled',
-    color: 'indigo',
+    color: 'blue',
     radius: 'md',
     size: 'md',
     autoComplete: 'off'

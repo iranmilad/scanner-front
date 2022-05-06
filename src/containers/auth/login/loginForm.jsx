@@ -119,7 +119,7 @@ class LoginForm extends React.PureComponent {
               <Anchor
                 className="inline-block"
                 size="sm"
-                color="indigo"
+                color="blue"
                 weight="normal"
                 sx={{ cursor: 'pointer' }}
               >
@@ -130,7 +130,7 @@ class LoginForm extends React.PureComponent {
             <Button
               fullWidth
               radius="md"
-              color="indigo"
+              color="blue"
               type="submit"
               loading={this.state.loading}
             >
@@ -142,7 +142,7 @@ class LoginForm extends React.PureComponent {
                 <Link to="/register">
                   <Text
                     className="inline-block mr-3"
-                    color="indigo"
+                    color="blue"
                     weight="bold"
                     sx={{ cursor: 'pointer' }}
                   >

@@ -2,7 +2,8 @@ import React from "react";
 
 const Home = React.lazy(()=> import("../containers/home"));
 const Treemap = React.lazy(()=> import("../containers/treemap"));
-const Industries = React.lazy(()=>import("../containers/industries"))
+const Industries = React.lazy(()=>import("../containers/industries"));
+const Industry_History = React.lazy(()=> import("../containers/industries/history"));
 
 export const publicRoute = [
   {
@@ -18,6 +19,11 @@ export const publicRoute = [
   {
     path: "/industries/:id",
     component: Industries,
+    layout: 'public'
+  },
+  {
+    path: "/industries/history/:id",
+    component: Industry_History,
     layout: 'public'
   }
 ]

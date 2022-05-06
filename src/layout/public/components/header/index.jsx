@@ -16,7 +16,7 @@ const Header = (props) => {
           <div className="block lg:hidden">
             <button
               onClick={() => props.setOpen()}
-              className="py-2.5 px-3 flex justify-center items-center border border-transparent shadow-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+              className="py-2.5 px-3 flex justify-center items-center border border-transparent shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
             >
               <i className="fa-solid fa-bars text-lg"></i>
             </button>
@@ -28,7 +28,7 @@ const Header = (props) => {
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">
             <Autocomplete
-              color="indigo"
+              color="blue"
               placeholder="جستجوی نماد / شرکت"
               rightSection={
                 <ActionIcon variant="transparent">
@@ -45,7 +45,7 @@ const Header = (props) => {
                   fontSize: '13px',
                 },
                 '& .mantine-Autocomplete-input:focus': {
-                  borderColor: `${theme.colors.indigo[6]} !important`,
+                  borderColor: `${theme.colors.blue[6]} !important`,
                 },
               })}
               variant="filled"
