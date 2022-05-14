@@ -81,7 +81,7 @@ class LoginForm extends React.PureComponent {
         <>
           <Alert mt="lg" title={this.state.loginSuccess} color="green">
             <Group position="apart">
-              <Text size="sm">به طور خودکار به صفحه اصلی هدایت میشود</Text>
+              <Text size="sm">به طور خودکار به صفحه اصلی هدایت میشوید</Text>
               <Text size="sm">{this.state.time}</Text>
             </Group>
           </Alert>

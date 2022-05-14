@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Group, Paper, Text, Loader } from '@mantine/core';
 import Chart from 'react-apexcharts';
 import ChartData from './chartData';
-import _ from 'lodash';
+import lodash from 'lodash';
 
-const Index = ({ data,title, ...other }) => {
+const Index = ({ data,options,special,type,title, ...other }) => {
+
   return (
-    <>
       <Paper
         shadow="xs"
-        padding="lg"
+        p="lg"
         radius="md"
       >
         <Group position="apart">
@@ -17,22 +17,21 @@ const Index = ({ data,title, ...other }) => {
             {title}
           </Text>
         </Group>
-        {_.isEmpty(data) ? (
+        {lodash.isEmpty(data) ? (
           <Group position="center">
             <Loader variant="dots" />
           </Group>
         ) : (
-          <Chart
-            width="100%"
-            height={350}
-            options={ChartData[data.special].options}
-            series={data.series}
-            type={ChartData[data.special].type}
-            {...other}
-          />
+              <Chart
+              width="100%"
+              height={350}
+              options={special ? ChartData[special].options : options.options}
+              series={data.length > 0 ? data : []}
+              type={type ? type : ChartData[special].type}
+              {...other}
+              />
         )}
       </Paper>
-    </>
   );
 };
 

@@ -700,7 +700,10 @@ function ColorizeTag({ row }) {
   regex.exec(row)
     ? (number = row.replace(row.match(regex), ''))
     : (number = row);
-  if (number > 0) {
+  if(number === 0){
+    return row
+  }
+  else if (number > 0) {
     return (
       <span className="bg-emerald-500 rounded-sm text-white px-1" dir="ltr">
         {row}

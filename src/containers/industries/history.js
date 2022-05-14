@@ -1,4 +1,4 @@
-import { Button, Group, Menu, Text } from '@mantine/core';
+import { Select, Group, Text } from '@mantine/core';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import ITable from '../../components/ITable';
@@ -8,15 +8,18 @@ import {
 } from '../../helper/statics';
 import { getTable } from '../../apis/tables';
 import { connect } from 'react-redux';
+import lodash from 'lodash'
+import { getChart } from '../../apis/charts';
 
 class History extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
     this.state = {
-      title: null,
+      title: '',
       type: null,
       data: [],
+      industryLists: [],
     };
     /**
      * @type {String}
@@ -28,8 +31,17 @@ class History extends React.Component {
     this.industries_lists = props.industry;
   }
 
+  getIndustryList(){
+    if(lodash.isEmpty(this.state.industryLists)){
+      getChart('/totalIndustriesGroupHisory')
+      .then((res) => {
+        this.setState({ industryLists: res.data.data });
+      })
+    }
+  }
+
   industry_history(id) {
-    window.open(`/industries/history/${id}`);
+    window.location.replace(`/industries/history/${id}`);
   }
 
   componentDidMount() {
@@ -49,26 +61,13 @@ class History extends React.Component {
         </Helmet>
         <Group position="apart">
           <Text size="lg">{`سوابق ${this.state.title}` || ''}</Text>
-          <Menu
-            transition="rotate-right"
-            transitionDuration={100}
-            transitionTimingFunction="ease"
-            dir="rtl"
-            title="گروه ها"
-            control={<Button size="xs">انتخاب گروه</Button>}
-            sx={(theme) => ({
-              '& .mantine-Menu-body': {
-                maxHeight: '300px !important',
-                overflowY: 'auto',
-              },
-            })}
-          >
-            {this.industries_lists.map((item, id) => (
-              <Menu.Item key={id} onClick={() => this.industry_history(item.value)}>
-                {item.name}
-              </Menu.Item>
-            ))}
-          </Menu>
+          <Select
+            searchable
+            onChange={(value) => this.industry_history(value)}
+            placeholder="انتخاب صنعت"
+            onMouseOver={() => this.getIndustryList()}
+            data={this.state.industryLists || []}
+          />
         </Group>
         {this.state.type !== null ? (
           <ITable

@@ -11,6 +11,7 @@ export const TableDesign = {
     style:{
       backgroundColor: colors.slate[200],
       fontWeight: "bold",
+      fontSize: "12px",
       color: colors.slate[600],
       overflow: "visible",
       "&:first-child": {
@@ -20,7 +21,7 @@ export const TableDesign = {
   },
   rows:{
     style:{
-      fontSize: "14px",
+      fontSize: "13px",
       textAlign: "right",
       overflow: "visible",
       paddingRight: "30px",

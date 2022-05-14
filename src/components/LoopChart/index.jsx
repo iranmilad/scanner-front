@@ -89,15 +89,15 @@ class LoopChart extends Component {
           {this.props.charts.length > 0 &&
             this.props.charts.map((chart, index) =>
               chart.active === false ? (
-                <Grid.Col sm={12} md={6} lg={4}>
+                <Grid.Col key={index} sm={12} md={6} lg={4}>
                   <Paper
                     key={index}
                     shadow="xs"
-                    padding="lg"
+                    p="lg"
                     radius="md"
                     sx={{ height: '100%' }}
                   >
-                    <Text order={4} mb="lg">
+                    <Text size="sm" mb="lg">
                       {chart.title}
                     </Text>
                     {this.state.auth ? (
@@ -111,14 +111,14 @@ class LoopChart extends Component {
                   </Paper>
                 </Grid.Col>
               ) : (
-                <Grid.Col sm={12} md={6} lg={4}>
+                <Grid.Col key={index} sm={12} md={6} lg={4}>
                   <Paper
                     shadow="xs"
-                    padding="lg"
+                    p="lg"
                     radius="md"
                     sx={{ height: '100%' }}
                   >
-                    <Text order={4} mb="lg">
+                    <Text size="sm" mb="lg">
                       {chart.title}
                     </Text>
                     <IChart

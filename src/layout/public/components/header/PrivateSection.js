@@ -23,6 +23,7 @@ class PrivateSection extends React.PureComponent {
             <i className="fa-duotone fa-bell"></i>
           </button>
           <Menu
+          zIndex={999999}
             dir="rtl"
             control={
               <Avatar src="https://randomuser.me/api/portraits/men/9.jpg" />

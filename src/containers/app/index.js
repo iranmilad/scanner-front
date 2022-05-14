@@ -12,7 +12,8 @@ import BigLoading from '../../components/bigLoading';
 import { ActionIcon,Center,Text } from '@mantine/core';
 import {BsArrowClockwise} from 'react-icons/bs';
 import {getIndustry} from '../../apis/tables';
-import {setIndustries} from '../../redux/reducers/config'
+import {setIndustries} from '../../redux/reducers/config';
+import ScrollToTop from './scrollToTop';
 
 export default () => {
   // dispatching states
@@ -91,6 +92,8 @@ export default () => {
     await getConfig('/home/data')
       .then((res) => {
         dispatch(setConfig(res.data));
+        setLoading(false);
+      setError(false);
       })
       .catch((err) => {
         setError(true);
@@ -104,7 +107,7 @@ export default () => {
     })
     .catch(err => {
       setError(true);
-        setLoading(false);
+      setLoading(false);
     })
     
 	}
@@ -134,6 +137,7 @@ export default () => {
             </Center>
           ) : (
             <BrowserRouter>
+            <ScrollToTop />
               <Switch>
                 {switchRoutes()}
                 <Route component={NotFound} />

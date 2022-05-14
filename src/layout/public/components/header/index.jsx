@@ -10,7 +10,7 @@ const Header = (props) => {
     <div className=" bg-gray-100">
       <div
         className="flex flex-row justify-between items-center p-4 bg-slate-800 h-16 shadow-sm fixed top-0 w-full"
-        style={{ zIndex: 99 }}
+        style={{ zIndex: 999999 }}
       >
         <div className="container flex flex-row justify-between items-center">
           <div className="block lg:hidden">
@@ -56,7 +56,7 @@ const Header = (props) => {
       </div>
       <div
         className="w-full bg-white hidden shadow-sm py-2 h-16 lg:flex justify-between fixed top-16"
-        style={{ zIndex: 99 }}
+        style={{ zIndex: 999999 }}
       >
         <div className="container flex justify-between items-center flex-row bg-white ">
           <DesktopMenu data={headers} />

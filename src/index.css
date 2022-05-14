@@ -117,9 +117,3 @@ body{
 .anychart-credits{
   display: none !important;
 }
-
-.mantine-Menu-body{
-  max-height: 200px !important;
-  overflow-y: scroll !important;
-  z-index: 1 !important;
-}

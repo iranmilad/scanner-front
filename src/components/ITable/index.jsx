@@ -27,9 +27,9 @@ import { TableDesign } from '../../helper/theme';
 
 const ITable = ({ title, column, data, children, customStyles, ...other }) => {
   return (
-    <Paper padding="xl" radius="md" shadow="xs" mt="xl">
+    <Paper p="xl" radius="md" shadow="xs" mt="xl">
       <Group position="apart">
-        <Text mb={'lg'}>{title}</Text>
+        <Text size='sm' mb={'lg'}>{title}</Text>
       </Group>
         <DataTable
           columns={column}

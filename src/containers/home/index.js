@@ -20,7 +20,7 @@ import { tableWorker } from '../../helper';
 import { getTable } from '../../apis/tables';
 import _ from 'lodash';
 import NewsTable from './news';
-import {setIndustries} from '../../redux/reducers/config';
+import {Text} from '@mantine/core'
 
 class Index extends Component {
   constructor(props) {
@@ -152,7 +152,7 @@ class Index extends Component {
         >
           {ModalContent === 'tree' && <TreeModal />}
         </Modal> */}
-        <Title order={3}>صفحه خانه</Title>
+        <Text size="lg">صفحه خانه</Text>
         <ITable
           column={this.state.table1.header}
           data={this.state.table1.data}

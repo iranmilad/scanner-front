@@ -41,7 +41,9 @@ const Sidebar = ({setOpen,open})=>{
   return (
     <div className={classes}>
       <div className='w-full flex items-center justify-between h-16'>
-      <img src={Logo}  width="150" />
+      <Link to="/">
+        <img src={Logo}  width="150" />
+      </Link>
         <button onClick={()=>setOpen()} className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-blue-50 rounded-md flex items-center justify-center">
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>

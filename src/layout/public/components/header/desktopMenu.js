@@ -31,15 +31,17 @@ const DesktopMenu = ({ data }) => {
                     {item.children.map((child, id) => (
                       <Menu.Item key={id}>
                         {({ active }) => (
-                          <button
-                            className={`${
-                              active
-                                ? 'bg-slate-700 text-white'
-                                : 'text-gray-900'
-                            } group flex rounded-md items-center w-full px-2 py-2 text-sm text-right my-1`}
-                          >
-                            {child.name}
-                          </button>
+                          <Link to={child.link}>
+                            <button
+                              className={`${
+                                active
+                                  ? 'bg-slate-700 text-white'
+                                  : 'text-gray-900'
+                              } group flex rounded-md items-center w-full px-2 py-2 text-sm text-right my-1`}
+                            >
+                              {child.name}
+                            </button>
+                          </Link>
                         )}
                       </Menu.Item>
                     ))}

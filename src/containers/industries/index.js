@@ -1,15 +1,4 @@
-import {
-  Center,
-  Paper,
-  Text,
-  Select,
-  Group,
-  Title,
-  Button,
-  Menu,
-  ActionIcon,
-  Grid,
-} from '@mantine/core';
+import { Text, Select, Group, Grid } from '@mantine/core';
 import React, { Component, useEffect, useState } from 'react';
 import { getIndustryData } from '../../apis/main/main';
 import ITable from '../../components/ITable';
@@ -44,27 +33,23 @@ class Index extends Component {
       chart4: [],
       chart5: [],
       interval: false,
-      industryLists :[]
+      industryLists: [],
     };
     this.id = props.route.match.params.id;
   }
 
   table1() {
     this.setState({ loading: true });
-    getTable(
-      `/industries/totalIndustriesActivity/${this.id}`
-    )
+    getTable(`/industries/totalIndustriesActivity/${this.id}`)
       .then((res) => {
-        this.setState({ table1: res.data.data, loading: false });
+        this.setState({ table1: res.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
   }
 
   table2() {
     this.setState({ loading: true });
-    getTable(
-      `/industries/totalIndustriesStockLOrN/${this.id}`
-    )
+    getTable(`/industries/totalIndustriesStockLOrN/${this.id}`)
       .then((res) => {
         this.setState({ table2: res.data.data, loading: false });
       })
@@ -73,65 +58,64 @@ class Index extends Component {
 
   table3() {
     this.setState({ loading: true });
-    getTable(
-      `/industries/totalIndustrialsStocks/${this.id}`
-    )
+    getTable(`/industries/totalIndustrialsStocks/${this.id}`)
       .then((res) => {
         this.setState({ table3: res.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  chart1(){
+  chart1() {
     getChart(`/industries/totalIndustriesStockPresent/${this.id}`)
-    .then((res) => {
-      this.setState({ chart1: res.data.data, loading: false });
-    })
-    .catch((err) => this.setState({ error: true, loading: false }));
+      .then((res) => {
+        this.setState({ chart1: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  chart2(){
+  chart2() {
     getChart(`/industries/totalIndustriesStockValueQueue/${this.id}`)
-    .then((res) => {
-      this.setState({ chart2: res.data.data, loading: false });
-    })
-    .catch((err) => this.setState({ error: true, loading: false }));
+      .then((res) => {
+        this.setState({ chart2: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  chart3(){
+  chart3() {
     getChart(`/industries/totalIndustriesChangeBuySellHeadsHistory/${this.id}`)
-    .then((res) => {
-      this.setState({ chart3: res.data.data, loading: false });
-    })
-    .catch((err) => this.setState({ error: true, loading: false }));
+      .then((res) => {
+        this.setState({ chart3: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  chart4(){
+  chart4() {
     getChart(`/industries/totalIndustriesEnterManyBuyerIHistory/${this.id}`)
-    .then((res) => {
-      this.setState({ chart4: res.data.data, loading: false });
-    })
-    .catch((err) => this.setState({ error: true, loading: false }));
+      .then((res) => {
+        this.setState({ chart4: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  chart5(){
+  chart5() {
     getChart(`/industries/totalIndustriesMarketOrderValueHistory/${this.id}`)
-    .then((res) => {
-      this.setState({ chart5: res.data.data, loading: false });
-    })
-    .catch((err) => this.setState({ error: true, loading: false }));
+      .then((res) => {
+        this.setState({ chart5: res.data.data, loading: false });
+      })
+      .catch((err) => this.setState({ error: true, loading: false }));
   }
 
-  getIndustryList(){
-    getChart('/industries/totalIndustriesGroup')
-    .then(res => {
-      this.setState({ industryLists: res.data.data, loading: false });
-    })
-    .catch(err => {
-      this.setState({ error: true, loading: false });
-    })
-  }
-
+  getIndustryList = () => {
+    if (_.isEmpty(this.state.industryLists)) {
+      getChart('/industries/totalIndustriesGroup')
+        .then((res) => {
+          this.setState({ industryLists: res.data.data});
+        })
+        .catch((err) => {
+          this.setState({ error: true});
+        });
+    }
+  };
 
   industry_history(id) {
     let host = window.location.host;
@@ -139,7 +123,6 @@ class Index extends Component {
   }
 
   componentDidMount() {
-    this.getIndustryList();
     this.setState({ loading: true });
     this.table1();
     this.table2();
@@ -182,31 +165,18 @@ class Index extends Component {
           </Paper>
         )} */}
         <Group position="apart" mt="my">
-          <Text size="lg">دیده بان صنعت</Text>
-          <Menu
-            transition="rotate-right"
-            transitionDuration={100}
-            transitionTimingFunction="ease"
-            dir="rtl"
-            title="گروه ها"
-            control={<Button size="xs">انتخاب صنعت</Button>}
-            sx={(theme) => ({
-              '& .mantine-Menu-body': {
-                maxHeight: '300px !important',
-                overflowY: 'auto',
-              },
-            })}
-          >
-            {this.state.industryLists.map((item, id) => (
-              <Menu.Item key={id} onClick={() => this.industry_history(item.value)}>
-                {item.name}
-              </Menu.Item>
-            ))}
-          </Menu>
+          <Text size="md">{`گروه ${this.state.table1.title || ''}`}</Text>
+          <Select
+            searchable
+            onChange={(value) => this.industry_history(value)}
+            placeholder="انتخاب صنعت"
+            onMouseOver={() => this.getIndustryList()}
+            data={this.state.industryLists || []}
+          />
         </Group>
         <ITable
-          title="گروه صندوق های درآمد ثابت و مختلط"
-          data={this.state.table1}
+          title={this.state.table1.title}
+          data={this.state.table1.data}
           column={industries_table1.header}
         />
         <ITable
@@ -216,26 +186,45 @@ class Index extends Component {
         />
         <Grid grow mt="lg">
           <Grid.Col sm={12} lg={6}>
-            <Chart data={this.state.chart1} title='محدوده قیمتی آخرین معامله نماد' />
+            <Chart
+              data={this.state.chart1.series}
+              special={this.state.chart1.special}
+              title="محدوده قیمتی آخرین معامله نماد"
+            />
           </Grid.Col>
           <Grid.Col sm={12} lg={6}>
-          <Chart data={this.state.chart2} title='ارزش کل سفارش های روی تابلو گروه به میلیارد تومان' />
+            <Chart
+              data={this.state.chart2.series}
+              special={this.state.chart2.special}
+              title="ارزش کل سفارش های روی تابلو گروه به میلیارد تومان"
+            />
           </Grid.Col>
           <Grid.Col sm={12} lg={6}>
-          <Chart data={this.state.chart3} title='تغیرات سرانه های خرید و فروش گروه به میلیون تومان' />
+            <Chart
+              data={this.state.chart3.series}
+              special={this.state.chart3.special}
+              title="تغیرات سرانه های خرید و فروش گروه به میلیون تومان"
+            />
           </Grid.Col>
           <Grid.Col sm={12} lg={6}>
-          <Chart data={this.state.chart4} title='تغییرات ورود پول اشخاص حقیقی به میلیارد تومان' />
+            <Chart
+              data={this.state.chart4.series}
+              special={this.state.chart4.special}
+              title="تغییرات ورود پول اشخاص حقیقی به میلیارد تومان"
+            />
           </Grid.Col>
           <Grid.Col span={6}>
-          <Chart data={this.state.chart5} title='تغییرات ارزش کل سفارش ها به میلیارد تومان' />
+            <Chart
+              data={this.state.chart5.series}
+              special={this.state.chart5.special}
+              title="تغییرات ارزش کل سفارش ها به میلیارد تومان"
+            />
           </Grid.Col>
-          
         </Grid>
 
         {'type' in this.state.table3 ? (
           <ITable
-            title="دیده بان گروه صندوق های درآمد ثابت و مختلط"
+            title={this.state.table3.title}
             data={this.state.table3.data}
             column={
               this.state.table3.type == 1
@@ -243,14 +232,14 @@ class Index extends Component {
                 : industries_table3_type2.header
             }
           />
-        ) : null}
+        ) : <ITable />}
       </>
     );
   }
 }
 
-const mapStateToProps = (state) =>({
+const mapStateToProps = (state) => ({
   industryGroups: state.config.industriesGroups,
-})
+});
 
 export default connect(mapStateToProps)(Index);
