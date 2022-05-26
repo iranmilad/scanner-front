@@ -1,27 +1,15 @@
 import {
-  ActionIcon,
   Grid,
-  Group,
   Paper,
-  SegmentedControl,
-  SimpleGrid,
   Text,
-  Chip,
-  Chips,
-  Button,
-  Tabs,
-  MediaQuery,
 } from '@mantine/core';
 import { Component } from 'react';
 import Logo from '../../assets/images/logo.png';
 import IChart from '../../components/IChart';
-import ChartData from '../IChart/chartData';
 import Lock from '../LockBox';
 import { getLocalStorage } from '../../helper/localStorage';
-import { BsFillGridFill, BsFillGrid3X3GapFill } from 'react-icons/bs';
 import { gridColumn } from '../../helper';
 import ls from 'localstorage-slim';
-import { charts } from 'highcharts';
 
 class LoopChart extends Component {
   constructor() {

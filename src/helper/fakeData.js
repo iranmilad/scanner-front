@@ -66,7 +66,7 @@ export const headers = [
     children: [
       {
         name: 'عملکرد شرکت ها',
-        link: '#',
+        link: '/reports',
       },
       {
         name: 'جریانات نقدینگی',

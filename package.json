@@ -26,6 +26,7 @@
     "immutable": "^4.0.0",
     "localstorage-slim": "^2.2.0",
     "lodash": "^4.17.21",
+    "match-sorter": "^6.3.1",
     "postcss": "^8.4.6",
     "postcss-cli": "^9.1.0",
     "postcss-easy-import": "^3.0.0",

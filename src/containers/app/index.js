@@ -15,7 +15,7 @@ import {getIndustry} from '../../apis/tables';
 import {setIndustries} from '../../redux/reducers/config';
 import ScrollToTop from './scrollToTop';
 
-export default () => {
+const App =  () => {
   // dispatching states
   const dispatch = useDispatch();
   let [loading, setLoading] = useState(false);
@@ -149,3 +149,5 @@ export default () => {
     </>
   );
 };
+
+export default App;

@@ -1,22 +1,15 @@
-import { History } from '../../helper/history';
 import { Helmet } from 'react-helmet';
 import {
   totalSummeryIndustrials,
   summaryTrans,
   totalSummerStockLOrN,
   totalSummeryGroupState,
-  summary_config,
 } from '../../helper/statics';
 import ITable from '../../components/ITable';
 import LoopChart from '../../components/LoopChart';
-import { Component, useEffect, useState } from 'react';
-import { Modal, Title } from '@mantine/core';
-import { useSelector } from 'react-redux';
-import { getModal } from '../../redux/reducers/main';
-import TreeModal from './treemapModal';
-import { useDispatch, connect } from 'react-redux';
-import { setModal } from '../../redux/reducers/main';
-import { tableWorker } from '../../helper';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { getTable } from '../../apis/tables';
 import _ from 'lodash';
 import NewsTable from './news';

@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'main',
-  initialState: {loading:false,modal:{show:false,content:null}},
+  initialState: {loading:false,modal:{show:false,content:null},routing:{}},
   reducers: {
     loading: (state, action) => {
       state.loading = action.payload;

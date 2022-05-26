@@ -1,4 +1,5 @@
 import ApiCaller from '../../helper/apiCaller';
+import FeederCaller from '../../helper/feederCaller'
 
 /**
  * 
@@ -34,4 +35,14 @@ export const getIndustryData = (url)=>{
  */
 export const getConfig = (url)=>{
   return ApiCaller().get(url);
+}
+
+
+/**
+ * Get all tables and charts configs
+ * @param {string} url 
+ * @returns {Promise}
+ */
+export const getEveryFeeder = (url)=>{
+  return FeederCaller().get(url);
 }

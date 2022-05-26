@@ -21,16 +21,18 @@ import { History } from '../../../helper/history';
 import LoginForm from './loginForm';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import {withRouter} from 'react-router'
 
 class Login extends React.PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     let storage = getLocalStorage('userToken');
     if (!storage) {
       clearLocalStorage();
     } else {
       window.location.href = '/';
     }
+    console.log(props);
   }
 
   render() {
@@ -112,4 +114,4 @@ class Login extends React.PureComponent {
   }
 }
 
-export default Login;
+export default withRouter(Login);
