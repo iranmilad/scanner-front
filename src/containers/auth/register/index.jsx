@@ -30,14 +30,14 @@ import { registerAPI } from '../../../apis/auth';
 import { connect } from 'react-redux';
 import VerifyForm from './verifyForm';
 import { Helmet } from 'react-helmet';
+import Cookies from 'js-cookie';
 
 class Register extends React.PureComponent {
   constructor() {
     super();
-    let storage = getLocalStorage('userToken');
-    console.log(storage);
+    let storage = Cookies.get('token');
     if (!storage) {
-      clearLocalStorage();
+      Cookies.remove('token', { path: '/' });
     } else {
       window.location.href = '/';
     }
@@ -60,7 +60,6 @@ class Register extends React.PureComponent {
         });
       })
       .catch((err) => {
-        console.log(err);
         this.setState({
           loading: false,
         });

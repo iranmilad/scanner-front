@@ -11,6 +11,7 @@ import {
   setLocalStorage,
   setLocalStorageWithExpiry,
 } from '../../../helper/localStorage';
+import Cookies from 'js-cookie';
 
 class LoginForm extends React.PureComponent {
   state = {
@@ -38,7 +39,7 @@ class LoginForm extends React.PureComponent {
         }));
         this.countDownTimer();
         // set local storage token
-        setLocalStorage('userToken', res.data.data.access_token);
+        Cookies.set('token', res.data.data.access_token, { expires: 10,path: '/' ,secure: true});
 
         // redirect to home page
         setTimeout(() => {

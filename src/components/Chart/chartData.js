@@ -88,6 +88,9 @@ const ChartData = {
       colors: ['#E91E63', '#66DA26'],
       labels: ['سهام منفی', 'سهام مثبت'],
     },
+    xaxis:{
+      position: "bottom"
+    }
   },
   A3: {
     title: 'روند تغییرات آخرین قیمت سهام حق تقدم، ص.سهامی',
@@ -789,7 +792,11 @@ const ChartData = {
         curve: 'smooth'
       },
       xaxis: {
-        type: 'string'
+        type: 'string',
+        labels:{
+          offsetX: -15,
+          offsetY: 50,
+        }
       },
       yaxis: {
         show: true,

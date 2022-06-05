@@ -86,7 +86,13 @@ const ChartData = {
     auth: false,
     options: {
       colors: ['#E91E63', '#66DA26'],
+      chart: {
+        fontFamily: 'Iran-sans',
+      },
       labels: ['سهام منفی', 'سهام مثبت'],
+      legend:{
+        position: "bottom",
+      }
     },
   },
   A3: {

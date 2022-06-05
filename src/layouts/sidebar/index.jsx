@@ -39,7 +39,7 @@ const Sidebar = ({setOpen,open})=>{
     marginRight
   ].join(" ");
   return (
-    <div className={classes}>
+    <div className={classes} style={{zIndex:99999999}}>
       <div className='w-full flex items-center justify-between h-16'>
       <Link to="/">
         <img src={Logo}  width="150" />

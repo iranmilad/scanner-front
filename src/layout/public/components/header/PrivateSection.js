@@ -6,14 +6,15 @@ import { History } from '../../../../helper/history';
 import { FiLogOut, FiUser, FiKey } from 'react-icons/fi';
 import { Menu, Divider, Avatar } from '@mantine/core';
 import { clearLocalStorage } from '../../../../helper/localStorage';
+import Cookies from 'js-cookie';
 
 class PrivateSection extends React.PureComponent {
   handleLogout = () => {
-    clearLocalStorage();
+    Cookies.remove('token',{path:'/'});
     window.location.href = "/";
   };
   render() {
-    if (getLocalStorage('userToken')) {
+    if (Cookies.get('token')) {
       return (
         <div className="flex flex-row ">
           <button className="hidden sm:flex py-2 px-3 bg-slate-700 text-slate-300 transition-all hover:bg-slate-600 rounded-md ml-3 items-center justify-center">

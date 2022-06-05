@@ -11,6 +11,7 @@ import {
   Text,
   Badge,
   Button,
+  Center,
 } from '@mantine/core';
 import { TableDesign } from '../../helper/theme';
 
@@ -26,20 +27,34 @@ import { TableDesign } from '../../helper/theme';
  */
 
 const ITable = ({ title, column, data, children, customStyles, ...other }) => {
+  let paginationComponentOptions = {
+    rowsPerPageText: 'تعداد نمایش',
+    rangeSeparatorText: 'از',
+  };
   return (
     <Paper p="xl" radius="md" shadow="xs" mt="xl">
       <Group position="apart">
-        <Text size='sm' mb={'lg'}>{title}</Text>
+        <Text size="sm" mb={'lg'}>
+          {title}
+        </Text>
       </Group>
-        <DataTable
-          columns={column}
-          data={data}
-          progressPending={data ? false : true}
-          progressComponent={<Loader variant='dots' color='blue' />}
-          customStyles={customStyles ? customStyles : TableDesign}
-          {...other}
-        />
-        {children}
+      {data ? (
+        <>
+          <DataTable
+            columns={column}
+            data={data}
+            noDataComponent="چیزی برای نمایش وجود ندارد"
+            customStyles={customStyles ? customStyles : TableDesign}
+            paginationComponentOptions={paginationComponentOptions}
+            {...other}
+          />
+          {children}
+        </>
+      ) : (
+        <Center>
+          <Loader variant="dots" color="blue" />
+        </Center>
+      )}
     </Paper>
   );
 };

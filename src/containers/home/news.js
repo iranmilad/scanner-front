@@ -34,23 +34,23 @@ function NewsTable() {
       <Group position="apart">
         <Text mb={'lg'}>خبرنامه</Text>
       </Group>
-      <Grid>
+      <Grid align="stretch">
         {news.map((item, index) => {
           return (
-            <Grid.Col key={index} sm={12} md={6}>
-              <Card radius="lg" sx={{ background: colors.slate[50] }}>
+            <Grid.Col sx={{height:"auto"}} key={index} sm={12} md={6}>
+              <Card radius="lg" sx={{display:"flex",flexDirection:"column",justifyContent:"space-between", background: colors.slate[50] }}>
                 <Group position="apart" my="md">
-                  <Text weight={500}>{item.title}</Text>
+                  <Text weight={500}><div dangerouslySetInnerHTML={{__html:item.title}} /></Text>
                 </Group>
                 <Text size="sm" color="dark" style={{ lineHeight: 1.5 }}>
-                  <div dangerouslySetInnerHTML={createMarkup(item.body)} />
+                  <div dangerouslySetInnerHTML={{__html:item.body}} />
                 </Text>
                 <Group position="apart" my="md">
                   <Badge color="pink" variant="light">
-                    {item.category}
+                    <div dangerouslySetInnerHTML={{__html: item.category}} />
                   </Badge>
                   <Badge color="indigo" variant="light">
-                    {item.date}
+                    <div dangerouslySetInnerHTML={{__html: item.date}} />
                   </Badge>
                 </Group>
 

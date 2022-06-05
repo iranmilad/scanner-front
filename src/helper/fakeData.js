@@ -45,7 +45,7 @@ export const headers = [
       },
       {
         name: 'سفارشات',
-        link: '#',
+        link: '/extra/orderwatch',
       },
       {
         name: 'حمایت ها و مقاومت ها',
@@ -98,7 +98,7 @@ export const headers = [
       },
       {
         name: 'لیست شرکت ها بر اساس ارزش بازار',
-        link: '#',
+        link: '/marketvalues',
       },
       {
         name: 'لیست شرکت ها بر اساس فاصله تا سقف قیمت',

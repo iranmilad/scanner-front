@@ -1,4 +1,4 @@
-import { Group, Text } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import Chart from '../../components/Chart';
@@ -7,21 +7,27 @@ import ChartData from '../../components/Chart/chartData';
 
 class ReportChart extends Component {
   state = {
-    title: '',
+    title1: '',
+    title2: '',
     data: [],
+    data2: [],
   };
-  
-  getChart(){
-    console.log(this.props.match.params);
-    // getEveryFeeder(`/reports/chart/${this.props.match.params.id}`)
-    //   .then((res) => {
-    //     this.setState({ title: res.data.data.title, data: res.data.data.data });
-    //     ChartData.dailyChart1.options.labels = res.data.data.date;
-    //   }
-    //   );
+
+  getChart1() {
+    getEveryFeeder(`/perfomance/A00`).then((res) => {
+      ChartData.dailyChart1.options.labels = res.data.data.date;
+      this.setState({ title1: res.data.title, data: res.data.data.series });
+    });
+  }
+  getChart2() {
+    getEveryFeeder(`/sellPerfomance/A00`).then((res) => {
+      ChartData.dailyChart1.options.labels = res.data.data.date;
+      this.setState({ title2: res.data.title, data2: res.data.data.series });
+    });
   }
   componentDidMount() {
-    this.getChart();
+    this.getChart1();
+    this.getChart2();
   }
   render() {
     return (
@@ -29,17 +35,24 @@ class ReportChart extends Component {
         <Helmet>
           <title>نمودار های تولید فروش</title>
         </Helmet>
-        <Group>
-          <Text size="md">{this.state.title ? this.state.title : ''}</Text>
-        </Group>
-        <Chart
-          data={this.state.data}
-          options={ChartData.dailyChart1.options}
-          type="line"
-          title='فروش به میلیارد تومان'
-          width="100%"
-          height={350}
-        />
+        <Stack spacing="md">
+          <Chart
+            data={this.state.data}
+            options={{ options: { ...ChartData.dailyChart1.options } }}
+            type="line"
+            title={this.state.title1}
+            width="100%"
+            height={350}
+          />
+          <Chart
+            data={this.state.data2}
+            options={{ options: { ...ChartData.dailyChart1.options } }}
+            type="line"
+            title={this.state.title2}
+            width="100%"
+            height={350}
+          />
+        </Stack>
       </div>
     );
   }

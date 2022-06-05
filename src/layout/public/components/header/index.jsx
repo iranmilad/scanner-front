@@ -1,41 +1,97 @@
-import { ActionIcon, Autocomplete } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
+import { ActionIcon, Autocomplete, Text } from '@mantine/core';
 import { headers } from '../../../../helper/fakeData';
 import LogoWhite from '../../../../assets/images/logo-white.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
 import { Link } from 'react-router-dom';
+import { getEveryFeeder } from '../../../../apis/main/main';
+import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setReportList } from '../../../../redux/reducers/config';
+import { matchSorter } from 'match-sorter';
 
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const [searchValue, setSearchValue] = useState('');
+  const [search, setSearch] = useState([]);
+
+  /**
+   * search dynamic data
+   * @param {string} value - autocomplete value
+   */
+  const searchSymbol = async (value) => {
+    setSearchValue(value);
+    if (value.length < 2) setSearch([]);
+    /**
+     * when user type something if there isnt any data in the report list
+     * then get the data from the server
+     */
+    if (value.length > 2) {
+      // match sorter with label and name
+      let result = matchSorter(props.reportList, value, {
+        keys: ['label', 'name'],
+      });
+      result.length > 0 ? setSearch(result) : setSearch([]);
+    }
+  };
+
+  
+  const setStocks = async () => {
+    if (props.reportList.length === 0) {
+      try {
+        let response = await getEveryFeeder('/totalStockSearch');
+        dispatch(setReportList(response.data.data));
+      } catch (error) {}
+    }
+  };
+
+  useEffect(() => {
+    setStocks();
+  },[])
+  
   return (
     <div className=" bg-gray-100">
       <div
-        className="flex flex-row justify-between items-center p-4 bg-slate-800 h-16 shadow-sm fixed top-0 w-full"
+        className="flex flex-row justify-between items-center bg-slate-800 h-16 shadow-sm fixed top-0 w-full"
         style={{ zIndex: 999999 }}
       >
-        <div className="container flex flex-row justify-between items-center">
+        <div className="container flex flex-row justify-between items-center space-x-2">
           <div className="block lg:hidden">
-            <button
+            <ActionIcon
+            size="lg"
+            mr="7px"
+            variant='filled'
+            color="blue"
               onClick={() => props.setOpen()}
-              className="py-2.5 px-3 flex justify-center items-center border border-transparent shadow-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
             >
               <i className="fa-solid fa-bars text-lg"></i>
-            </button>
+            </ActionIcon>
           </div>
           <div className="hidden lg:block">
-            <Link to='/'>
+            <Link to="/">
               <img src={LogoWhite} width="150" />
             </Link>
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">
             <Autocomplete
+              zIndex={9999999}
               color="blue"
               placeholder="جستجوی نماد / شرکت"
+              value={searchValue}
+              onChange={searchSymbol}
+              itemComponent={AutoCompleteItem}
               rightSection={
                 <ActionIcon variant="transparent">
                   <i className="fa-duotone fa-magnifying-glass text-slate-300 w[10%] mx-auto"></i>
                 </ActionIcon>
               }
-              data={[]}
+              filter={(value, item) =>
+                item.label
+                  .toLowerCase()
+                  .includes(value.toLowerCase().trim())
+              }
+              data={search}
               sx={(theme) => ({
                 width: '100%',
                 background: 'transparent',
@@ -66,4 +122,21 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+const AutoCompleteItem = React.forwardRef(
+  ({id, label, name, ...others }, ref) => (
+    <div ref={ref} {...others}>
+      <Link to={id} >
+        <Text size="xs">{label}</Text>
+        <Text size="xs" color="gray">
+          {name}
+        </Text>
+      </Link>
+    </div>
+  )
+);
+
+const mapStateToProps = (state) => ({
+  reportList: state.config.reportList,
+});
+
+export default connect(mapStateToProps)(Header);

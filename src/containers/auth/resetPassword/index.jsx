@@ -21,13 +21,14 @@ import {
 import { History } from '../../../helper/history';
 import ResetForm from './resetForm';
 import { Helmet } from 'react-helmet';
+import Cookies from 'js-cookie';
 
 class ResetPassword extends React.PureComponent {
   constructor() {
     super();
-    let storage = getLocalStorage('userToken');
+    let storage = Cookies.get('token');
     if (!storage) {
-      clearLocalStorage();
+      Cookies.remove('token',{path:'/'});
     } else {
       window.location.href = '/';
     }

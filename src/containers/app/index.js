@@ -1,5 +1,5 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { PublicLayout, AuthLayout } from '../../layout';
+import { PublicLayout, AuthLayout, PrivateLayout } from '../../layout';
 import Routes from '../../router';
 import { withRouter } from 'react-router';
 import NotFound from '../../components/notFound';
@@ -9,13 +9,13 @@ import { useDispatch } from 'react-redux';
 import { getConfig } from '../../apis/main/main';
 import { setConfig } from '../../redux/reducers/config';
 import BigLoading from '../../components/bigLoading';
-import { ActionIcon,Center,Text } from '@mantine/core';
-import {BsArrowClockwise} from 'react-icons/bs';
-import {getIndustry} from '../../apis/tables';
-import {setIndustries} from '../../redux/reducers/config';
+import { ActionIcon, Center, Text } from '@mantine/core';
+import { BsArrowClockwise } from 'react-icons/bs';
+import { getIndustry } from '../../apis/tables';
+import { setIndustries } from '../../redux/reducers/config';
 import ScrollToTop from './scrollToTop';
 
-const App =  () => {
+const App = () => {
   // dispatching states
   const dispatch = useDispatch();
   let [loading, setLoading] = useState(false);
@@ -55,6 +55,22 @@ const App =  () => {
             ))}
           />
         );
+      case 'private':
+        return (
+          <Route
+            key={key}
+            exact={true}
+            strict={true}
+            path={item.path}
+            render={withRouter((route) => (
+              <PrivateLayout
+                route={route}
+                Component={item.component}
+                options={item.options || {}}
+              />
+            ))}
+          />
+        );
       default:
         return (
           <Route
@@ -87,30 +103,29 @@ const App =  () => {
     mainConfig();
   }, []);
 
-	async function mainConfig(){
+  async function mainConfig() {
     setLoading(true);
     await getConfig('/home/data')
       .then((res) => {
         dispatch(setConfig(res.data));
         setLoading(false);
-      setError(false);
+        setError(false);
       })
       .catch((err) => {
         setError(true);
         setLoading(false);
       });
-    await getIndustry('/totalIndustriesGroupHisory')
-    .then(res => {
-      dispatch(setIndustries(res.data.data));
-      setLoading(false);
-      setError(false);
-    })
-    .catch(err => {
-      setError(true);
-      setLoading(false);
-    })
-    
-	}
+    // await getIndustry('/totalIndustriesGroupHisory')
+    //   .then((res) => {
+    //     dispatch(setIndustries(res.data.data));
+    //     setLoading(false);
+    //     setError(false);
+    //   })
+    //   .catch((err) => {
+    //     setError(true);
+    //     setLoading(false);
+    //   });
+  }
 
   return (
     <>
@@ -129,15 +144,20 @@ const App =  () => {
               <Text color="blue" size="md">
                 مشکلی پیش امده است ، مجدد امتحان کنید
               </Text>
-							<div className='mt-5'>
-								<ActionIcon size="lg" variant='filled' color="blue" onClick={()=>mainConfig()}>
-									<BsArrowClockwise />
-								</ActionIcon>
-							</div>
+              <div className="mt-5">
+                <ActionIcon
+                  size="lg"
+                  variant="filled"
+                  color="blue"
+                  onClick={() => mainConfig()}
+                >
+                  <BsArrowClockwise />
+                </ActionIcon>
+              </div>
             </Center>
           ) : (
             <BrowserRouter>
-            <ScrollToTop />
+              <ScrollToTop />
               <Switch>
                 {switchRoutes()}
                 <Route component={NotFound} />

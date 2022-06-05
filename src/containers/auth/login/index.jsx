@@ -21,18 +21,18 @@ import { History } from '../../../helper/history';
 import LoginForm from './loginForm';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router';
+import Cookies from 'js-cookie';
 
 class Login extends React.PureComponent {
   constructor(props) {
     super(props);
-    let storage = getLocalStorage('userToken');
+    let storage = Cookies.get('token');
     if (!storage) {
-      clearLocalStorage();
+      Cookies.remove('token',{path:'/'})
     } else {
       window.location.href = '/';
     }
-    console.log(props);
   }
 
   render() {

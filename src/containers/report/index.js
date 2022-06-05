@@ -16,6 +16,9 @@ import { BsArrowClockwise } from 'react-icons/bs';
 import { getEveryFeeder } from '../../apis/main/main';
 import { matchSorter } from 'match-sorter';
 import { Link } from 'react-router-dom';
+import lodash from 'lodash'
+import { connect } from 'react-redux';
+import {setReportList} from '../../redux/reducers/config'
 
 class Report extends Component {
   constructor(props) {
@@ -28,33 +31,45 @@ class Report extends Component {
       companies_show: [],
       showMore: null,
     };
-    this.companies = [
-      {
-        id: 'A01',
-        shortName: 'شرکت تولید کننده سیم',
-        realName: 'شرکت تولید کننده سیم کارت',
-        value: '2124.123B',
-      },
-    ];
   }
 
   searhCompany = (value) => {
+    this.setState({ error: false, connectionError: false });
     if (value.length === 0) return this.setState({ companies_show: [] });
-    if (value.length < 3) return;
-    this.setState({ loading: true, error: false, connectionError: false });
+    if(value.length > 2){
+      this.setState({ loading: true, error: false, connectionError: false });
+      // getEveryFeeder(`/totalStockSearch/${value}`)
+      // .then((res) => {
+      //   if(lodash.isEmpty(res.data.data)) return this.setState({loading: false, error: true, connectionError: false});
+      //   this.setState({ loading: false, companies: res.data.data });
+      //   if (res.data.data.length <= 15 && res.data.data.length > 0) {
+      //     this.setState({ companies_show: res.data.data });
+      //   } else {
+      //     this.setState({ companies_show: res.data.data.slice(0, 15) });
+      //   }
+      // })
+      // .catch((err) => {
+      //   this.setState({ loading: false, error: true, connectionError: true });
+      // });
+      let reportList = this.props.reportList;
+      let companies = matchSorter(reportList, value, { keys: ['label'] });
+      if(lodash.isEmpty(companies)) return this.setState({loading: false, error: true, connectionError: false});
+      this.setState({ loading: false, companies });
+      if (companies.length <= 15 && companies.length > 0) {
+        this.setState({ companies_show: companies });
+      } else {
+        this.setState({ companies_show: companies.slice(0, 15) });
+      }
+    }
+  };
 
-    getEveryFeeder(`/reports/${value}`)
-      .then((res) => {
-        this.setState({ loading: false, companies: res.data.data });
-        if (res.data.data.length <= 15 && res.data.data.length > 0) {
-          this.setState({ companies_show: res.data.data });
-        } else {
-          this.setState({ companies_show: res.data.data.slice(0, 15) });
-        }
-      })
-      .catch((err) => {
-        this.setState({ loading: false, error: true, connectionError: true });
-      });
+  async setStocks(){
+    if (this.props.reportList.length === 0) {
+      try {
+        let response = await getEveryFeeder('/totalStockSearch');
+        this.props.setReportList(response.data.data);
+      } catch (error) {}
+    }
   };
 
   showMore(){
@@ -66,6 +81,10 @@ class Report extends Component {
     else{
       this.setState({companies_show: this.state.companies});
     }
+  }
+
+  componentDidMount(){
+    this.setStocks();
   }
 
   render() {
@@ -112,17 +131,17 @@ class Report extends Component {
                     <Stack>
                       <div className='flex space-x-1'>
                         <Text size='sm' weight="bold">نماد : </Text>
-                        <Text size='sm'>{company.shortName}</Text>
+                        <Text size='sm'>{company.label}</Text>
                       </div>
                       <div className='flex space-x-1'>
                         <Text size='sm' weight="bold">نام واقعی : </Text>
-                        <Text size='sm'>{company.realName}</Text>
+                        <Text size='sm'>{company.name}</Text>
                       </div>
                       <div className='flex space-x-1'>
                         <Text size='sm' weight="bold">ارزش : </Text>
                         <Text size='sm' dir='ltr'>{company.value}</Text>
                       </div>
-                      <Link to={`/reports/chart/${id}`}>
+                      <Link to={`/reports/chart/${company.id}`}>
                         <Button fullWidth>مشاهده نمودار</Button>
                       </Link>
                     </Stack>
@@ -144,4 +163,12 @@ class Report extends Component {
   }
 }
 
-export default Report;
+const mapStateToProps = (state) => ({
+  reportList: state.config.reportList,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setReportList: (reportList) => dispatch(setReportList(reportList)),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Report);

@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { getTable } from '../../apis/tables';
 import _ from 'lodash';
 import NewsTable from './news';
-import {Text} from '@mantine/core'
+import { Text } from '@mantine/core';
 
 class Index extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class Index extends Component {
       table2: {},
       table3: {},
       table4: {},
-      charts: []
+      charts: [],
     };
   }
   setTable1() {
@@ -40,7 +40,9 @@ class Index extends Component {
   setTable2() {
     getTable('totalSummeryGroupState')
       .then((res) => {
-        let newData = Object.assign({}, totalSummeryGroupState, { data: res.data.data });
+        let newData = Object.assign({}, totalSummeryGroupState, {
+          data: res.data.data,
+        });
         this.setState((prev) => ({
           ...prev,
           table2: newData,
@@ -51,7 +53,9 @@ class Index extends Component {
   setTable3() {
     getTable('totalSummerStockLOrN')
       .then((res) => {
-        let newData = Object.assign({}, totalSummerStockLOrN, { data: res.data.data });
+        let newData = Object.assign({}, totalSummerStockLOrN, {
+          data: res.data.data,
+        });
         this.setState((prev) => ({
           ...prev,
           table3: newData,
@@ -62,7 +66,9 @@ class Index extends Component {
   setTable4() {
     getTable('totalSummeryIndustrials')
       .then((res) => {
-        let newData = Object.assign({}, totalSummeryIndustrials, { data: res.data.data });
+        let newData = Object.assign({}, totalSummeryIndustrials, {
+          data: res.data.data,
+        });
         this.setState((prev) => ({
           ...prev,
           table4: newData,
@@ -70,62 +76,61 @@ class Index extends Component {
       })
       .catch((err) => {});
   }
-  setCharts(){
+  setCharts() {
     let config = this.props.config.needs.chartAndtables;
-    let charts = config.filter(item => ! item.key.includes('tb') );
-    charts = charts.filter(item => ! item.key.includes('treemap') );
-    this.setState(prev => ({
+    let charts = config.filter((item) => !item.key.includes('tb'));
+    charts = charts.filter((item) => !item.key.includes('treemap'));
+    this.setState((prev) => ({
       ...prev,
-      charts
-    }))
+      charts,
+    }));
   }
   componentDidMount() {
     this.setCharts();
-    this.setTable1()
+    this.setTable1();
     let config = this.props.config.needs.chartAndtables;
     let table1 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
 
-    this.interval1= setInterval(()=>{
+    this.interval1 = setInterval(() => {
       this.setTable1();
-    },table1[0].refresh_time * 1000);
+    }, table1[0].refresh_time * 1000);
 
-    this.setTable2()
+    this.setTable2();
     let config2 = this.props.config.needs.chartAndtables;
     let table2 = config2.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    this.interval2 = setInterval(()=>{
+    this.interval2 = setInterval(() => {
       this.setTable2();
-    },table2[0].refresh_time * 1000);
+    }, table2[0].refresh_time * 1000);
 
-    this.setTable3()
+    this.setTable3();
     let config3 = this.props.config.needs.chartAndtables;
     let table3 = config3.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    this.interval3 = setInterval(()=>{
+    this.interval3 = setInterval(() => {
       this.setTable3();
-    },table3[0].refresh_time * 1000);
+    }, table3[0].refresh_time * 1000);
 
-    this.setTable4()
+    this.setTable4();
     let config4 = this.props.config.needs.chartAndtables;
     let table4 = config4.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
-    this.interval4 = setInterval(()=>{
+    this.interval4 = setInterval(() => {
       this.setTable4();
-    },table4[0].refresh_time * 1000);
+    }, table4[0].refresh_time * 1000);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.interval1);
     clearInterval(this.interval2);
     clearInterval(this.interval3);
     clearInterval(this.interval4);
   }
-
 
   // const modal = useSelector((state) => getModal(state));
   // const ModalContent = modal.content;
@@ -156,15 +161,19 @@ class Index extends Component {
           data={this.state.table2.data}
           title="آمار تفکیک شده معاملات خرد"
         />
-        <ITable column={this.state.table3.header}
-          data={this.state.table3.data} title="حقیقی حقوقی"
-        >
-        </ITable>
-          <NewsTable />
-          
+        <ITable
+          column={this.state.table3.header}
+          data={this.state.table3.data}
+          title="حقیقی حقوقی"
+        ></ITable>
+        <NewsTable />
+
         <LoopChart charts={this.state.charts} />
-        <ITable column={this.state.table4.header}
-          data={this.state.table4.data} title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)" />
+        <ITable
+          column={this.state.table4.header}
+          data={this.state.table4.data}
+          title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)"
+        />
       </>
     );
   }

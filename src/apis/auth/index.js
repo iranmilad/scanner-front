@@ -28,3 +28,12 @@ export const loginAPI = ({url,data})=>{
 export const rememberPasswordAPI = ({url,data})=>{
   return ApiCaller().post(url,data);
 }
+
+/**
+ * Auth User Api
+ * @param {object} data
+ * @param {string} url
+ */
+export const authUser = ({url,data})=>{
+  return ApiCaller().post(url,data);
+}

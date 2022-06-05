@@ -1,14 +1,36 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Header from './components/header';
 import Footer from './components/footer';
 import BigLoading from '../../components/bigLoading';
 import Sidebar from '../../layouts/sidebar'
 import { Container } from '@mantine/core';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export default ({ Component, route }) => {
   let [open,setopen] = useState(false);
   let closeMenu = () => setopen(false); 
   let openMenu = () => setopen(true);
+
+  let token = Cookies.get('token');
+  let [authed, setAuthed] = useState(false);
+  useEffect(async () => {
+    if(token){
+      try {
+        let res = await axios.get('https://user.tseshow.com/api/home/data', {
+          headers: { 
+            'Accept': 'application/json', 
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        if (res.data.profile === null) Cookies.remove('token',{path:'/'});
+          
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, []);
+
   return (
     <>
       <Header setOpen={openMenu} />
