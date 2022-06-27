@@ -173,6 +173,8 @@ class Index extends Component {
           column={this.state.table4.header}
           data={this.state.table4.data}
           title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)"
+          fixedHeader
+          fixedHeaderScrollHeight="70vh"
         />
       </>
     );

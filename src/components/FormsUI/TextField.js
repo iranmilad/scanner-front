@@ -20,7 +20,7 @@ const TextField = ({ name, type, ...otherProps }) => {
     color: 'blue',
     radius: 'md',
     size: 'md',
-    autoComplete: 'off'
+    autoComplete: 'off',
   };
 
   /**

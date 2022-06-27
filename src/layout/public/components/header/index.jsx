@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
-import { headers } from '../../../../helper/fakeData';
+import { headers } from '../../../../helper/navbar';
 import LogoWhite from '../../../../assets/images/logo-white.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';

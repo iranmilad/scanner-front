@@ -1,6 +1,5 @@
-import { Link } from 'react-router-dom';
-import { Text } from '@mantine/core';
-import colors from 'tailwindcss/colors';
+import {ColorizeTag,LinkTag} from './index'
+
 export const totalSummeryGroupState = {
   header: [
     {
@@ -767,19 +766,41 @@ export const orderWatch = {
   ]
 }
 
-/**
- * creates a link
- * @param {row} link data or specia key
- */
-function LinkTag({ link, text }) {
-  return (
-    <Link to={link}>
-      <Text size="sm" color="blue" sx={{ width: '150px' }}>
-        {text}
-      </Text>
-    </Link>
-  );
-}
+export const extraTops = [
+  {
+    name: 'ردیف',
+    selector: (row) => row.id,
+    omit: true,
+  },
+  {
+    name: 'نماد',
+    selector: (row) => row.n0,
+    sortable: true,
+  },
+  {
+    name: 'سقف قیمتی سهم',
+    selector: (row) => row.n1,
+    sortable: true,
+  },
+  {
+    name: "قیمت امروز",
+    selector: (row) => row.n2,
+    sortable: true,
+  },
+  {
+    name: "تاریخ رسیدن به قله",
+    selector: (row) => row.n3,
+    sortable: true,
+  },
+  {
+    name: 'درصد ریزش از سقف',
+    selector: (row) => row.n4,
+    cell: (row) => <ColorizeTag row={row.n4} />,
+    sortable: true,
+  }
+]
+
+
 
 function floorNumber(row) {
   if (row > 1000000000) {
@@ -791,30 +812,3 @@ function floorNumber(row) {
   }
 }
 
-/**
- * gets data and returns a tag with color
- * @param {string} row text or number for colorization
- * @returns
- */
-function ColorizeTag({ row }) {
-  // remove letters from row and convert to number
-  let regex = new RegExp(/[a-zA-Z]/, 'g');
-  let number = row;
-  regex.exec(row)
-    ? (number = row.replace(row.match(regex), ''))
-    : (number = row);
-  if (number === 0) {
-    return row;
-  } else if (number > 0) {
-    return (
-      <span className="bg-emerald-500 rounded-sm text-white px-1" dir="ltr">
-        {row}
-      </span>
-    );
-  }
-  return (
-    <span className="bg-red-500 rounded-sm text-white px-1" dir="ltr">
-      {row}
-    </span>
-  );
-}

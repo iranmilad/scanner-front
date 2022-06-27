@@ -21,6 +21,11 @@ class LoginForm extends React.PureComponent {
     time: false,
   };
 
+  convertSecondsToDay(seconds) {
+    var days = Math.floor(seconds / (3600 * 24));
+  }
+
+
   /**
    * Handle login request
    */
@@ -39,7 +44,7 @@ class LoginForm extends React.PureComponent {
         }));
         this.countDownTimer();
         // set local storage token
-        Cookies.set('token', res.data.data.access_token, { expires: 10,path: '/' ,secure: true});
+        Cookies.set('token', res.data.data.access_token, { expires: Math.floor(res.data.data.expires_in / (3600 * 24)),path: '/' ,secure: true});
 
         // redirect to home page
         setTimeout(() => {
@@ -107,6 +112,7 @@ class LoginForm extends React.PureComponent {
             <TextField
               label={<Text size="sm">شماره تلفن همراه</Text>}
               name="mobile"
+              inputMode="numeric"
             />
             <Space h="lg" />
             <TextField
@@ -114,10 +120,11 @@ class LoginForm extends React.PureComponent {
               type="password"
               dir="ltr"
               name="password"
+              inputMode="text"
             />
             <Space h="lg" />
             <Link to="/resetpassword">
-              <Anchor
+              <Text
                 className="inline-block"
                 size="sm"
                 color="blue"
@@ -125,7 +132,7 @@ class LoginForm extends React.PureComponent {
                 sx={{ cursor: 'pointer' }}
               >
                 فراموشی رمز عبور
-              </Anchor>
+              </Text>
             </Link>
             <Space h="lg" />
             <Button
@@ -138,7 +145,6 @@ class LoginForm extends React.PureComponent {
               ورود
             </Button>
             <Group position="center" className="flex items-end h-32">
-              <Text color={colors.slate[500]} size="sm">
                 نیاز به حساب کاربری دارید ؟{' '}
                 <Link to="/register">
                   <Text
@@ -150,7 +156,7 @@ class LoginForm extends React.PureComponent {
                     ثبت نام
                   </Text>
                 </Link>
-              </Text>
+
             </Group>
           </Form>
         </Formik>

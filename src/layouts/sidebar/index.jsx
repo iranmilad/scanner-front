@@ -1,7 +1,7 @@
 import Logo from '../../assets/images/logo.png';
 import {Disclosure,Transition} from '@headlessui/react'
 import { Link } from 'react-router-dom';
-import {headers } from '../../helper/fakeData';
+import {headers } from '../../helper/navbar';
 
 const recentSearch = [
   {

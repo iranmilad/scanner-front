@@ -1,20 +1,5 @@
 import { randomNumber } from '../helper';
 
-export const masterData = [
-  {
-    name: 'شاخص کل بورس',
-    value: '1,301,161.48',
-    change: '-72.87',
-    percent: '-0.01',
-  },
-  {
-    name: 'شاخص کل هم وزن',
-    value: '333,018.79',
-    change: '-261.63',
-    percent: '-0.08',
-  },
-];
-
 export const headers = [
   {
     name: 'خانه',
@@ -37,7 +22,7 @@ export const headers = [
       },
       {
         name: 'تکنیکال',
-        link: '#',
+        link: '/extra/technowatch',
       },
       {
         name: 'صنایع',
@@ -73,6 +58,10 @@ export const headers = [
         link: '#',
       },
       {
+        name: 'جریانات نقدینگی بازار',
+        link: '/market/chart/A00',
+      },
+      {
         name: 'جریانات نقدینگی روزانه بازار',
         link: '/chart/daily/A00',
       },
@@ -102,7 +91,7 @@ export const headers = [
       },
       {
         name: 'لیست شرکت ها بر اساس فاصله تا سقف قیمت',
-        link: '#',
+        link: '/tops',
       },
     ],
   },
@@ -110,11 +99,6 @@ export const headers = [
     name: 'نقشه بازار',
     link: '/treemap',
     icon: 'fa-solid fa-objects-column',
-  },
-  {
-    name: 'راهنمای سایت',
-    link: '#',
-    icon: 'fa-duotone fa-square-question',
   },
 ];
 

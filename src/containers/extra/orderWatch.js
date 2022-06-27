@@ -62,7 +62,7 @@ class OrderWatch extends Component {
     return (
       <>
         <Text size="sm">دیده بان سفارش ها</Text>
-        <Group position="apart">
+        <Group position="apart" mt="md">
           {this.state.orders.length > 0 && (
             <Input
               placeholder="جستجو در جدول"
