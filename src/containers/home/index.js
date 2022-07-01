@@ -14,6 +14,7 @@ import { getTable } from '../../apis/tables';
 import _ from 'lodash';
 import NewsTable from './news';
 import { Text } from '@mantine/core';
+import ls from 'localstorage-slim'
 
 class Index extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Index extends Component {
       table4: {},
       charts: [],
     };
+    this.config = ls.get('config');
   }
   setTable1() {
     getTable('summaryTrans')
@@ -77,7 +79,7 @@ class Index extends Component {
       .catch((err) => {});
   }
   setCharts() {
-    let config = this.props.config.needs.chartAndtables;
+    let config = this.config.chartAndtables;
     let charts = config.filter((item) => !item.key.includes('tb'));
     charts = charts.filter((item) => !item.key.includes('treemap'));
     this.setState((prev) => ({
@@ -88,7 +90,7 @@ class Index extends Component {
   componentDidMount() {
     this.setCharts();
     this.setTable1();
-    let config = this.props.config.needs.chartAndtables;
+    let config = this.config.chartAndtables;
     let table1 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
@@ -98,7 +100,7 @@ class Index extends Component {
     }, table1[0].refresh_time * 1000);
 
     this.setTable2();
-    let config2 = this.props.config.needs.chartAndtables;
+    let config2 = this.config.chartAndtables;
     let table2 = config2.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
@@ -107,7 +109,7 @@ class Index extends Component {
     }, table2[0].refresh_time * 1000);
 
     this.setTable3();
-    let config3 = this.props.config.needs.chartAndtables;
+    let config3 = this.config.chartAndtables;
     let table3 = config3.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
@@ -116,7 +118,7 @@ class Index extends Component {
     }, table3[0].refresh_time * 1000);
 
     this.setTable4();
-    let config4 = this.props.config.needs.chartAndtables;
+    let config4 = this.config.chartAndtables;
     let table4 = config4.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });

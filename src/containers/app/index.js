@@ -14,6 +14,7 @@ import { BsArrowClockwise } from 'react-icons/bs';
 import { getIndustry } from '../../apis/tables';
 import { setIndustries } from '../../redux/reducers/config';
 import ScrollToTop from './scrollToTop';
+import ls from 'localstorage-slim'
 
 const App = () => {
   // dispatching states
@@ -99,32 +100,34 @@ const App = () => {
    * get all configs for first time
    * set config to redux
    */
-  useEffect(() => {
-    mainConfig();
+  useEffect(async () => {
+    let mainConfigExist = ls.get('mainConfig');
+    if(mainConfigExist === null || mainConfigExist === undefined) {
+      setLoading(true);
+      try {
+        let response = await getConfig('/home/data');
+        dispatch(setConfig(response.data));
+        // expire config after 1 day
+        ls.set('config', response.data,{ttl: 60 * 60 * 24});
+        setLoading(false);
+        setError(false);
+      } catch (error) {
+        setError(true);
+        setLoading(false);
+      }
+    }
   }, []);
 
   async function mainConfig() {
     setLoading(true);
     await getConfig('/home/data')
       .then((res) => {
-        dispatch(setConfig(res.data));
-        setLoading(false);
-        setError(false);
+        
+        
       })
       .catch((err) => {
-        setError(true);
-        setLoading(false);
+        
       });
-    // await getIndustry('/totalIndustriesGroupHisory')
-    //   .then((res) => {
-    //     dispatch(setIndustries(res.data.data));
-    //     setLoading(false);
-    //     setError(false);
-    //   })
-    //   .catch((err) => {
-    //     setError(true);
-    //     setLoading(false);
-    //   });
   }
 
   return (
@@ -149,7 +152,7 @@ const App = () => {
                   size="lg"
                   variant="filled"
                   color="blue"
-                  onClick={() => mainConfig()}
+                  // onClick={() => mainConfig()}
                 >
                   <BsArrowClockwise />
                 </ActionIcon>

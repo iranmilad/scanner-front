@@ -14,6 +14,7 @@ class Tops extends Component {
   };
 
   filterData(value) {
+    if(value.length === 0) return this.setState({filterData: this.state.data});
     let filtered = matchSorter(this.state.data, value, {
       keys: lodash.map(new Array(6), (el, i) => `n${i}`),
     });
