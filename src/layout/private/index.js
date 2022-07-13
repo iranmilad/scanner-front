@@ -8,12 +8,15 @@ import Header from '../public/components/header';
 import Footer from '../public/components/footer';
 import Sidebar from '../../layouts/sidebar';
 import axios from 'axios';
+import {setConfig} from '../../redux/reducers/config';
+import { useDispatch } from 'react-redux';
 
 export default ({ Component, route }) => {
   let [open, setopen] = useState(false);
   let [loading, setLoading] = useState(true);
   let closeMenu = () => setopen(false);
   let openMenu = () => setopen(true);
+  const dispatch = useDispatch();
 
   let token = Cookies.get('token');
   let [authed, setAuthed] = React.useState(false);
@@ -26,9 +29,11 @@ export default ({ Component, route }) => {
         },
       });
       if (res.data.profile !== null) {
+        dispatch(setConfig(res.data));
         setAuthed(true);
         setLoading(false);
       } else {
+        Cookies.remove('token',{path:'/'});
         setAuthed(false);
         setLoading(false);
       }

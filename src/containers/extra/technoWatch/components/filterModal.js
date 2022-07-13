@@ -21,24 +21,8 @@ import { setTechnoWatchFilter } from '../../../../redux/reducers/extra/technowat
 class FilterModal extends Component {
   constructor(props) {
     super(props);
-
-    /**
-     * All of headers without any filter
-     * @type {Array}
-     */
-    let headers = this.props.headers;
-    headers = headers.filter((item, index) => index !== 0);
-
-    /**
-     * export all headers by their name
-     * @type {Array}
-     */
-    let headersByName = [];
-    headers.map((item, index) =>
-      headersByName.push({ value: `n${index + 1}`, label: item.name })
-    );
     this.state = {
-      headers: headersByName,
+      headers: this.props.headers,
       selectedHeaders: [],
       items: [],
       errors: [],

@@ -18,7 +18,7 @@ export const headers = [
     children: [
       {
         name: 'بازار',
-        link: '#',
+        link: '/extra/marketwatch',
       },
       {
         name: 'تکنیکال',
@@ -26,7 +26,7 @@ export const headers = [
       },
       {
         name: 'صنایع',
-        link: '#',
+        link: '/extra/industrialwatch',
       },
       {
         name: 'سفارشات',
@@ -34,12 +34,12 @@ export const headers = [
       },
       {
         name: 'حمایت ها و مقاومت ها',
-        link: '#',
+        link: '/extra/pivotwatch',
         account: true,
       },
       {
         name: 'جریانات نقدینگی بلندمدت',
-        link: '#',
+        link: '/extra/signalwatch',
         account: true,
       },
     ],
@@ -67,7 +67,7 @@ export const headers = [
       },
       {
         name: 'جریانات نقدینگی لحظه',
-        link: '#',
+        link: '/moneyflow',
         account: true,
       },
     ],
@@ -78,12 +78,8 @@ export const headers = [
     icon: 'fa-duotone fa-hand-holding-medical',
     children: [
       {
-        name: 'فیلترنویسی ساده',
-        link: '#',
-      },
-      {
         name: 'فیلترهای جریان نقدینگی بلندمدت',
-        link: '#',
+        link: '/extra/longmoneyflow',
       },
       {
         name: 'لیست شرکت ها بر اساس ارزش بازار',

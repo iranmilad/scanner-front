@@ -14,7 +14,7 @@ import { BsArrowClockwise } from 'react-icons/bs';
 import { getIndustry } from '../../apis/tables';
 import { setIndustries } from '../../redux/reducers/config';
 import ScrollToTop from './scrollToTop';
-import ls from 'localstorage-slim'
+import ls from 'localstorage-slim';
 
 const App = () => {
   // dispatching states
@@ -102,13 +102,13 @@ const App = () => {
    */
   useEffect(async () => {
     let mainConfigExist = ls.get('mainConfig');
-    if(mainConfigExist === null || mainConfigExist === undefined) {
+    if (mainConfigExist === null || mainConfigExist === undefined) {
       setLoading(true);
       try {
         let response = await getConfig('/home/data');
         dispatch(setConfig(response.data));
         // expire config after 1 day
-        ls.set('config', response.data,{ttl: 60 * 60 * 24});
+        ls.set('config', response.data, { ttl: 60 * 60 * 24 });
         setLoading(false);
         setError(false);
       } catch (error) {
@@ -121,13 +121,8 @@ const App = () => {
   async function mainConfig() {
     setLoading(true);
     await getConfig('/home/data')
-      .then((res) => {
-        
-        
-      })
-      .catch((err) => {
-        
-      });
+      .then((res) => {})
+      .catch((err) => {});
   }
 
   return (

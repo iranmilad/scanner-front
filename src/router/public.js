@@ -7,6 +7,7 @@ const Industry_History = React.lazy(()=> import("../containers/industries/histor
 const Daily_Chart = React.lazy(()=> import("../containers/chart/daily"));
 const Report = React.lazy(()=> import("../containers/report"));
 const Report_Chart = React.lazy(()=> import("../containers/report/chart"));
+const Subscription = React.lazy(()=> import("../containers/subscription"));
 
 export const publicRoute = [
   {
@@ -42,6 +43,11 @@ export const publicRoute = [
   {
     path: "/reports/chart/:id",
     component: Report_Chart,
+    layout: 'public'
+  },
+  {
+    path: "/subscription",
+    component: Subscription,
     layout: 'public'
   }
 ]

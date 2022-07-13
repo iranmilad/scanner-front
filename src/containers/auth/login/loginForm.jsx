@@ -113,6 +113,7 @@ class LoginForm extends React.PureComponent {
               label={<Text size="sm">شماره تلفن همراه</Text>}
               name="mobile"
               inputMode="numeric"
+              variant="filled"
             />
             <Space h="lg" />
             <TextField
@@ -121,6 +122,7 @@ class LoginForm extends React.PureComponent {
               dir="ltr"
               name="password"
               inputMode="text"
+              variant="filled"
             />
             <Space h="lg" />
             <Link to="/resetpassword">

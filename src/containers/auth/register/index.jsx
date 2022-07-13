@@ -12,7 +12,7 @@ import {
   SimpleGrid,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../../assets/images/logo.png';
+import Logo from '../../../assets/images/logo-white.png';
 import TextField from '../../../components/FormsUI/TextField';
 import CheckboxField from '../../../components/FormsUI/Checkbox';
 import { registerStepOne } from './schema';
@@ -135,11 +135,13 @@ class Register extends React.PureComponent {
                         <TextField
                           label={<Text size="sm">نام خانوادگی</Text>}
                           name="last_name"
+                          variant="filled"
                         />
                         <Space h="lg" />
                         <TextField
                           label={<Text size="sm">شماره تلفن همراه</Text>}
                           name="mobile"
+                          variant="filled"
                         />
 
                         <Space h="lg" />
@@ -148,6 +150,7 @@ class Register extends React.PureComponent {
                           dir="ltr"
                           label={<Text size="sm">رمز عبور</Text>}
                           name="password"
+                          variant="filled"
                         />
                         <Space h="lg" />
                         <CheckboxField

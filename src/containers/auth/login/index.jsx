@@ -9,7 +9,7 @@ import {
   SimpleGrid,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../../assets/images/logo.png';
+import Logo from '../../../assets/images/logo-white.png';
 import { TiChartLine } from 'react-icons/ti';
 import { ImArrowLeft2 } from 'react-icons/im';
 import loginImage from '../../../assets/images/login.jpg';

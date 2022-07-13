@@ -899,6 +899,38 @@ const ChartData = {
       }
     },
   },
+  FX1: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        fontFamily: 'Iran-sans',
+      },
+      xaxis: {
+        category: clockTime(),
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+      tooltip: {
+        y: {
+          formatter: (value) => {
+            return value;
+          },
+          labels: {
+            formatter: function (val, opt) {
+              let value = val;
+              if (val > 1000000000 || val < -1000000000) {
+                value = `${Math.floor(val / 1000000000)} B`;
+              }
+              return value;
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export default ChartData;

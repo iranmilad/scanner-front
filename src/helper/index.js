@@ -2,6 +2,8 @@ import colors from 'tailwindcss/colors';
 import ls from 'localstorage-slim';
 import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
+import {BsArrowUpShort,BsArrowDownShort} from 'react-icons/bs'
+
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -36,34 +38,35 @@ export const gridColumn = (tabIndex, setState) => {
  * @param {string} row text or number for colorization
  * @returns
  */
-export function ColorizeTag({ row }) {
-  // remove letters from row and convert to number
-  let regex = new RegExp(/[a-zA-Z]/, 'g');
-  let number = row;
-  regex.exec(row)
-    ? (number = row.replace(row.match(regex), ''))
-    : (number = row);
+export function ColorizeTag({ row ,style, ...other}) {
+
+  /**
+   * @type {string}
+   */
+  let number = typeof row === 'string' ? row : row.toString();
+
+  number = number.replace(/[% a-zA-Z]/g,'');
   if (number === 0) {
     return (
-      <span className="bg-slate-700 rounded-sm text-white px-1" dir="ltr">
+      <span className="bg-slate-700 rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
   } else if (number > 0) {
     return (
-      <span className="bg-emerald-500 rounded-sm text-white px-1" dir="ltr">
+      <span className="bg-emerald-500 rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
   } else if (number < 0) {
     return (
-      <span className="bg-red-500 rounded-sm text-white px-1" dir="ltr">
+      <span className="bg-red-500 rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
   }
   return (
-    <span className="bg-slate-700 rounded-sm text-white px-1" dir="ltr">
+    <span className="bg-slate-700 rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
       {row}
     </span>
   );
@@ -73,12 +76,54 @@ export function ColorizeTag({ row }) {
  * creates a link
  * @param {row} link data or specia key
  */
-export function LinkTag({ link, text }) {
+export function LinkTag({ link, text ,style}) {
   return (
     <Link to={link}>
-      <Text size="sm" color="blue" sx={{ width: '150px' }}>
+      <Text size="sm" color="blue" sx={{ width: '150px' }} style={style}>
         {text}
       </Text>
     </Link>
+  );
+}
+
+
+/**
+ * gets data and returns a tag with color and an arrow top or bottom
+ * @param {string} row text or number for colorization
+ * @returns
+ */
+ export function ColorizeTagArrow({ row ,style, ...other}) {
+
+  /**
+   * @type {string}
+   */
+  let number = typeof row === 'string' ? row : row.toString();
+
+  number = number.replace(/[% a-zA-Z]/g,'');
+  if (number === 0) {
+    return (
+      <span className="rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
+        {row}
+      </span>
+    );
+  } else if (number > 0) {
+    return (
+      <span className="rounded-sm text-emerald-500 px-1 inline-flex items-center text-sm" dir="ltr" style={style} {...other}>
+        <BsArrowUpShort size={15} />
+        {row}
+      </span>
+    );
+  } else if (number < 0) {
+    return (
+      <span className="rounded-sm text-red-500 px-1 inline-flex items-center text-sm" dir="ltr" style={style} {...other}>
+        <BsArrowDownShort size={15} />
+        {row}
+      </span>
+    );
+  }
+  return (
+    <span className="rounded-sm text-white px-1" dir="ltr" style={style} {...other}>
+      {row}
+    </span>
   );
 }

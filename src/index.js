@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import rtlPlugin from 'stylis-plugin-rtl';
 import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { theme } from './helper/theme';
 import App from './containers/app';
 import './assets/fonts/font.css';
@@ -16,8 +17,10 @@ ReactDOM.render(
   <Provider store={store}>
         <MantineProvider 
     theme={theme}
-    emotionOptions={{ key: 'mantine', stylisPlugins: [rtlPlugin] }}>
+    emotionOptions={{ key: 'rtl', stylisPlugins: [rtlPlugin] }}>
+      <NotificationsProvider dir='rtl'>
       <App />
+      </NotificationsProvider>
     </MantineProvider>
   </Provider>,
   document.getElementById('root')

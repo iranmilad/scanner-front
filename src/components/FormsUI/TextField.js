@@ -16,7 +16,6 @@ const TextField = ({ name, type, ...otherProps }) => {
   let configFields = {
     ...field,
     ...otherProps,
-    variant: 'filled',
     color: 'blue',
     radius: 'md',
     size: 'md',

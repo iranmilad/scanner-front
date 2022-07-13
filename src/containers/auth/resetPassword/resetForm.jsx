@@ -70,6 +70,7 @@ class ResetForm extends React.PureComponent {
               <TextField
                 label={<Text size="sm">شماره تلفن همراه</Text>}
                 name="mobile"
+                variant="filled"
               />
               <Space h="lg" />
               {this.state.getCode && (
@@ -78,6 +79,7 @@ class ResetForm extends React.PureComponent {
                   type="password"
                   dir="ltr"
                   name="password"
+                  variant="filled"
                 />
               )}
               <Space h="lg" />

@@ -19,6 +19,9 @@ class TechnoWatch extends Component {
       fullData: [],
       filteredData: [],
       openedModal: false,
+      header: header,
+      title: 'دیده بان تکنیکال',
+      requestURL: '/getTechnicalStocks',
     };
   }
 
@@ -38,38 +41,52 @@ class TechnoWatch extends Component {
    * @param {*} value
    */
   filterByAllHeaders = (value) => {
+    /**
+     * @type {Array}
+     */
     let headers = value;
     if (lodash.isEmpty(headers))
       return this.setState({ filteredData: this.state.fullData });
 
+    /**
+     * @type {array}
+     */
     let newData = this.state.fullData;
-    // find min values and it is sorted
     for (let i = 0; i < headers.length; i++) {
       let thisHeader = headers[i];
-      if (newData.length > 0) {
-        if (+thisHeader.min !== 0) {
-          let filterData = matchSorter(newData, thisHeader.min, {
-            keys: [thisHeader.name],
-          });
-          newData = filterData;
-        }
+      // check it has min option
+      if (thisHeader.min !== '' && thisHeader.max !== '') {
+        let minNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
+        let maxNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
+        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
+          return number >= minNumber && number <= maxNumber;
+        }));
+        newData = itemFinded;
+      } else if (thisHeader.min !== '' && thisHeader.max === '') {
+        let pureNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
+        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
+          return number >= pureNumber
+        }));
+        newData = itemFinded;
+      } else if (thisHeader.min === '' && thisHeader.max !== '') {
+        let pureNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
+        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
+          return number <= pureNumber
+      }));
+        newData = itemFinded;
       }
     }
-
-    // find max values and it is sorted
-    for (let i = 0; i < headers.length; i++) {
-      let thisHeader = headers[i];
-      if (newData.length > 0) {
-        if (+thisHeader.max !== 0) {
-          let filterData = matchSorter(newData, thisHeader.max, {
-            keys: [thisHeader.name],
-          });
-          newData = filterData;
-        }
-      }
+    /**
+     * @callback
+     */
+    function convertNumber(number,callBack){
+      let convertedNumber = number;
+      if((/M/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
+      else if((/B/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
+      else if((/K/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
+      return callBack(+convertedNumber);
     }
-
-    this.setState({ filteredData: newData });
+    this.setState({ filteredData: lodash.uniq(newData) });
   };
 
   /**
@@ -79,13 +96,43 @@ class TechnoWatch extends Component {
     this.setState({ openedModal: !this.state.openedModal });
   };
 
+    /**
+   * Get all industries from server
+   */
   async getFeedData() {
     try {
-      let response = await getEveryFeeder('/getTechnicalStocks');
-      this.setState({ fullData: response.data.data, filteredData: response.data.data });
+      let response = await getEveryFeeder(this.state.requestURL);
+      this.setState({
+        fullData: response.data.data,
+        filteredData: response.data.data,
+      });
     } catch (error) {
       console.log(error);
     }
+  }
+
+  /**
+   * remove first index of array
+   * export array to a select type of data
+   * @returns {Array}
+   */
+  HeadersByName() {
+    /**
+     * All of headers without any filter
+     * @type {Array}
+     */
+    let headers = this.state.header;
+    headers = headers.filter((item, index) => index !== 0);
+
+    /**
+     * export all headers by their name
+     * @type {Array}
+     */
+    let headersByName = [];
+    headers.map((item, index) =>
+      headersByName.push({ value: `n${index + 1}`, label: item.name })
+    );
+    return headersByName;
   }
 
   componentDidMount() {
@@ -96,9 +143,9 @@ class TechnoWatch extends Component {
     return (
       <>
         <Helmet>
-          <title>دیده بان تکنیکال</title>
+          <title>{this.state.title}</title>
         </Helmet>
-        <Text size="sm">دیده بان تکنیکال</Text>
+        <Text size="sm">{this.state.title}</Text>
         <Group position="apart" mt="lg">
           {this.state.fullData.length > 0 && (
             <>
@@ -118,10 +165,10 @@ class TechnoWatch extends Component {
           fixedHeader
           fixedHeaderScrollHeight="70vh"
           data={this.state.filteredData}
-          column={header}
+          column={this.state.header}
         />
         <FilterModal
-          headers={header}
+          headers={this.HeadersByName()}
           filter={this.filterByAllHeaders}
           opened={this.state.openedModal}
           ModalAction={this.ModalAction}
