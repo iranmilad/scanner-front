@@ -15,7 +15,7 @@ class PrivateSection extends React.PureComponent {
     window.location.href = "/";
   };
   render() {
-    if (Cookies.get('token')) {
+    if (localStorage.getItem('token')) {
       return (
         <div className="flex flex-row ">
           <Menu

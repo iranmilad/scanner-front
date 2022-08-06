@@ -1,4 +1,5 @@
 import { randomNumber } from '../helper';
+import TreemapIcon from "../assets/images/treemap-chart.png"
 
 export const headers = [
   {
@@ -94,9 +95,48 @@ export const headers = [
   {
     name: 'نقشه بازار',
     link: '/treemap',
-    icon: 'fa-solid fa-objects-column',
+    icon: TreemapIcon,
   },
 ];
+
+export const marketHeader =[
+  {
+    name: 'خانه',
+    link: '/',
+    icon: 'fa-duotone fa-house-chimney',
+    replace:false,
+  },
+  {
+    name: 'سوابق',
+    link: '/shistory',
+    replace:true,
+  },
+  {
+    name: 'نمودار های جریانات نقدینگی',
+    link: '/market/chart',
+    replace:true,
+  },
+  {
+    name: 'نمودار های عملکرد ماهیانه',
+    link: '/monthly-chart',
+    replace:true,
+  },
+  {
+    name: 'تحلیلگر جریانات نقدینگی',
+    link: '/market/moneyflowanalyser',
+    replace:true,
+  },
+  {
+    name: 'چارت',
+    link: '/market/real/chartx',
+    replace:true,
+  },
+  {
+    name: "جریان نقدی سهم",
+    link: "/market/real/sixChart",
+    replace:true,
+  }
+]
 
 export const header2 = [
   {

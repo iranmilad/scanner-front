@@ -25,20 +25,17 @@ function NewsTable() {
       });
   }, []);
 
-  function createMarkup({text}){
-    return {__html: text}
-  }
 
   return (
     <Paper p="xl" radius="md" shadow="xs" mt="xl">
       <Group position="apart">
         <Text mb={'lg'}>خبرنامه</Text>
       </Group>
-      <Grid align="stretch">
+      <Grid align="stretch" >
         {news.map((item, index) => {
           return (
             <Grid.Col sx={{height:"auto"}} key={index} sm={12} md={6}>
-              <Card radius="lg" sx={{display:"flex",flexDirection:"column",justifyContent:"space-between", background: colors.slate[50] }}>
+              <Card radius="lg" sx={{height:"100%",display:"flex",flexDirection:"column",justifyContent:"space-between", background: colors.slate[50] }}>
                 <Group position="apart" my="md">
                   <Text weight={500}><div dangerouslySetInnerHTML={{__html:item.title}} /></Text>
                 </Group>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import {ColorizeTag,LinkTag} from './index'
 
 export const totalSummeryGroupState = {
@@ -259,7 +260,7 @@ export const industries_table3_type1 = {
       name: 'نماد',
       selector: (row) => row.n0,
       sortable: true,
-      cell: (row) => <LinkTag link="#" text={row.n0} />,
+      cell: (row) => <LinkTag link={`/market/real/${row.id}`} text={row.n0} />,
     },
     {
       name: 'حجم معاملات',
@@ -363,7 +364,7 @@ export const industries_table3_type2 = {
       name: 'نماد',
       selector: (row) => row.n0,
       sortable: true,
-      cell: (row) => <LinkTag link="#" text={row.n0} />,
+      cell: (row) => <LinkTag link={`/market/real/${row.id}`} text={row.n0} />,
     },
     {
       name: 'حجم معاملات',
@@ -475,7 +476,7 @@ export const industries_history_type_1 = {
     {
       name: 'تاریخ',
       selector: (row) => row.n1,
-      cell: (row) => <span style={{ width: '200px' }}>{row.n1}</span>,
+      cell: (row) => <Link to={`/extra/marketwatch/${row.n1.replaceAll("/","")}`}><span className='text-blue-500' style={{ width: '200px' }}>{row.n1}</span></Link>,
     },
     {
       name: 'ارزش معاملات',
@@ -568,7 +569,7 @@ export const industries_history_type_2 = {
     {
       name: 'تاریخ',
       selector: (row) => row.n1,
-      cell: (row) => <span style={{ width: '220px' }}>{row.n1}</span>,
+      cell: (row) => <Link to={`/extra/marketwatch/${row.n1.replaceAll("/","")}`}><span className='text-blue-500' style={{ width: '200px' }}>{row.n1}</span></Link>,
     },
     {
       name: 'ارزش معاملات',

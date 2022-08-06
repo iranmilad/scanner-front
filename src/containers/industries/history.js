@@ -8,8 +8,11 @@ import {
 } from '../../helper/statics';
 import { getTable } from '../../apis/tables';
 import { connect } from 'react-redux';
-import lodash from 'lodash'
+import lodash from 'lodash';
 import { getChart } from '../../apis/charts';
+import { Paper } from '@mantine/core';
+import { Center } from '@mantine/core';
+import { Loader } from '@mantine/core';
 
 class History extends React.Component {
   constructor(props) {
@@ -19,6 +22,7 @@ class History extends React.Component {
       type: null,
       data: [],
       industryLists: [],
+      loading: false,
     };
     /**
      * @type {String}
@@ -30,12 +34,12 @@ class History extends React.Component {
     this.industries_lists = props.industry;
   }
 
-  getIndustryList(){
-    if(lodash.isEmpty(this.state.industryLists)){
-      getChart('/totalIndustriesGroupHisory')
-      .then((res) => {
-        this.setState({ industryLists: res.data.data });
-      })
+  getIndustryList() {
+    if (lodash.isEmpty(this.state.industryLists)) {
+      this.setState({ loading: true });
+      getChart('/totalIndustriesGroupHisory').then((res) => {
+        this.setState({ industryLists: res.data.data, loading: false });
+      });
     }
   }
 
@@ -44,11 +48,13 @@ class History extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({loading:true})
     getTable(`/totalMarketHistory/${this.id}`).then((res) => {
       this.setState({
         title: res.data.title,
         data: res.data.data,
         type: res.data.type,
+        loading: false
       });
     });
   }
@@ -69,15 +75,25 @@ class History extends React.Component {
           />
         </Group>
         {this.state.type !== null ? (
-          <ITable
-            title=""
-            data={this.state.data}
-            column={
-              this.state.type == 1
-                ? industries_history_type_1.header
-                : industries_history_type_2.header
-            }
-          />
+          <>
+            {this.state.loading ? (
+              <Paper p="xl" radius="md" shadow="xs" mt="xl">
+                <Center>
+                  <Loader variant="dots" />
+                </Center>
+              </Paper>
+            ) : (
+              <ITable
+                title=""
+                data={this.state.data}
+                column={
+                  this.state.type == 1
+                    ? industries_history_type_1.header
+                    : industries_history_type_2.header
+                }
+              />
+            )}
+          </>
         ) : null}
       </>
     );

@@ -44,6 +44,7 @@ class LoginForm extends React.PureComponent {
         }));
         this.countDownTimer();
         // set local storage token
+        localStorage.setItem('token', res.data.data.access_token);
         Cookies.set('token', res.data.data.access_token, { expires: Math.floor(res.data.data.expires_in / (3600 * 24)),path: '/' ,secure: true});
 
         // redirect to home page

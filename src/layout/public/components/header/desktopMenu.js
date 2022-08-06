@@ -1,9 +1,14 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import chartLogo from '../../../../assets/images/treemap-chart.png';
 import { Link } from 'react-router-dom';
 
-const DesktopMenu = ({ data }) => {
+const DesktopMenu = ({ data,props,marketid }) => {
+  function isValidImageData(string) {
+    const pattern = /data/g;
+    return pattern.test(string);
+  }
+
   return (
     <>
       {data.map((item, id) => (
@@ -50,12 +55,16 @@ const DesktopMenu = ({ data }) => {
               </Transition>
             </Menu>
           ) : (
-            <Link to={item.link}>
+            <Link to={`${item.link}/${item.replace ? marketid : ''}`}>
               <button className="py-2 px-3 text-slate-600 hover:text-blue-500 text-sm flex items-center">
-                {id === 5 ? (
-                  <img src={chartLogo} className="w-4 ml-2" />
-                ) : (
-                  <i className={`${item.icon} ml-3`}></i>
+                {'icon' in item && (
+                  <>
+                    {isValidImageData(item.icon) ? (
+                      <img src={item.icon} className="w-4 ml-2" />
+                    ) : (
+                      <i className={`${item.icon} ml-3`}></i>
+                    )}
+                  </>
                 )}
                 <span>{item.name}</span>
               </button>

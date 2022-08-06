@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
-import { headers } from '../../../../helper/navbar';
+import { headers, marketHeader } from '../../../../helper/navbar';
 import LogoWhite from '../../../../assets/images/logo-white.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
@@ -10,8 +10,9 @@ import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setReportList } from '../../../../redux/reducers/config';
 import { matchSorter } from 'match-sorter';
+import { withRouter } from 'react-router-dom';
 
-const Header = (props) => {
+const Header = withRouter((props) => {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const [search, setSearch] = useState([]);
@@ -36,7 +37,6 @@ const Header = (props) => {
     }
   };
 
-  
   const setStocks = async () => {
     if (props.reportList.length === 0) {
       try {
@@ -48,8 +48,8 @@ const Header = (props) => {
 
   useEffect(() => {
     setStocks();
-  },[])
-  
+  }, []);
+
   return (
     <div className=" bg-gray-100">
       <div
@@ -59,10 +59,10 @@ const Header = (props) => {
         <div className="container flex flex-row justify-between items-center space-x-2">
           <div className="block lg:hidden">
             <ActionIcon
-            size="lg"
-            mr="7px"
-            variant='filled'
-            color="blue"
+              size="lg"
+              mr="7px"
+              variant="filled"
+              color="blue"
               onClick={() => props.setOpen()}
             >
               <i className="fa-solid fa-bars text-lg"></i>
@@ -80,6 +80,7 @@ const Header = (props) => {
               placeholder="جستجوی نماد / شرکت"
               value={searchValue}
               onChange={searchSymbol}
+              onItemSubmit={(item) => props.history.push(`/market/real/${item.id}`)}
               itemComponent={AutoCompleteItem}
               rightSection={
                 <ActionIcon variant="transparent">
@@ -87,9 +88,7 @@ const Header = (props) => {
                 </ActionIcon>
               }
               filter={(value, item) =>
-                item.label
-                  .toLowerCase()
-                  .includes(value.toLowerCase().trim())
+                item.label.toLowerCase().includes(value.toLowerCase().trim())
               }
               data={search}
               sx={(theme) => ({
@@ -115,28 +114,30 @@ const Header = (props) => {
         style={{ zIndex: 999999 }}
       >
         <div className="container flex justify-between items-center flex-row bg-white ">
-          <DesktopMenu data={headers} />
+          {props.marketHeader === 0 && <DesktopMenu data={headers} />}
+          {props.marketHeader === 1 && (
+            <DesktopMenu data={marketHeader} marketid={props.marketId} />
+          )}
         </div>
       </div>
     </div>
   );
-};
-
+});
 const AutoCompleteItem = React.forwardRef(
-  ({id, label, name, ...others }, ref) => (
-    <div ref={ref} {...others}>
-      <Link to={id} >
-        <Text size="xs">{label}</Text>
-        <Text size="xs" color="gray">
-          {name}
-        </Text>
-      </Link>
+  ({ id, label, name, ...others }, ref) => (
+    <div ref={ref} {...others} onClick={() => console.log('hello')}>
+      <Text size="xs">{label}</Text>
+      <Text size="xs" color="gray">
+        {name}
+      </Text>
     </div>
   )
 );
 
 const mapStateToProps = (state) => ({
   reportList: state.config.reportList,
+  marketHeader: state.main.mainHeaders,
+  marketId: state.main.marketId,
 });
 
 export default connect(mapStateToProps)(Header);

@@ -18,7 +18,7 @@ export default ({ Component, route }) => {
   let openMenu = () => setopen(true);
   const dispatch = useDispatch();
 
-  let token = Cookies.get('token');
+  let token = localStorage.getItem('token');
   let [authed, setAuthed] = React.useState(false);
   useEffect(async () => {
     try {
@@ -33,7 +33,7 @@ export default ({ Component, route }) => {
         setAuthed(true);
         setLoading(false);
       } else {
-        Cookies.remove('token',{path:'/'});
+        localStorage.removeItem('token');
         setAuthed(false);
         setLoading(false);
       }

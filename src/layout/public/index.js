@@ -12,7 +12,7 @@ export default ({ Component, route }) => {
   let closeMenu = () => setopen(false); 
   let openMenu = () => setopen(true);
 
-  let token = Cookies.get('token');
+  let token = localStorage.getItem('token');
   let [authed, setAuthed] = useState(false);
   useEffect(async () => {
     if(token){
@@ -23,7 +23,7 @@ export default ({ Component, route }) => {
             'Authorization': `Bearer ${token}`
           }
         })
-        if (res.data.profile === null) Cookies.remove('token',{path:'/'});
+        if (res.data.profile === null) localStorage.removeItem('token');
           
       } catch (e) {
         console.log(e);

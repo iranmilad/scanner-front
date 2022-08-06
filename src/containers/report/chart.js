@@ -11,16 +11,17 @@ class ReportChart extends Component {
     title2: '',
     data: [],
     data2: [],
+    id: this.props.route.match.params.id
   };
 
   getChart1() {
-    getEveryFeeder(`/perfomance/A00`).then((res) => {
+    getEveryFeeder(`/perfomance/${this.state.id}`).then((res) => {
       ChartData.dailyChart1.options.labels = res.data.data.date;
       this.setState({ title1: res.data.title, data: res.data.data.series });
     });
   }
   getChart2() {
-    getEveryFeeder(`/sellPerfomance/A00`).then((res) => {
+    getEveryFeeder(`/sellPerfomance/${this.state.id}`).then((res) => {
       ChartData.dailyChart1.options.labels = res.data.data.date;
       this.setState({ title2: res.data.title, data2: res.data.data.series });
     });

@@ -16,14 +16,14 @@ import {
   LoadingOverlay,
 } from '@mantine/core';
 import { Helmet } from 'react-helmet';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../../apis/main/main';
 import { createChart, PriceScaleMode, CrosshairMode } from 'lightweight-charts';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import TextField from '../../../components/FormsUI/TextField';
+import TextField from '../../../../components/FormsUI/TextField';
 import { connect } from 'react-redux';
-import { getMarket, setMarket } from '../../../redux/reducers/market';
+import { getMarket, setMarket } from '../../../../redux/reducers/market';
 import lodash from 'lodash';
 import colors from 'tailwindcss/colors';
 
@@ -31,7 +31,7 @@ class Market extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "بازار",
+      title: "",
       industrieLists: [],
       shorttermData: null,
       midtermData: null,
@@ -435,6 +435,11 @@ class Market extends Component {
   }
 
   componentDidMount() {
+    let thatChart = this.props.chartAndtables;
+    thatChart = thatChart.find(item => item.key === "symbolInfo");
+    getEveryFeeder(`${thatChart.feeder_url}/${this.state.pageID}`).then(res => {
+      this.setState({title: res.data.data.name})
+    });
     this.getGroupLists();
     // CREATE CHART
     this.chart = createChart(this.chartRef.current, {
@@ -473,26 +478,6 @@ class Market extends Component {
     this.midmovingtermWorker();
     this.longmovingtermWorker();
 
-    /**
-     * change candle stick data
-     */
-    this.history.listen((location) => {
-      let { pathname } = location;
-      let id = pathname.split('/')[3];
-      this.setState({ pageID: id });
-      this.CandlestickInitialize(id);
-      // this.VolumeStudyWorker(id);
-      if (!this.state.chipsValue.includes('0')) {
-        this.getNormalAverages(id);
-        this.getMovingAverages(id);
-        this.shortTermChartWorker();
-        this.midTermChartWorker();
-        this.longTermChartWorker();
-        this.shortmovingtermWorker();
-        this.midmovingtermWorker();
-        this.longmovingtermWorker();
-      }
-    });
   }
   render() {
     return (
@@ -502,11 +487,6 @@ class Market extends Component {
         </Helmet>
         <Group position="apart">
           <Text>{this.state.title}</Text>
-          <Select
-            onChange={(e) => this.changeGroup(e)}
-            placeholder="انتخاب کنید"
-            data={this.state.industrieLists}
-          />
         </Group>
         <Paper p="lg" shadow="xs" radius="md" mt="lg">
           <Chips
@@ -688,6 +668,7 @@ const FormSchema = Yup.object().shape({
  */
 const mapStateToProps = (state) => ({
   marketData: state.market,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
 /**

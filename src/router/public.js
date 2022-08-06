@@ -8,6 +8,9 @@ const Daily_Chart = React.lazy(()=> import("../containers/chart/daily"));
 const Report = React.lazy(()=> import("../containers/report"));
 const Report_Chart = React.lazy(()=> import("../containers/report/chart"));
 const Subscription = React.lazy(()=> import("../containers/subscription"));
+const RealMarket = React.lazy(()=> import("../containers/market/real"));
+const SHistory = React.lazy(()=> import("../containers/market/sHistory"));
+const MoneyFlowAnalyser = React.lazy(()=> import("../containers/market/moneyflowAnalyser"));
 
 export const publicRoute = [
   {
@@ -49,5 +52,20 @@ export const publicRoute = [
     path: "/subscription",
     component: Subscription,
     layout: 'public'
+  },
+  {
+    path: "/market/real/:id",
+    component: RealMarket,
+    layout: 'public'
+  },
+  {
+    path: "/shistory/:id",
+    component: SHistory,
+    layout: 'public'
+  },
+  {
+    path: "/market/moneyflowanalyser/:id",
+    component: MoneyFlowAnalyser,
+    layout: "public"
   }
 ]

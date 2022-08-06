@@ -30,6 +30,7 @@ class MarketWatch extends TechnoWatch {
       watchGroupSelected: 'M00',
       watchFilterSelected: 0,
       loading: false,
+      id: this.props.route.match.params.id
     };
   }
 
@@ -46,7 +47,7 @@ class MarketWatch extends TechnoWatch {
     });
     try {
       let response = await getEveryFeeder(
-        `${this.state.requestURL}/${watchGroup}/${watchFilter}`
+        `${this.state.requestURL}/${watchGroup}/${watchFilter}${this.state.id ? `/${this.state.id}` : ''}`
       );
       this.setState({
         fullData: response.data.data,
