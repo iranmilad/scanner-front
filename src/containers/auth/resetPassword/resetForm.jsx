@@ -17,13 +17,11 @@ class ResetForm extends React.PureComponent {
     loading: false,
     sucess: false,
     mobile: null,
+    error: false,
   };
 
   handleNewPassword(values) {
-    this.setState((state) => ({
-      ...state,
-      loading: true,
-    }));
+    this.setState({ loading: true });
     rememberPasswordAPI({ url: '/auth/resend-password', data: values })
       .then((result) => {
         this.setState({
@@ -39,6 +37,7 @@ class ResetForm extends React.PureComponent {
         this.setState({
           loading: false,
           success: false,
+          error: true,
           mobile: values.mobile,
         });
       });
@@ -61,54 +60,64 @@ class ResetForm extends React.PureComponent {
             <Space h="lg" />
           </>
         ) : (
-          <Formik
-            initialValues={INITIAL_FORM_STATE}
-            validationSchema={verifyMobileShema}
-            onSubmit={(values) => this.handleNewPassword(values)}
-          >
-            <Form className="w-[80%] sm:w-[50%] lg:w-[55%] mt-7">
-              <TextField
-                label={<Text size="sm">شماره تلفن همراه</Text>}
-                name="mobile"
-                variant="filled"
-              />
-              <Space h="lg" />
-              {this.state.getCode && (
+          <>
+            {this.state.error && (
+              <>
+                <Space h="lg" />
+                <Alert title="مشکلی پیش آمده است" color="red">
+                  لطفا مجددا تلاش کنید
+                </Alert>
+              </>
+            )}
+            <Formik
+              initialValues={INITIAL_FORM_STATE}
+              validationSchema={verifyMobileShema}
+              onSubmit={(values) => this.handleNewPassword(values)}
+            >
+              <Form className="w-[80%] sm:w-[50%] lg:w-[55%] mt-7">
                 <TextField
-                  label={<Text size="sm">رمز عبور</Text>}
-                  type="password"
-                  dir="ltr"
-                  name="password"
+                  label={<Text size="sm">شماره تلفن همراه</Text>}
+                  name="mobile"
                   variant="filled"
                 />
-              )}
-              <Space h="lg" />
-              <Button
-                fullWidth
-                radius="md"
-                color="blue"
-                type="submit"
-                loading={this.state.loading}
-              >
-                ارسال
-              </Button>
-              <Group position="center" className="flex items-end h-32">
-                <Text color={colors.slate[500]} size="sm">
-                  رمز عبور خود را تغییر داده اید ؟{' '}
-                  <Link to="/login">
-                    <Text
-                      className="inline-block mr-3"
-                      color="blue"
-                      weight="bold"
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      ورود
-                    </Text>
-                  </Link>
-                </Text>
-              </Group>
-            </Form>
-          </Formik>
+                <Space h="lg" />
+                {this.state.getCode && (
+                  <TextField
+                    label={<Text size="sm">رمز عبور</Text>}
+                    type="password"
+                    dir="ltr"
+                    name="password"
+                    variant="filled"
+                  />
+                )}
+                <Space h="lg" />
+                <Button
+                  fullWidth
+                  radius="md"
+                  color="blue"
+                  type="submit"
+                  loading={this.state.loading}
+                >
+                  ارسال
+                </Button>
+                <Group position="center" className="flex items-end h-32">
+                  <Text color={colors.slate[500]} size="sm">
+                    رمز عبور خود را تغییر داده اید ؟{' '}
+                    <Link to="/login">
+                      <Text
+                        className="inline-block mr-3"
+                        color="blue"
+                        weight="bold"
+                        sx={{ cursor: 'pointer' }}
+                      >
+                        ورود
+                      </Text>
+                    </Link>
+                  </Text>
+                </Group>
+              </Form>
+            </Formik>
+          </>
         )}
       </>
     );

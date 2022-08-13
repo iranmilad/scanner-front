@@ -15,6 +15,7 @@ const MoneyFlow = React.lazy(()=> import("../containers/moneyFlow"));
 const StockMarket_Chart = React.lazy(()=> import("../containers/market/real/chart"));
 const MarketChartX = React.lazy(()=> import("../containers/market/real/chartx"));
 const MarketSixChart = React.lazy(()=> import("../containers/market/real/sixChart"));
+const MonthlyPerfomance = React.lazy(()=> import("../containers/market/real/monthlyPerfomance"));
 
 
 export const privateRoute = [
@@ -91,6 +92,11 @@ export const privateRoute = [
   {
     path: "/market/real/sixChart/:id",
     component: MarketSixChart,
+    layout: "private"
+  },
+  {
+    path: "/monthly-chart/:id",
+    component: MonthlyPerfomance,
     layout: "private"
   }
 

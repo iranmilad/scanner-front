@@ -10,6 +10,7 @@ class VerifyForm extends React.PureComponent {
   state = {
     loading: false,
     success: false,
+    error: false,
     // timer for count down
     userData: this.props.userData,
     successCode: false,
@@ -28,7 +29,7 @@ class VerifyForm extends React.PureComponent {
         .then((res) => {
           this.setState({
             loading: false,
-            success: 'success',
+            success: true,
           });
           setTimeout(() => {
             History.push('/login');
@@ -37,7 +38,7 @@ class VerifyForm extends React.PureComponent {
         .catch((err) => {
           this.setState((prev) => ({
             ...prev,
-            success: 'faild',
+            error: true,
             loading: false,
           }));
         });
@@ -47,14 +48,14 @@ class VerifyForm extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      successCode: this.props.verify.code
-    }))
+      successCode: this.props.verify.code,
+    }));
     this.countDownTimer();
   }
 
-  countDownTimer(){
+  countDownTimer() {
     let timer = setInterval(() => {
       this.setState((state) => ({
         ...state,
@@ -67,15 +68,15 @@ class VerifyForm extends React.PureComponent {
   }
 
   sendAgainCode() {
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      successCode:false
-    }))
+      successCode: false,
+    }));
     registerAPI({ url: '/user/register', data: this.props.userData })
       .then((result) => {
         this.setState((prev) => ({
           ...prev,
-          successCode:result.data.data.code,
+          successCode: result.data.data.code,
           time: 60,
         }));
         this.countDownTimer();
@@ -83,7 +84,7 @@ class VerifyForm extends React.PureComponent {
       .catch((error) => {
         this.setState((state) => ({
           ...state,
-          success: 'faild',
+          error: true,
         }));
       });
   }
@@ -97,18 +98,16 @@ class VerifyForm extends React.PureComponent {
       <>
         {this.state.success ? (
           <>
-            {this.state.success === 'success' ? (
-              <>
-                <Space h="lg" />
-                <Alert title="ثبت نام با موفقیت انجام شد" color="blue">
-                  <Group position="apart">
-                    <Text size="sm">
-                      به طور خودکار به صفحه ورود هدایت میشود
-                    </Text>
-                  </Group>
-                </Alert>
-              </>
-            ) : (
+            <Space h="lg" />
+            <Alert title="ثبت نام با موفقیت انجام شد" color="blue">
+              <Group position="apart">
+                <Text size="sm">به طور خودکار به صفحه ورود هدایت میشود</Text>
+              </Group>
+            </Alert>
+          </>
+        ) : (
+          <>
+            {this.state.error && (
               <>
                 <Space h="lg" />
                 <Alert title="مشکلی پیش آمده است" color="red">
@@ -116,53 +115,60 @@ class VerifyForm extends React.PureComponent {
                 </Alert>
               </>
             )}
-          </>
-        ) : (
-          <Formik
-            initialValues={INITIAL_VALUES}
-            validationSchema={verirySchema}
-            onSubmit={(values, actions) =>
-              this.handleVerify({ values, actions })
-            }
-          >
-            <Form className="w-[90%] mt-7">
-              {this.state.successCode && <Alert title={title} color="green" />}
-              <Space h="sm" />
-              <TextField
-                name="verifyCode"
-                label={<Text size="sm">کد تایید</Text>}
-              />
-              <Space h="sm" />
-              <Group position="apart">
-                <Text
-                  size="sm"
-                  onClick={() =>
-                    this.state.time < 0 ? this.sendAgainCode() : null
-                  }
-                  sx={{cursor: this.state.time < 0 ? 'pointer': 'not-allowed'}}
-                  color={this.state.time < 0 ? 'blue' : '#ccc'}
-                >
-                  ارسال مجدد
-                </Text>
-                {this.state.time > 0 && (
-                  <Text color="blue" size="sm">
-                    {this.state.time === 60 ? '1:00' : this.state.time < 10 ? `0:0${this.state.time}`: `0:${this.state.time}`}
-                  </Text>
+            <Formik
+              initialValues={INITIAL_VALUES}
+              validationSchema={verirySchema}
+              onSubmit={(values, actions) =>
+                this.handleVerify({ values, actions })
+              }
+            >
+              <Form className="w-[90%] mt-7">
+                {this.state.successCode && (
+                  <Alert title={title} color="green" />
                 )}
-              </Group>
-              <Space h="sm" />
-              <Space h="sm" />
-              <Button
-                fullWidth
-                radius="md"
-                color="blue"
-                type="submit"
-                loading={this.state.loading}
-              >
-                تایید
-              </Button>
-            </Form>
-          </Formik>
+                <Space h="sm" />
+                <TextField
+                  name="verifyCode"
+                  label={<Text size="sm">کد تایید</Text>}
+                />
+                <Space h="sm" />
+                <Group position="apart">
+                  <Text
+                    size="sm"
+                    onClick={() =>
+                      this.state.time < 0 ? this.sendAgainCode() : null
+                    }
+                    sx={{
+                      cursor: this.state.time < 0 ? 'pointer' : 'not-allowed',
+                    }}
+                    color={this.state.time < 0 ? 'blue' : '#ccc'}
+                  >
+                    ارسال مجدد
+                  </Text>
+                  {this.state.time > 0 && (
+                    <Text color="blue" size="sm">
+                      {this.state.time === 60
+                        ? '1:00'
+                        : this.state.time < 10
+                        ? `0:0${this.state.time}`
+                        : `0:${this.state.time}`}
+                    </Text>
+                  )}
+                </Group>
+                <Space h="sm" />
+                <Space h="sm" />
+                <Button
+                  fullWidth
+                  radius="md"
+                  color="blue"
+                  type="submit"
+                  loading={this.state.loading}
+                >
+                  تایید
+                </Button>
+              </Form>
+            </Formik>
+          </>
         )}
       </>
     );

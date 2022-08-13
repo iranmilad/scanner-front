@@ -10,6 +10,7 @@ import Sidebar from '../../layouts/sidebar';
 import axios from 'axios';
 import {setConfig} from '../../redux/reducers/config';
 import { useDispatch } from 'react-redux';
+import ls from 'localstorage-slim'
 
 export default ({ Component, route }) => {
   let [open, setopen] = useState(false);

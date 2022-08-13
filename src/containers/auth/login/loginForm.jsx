@@ -6,7 +6,7 @@ import { loginAPI } from '../../../apis/auth';
 import { loginSchema } from './schema';
 import TextField from '../../../components/FormsUI/TextField';
 import colors from 'tailwindcss/colors';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   setLocalStorage,
   setLocalStorageWithExpiry,
@@ -25,39 +25,40 @@ class LoginForm extends React.PureComponent {
     var days = Math.floor(seconds / (3600 * 24));
   }
 
-
   /**
    * Handle login request
    */
   handleLogin({ values, actions }) {
-    this.setState((prev) => ({
-      ...prev,
-      loading: true,
-    }));
+    this.setState({
+      loading:true,
+      loginFaild:false,
+    });
     loginAPI({ url: '/auth/login', data: values })
       .then((res) => {
-        this.setState((prev) => ({
-          ...prev,
+        this.setState({
           loading: false,
           loginSuccess: res.data.message,
           time: 4,
-        }));
+        });
         this.countDownTimer();
         // set local storage token
         localStorage.setItem('token', res.data.data.access_token);
-        Cookies.set('token', res.data.data.access_token, { expires: Math.floor(res.data.data.expires_in / (3600 * 24)),path: '/' ,secure: true});
+        Cookies.set('token', res.data.data.access_token, {
+          expires: Math.floor(res.data.data.expires_in / (3600 * 24)),
+          path: '/',
+          secure: true,
+        });
 
         // redirect to home page
         setTimeout(() => {
-          window.location.href = '/';
+          this.props.history.goBack();
         }, 4000);
       })
       .catch((err) => {
-        this.setState((prev) => ({
-          ...prev,
+        this.setState({
           loading: false,
           loginFaild: err.response.data.message,
-        }));
+        });
       });
   }
 
@@ -88,66 +89,68 @@ class LoginForm extends React.PureComponent {
         <>
           <Alert mt="lg" title={this.state.loginSuccess} color="green">
             <Group position="apart">
-              <Text size="sm">به طور خودکار به صفحه اصلی هدایت میشوید</Text>
+              <Text size="sm">به طور خودکار هدایت میشوید</Text>
               <Text size="sm">{this.state.time}</Text>
             </Group>
           </Alert>
           <Space h="lg" />
         </>
       );
-    } else if (this.state.loginFaild) {
-      return (
-        <>
-          <Alert title={this.state.loginFaild} color="red" />
-          <Space h="lg" />
-        </>
-      );
     } else {
       return (
-        <Formik
-          initialValues={INITIAL_FORM_STATE}
-          validationSchema={loginSchema}
-          onSubmit={(values, actions) => this.handleLogin({ values, actions })}
-        >
-          <Form className="w-[90%] mt-7">
-            <TextField
-              label={<Text size="sm">شماره تلفن همراه</Text>}
-              name="mobile"
-              inputMode="numeric"
-              variant="filled"
-            />
-            <Space h="lg" />
-            <TextField
-              label={<Text size="sm">رمز عبور</Text>}
-              type="password"
-              dir="ltr"
-              name="password"
-              inputMode="text"
-              variant="filled"
-            />
-            <Space h="lg" />
-            <Link to="/resetpassword">
-              <Text
-                className="inline-block"
-                size="sm"
+        <>
+          {this.state.loginFaild && (
+            <div className="my-2">
+              <Alert title={this.state.loginFaild} color="red" />
+              <Space h="lg" />
+            </div>
+          )}
+          <Formik
+            initialValues={INITIAL_FORM_STATE}
+            validationSchema={loginSchema}
+            onSubmit={(values, actions) =>
+              this.handleLogin({ values, actions })
+            }
+          >
+            <Form className="w-[90%] mt-5" onChange={(e) => this.setState({loginFaild:false})}>
+              <TextField
+                label={<Text size="sm">شماره تلفن همراه</Text>}
+                name="mobile"
+                inputMode="numeric"
+                variant="filled"
+              />
+              <Space h="lg" />
+              <TextField
+                label={<Text size="sm">رمز عبور</Text>}
+                type="password"
+                dir="ltr"
+                name="password"
+                inputMode="text"
+                variant="filled"
+              />
+              <Space h="lg" />
+              <Link to="/resetpassword">
+                <Text
+                  className="inline-block"
+                  size="sm"
+                  color="blue"
+                  weight="normal"
+                  sx={{ cursor: 'pointer' }}
+                >
+                  فراموشی رمز عبور
+                </Text>
+              </Link>
+              <Space h="lg" />
+              <Button
+                fullWidth
+                radius="md"
                 color="blue"
-                weight="normal"
-                sx={{ cursor: 'pointer' }}
+                type="submit"
+                loading={this.state.loading}
               >
-                فراموشی رمز عبور
-              </Text>
-            </Link>
-            <Space h="lg" />
-            <Button
-              fullWidth
-              radius="md"
-              color="blue"
-              type="submit"
-              loading={this.state.loading}
-            >
-              ورود
-            </Button>
-            <Group position="center" className="flex items-end h-32">
+                ورود
+              </Button>
+              <Group position="center" className="flex items-end h-32">
                 نیاز به حساب کاربری دارید ؟{' '}
                 <Link to="/register">
                   <Text
@@ -159,13 +162,13 @@ class LoginForm extends React.PureComponent {
                     ثبت نام
                   </Text>
                 </Link>
-
-            </Group>
-          </Form>
-        </Formik>
+              </Group>
+            </Form>
+          </Formik>
+        </>
       );
     }
   }
 }
 
-export default LoginForm;
+export default withRouter(LoginForm);

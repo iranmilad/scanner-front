@@ -11,7 +11,6 @@ import PublicMessages from './publicMessages';
 import PrivateMessages from './privateMessages';
 import Question from './question';
 import ChangePassword from './changePassword';
-import GridSystem from './gridSystem';
 
 class Dashboard extends Component {
   state = {
@@ -90,11 +89,6 @@ class Dashboard extends Component {
         <Grid.Col span={2} sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <ChangePassword />
-          </Paper>
-        </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
-          <Paper shadow="xs" p="md" sx={{height: "100%"}}>
-            <GridSystem />
           </Paper>
         </Grid.Col>
       </Grid>

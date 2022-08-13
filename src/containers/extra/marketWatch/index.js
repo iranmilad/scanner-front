@@ -101,7 +101,7 @@ class MarketWatch extends TechnoWatch {
           <title>{this.state.title}</title>
         </Helmet>
         <Text size="sm">{this.state.title}</Text>
-        <Group position="apart" mt="lg">
+        <Group position="apart" mt="md">
           {this.state.fullData.length > 0 && (
             <>
               <Input

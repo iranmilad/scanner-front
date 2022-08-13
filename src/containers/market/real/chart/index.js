@@ -23,9 +23,8 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import TextField from '../../../../components/FormsUI/TextField';
 import { connect } from 'react-redux';
-import { getMarket, setMarket } from '../../../../redux/reducers/market';
-import lodash from 'lodash';
 import colors from 'tailwindcss/colors';
+import {setMarketId,setMainHeader} from "../../../../redux/reducers/main";
 
 class Market extends Component {
   constructor(props) {
@@ -164,7 +163,7 @@ class Market extends Component {
         visible: true,
       });
     try {
-      let response = await getEveryFeeder(`/market/chart/${id}`);
+      let response = await getEveryFeeder(`/stock/moneyFlow/${id}`);
       this.Candlestick.setData(response.data.data);
       this.candleStickData = response.data.data;
     } catch (error) {
@@ -257,7 +256,7 @@ class Market extends Component {
     if (chips !== 5) {
       try {
         let volumeData = await getEveryFeeder(
-          `/market/movingAveragePrice/${id}/1`
+          `/stock/movingAveragePrice/${id}/1`
         );
         this.volumeStudy.setData(volumeData.data.data);
       } catch (error) {
@@ -280,7 +279,7 @@ class Market extends Component {
       this.compareSell.applyOptions({visible: true});
     try {
       let compareData = await getEveryFeeder(
-        `/market/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
+        `/stock/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
       );
       this.compareSell.setData(compareData.data.data);
     } catch (error) {
@@ -302,7 +301,7 @@ class Market extends Component {
       this.compareBuy.applyOptions({visible: true});
     try {
       let compareData = await getEveryFeeder(
-        `/market/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
+        `/stock/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
       );
       this.compareBuy.setData(compareData.data.data);
     } catch (error) {
@@ -328,7 +327,7 @@ class Market extends Component {
 
     try {
       let shortterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
+        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
       );
       this.shorttermChart.setData(shortterm.data.data);
     } catch (error) {
@@ -353,7 +352,7 @@ class Market extends Component {
       });
     try {
       let midterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
+        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
       );
       this.midtermChart.setData(midterm.data.data);
     } catch (error) {
@@ -378,7 +377,7 @@ class Market extends Component {
       });
     try {
       let longterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
+        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
       );
       this.longtermChart.setData(longterm.data.data);
     } catch (error) {
@@ -394,7 +393,7 @@ class Market extends Component {
       });
     try {
       let shortmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
+        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
       );
       this.shortmovingtermChart.setData(shortmovingterm.data.data);
     } catch (error) {
@@ -410,7 +409,7 @@ class Market extends Component {
       });
     try {
       let midtmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
+        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
       );
       this.midmovingtermChart.setData(midtmovingterm.data.data);
     } catch (error) {
@@ -426,7 +425,7 @@ class Market extends Component {
       });
     try {
       let longtmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
+        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
       );
       this.longmovingtermChart.setData(longtmovingterm.data.data);
     } catch (error) {
@@ -435,6 +434,8 @@ class Market extends Component {
   }
 
   componentDidMount() {
+    this.props.setMarketId(this.state.pageID);
+    this.props.setMainHeader(1);
     let thatChart = this.props.chartAndtables;
     thatChart = thatChart.find(item => item.key === "symbolInfo");
     getEveryFeeder(`${thatChart.feeder_url}/${this.state.pageID}`).then(res => {
@@ -477,7 +478,10 @@ class Market extends Component {
     this.shortmovingtermWorker();
     this.midmovingtermWorker();
     this.longmovingtermWorker();
+  }
 
+  componentWillUnmount(){
+    this.props.setMainHeader(0);
   }
   render() {
     return (
@@ -677,7 +681,8 @@ const mapStateToProps = (state) => ({
  * @returns
  */
 const mapDispatchToProps = (dispatch) => ({
-  setMarket: (data) => dispatch(setMarket(data)),
+  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
+  setMainHeader: (id) => dispatch(setMainHeader(id)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Market));

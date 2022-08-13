@@ -11,6 +11,9 @@ import { getEveryFeeder } from '../../../apis/main/main';
 import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
+import { withRouter } from 'react-router-dom';
+import {setMarketId,setMainHeader} from "../../../redux/reducers/main";
+import ls from "localstorage-slim"
 
 class Index extends Component {
   state = {
@@ -63,11 +66,26 @@ class Index extends Component {
     this.getDataFromServer();
   };
 
-  getDataFromServer = () => {
+  getInformation(id = this.state.id) {
+    return new Promise((resolve, reject) => {
+      let thatItem = this.props.table;
+      thatItem = thatItem.find((item) => item.key === 'symbolInfo');
+      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+        this.setState({
+          title: res.data.data.name,
+        });
+        resolve(id);
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
+
+  getDataFromServer = (id = this.state.id) => {
     let thatItem = this.props.table;
     this.setState({ loading: true });
     getEveryFeeder(
-      `${thatItem.feeder_url}/${this.state.id}/${this.state.selectRight}/${this.state.selectLeft}/${this.state.filters.period4}/${this.state.filters.period1}/${this.state.filters.period2}/${this.state.filters.period3}`
+      `${thatItem.feeder_url}/${id}/${this.state.selectRight}/${this.state.selectLeft}/${this.state.filters.period4}/${this.state.filters.period1}/${this.state.filters.period2}/${this.state.filters.period3}`
     )
       .then((res) => {
         this.setState({ data: res.data.data, loading: false });
@@ -76,7 +94,7 @@ class Index extends Component {
 
     this.moneyFlowAnalyserInterval = setInterval(() => {
       getEveryFeeder(
-        `${thatItem.feeder_url}/${this.state.id}/${this.state.selectRight}/${this.state.selectLeft}/${this.state.filters.period4}/${this.state.filters.period1}/${this.state.filters.period2}/${this.state.filters.period3}`
+        `${thatItem.feeder_url}/${id}/${this.state.selectRight}/${this.state.selectLeft}/${this.state.filters.period4}/${this.state.filters.period1}/${this.state.filters.period2}/${this.state.filters.period3}`
       )
         .then((res) => {
           this.setState({ data: res.data.data, loading: false });
@@ -86,11 +104,34 @@ class Index extends Component {
     , thatItem.refresh_time * 1000);
   };
 
-  componentDidMount() {
-    this.getDataFromServer();
+  async componentDidMount() {
+    this.props.setMarketId(this.state.id);
+    this.props.setMainHeader(1);
+    try {
+      let id = await this.getInformation(this.state.id); 
+      this.getDataFromServer(id);
+    } catch (error) {
+      console.log(error);
+    }
+      
+    this.props.history.listen(async location => {
+      let { pathname } = location;
+      let URL_ID = pathname.split('/')[3];
+      this.setState({ id: URL_ID });
+      this.props.setMarketId(URL_ID);
+      this.props.setMainHeader(1);
+      try {
+        let id = await this.getInformation(URL_ID); 
+        this.getDataFromServer(id);
+      } catch (error) {
+        console.log(error);
+      }
+    })
+    
   }
   componentWillUnmount(){
     clearInterval(this.moneyFlowAnalyserInterval);
+    this.props.setMainHeader(0);
   }
 
   render() {
@@ -100,7 +141,7 @@ class Index extends Component {
           <title>تحلیل جریانات نقدینگی {this.state.title}</title>
         </Helmet>
         <Group position="apart">
-          <Text size="sm">تحلیل جریانات نقدینگی {this.state.title}</Text>
+          <Text size="md">تحلیل جریانات نقدینگی {this.state.title}</Text>
           <Button onClick={() => this.setState({ modalIsOpen: true })}>
             فیلتر
           </Button>
@@ -141,6 +182,7 @@ class Index extends Component {
                 name: 'تاریخ',
                 selector: (row) => row.n1,
                 sortable: true,
+                cell: (row) => <span style={{width: "300px"}}>{row.n1}</span>
               },
               {
                 name: 'حجم',
@@ -300,4 +342,9 @@ const mapStateToProps = (state) => ({
   ),
 });
 
-export default connect(mapStateToProps)(Index);
+const mapDispatchToProps = (dispatch) => ({
+  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
+  setMainHeader: (id) => dispatch(setMainHeader(id)),
+});
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Index));

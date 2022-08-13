@@ -13,6 +13,7 @@ import { getChart } from '../../apis/charts';
 import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
+import { withRouter } from 'react-router-dom';
 
 class History extends React.Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class History extends React.Component {
       data: [],
       industryLists: [],
       loading: false,
+      id: this.props.match.params.id,
     };
     /**
      * @type {String}
@@ -43,13 +45,9 @@ class History extends React.Component {
     }
   }
 
-  industry_history(id) {
-    window.location.replace(`/industries/history/${id}`);
-  }
 
-  componentDidMount() {
-    this.setState({loading:true})
-    getTable(`/totalMarketHistory/${this.id}`).then((res) => {
+  getTableData(id = this.state.id){
+    getTable(`/totalMarketHistory/${id}`).then((res) => {
       this.setState({
         title: res.data.title,
         data: res.data.data,
@@ -58,6 +56,21 @@ class History extends React.Component {
       });
     });
   }
+
+  changeIndustry(value) {
+    this.props.history.push(`/industries/history/${value}`);
+  }
+
+  componentDidMount() {
+    this.setState({loading:true})
+    this.getTableData(this.state.id)
+    this.props.history.listen((location, action) => {
+      let { pathname } = location;
+      let id = pathname.split('/')[3];
+      this.setState({id});
+      this.getTableData(id);
+    })
+  }
   render() {
     return (
       <>
@@ -65,16 +78,15 @@ class History extends React.Component {
           <title>{this.state.title || 'Tseshow'}</title>
         </Helmet>
         <Group position="apart">
-          <Text size="lg">{`سوابق ${this.state.title}` || ''}</Text>
+          <Text size="md">{`سوابق ${this.state.title}` || ''}</Text>
           <Select
             searchable
-            onChange={(value) => this.industry_history(value)}
+            onChange={(value) => this.changeIndustry(value)}
             placeholder="انتخاب صنعت"
             onMouseOver={() => this.getIndustryList()}
             data={this.state.industryLists || []}
           />
         </Group>
-        {this.state.type !== null ? (
           <>
             {this.state.loading ? (
               <Paper p="xl" radius="md" shadow="xs" mt="xl">
@@ -94,7 +106,6 @@ class History extends React.Component {
               />
             )}
           </>
-        ) : null}
       </>
     );
   }
@@ -104,4 +115,4 @@ const mapStateToProps = (state) => ({
   industry: state.config.industries,
 });
 
-export default connect(mapStateToProps)(History);
+export default withRouter(connect(mapStateToProps)(History));

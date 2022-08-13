@@ -17,6 +17,9 @@ const ChartData = {
         show: false,
       },
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (event, chartContext, config) {
@@ -85,11 +88,16 @@ const ChartData = {
     type: 'polarArea',
     auth: false,
     options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+      },
       colors: ['#E91E63', '#66DA26'],
       labels: ['سهام منفی', 'سهام مثبت'],
-    },
-    xaxis: {
-      position: 'bottom',
+      xaxis: {
+        position: 'bottom',
+      },
     },
   },
   A3: {
@@ -98,6 +106,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -130,6 +141,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -174,6 +188,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -203,6 +220,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       colors: ['#ec4899'],
@@ -233,6 +253,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -262,6 +285,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -291,6 +317,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -331,6 +360,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -355,6 +387,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -379,6 +414,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -406,6 +444,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -461,6 +502,9 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -496,6 +540,9 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -525,6 +572,9 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -568,6 +618,9 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -581,6 +634,9 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       dataLabels: {
@@ -622,6 +678,9 @@ const ChartData = {
         },
       },
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       colors: [
@@ -691,6 +750,12 @@ const ChartData = {
           borderRadius: 4,
           horizontal: true,
         },
+        chart:{
+          animations: {
+            enabled: false,
+          },
+          fontFamily: 'Iran-sans',
+        }
       },
       colors: ['#E91E63', '#66DA26'],
       dataLabels: {
@@ -718,6 +783,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'line',
         animations: {
           enabled: true,
@@ -753,6 +821,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -777,6 +848,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'line',
         animations: {
           enabled: true,
@@ -812,12 +886,11 @@ const ChartData = {
     options: {
       chart: {
         height: 350,
-        width: '100%',
         type: 'line',
         fontFamily: 'Iran-sans',
         stacked: false,
         animations: {
-          enabled: true,
+          enabled: false,
         },
       },
       legend: {
@@ -859,7 +932,7 @@ const ChartData = {
         height: 350,
         fontFamily: 'Iran-sans',
         animations: {
-          enabled: true,
+          enabled: false,
         },
       },
       plotOptions: {
@@ -915,7 +988,7 @@ const ChartData = {
         height: 350,
         fontFamily: 'Iran-sans',
         animations: {
-          enabled: true,
+          enabled: false,
         },
       },
       plotOptions: {
@@ -953,6 +1026,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
@@ -1008,6 +1084,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
@@ -1063,6 +1142,9 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
         type: 'area',
         width: '100%',
@@ -1119,6 +1201,9 @@ const ChartData = {
   FX1: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'area',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1156,6 +1241,9 @@ const ChartData = {
   FX2: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'line',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1198,6 +1286,9 @@ const ChartData = {
   FX3: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'area',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1238,6 +1329,9 @@ const ChartData = {
   FX4: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'area',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1275,6 +1369,9 @@ const ChartData = {
   FX5: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'line',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1317,6 +1414,9 @@ const ChartData = {
   FX6: {
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         type: 'bar',
         fontFamily: 'Iran-sans',
         group: 'symbol',
@@ -1331,6 +1431,94 @@ const ChartData = {
           offsetY: 20,
         },
         categories: clockTime(),
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+    },
+  },
+  sellPerfomance: {
+    options: {
+      chart: {
+        height: 350,
+        width: '100%',
+        type: 'line',
+        fontFamily: 'Iran-sans',
+        stacked: false,
+        animations: {
+          enabled: false,
+        },
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        width: [0, 4],
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'string',
+        labels: {
+          offsetX: -15,
+          offsetY: 50,
+        },
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+    },
+  },
+  perfomanceValue: {
+    options: {
+      chart: {
+        height: 350,
+        width: '100%',
+        type: 'line',
+        fontFamily: 'Iran-sans',
+        stacked: false,
+        animations: {
+          enabled: false,
+        },
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        width: [0, 4],
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'string',
+        labels: {
+          offsetX: -15,
+          offsetY: 50,
+        },
       },
       yaxis: {
         show: true,

@@ -1,12 +1,14 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { PureComponent, useEffect, useState } from 'react';
 import { Paper, Loader, Center, Button } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { getTreeMap } from '../../apis/treemap';
 import AnyChart from 'anychart-react';
 import anychart from 'anychart';
+import { withRouter } from 'react-router';
 
-class Treemap extends Component {
+
+class Treemap extends PureComponent {
   /**
    * Constructor Function
    */
@@ -15,6 +17,7 @@ class Treemap extends Component {
     this.state = {
       loading: true,
       chart: anychart.treeMap([]),
+      fullScreenMode: false,
     };
     this.chartSettings();
     this.chartLegend();
@@ -193,11 +196,12 @@ class Treemap extends Component {
             </Center>
           </Paper>
         ) : (
-          <Paper>
+          <Paper >
             <Button ml="sm" mt="sm" size='xs' color="blue" onClick={this.enterFullScreen}>تمام صفحه</Button>
             <AnyChart
               contextMenu={false}
-              height={850}
+              height={`${window.outerHeight}px`}
+              resizing_mode="Recalculate"
               instance={this.state.chart}
               title=""
             />
@@ -212,4 +216,4 @@ const mapStateToProps = (state) => ({
   config: state.config,
 });
 
-export default connect(mapStateToProps)(Treemap);
+export default withRouter(connect(mapStateToProps)(Treemap));

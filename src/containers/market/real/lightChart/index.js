@@ -281,13 +281,15 @@ class LightChart extends Component {
             >
               نمودار خطی
             </Button>
-            <Button
-              ml="sm"
-              color={this.state.navChart ? 'pink' : 'blue'}
-              onClick={() => this.setNavChart()}
-            >
-              NAV
-            </Button>
+            {this.state.navExist && (
+              <Button
+                ml="sm"
+                color={this.state.navChart ? 'pink' : 'blue'}
+                onClick={() => this.setNavChart()}
+              >
+                NAV
+              </Button>
+            )}
           </div>
           <Button
             color={this.state.percentageBtn ? 'orange' : 'blue'}

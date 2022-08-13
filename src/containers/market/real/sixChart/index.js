@@ -5,6 +5,8 @@ import { Group, Text, Select, Grid } from '@mantine/core';
 import { getEveryFeeder } from '../../../../apis/main/main';
 import Chart from '../../../../components/Chart';
 import lodash from 'lodash';
+import {setMarketId,setMainHeader} from "../../../../redux/reducers/main"
+import { withRouter } from 'react-router-dom';
 
 class SixChart extends Component {
   constructor(props) {
@@ -163,22 +165,27 @@ class SixChart extends Component {
     }, thatItem.refresh_time * 1000);
   }
 
-  getInformation() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolInfo');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
-      this.setState({
-        title: res.data.data.name,
-      });
-    });
+  getInformation(id = this.state.id) {
+    return new Promise((resolve, reject) => {
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find((item) => item.key === 'symbolInfo');
+      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+        this.setState({
+          title: res.data.data.name,
+        });
+        resolve(id);
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 
-  getDates() {
+  getDates(id = this.state.id) {
     this.setState({ loadingDatePicker: true });
     return new Promise((resolve, reject) => {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolHistoryDate');
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`)
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
         .then((res) => {
           this.setState({
             DatePickerItems: res.data.data,
@@ -206,18 +213,45 @@ class SixChart extends Component {
     this.getTradeTimeValueHistoryData(e);
   };
 
-  componentDidMount() {
-    this.getInformation();
-    this.getDates().then((res) => {
-      this.getMoneyflowTotalEnterManyBuyerIHistoryData(res);
-      this.getMoneyflowTotalChangeBuySellHeadsHistoryData(res);
-      this.getTradeLastDayHistoryData(res);
-      this.getTradeValueHistoryData(res);
-      this.getCounterBuyerSellerHistoryData(res);
-      this.getTradeTimeValueHistoryData(res);
-    });
+  async componentDidMount() {
+    this.props.setMarketId(this.state.id);
+    this.props.setMainHeader(1);
+    try {
+      let id = await this.getInformation(this.state.id);
+      let date = await this.getDates(id);
+      this.getMoneyflowTotalEnterManyBuyerIHistoryData(date);
+      this.getMoneyflowTotalChangeBuySellHeadsHistoryData(date);
+      this.getTradeLastDayHistoryData(date);
+      this.getTradeValueHistoryData(date);
+      this.getCounterBuyerSellerHistoryData(date);
+      this.getTradeTimeValueHistoryData(date);
+    } catch (error) {
+      console.log(error)
+    }
+
+    this.props.history.listen(async location => {
+      let { pathname } = location;
+      let URL_ID = pathname.split('/')[3];
+      this.setState({id: URL_ID});
+      this.props.setMarketId(URL_ID);
+      try {
+        let id = await this.getInformation(URL_ID);
+        let date = await this.getDates(id);
+        this.getMoneyflowTotalEnterManyBuyerIHistoryData(date);
+        this.getMoneyflowTotalChangeBuySellHeadsHistoryData(date);
+        this.getTradeLastDayHistoryData(date);
+        this.getTradeValueHistoryData(date);
+        this.getCounterBuyerSellerHistoryData(date);
+        this.getTradeTimeValueHistoryData(date);
+      } catch (error) {
+        console.log(error)
+      }
+    })
+
+
   }
   componentWillUnmount() {
+    this.props.setMainHeader(0);
     clearInterval(this.MoneyflowTotalEnterManyBuyerIHistoryInterval);
     clearInterval(this.MoneyflowTotalChangeBuySellHeadsHistoryInterval);
     clearInterval(this.symbolTradeLastDayHistoryInterval);
@@ -311,4 +345,9 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-export default connect(mapStateToProps)(SixChart);
+const mapDispatchToProps = (dispatch) => ({
+  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
+  setMainHeader: (id) => dispatch(setMainHeader(id)),
+});
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SixChart));

@@ -7,7 +7,6 @@ import { theme } from './helper/theme';
 import App from './containers/app';
 import './assets/fonts/font.css';
 import './assets/css/tailwind.css';
-import './assets/css/all.min.css';
 import configureStore from './redux/store';
 import { Provider } from 'react-redux';
 

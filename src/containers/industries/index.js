@@ -1,6 +1,5 @@
 import { Text, Select, Group, Grid } from '@mantine/core';
 import React, { Component, useEffect, useState } from 'react';
-import { getIndustryData } from '../../apis/main/main';
 import ITable from '../../components/ITable';
 import {
   industries_table1,
@@ -8,14 +7,13 @@ import {
   industries_table3_type1,
   industries_table3_type2,
 } from '../../helper/statics';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { getIndustry, getTable } from '../../apis/tables';
-import { BsGridFill } from 'react-icons/bs';
+import { getTable } from '../../apis/tables';
 import Chart from '../../components/Chart';
 import { getChart } from '../../apis/charts';
+import {withRouter} from "react-router-dom"
 
 class Index extends Component {
   constructor(props) {
@@ -242,4 +240,4 @@ const mapStateToProps = (state) => ({
   industryGroups: state.config.industriesGroups,
 });
 
-export default connect(mapStateToProps)(Index);
+export default withRouter(connect(mapStateToProps)(Index));

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import {ColorizeTag,LinkTag} from './index'
+import { ColorizeTag, LinkTag } from './index';
 
 export const totalSummeryGroupState = {
   header: [
@@ -476,7 +476,16 @@ export const industries_history_type_1 = {
     {
       name: 'تاریخ',
       selector: (row) => row.n1,
-      cell: (row) => <Link to={`/extra/marketwatch/${row.n1.replaceAll("/","")}`}><span className='text-blue-500' style={{ width: '200px' }}>{row.n1}</span></Link>,
+      cell: (row) => (
+        <Link
+          style={{ width: '300px' }}
+          to={`/extra/marketwatch/${row.n1.replaceAll('/', '')}`}
+        >
+          <span className="text-blue-500" style={{ width: '300px' }}>
+            {row.n1}
+          </span>
+        </Link>
+      ),
     },
     {
       name: 'ارزش معاملات',
@@ -569,7 +578,16 @@ export const industries_history_type_2 = {
     {
       name: 'تاریخ',
       selector: (row) => row.n1,
-      cell: (row) => <Link to={`/extra/marketwatch/${row.n1.replaceAll("/","")}`}><span className='text-blue-500' style={{ width: '200px' }}>{row.n1}</span></Link>,
+      cell: (row) => (
+        <Link
+          style={{ width: '300px' }}
+          to={`/extra/marketwatch/${row.n1.replaceAll('/', '')}`}
+        >
+          <span className="text-blue-500" style={{ width: '300px' }}>
+            {row.n1}
+          </span>
+        </Link>
+      ),
     },
     {
       name: 'ارزش معاملات',
@@ -667,9 +685,20 @@ export const industries_history_type_2 = {
 export const marketValues = {
   header: [
     {
-      name: 'ردیف',
+      name: 'شرکت',
       selector: (row) => row.id,
       sortable: true,
+      cell: (row) => (
+        <Link to={`/market/real/${row.id}`}>
+          <svg
+            className="w-3 h-3 fill-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path d="M64 400C64 408.8 71.16 416 80 416H480C497.7 416 512 430.3 512 448C512 465.7 497.7 480 480 480H80C35.82 480 0 444.2 0 400V64C0 46.33 14.33 32 32 32C49.67 32 64 46.33 64 64V400zM439 279L406.6 246.6L326.6 326.6C314.1 339.1 293.9 339.1 281.4 326.6L208 253.3L150.6 310.6C138.1 323.1 117.9 323.1 105.4 310.6C92.88 298.1 92.88 277.9 105.4 265.4L185.4 185.4C197.9 172.9 218.1 172.9 230.6 185.4L304 258.7L361.4 201.4L328.1 168.1C313.9 153.9 324.6 128 345.9 128H456C469.3 128 480 138.7 480 152V262.1C480 283.4 454.1 294.1 439 279L439 279z" />
+          </svg>
+        </Link>
+      ),
     },
     {
       name: 'نماد',
@@ -695,7 +724,7 @@ export const marketValues = {
 };
 
 export const orderWatch = {
-  header:[
+  header: [
     {
       name: 'نماد',
       selector: (row) => row.n0,
@@ -712,60 +741,60 @@ export const orderWatch = {
       sortable: true,
     },
     {
-      name: "آخرین",
+      name: 'آخرین',
       selector: (row) => row.n3,
       sortable: true,
     },
     {
-      name: "درصد",
+      name: 'درصد',
       selector: (row) => row.n4,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n4} />,
     },
     {
-      name: "پایانی",
+      name: 'پایانی',
       selector: (row) => row.n5,
       sortable: true,
     },
     {
-      name: "درصد",
+      name: 'درصد',
       selector: (row) => row.n6,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n6} />,
     },
     {
-      name: "نوسان",
+      name: 'نوسان',
       selector: (row) => row.n7,
       sortable: true,
     },
     {
-      name: "حجم سفارش های خرید",
+      name: 'حجم سفارش های خرید',
       selector: (row) => row.n8,
       sortable: true,
     },
     {
-      name: "حجم سفارش های فروش",
+      name: 'حجم سفارش های فروش',
       selector: (row) => row.n9,
       sortable: true,
     },
     {
-      name: "ارزش سفارش های خرید",
+      name: 'ارزش سفارش های خرید',
       selector: (row) => row.n10,
       sortable: true,
     },
     {
-      name: "ارزش سفارش های فروش",
+      name: 'ارزش سفارش های فروش',
       selector: (row) => row.n11,
       sortable: true,
     },
     {
-      name: "تراز سفارش ها",
+      name: 'تراز سفارش ها',
       selector: (row) => row.n12,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n12} />,
-    }
-  ]
-}
+    },
+  ],
+};
 
 export const extraTops = [
   {
@@ -784,12 +813,12 @@ export const extraTops = [
     sortable: true,
   },
   {
-    name: "قیمت امروز",
+    name: 'قیمت امروز',
     selector: (row) => row.n2,
     sortable: true,
   },
   {
-    name: "تاریخ رسیدن به قله",
+    name: 'تاریخ رسیدن به قله',
     selector: (row) => row.n3,
     sortable: true,
   },
@@ -798,10 +827,8 @@ export const extraTops = [
     selector: (row) => row.n4,
     cell: (row) => <ColorizeTag row={row.n4} />,
     sortable: true,
-  }
-]
-
-
+  },
+];
 
 function floorNumber(row) {
   if (row > 1000000000) {
@@ -812,4 +839,3 @@ function floorNumber(row) {
     return row;
   }
 }
-

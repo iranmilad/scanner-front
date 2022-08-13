@@ -65,7 +65,7 @@ const Header = withRouter((props) => {
               color="blue"
               onClick={() => props.setOpen()}
             >
-              <i className="fa-solid fa-bars text-lg"></i>
+              <svg className='w-4 h-4 fill-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
             </ActionIcon>
           </div>
           <div className="hidden lg:block">
@@ -80,12 +80,24 @@ const Header = withRouter((props) => {
               placeholder="جستجوی نماد / شرکت"
               value={searchValue}
               onChange={searchSymbol}
-              onItemSubmit={(item) => props.history.push(`/market/real/${item.id}`)}
+              onItemSubmit={(item) =>
+                props.history.push(`/market/real/${item.id}`)
+              }
               itemComponent={AutoCompleteItem}
               rightSection={
-                <ActionIcon variant="transparent">
-                  <i className="fa-duotone fa-magnifying-glass text-slate-300 w[10%] mx-auto"></i>
-                </ActionIcon>
+                <svg className='w-3.5 h-3.5 fill-gray-200' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <defs>
+                    <style>{`.fa-secondary{opacity:.4}`}</style>
+                  </defs>
+                  <path
+                    class="fa-primary"
+                    d="M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7z"
+                  />
+                  <path
+                    class="fa-secondary"
+                    d="M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 128 128C335.1 278.6 278.6 336 207.1 336z"
+                  />
+                </svg>
               }
               filter={(value, item) =>
                 item.label.toLowerCase().includes(value.toLowerCase().trim())

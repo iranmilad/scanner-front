@@ -79,18 +79,17 @@ class Index extends Component {
       .catch((err) => {});
   }
   setCharts() {
-    let config = this.config.chartAndtables;
-    let charts = config.filter((item) => !item.key.includes('tb'));
-    charts = charts.filter((item) => !item.key.includes('treemap'));
-    this.setState((prev) => ({
-      ...prev,
-      charts,
-    }));
+    /**
+     * @type {Array}
+     */
+     let config = this.props.config.needs.chartAndtables;
+     let charts = config.filter(item => item.key.match(/A[0-9]/g));
+    this.setState({charts});
   }
   componentDidMount() {
     this.setCharts();
     this.setTable1();
-    let config = this.config.chartAndtables;
+    let config = this.props.config.needs.chartAndtables;
     let table1 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
@@ -100,8 +99,7 @@ class Index extends Component {
     }, table1[0].refresh_time * 1000);
 
     this.setTable2();
-    let config2 = this.config.chartAndtables;
-    let table2 = config2.filter((item) => {
+    let table2 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
     this.interval2 = setInterval(() => {
@@ -109,8 +107,7 @@ class Index extends Component {
     }, table2[0].refresh_time * 1000);
 
     this.setTable3();
-    let config3 = this.config.chartAndtables;
-    let table3 = config3.filter((item) => {
+    let table3 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
     this.interval3 = setInterval(() => {
@@ -118,8 +115,7 @@ class Index extends Component {
     }, table3[0].refresh_time * 1000);
 
     this.setTable4();
-    let config4 = this.config.chartAndtables;
-    let table4 = config4.filter((item) => {
+    let table4 = config.filter((item) => {
       return item.key.includes('tb-summaryTrans');
     });
     this.interval4 = setInterval(() => {

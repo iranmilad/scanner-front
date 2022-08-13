@@ -17,6 +17,9 @@ const ChartData = {
         show: false,
       },
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (event, chartContext, config) {
@@ -87,6 +90,9 @@ const ChartData = {
     options: {
       colors: ['#E91E63', '#66DA26'],
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
       },
       labels: ['سهام منفی', 'سهام مثبت'],
@@ -101,7 +107,13 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        animations: {
+          enabled: false,
+        },
         fontFamily: 'Iran-sans',
+      },
+      dataLabels:{
+        enabled: false,
       },
       xaxis: {
         categories: clockTime(),
@@ -540,6 +552,10 @@ const ChartData = {
     options: {
       chart: {
         fontFamily: 'Iran-sans',
+        type: "area",
+      },
+      dataLabels:{
+        enabled: false
       },
       xaxis: {
         categories: clockTime(),

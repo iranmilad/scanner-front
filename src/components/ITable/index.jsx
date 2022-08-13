@@ -38,7 +38,7 @@ const ITable = ({ title, column, data, children, customStyles, ...other }) => {
           {title}
         </Text>
       </Group>
-      {data ? (
+      {!lodash.isEmpty(data) ? (
         <>
           <DataTable
             columns={column}

@@ -49,6 +49,7 @@ class RealMarket extends Component {
     technicalValueData: [],
     ChangePerfomanceData: [],
     CombinationAssetsData: [],
+    navExist: false,
   };
   modalWorker = () => {
     this.setState({
@@ -171,17 +172,21 @@ class RealMarket extends Component {
   }
 
   ChangePerfomanceFetcher() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolChangePerfomance');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
-      this.setState({ ChangePerfomanceData: res.data.data });
-    });
-
-    this.ChangePerfomance = setInterval(() => {
+    if (this.state.navExist) {
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find((item) => item.key === 'symbolChangePerfomance');
       getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
         this.setState({ ChangePerfomanceData: res.data.data });
       });
-    }, thatItem.refresh_time * 1000);
+
+      this.ChangePerfomance = setInterval(() => {
+        getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then(
+          (res) => {
+            this.setState({ ChangePerfomanceData: res.data.data });
+          }
+        );
+      }, thatItem.refresh_time * 1000);
+    }
   }
 
   CombinationAssetsFetcher() {
@@ -198,38 +203,45 @@ class RealMarket extends Component {
     }, thatItem.refresh_time * 1000);
   }
 
-  async getInformation(){
+  async getInformation() {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolInfo');
     try {
-      let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`);
+      let response = await getEveryFeeder(
+        `${thatItem.feeder_url}/${this.state.id}`
+      );
       this.setState({ stockInfo: response.data.data });
     } catch (error) {
       console.log(error);
     }
   }
 
-  componentDidMount() {
-    this.props.setMarketId(this.state.marketId);
-    this.props.setMainHeader(1);
-    this.getInformation();
-    this.ClientSummaryFetcher();
-    this.TraderSummaryFetcher();
-    this.BookMarkSummaryFetcher();
-    this.TotlaBookMarkSummaryFetcher();
-    this.totalClientSummaryFetcher();
-    this.statementPerdiodFetcher();
-    this.SupportResistanceFetcher();
-    this.technicalValueFetcher();
-    this.ChangePerfomanceFetcher();
-    this.CombinationAssetsFetcher();
+  checkNavExist() {
+    return new Promise(async (reseolve, reject) => {
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find((item) => item.key === 'symbolChart');
+      try {
+        let response = await getEveryFeeder(
+          `${thatItem.feeder_url}/${this.state.id}`
+        );
+        if (response.data.fund) {
+          this.setState({ navExist: true });
+        } else {
+          this.setState({ navExist: false });
+        }
+        reseolve(response.data.fund);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+  }
 
-    this.props.history.listen((location)=>{
-      let { pathname } = location;
-      let id = pathname.split('/')[3];
-      this.setState({ id });
-      this.props.setMarketId(id);
-      this.props.setMainHeader(1);
+  async componentDidMount() {
+    this.props.setMarketId(this.state.id);
+    this.props.setMainHeader(1);
+    try {
+      await this.checkNavExist();
       this.getInformation();
       this.ClientSummaryFetcher();
       this.TraderSummaryFetcher();
@@ -241,7 +253,32 @@ class RealMarket extends Component {
       this.technicalValueFetcher();
       this.ChangePerfomanceFetcher();
       this.CombinationAssetsFetcher();
-    })
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.props.history.listen(async (location) => {
+      let { pathname } = location;
+      let id = pathname.split('/')[3];
+      this.setState({ id });
+      this.props.setMarketId(id);
+      try {
+        await this.checkNavExist();
+        this.getInformation();
+        this.ClientSummaryFetcher();
+        this.TraderSummaryFetcher();
+        this.BookMarkSummaryFetcher();
+        this.TotlaBookMarkSummaryFetcher();
+        this.totalClientSummaryFetcher();
+        this.statementPerdiodFetcher();
+        this.SupportResistanceFetcher();
+        this.technicalValueFetcher();
+        this.ChangePerfomanceFetcher();
+        this.CombinationAssetsFetcher();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   }
   componentWillUnmount() {
     this.props.setMainHeader(0);
@@ -260,7 +297,7 @@ class RealMarket extends Component {
     return (
       <>
         <Helmet>
-          <title>{this.state.title}</title>
+          <title>{this.state.stockInfo.name}</title>
         </Helmet>
         <Group position="apart">
           <Text>{this.state.stockInfo.name}</Text>
@@ -300,23 +337,25 @@ class RealMarket extends Component {
         <ITable
           data={this.state.statementPerdiodData}
           column={statementPerdiod}
-          title={`آمار های دوره ای ${this.state.title}`}
+          title={`آمار های دوره ای ${this.state.stockInfo.name || ''}`}
         />
-        <ITable
-          data={this.state.ChangePerfomanceData}
-          column={changePerfomance}
-          title={`تغییر عملکرد و قیمت ${this.state.title}`}
-        />
+        {this.state.navExist && (
+          <ITable
+            data={this.state.ChangePerfomanceData}
+            column={changePerfomance}
+            title={`تغییر عملکرد و قیمت ${this.state.stockInfo.name || ''}`}
+          />
+        )}
         <ITable
           data={this.state.CombinationAssetsData}
           column={combinationAssets}
-          title={`ترکیب دارایی های${this.state.title}`}
+          title={`ترکیب دارایی های ${this.state.stockInfo.name || ''}`}
         />
         <LightChart stockId={this.state.id} />
         <InstantCharts stockId={this.state.id} />
         <Paper p="xl" radius="md" shadow="xs" mt="xl">
           <Text size="sm">
-            حمایت ها و مقاومت های پیش روی {this.state.title}
+            حمایت ها و مقاومت های پیش روی {this.state.stockInfo.name || ''}
           </Text>
           <Grid mt="md">
             {this.state.supportResistanceData.map((item, index) => (
@@ -348,12 +387,13 @@ class RealMarket extends Component {
           </Grid>
         </Paper>
         <Paper p="xl" radius="md" shadow="xs" mt="xl">
-          <Text size="sm">اندیکاتور های نماد{this.state.title}</Text>
+          <Text size="sm">اندیکاتور های نماد {this.state.stockInfo.name || ''}</Text>
           <Grid mt="md">
             {this.state.technicalValueData.map((item, index) => (
               <>
                 <Grid.Col sm={12} md={3}>
                   <Box
+                    dir="ltr"
                     className="rounded-sm"
                     p="md"
                     style={{ background: colors.slate[200] }}
@@ -365,6 +405,7 @@ class RealMarket extends Component {
                 </Grid.Col>
                 <Grid.Col sm={12} md={3}>
                   <Box
+                    dir="ltr"
                     className="rounded-sm"
                     p="md"
                     style={{ background: colors.slate[200] }}
@@ -376,6 +417,7 @@ class RealMarket extends Component {
                 </Grid.Col>
                 <Grid.Col sm={12} md={3}>
                   <Box
+                    dir="ltr"
                     className="rounded-sm"
                     p="md"
                     style={{ background: colors.slate[200] }}
@@ -387,6 +429,7 @@ class RealMarket extends Component {
                 </Grid.Col>
                 <Grid.Col sm={12} md={3}>
                   <Box
+                    dir="ltr"
                     className="rounded-sm"
                     p="md"
                     style={{ background: colors.slate[200] }}
@@ -414,4 +457,6 @@ const mapDispatchToProps = (dispatch) => ({
   setMainHeader: (id) => dispatch(setMainHeader(id)),
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RealMarket));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(RealMarket)
+);
