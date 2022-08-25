@@ -80,22 +80,22 @@ export const privateRoute = [
     layout: "private"
   },
   {
-    path: "/market/real/chart/:id",
+    path: "/stock/chart/:id",
     component: StockMarket_Chart,
     layout: "private"
   },
   {
-    path: "/market/real/chartx/:id",
+    path: "/stock/chartx/:id",
     component: MarketChartX,
     layout: "private"
   },
   {
-    path: "/market/real/sixChart/:id",
+    path: "/stock/sixChart/:id",
     component: MarketSixChart,
     layout: "private"
   },
   {
-    path: "/monthly-chart/:id",
+    path: "/stock/monthly-chart/:id",
     component: MonthlyPerfomance,
     layout: "private"
   }

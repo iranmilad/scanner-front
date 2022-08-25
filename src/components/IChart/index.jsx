@@ -3,10 +3,10 @@ import lodash from 'lodash';
 import Chart from 'react-apexcharts';
 import { Group, Loader } from '@mantine/core';
 import { chartType } from './functions';
-import ChartData from './chartData';
+import ChartData from '../Chart/chartData';
 import { connect } from 'react-redux';
-import { setModal } from '../../redux/reducers/main';
-import { getChart } from '../../apis/charts';
+import {setModal ,setChart,setPoint} from "../../redux/reducers/chartable/chart";
+import { getEveryFeeder } from '../../apis/main';
 
 /**
  * IChart for handle the every chart
@@ -26,6 +26,11 @@ class IChart extends Component {
   }
 
   componentDidMount() {
+    window['chartable'] = {
+      setModal: this.props.setModal,
+      setPoint: this.props.setPoint,
+      setChart: this.props.setChart
+    }
     // let options = chartType(this.props.special);
     // let extraEvents = Object.assign({},options?.chart?.events, {reducer:{setModal:this.props.setModal}});
     // options.chart.events = extraEvents;
@@ -41,7 +46,7 @@ class IChart extends Component {
   }
 
   worker() {
-    getChart(this.props.feeder_url)
+    getEveryFeeder(this.props.feeder_url)
       .then((res) => {
         this.setState({
           series: res.data.data.series,
@@ -88,7 +93,9 @@ export const clockTime = () => {
  * Dispatch to props
  */
 const mapDispatchToProps = (dispatch) => ({
-  setModal: (prop) => dispatch(setModal(prop)),
+  setModal: data => dispatch(setModal(data)),
+  setChart: data => dispatch(setChart(data)),
+  setPoint: data => dispatch(setPoint(data)),
 });
 
 export default connect(null, mapDispatchToProps)(IChart);

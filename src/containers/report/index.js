@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { getEveryFeeder } from '../../apis/main/main';
+import { getEveryFeeder } from '../../apis/main';
 import { matchSorter } from 'match-sorter';
 import { Link } from 'react-router-dom';
 import lodash from 'lodash'
@@ -136,11 +136,7 @@ class Report extends Component {
                         <Text size='sm' weight="bold">نام واقعی : </Text>
                         <Text size='sm'>{company.name}</Text>
                       </div>
-                      <div className='flex space-x-1'>
-                        <Text size='sm' weight="bold">ارزش : </Text>
-                        <Text size='sm' dir='ltr'>{company.value}</Text>
-                      </div>
-                      <Link to={`/monthly-chart/${company.id}`}>
+                      <Link to={`/stock/monthly-chart/${company.id}`}>
                         <Button fullWidth>مشاهده نمودار</Button>
                       </Link>
                     </Stack>

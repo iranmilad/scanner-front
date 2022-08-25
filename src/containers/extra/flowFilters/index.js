@@ -1,5 +1,4 @@
 import {
-  Chips,
   Chip,
   Group,
   Input,
@@ -11,7 +10,7 @@ import {
 import { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import ITable from '../../../components/ITable';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import { matchSorter } from 'match-sorter';
 import { header } from './headers';
 import lodash from 'lodash';
@@ -83,7 +82,7 @@ class FlowFilters extends Component {
             onChange={(e) => this.filterData(e.target.value)}
           />
         </Group>
-        <Chips
+        <Chip.Group
           my="lg"
           defaultValue="1"
           radius="sm"
@@ -99,7 +98,7 @@ class FlowFilters extends Component {
           <Chip value="6" disabled={this.state.loading}>نسبت های خرید و پارابولیک نزولی</Chip>
           <Chip value="7" disabled={this.state.loading}>ورود پول بلند مدتی و پارابولیک صعودی</Chip>
           <Chip value="8" disabled={this.state.loading}>خروج پول بلند مدتی و پارابولیک نزولی</Chip>
-        </Chips>
+        </Chip.Group>
         {this.state.loading ? (
           <Paper radius="md" shadow="xs" p="sm" mt="lg">
             <Center>

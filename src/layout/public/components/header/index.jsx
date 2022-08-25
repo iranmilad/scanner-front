@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
 import { headers, marketHeader } from '../../../../helper/navbar';
 import LogoWhite from '../../../../assets/images/logo-white.png';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
-import { Link } from 'react-router-dom';
-import { getEveryFeeder } from '../../../../apis/main/main';
+import { Link,withRouter } from 'react-router-dom';
+import { getEveryFeeder } from '../../../../apis/main';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setReportList } from '../../../../redux/reducers/config';
 import { matchSorter } from 'match-sorter';
-import { withRouter } from 'react-router-dom';
+import RoutesContext from "../../../../contexts/routes"
 
 const Header = withRouter((props) => {
+  const {headerType,stockID} = useContext(RoutesContext)
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const [search, setSearch] = useState([]);
@@ -40,14 +41,16 @@ const Header = withRouter((props) => {
   const setStocks = async () => {
     if (props.reportList.length === 0) {
       try {
-        let response = await getEveryFeeder('/totalStockSearch');
+        let thatItem = props.chartAndtables
+        thatItem = thatItem.find(item => item.key === "stockSearch");
+        let response = await getEveryFeeder(thatItem.feeder_url);
         dispatch(setReportList(response.data.data));
       } catch (error) {}
     }
   };
 
   useEffect(() => {
-    setStocks();
+    // setStocks();
   }, []);
 
   return (
@@ -56,16 +59,21 @@ const Header = withRouter((props) => {
         className="flex flex-row justify-between items-center bg-slate-800 h-16 shadow-sm fixed top-0 w-full"
         style={{ zIndex: 999999 }}
       >
-        <div className="container flex flex-row justify-between items-center space-x-2">
-          <div className="block lg:hidden">
+        <div className="container flex flex-row justify-between items-center">
+          <div className="lg:hidden">
             <ActionIcon
               size="lg"
-              mr="7px"
               variant="filled"
               color="blue"
               onClick={() => props.setOpen()}
             >
-              <svg className='w-4 h-4 fill-white' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
+              <svg
+                className="w-4 h-4 fill-white"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+              >
+                <path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z" />
+              </svg>
             </ActionIcon>
           </div>
           <div className="hidden lg:block">
@@ -80,9 +88,8 @@ const Header = withRouter((props) => {
               placeholder="جستجوی نماد / شرکت"
               value={searchValue}
               onChange={searchSymbol}
-              onItemSubmit={(item) =>
-                props.history.push(`/market/real/${item.id}`)
-              }
+              dir="rtl"
+              onItemSubmit={(item) => props.history.push(`/stock/${item.id}`)}
               itemComponent={AutoCompleteItem}
               rightSection={
                 <svg className='w-3.5 h-3.5 fill-gray-200' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -126,9 +133,9 @@ const Header = withRouter((props) => {
         style={{ zIndex: 999999 }}
       >
         <div className="container flex justify-between items-center flex-row bg-white ">
-          {props.marketHeader === 0 && <DesktopMenu data={headers} />}
-          {props.marketHeader === 1 && (
-            <DesktopMenu data={marketHeader} marketid={props.marketId} />
+          {headerType === 0 && <DesktopMenu data={headers} />}
+          {headerType === 1 && (
+            <DesktopMenu data={marketHeader} marketid={stockID} />
           )}
         </div>
       </div>
@@ -137,7 +144,7 @@ const Header = withRouter((props) => {
 });
 const AutoCompleteItem = React.forwardRef(
   ({ id, label, name, ...others }, ref) => (
-    <div ref={ref} {...others} onClick={() => console.log('hello')}>
+    <div ref={ref} {...others}>
       <Text size="xs">{label}</Text>
       <Text size="xs" color="gray">
         {name}
@@ -148,8 +155,7 @@ const AutoCompleteItem = React.forwardRef(
 
 const mapStateToProps = (state) => ({
   reportList: state.config.reportList,
-  marketHeader: state.main.mainHeaders,
-  marketId: state.main.marketId,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
 export default connect(mapStateToProps)(Header);

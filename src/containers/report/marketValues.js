@@ -1,7 +1,7 @@
 import { Group ,Text , Input} from '@mantine/core';
 import {Component} from 'react';
 import ITable from '../../components/ITable';
-import {getEveryFeeder} from '../../apis/main/main';
+import {getEveryFeeder} from '../../apis/main';
 import {marketValues} from '../../helper/statics';
 import {matchSorter} from 'match-sorter'
 

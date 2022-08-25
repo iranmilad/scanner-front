@@ -2,7 +2,7 @@ import React, { PureComponent, useEffect, useState } from 'react';
 import { Paper, Loader, Center, Button } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { getTreeMap } from '../../apis/treemap';
+import { getEveryFeeder } from '../../apis/main';
 import AnyChart from 'anychart-react';
 import anychart from 'anychart';
 import { withRouter } from 'react-router';
@@ -30,7 +30,7 @@ class Treemap extends PureComponent {
    * Fetch data from server
    */
   fetchData() {
-    getTreeMap('marketMap').then(async (res) => {
+    getEveryFeeder('marketMap').then(async (res) => {
       let data = anychart.data.tree(res.data.data, 'as-table');
       this.state.chart.data(data);
     });

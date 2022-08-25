@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 import {Modal,Loader,} from '@mantine/core';
 import { connect } from 'react-redux';
-import {getEveryFeeder} from "../../../apis/main/main"
+import {getEveryFeeder} from "../../../apis/main"
 import { Stack } from '@mantine/core';
 import { Center } from '@mantine/core';
 import lodash from 'lodash'

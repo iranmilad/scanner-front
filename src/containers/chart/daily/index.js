@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chart from '../../../components/Chart';
-import { getChart } from '../../../apis/charts';
+import { getEveryUser } from '../../../apis/main';
 import { Group, Text, Select, Stack } from '@mantine/core';
 import ChartData from '../../../components/Chart/chartData';
 import { connect } from 'react-redux';
@@ -24,21 +24,21 @@ class Daily extends Component {
   }
 
   chart1(id = this.id) {
-    getChart(`/CashFlowDaily/dailyTradeValue/${id}`).then((res) => {
+    getEveryUser(`/CashFlowDaily/dailyTradeValue/${id}`).then((res) => {
       ChartData.dailyChart1.options.labels = res.data.data.date;
       this.setState({ chart1: res.data.data, title: res.data.title });
     });
   }
 
   chart2(id = this.id) {
-    getChart(`/CashFlowDaily/dailyEntryMany/${id}`).then((res) => {
+    getEveryUser(`/CashFlowDaily/dailyEntryMany/${id}`).then((res) => {
       this.setState({ chart2: res.data.data, title: res.data.title });
       ChartData.dailyChart2.options.labels = res.data.data.date;
     });
   }
 
   chart3(id = this.id) {
-    getChart(`/CashFlowDaily/dailyPowerBuyer/${id}`).then((res) => {
+    getEveryUser(`/CashFlowDaily/dailyPowerBuyer/${id}`).then((res) => {
       this.setState({ chart3: res.data.data, title: res.data.title });
       ChartData.dailyChart3.options.labels = res.data.data.date;
     });
@@ -50,10 +50,12 @@ class Daily extends Component {
 
   get_daily_history() {
     if (!this.props.dailyList.length > 0) {
-      getChart(`/CashFlowDaily/dailyCashFlowIndustriesGroup`).then((res) => {
-        this.setState({ dailyLists: res.data.data });
-        this.props.setDailyList(res.data.data);
-      });
+      getEveryUser(`/CashFlowDaily/dailyCashFlowIndustriesGroup`).then(
+        (res) => {
+          this.setState({ dailyLists: res.data.data });
+          this.props.setDailyList(res.data.data);
+        }
+      );
     }
   }
 
@@ -82,9 +84,9 @@ class Daily extends Component {
   render() {
     return (
       <>
-      <Helmet>
-        <title>نمودار های جریانات نقدیندگی</title>
-      </Helmet>
+        <Helmet>
+          <title>نمودار های جریانات نقدیندگی</title>
+        </Helmet>
         <Stack spacing="lg">
           <Group position="apart">
             <Text size="md">{this.state.title}</Text>

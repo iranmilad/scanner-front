@@ -2,15 +2,15 @@ import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getEveryFeeder } from "../../../../apis/main/main"
-import ls from 'localstorage-slim';
+import { getEveryFeeder } from "../../../../apis/main"
 import {Group,Text,Paper,Center} from '@mantine/core';
 import lodash from "lodash";
 import Chart from "../../../../components/Chart";
 import ChartData from "../../../../components/Chart/chartData";
-import {setMarketId,setMainHeader} from "../../../../redux/reducers/main"
+import RoutesContext from "../../../../contexts/routes";
 
 class Index extends Component{
+  static contextType = RoutesContext
   state = {
     title: "",
     id: this.props.route.match.params.id,
@@ -24,7 +24,7 @@ class Index extends Component{
     return new Promise((resolve, reject) => {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolInfo');
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({
           title: res.data.data.name,
         });
@@ -109,24 +109,20 @@ class Index extends Component{
   }
 
   async componentDidMount(){
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
+
     try {
-      let id = await this.getInformation(this.state.id);
-      this.getSellPerfomance(id);
-      this.getPerfomanceValue(id);
+      await this.getInformation(this.context.stockID);
+      this.getSellPerfomance(this.context.stockID);
+      this.getPerfomanceValue(this.context.stockID);
     } catch (error) {
       console.log(error)
     }
 
     this.props.history.listen(async location => {
-      let { pathname } = location;
-      let URL_ID = pathname.split('/')[2];
-      this.props.setMarketId(URL_ID);
       try {
-        let id = await this.getInformation(URL_ID);
-        this.getSellPerfomance(id);
-        this.getPerfomanceValue(id);
+        await this.getInformation(this.context.stockID);
+        this.getSellPerfomance(this.context.stockID);
+        this.getPerfomanceValue(this.context.stockID);
       } catch (error) {
         console.log(error)
       }
@@ -134,7 +130,6 @@ class Index extends Component{
   }
 
   componentWillUnmount(){
-    this.props.setMainHeader(0);
     clearInterval(this.sellPerfomanceInterval)
     clearInterval(this.perfomanceValueInterval);
   }
@@ -180,9 +175,5 @@ const mapStateToProps = state => ({
   chartAndtables: state.config.needs.chartAndtables
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index));
+export default withRouter(connect(mapStateToProps)(Index));

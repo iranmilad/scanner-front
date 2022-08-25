@@ -1,20 +1,36 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-import { Button } from '@mantine/core';
-import { Menu, Divider, Avatar } from '@mantine/core';
-import Cookies from 'js-cookie';
+import { Menu, Divider, Avatar, Button } from '@mantine/core';
 import ProfilePic from '../../../../assets/images/pp.jpg';
-import ls from 'localstorage-slim';
 import axios from 'axios';
+import { withCookies } from 'react-cookie';
 
 class PrivateSection extends React.PureComponent {
-  handleLogout() {
-    ls.remove('token');
-    window.location.href = '/';
+  constructor(props) {
+    super(props);
+    const { cookies } = props;
+    this.state = {
+      token: cookies.get('token') || '',
+    };
   }
+  handleLogout() {
+    const { cookies } = this.props;
+    axios
+      .get('https://user.tseshow.com/api/auth/logout', {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${cookies.get('token')}`,
+        },
+      })
+      .then((res) => {
+        cookies.remove('token');
+        window.location.href = '/';
+      });
+  }
+
   render() {
-    if (localStorage.getItem('token')) {
+    if (this.state.token !== '') {
       return (
         <div className="flex flex-row ">
           <Menu
@@ -69,15 +85,15 @@ class PrivateSection extends React.PureComponent {
       );
     }
     return (
-      <React.Fragment>
+      <>
         <Link to="/login">
           <Button sx={{ fontWeight: 'normal' }} color="blue">
             ورود
           </Button>
         </Link>
-      </React.Fragment>
+      </>
     );
   }
 }
 
-export default PrivateSection;
+export default withCookies(PrivateSection);

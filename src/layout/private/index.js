@@ -1,47 +1,18 @@
-import Cookies from 'js-cookie';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense,useEffect,useState } from 'react';
 import BigLoading from '../../components/bigLoading';
-import { authUser } from '../../apis/auth';
 import { Link } from 'react-router-dom';
 import { Alert, Button, Center } from '@mantine/core';
 import Header from '../public/components/header';
 import Footer from '../public/components/footer';
 import Sidebar from '../../layouts/sidebar';
-import axios from 'axios';
-import {setConfig} from '../../redux/reducers/config';
-import { useDispatch } from 'react-redux';
-import ls from 'localstorage-slim'
+import { useCookies } from 'react-cookie';
 
-export default ({ Component, route }) => {
+const Index = ({ Component, route ,props}) => {
   let [open, setopen] = useState(false);
-  let [loading, setLoading] = useState(true);
   let closeMenu = () => setopen(false);
   let openMenu = () => setopen(true);
-  const dispatch = useDispatch();
+  const [cookies, setCookie] = useCookies(['token']);
 
-  let token = localStorage.getItem('token');
-  let [authed, setAuthed] = React.useState(false);
-  useEffect(async () => {
-    try {
-      let res = await axios.get('https://user.tseshow.com/api/home/data', {
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (res.data.profile !== null) {
-        dispatch(setConfig(res.data));
-        setAuthed(true);
-        setLoading(false);
-      } else {
-        localStorage.removeItem('token');
-        setAuthed(false);
-        setLoading(false);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
   return (
     <>
       <Header setOpen={openMenu} />
@@ -50,13 +21,8 @@ export default ({ Component, route }) => {
         <div className="container pt-3">
           <div className="my-4 mt-10">
             <Suspense fallback={<BigLoading />}>
-              {loading ? (
-                <Center>
-                  <BigLoading />
-                </Center>
-              ) : (
-                <>
-                  {authed ? (
+            <>
+                  {cookies.token ? (
                     <Component route={route} />
                   ) : (
                     <Center sx={{ width: '100%' }}>
@@ -75,7 +41,6 @@ export default ({ Component, route }) => {
                     </Center>
                   )}
                 </>
-              )}
             </Suspense>
           </div>
         </div>
@@ -84,3 +49,6 @@ export default ({ Component, route }) => {
     </>
   );
 };
+
+
+export default Index;

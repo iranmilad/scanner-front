@@ -7,16 +7,21 @@ import { Link } from 'react-router-dom';
  */
 export const header = [
   {
+    name: "شناسه",
+    selector: (row) => row.id,
+    omit: true
+  },
+  {
     name: 'نماد',
     selector: (row) => row.n0,
     sortable: true,
-    cell: (row) => <LinkTag link="#" text={row.n0} />,
+    cell: (row) => <LinkTag link={`/stock/${row.id}`} text={row.n0} />,
   },
   {
     name: 'نمودار جریانات نقدیندگی',
     selector: (row) => row.n1,
     cell: (row) => (
-      <Link to={`/market/real/chart/${row.n1}`}>
+      <Link to={`/stock/chart/${row.n1}`}>
         <svg
           className="w-3 h-3 fill-blue-500"
           xmlns="http://www.w3.org/2000/svg"

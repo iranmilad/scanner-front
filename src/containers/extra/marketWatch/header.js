@@ -6,10 +6,15 @@ import {ColorizeTag,LinkTag} from '../../../helper';
  */
 export const header = [
   {
+    name: "شناسه",
+    selector: (row) => row.id,
+    omit: true
+  },
+  {
     name: 'نماد',
     selector: (row) => row.n0,
     sortable: true,
-    cell: (row) => <LinkTag link="#" text={row.n0} />,
+    cell: (row) => <LinkTag link={`/stock/${row.id}`} text={row.n0} />,
   },
   {
     name: 'حجم',

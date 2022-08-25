@@ -8,7 +8,7 @@ import TraderSummary from './traderSummary';
 import ClientSummary from './clientSummary';
 import ITable from '../../../components/ITable';
 import { header as clientSummaryHeader } from './clientSummary/header';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import { header as traderSummaryHeader } from './traderSummary/header';
 import {
   bookMarkSummary,
@@ -26,12 +26,13 @@ import colors from 'tailwindcss/colors';
 import InstantCharts from './instantCharts';
 import LightChart from './lightChart';
 import { withRouter } from 'react-router-dom';
+import RoutesContext from "../../../contexts/routes"
 
 /**
  * @description Real Market means Sahm - صفحه سهم
  */
-
 class RealMarket extends Component {
+  static contextType = RoutesContext;
   state = {
     marketId: this.props.route.match.params.id,
     title: '',
@@ -57,130 +58,130 @@ class RealMarket extends Component {
     });
   };
 
-  ClientSummaryFetcher() {
+  ClientSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolClientSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ clientSummaryData: res.data.data });
     });
 
     this.ClientSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ clientSummaryData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  TraderSummaryFetcher() {
+  TraderSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolTradeSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ traderSummaryData: res.data.data });
     });
 
     this.TraderSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ traderSummaryData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  BookMarkSummaryFetcher() {
+  BookMarkSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolBookMarkSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ bookMarkSummaryData: res.data.data });
     });
 
     this.BookMarkSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ bookMarkSummaryData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  TotlaBookMarkSummaryFetcher() {
+  TotlaBookMarkSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find(
       (item) => item.key === 'symboltotalBookMarkSummery'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ totlaBookMarkSummaryData: res.data.data });
     });
 
     this.TotlaBookMarkSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ totlaBookMarkSummaryData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  totalClientSummaryFetcher() {
+  totalClientSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolTotalClientSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ totalClientSummaryData: res.data.data });
     });
 
     this.totalClientSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ totalClientSummaryData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  statementPerdiodFetcher() {
+  statementPerdiodFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolStatmentPeriod');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ statementPerdiodData: res.data.data });
     });
 
     this.statementPerdiodInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ statementPerdiodData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  SupportResistanceFetcher() {
+  SupportResistanceFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolSupportResistance');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ supportResistanceData: res.data.data });
     });
 
     this.SupportResistanceInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ supportResistanceData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  technicalValueFetcher() {
+  technicalValueFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolTechnicalValue');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ technicalValueData: res.data.data });
     });
 
     this.technicalValueInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ technicalValueData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  ChangePerfomanceFetcher() {
+  ChangePerfomanceFetcher(id = this.state.id) {
     if (this.state.navExist) {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolChangePerfomance');
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ ChangePerfomanceData: res.data.data });
       });
 
       this.ChangePerfomance = setInterval(() => {
-        getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then(
+        getEveryFeeder(`${thatItem.feeder_url}/${id}`).then(
           (res) => {
             this.setState({ ChangePerfomanceData: res.data.data });
           }
@@ -189,26 +190,26 @@ class RealMarket extends Component {
     }
   }
 
-  CombinationAssetsFetcher() {
+  CombinationAssetsFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolCombinationAssets');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ CombinationAssetsData: res.data.data });
     });
 
     this.CombinationAssetsInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({ CombinationAssetsData: res.data.data });
       });
     }, thatItem.refresh_time * 1000);
   }
 
-  async getInformation() {
+  async getInformation(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolInfo');
     try {
       let response = await getEveryFeeder(
-        `${thatItem.feeder_url}/${this.state.id}`
+        `${thatItem.feeder_url}/${id}`
       );
       this.setState({ stockInfo: response.data.data });
     } catch (error) {
@@ -216,13 +217,13 @@ class RealMarket extends Component {
     }
   }
 
-  checkNavExist() {
+  checkNavExist(id = this.state.id) {
     return new Promise(async (reseolve, reject) => {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolChart');
       try {
         let response = await getEveryFeeder(
-          `${thatItem.feeder_url}/${this.state.id}`
+          `${thatItem.feeder_url}/${id}`
         );
         if (response.data.fund) {
           this.setState({ navExist: true });
@@ -238,8 +239,6 @@ class RealMarket extends Component {
   }
 
   async componentDidMount() {
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
     try {
       await this.checkNavExist();
       this.getInformation();
@@ -258,30 +257,25 @@ class RealMarket extends Component {
     }
 
     this.props.history.listen(async (location) => {
-      let { pathname } = location;
-      let id = pathname.split('/')[3];
-      this.setState({ id });
-      this.props.setMarketId(id);
       try {
-        await this.checkNavExist();
-        this.getInformation();
-        this.ClientSummaryFetcher();
-        this.TraderSummaryFetcher();
-        this.BookMarkSummaryFetcher();
-        this.TotlaBookMarkSummaryFetcher();
-        this.totalClientSummaryFetcher();
-        this.statementPerdiodFetcher();
-        this.SupportResistanceFetcher();
-        this.technicalValueFetcher();
-        this.ChangePerfomanceFetcher();
-        this.CombinationAssetsFetcher();
+        await this.checkNavExist(this.context.stockID);
+        this.getInformation(this.context.stockID);
+        this.ClientSummaryFetcher(this.context.stockID);
+        this.TraderSummaryFetcher(this.context.stockID);
+        this.BookMarkSummaryFetcher(this.context.stockID);
+        this.TotlaBookMarkSummaryFetcher(this.context.stockID);
+        this.totalClientSummaryFetcher(this.context.stockID);
+        this.statementPerdiodFetcher(this.context.stockID);
+        this.SupportResistanceFetcher(this.context.stockID);
+        this.technicalValueFetcher(this.context.stockID);
+        this.ChangePerfomanceFetcher(this.context.stockID);
+        this.CombinationAssetsFetcher(this.context.stockID);
       } catch (error) {
         console.log(error);
       }
     });
   }
   componentWillUnmount() {
-    this.props.setMainHeader(0);
     clearInterval(this.ClientSummaryInterval);
     clearInterval(this.TraderSummaryInterval);
     clearInterval(this.BookMarkSummaryInterval);
@@ -452,11 +446,7 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(RealMarket)
+  connect(mapStateToProps)(RealMarket)
 );

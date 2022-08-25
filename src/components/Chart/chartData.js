@@ -20,10 +20,17 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: 'A1',
         fontFamily: 'Iran-sans',
         events: {
-          dataPointSelection: function (event, chartContext, config) {
-            this.reducer.setModal({ show: true, content: 'tree' });
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex,config}
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            console.log(dataPointIndex,chartContext);
           },
         },
       },
@@ -92,12 +99,13 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        fontFamily: 'Iran-sans',
+      },
+      legend: {
+        position: 'bottom',
       },
       colors: ['#E91E63', '#66DA26'],
       labels: ['سهام منفی', 'سهام مثبت'],
-      xaxis: {
-        position: 'bottom',
-      },
     },
   },
   A3: {
@@ -113,6 +121,9 @@ const ChartData = {
       },
       xaxis: {
         categories: clockTime(),
+      },
+      dataLabels:{
+        enabled: false,
       },
       legend: {
         show: false,
@@ -750,12 +761,12 @@ const ChartData = {
           borderRadius: 4,
           horizontal: true,
         },
-        chart:{
+        chart: {
           animations: {
             enabled: false,
           },
           fontFamily: 'Iran-sans',
-        }
+        },
       },
       colors: ['#E91E63', '#66DA26'],
       dataLabels: {

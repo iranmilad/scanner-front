@@ -1,40 +1,42 @@
 import axios from 'axios';
-import {getLocalStorage,clearLocalStorage} from './localStorage';
-import configStore from '../redux/store';
-import { getApiPath } from '../redux/reducers/main';
+import Cookies from 'js-cookie';
 
-const ApiCaller = (config)=>{
-
-	
+const ApiCaller = (config) => {
   const axiosInstance = axios.create({
-    headers:{
-			"Accept": "application/json",
-			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
-		},
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
     responseType: 'json',
-		baseURL: 'https://user.tseshow.com/api'
+    baseURL: process.env.REACT_APP_USER_FEED_URL,
   });
 
-	axiosInstance.interceptors.request.use(
-		res => {
-			return res;
-		},
-		error => {
-			return Promise.reject(error);
-		}
-	)
+  axiosInstance.interceptors.request.use(
+    (request) => {
+      const token = Cookies.get('token');
+      // if (config.token) {
+      //   request.headers['Authorization'] = `Bearer ${token}`;
+      // }
+      if (window['networkStatus'].online === false) {
+        return false;
+      }
+      return request;
+    },
+    (error) => {
+      Promise.reject(error);
+    }
+  );
 
-	axiosInstance.interceptors.response.use(
-		response => {
-			return response;
-		},
-		error => {
-			return Promise.reject(error);
-		}
-	)
-  return axiosInstance
-}
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
+  return axiosInstance;
+};
 
 export default ApiCaller;

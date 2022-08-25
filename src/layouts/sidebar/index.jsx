@@ -1,10 +1,13 @@
-import Logo from '../../assets/images/logo.png';
+import { useContext } from 'react';
+import Logo from '../../assets/images/logo-white.png';
 import { Disclosure, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
-import { headers } from '../../helper/navbar';
+import { headers, marketHeader } from '../../helper/navbar';
 import { connect } from 'react-redux';
+import RoutesContext from '../../contexts/routes';
 
-const Sidebar = ({ setOpen, open ,props,marketHeader,marketId}) => {
+const Sidebar = ({ setOpen, open, props }) => {
+  let { stockID, headerType } = useContext(RoutesContext);
   let marginRight;
 
   switch (open) {
@@ -35,7 +38,7 @@ const Sidebar = ({ setOpen, open ,props,marketHeader,marketId}) => {
           className="py-2 px-3 lg:hidden text-slate-300 transition-all hover:bg-blue-50 rounded-md flex items-center justify-center"
         >
           <svg
-            className="w-5 h-5 fill-blue-500"
+            className="w-5 h-5 fill-slate-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 320 512"
           >
@@ -46,11 +49,28 @@ const Sidebar = ({ setOpen, open ,props,marketHeader,marketId}) => {
       <div className="mb-20 w-full mt-4">
         <div className="my-3 w-full">
           <div className="w-full">
-            {headers.map((item, id) => (
-              <div key={id} className="py-1">
-                <NavMenu item={item} children={item.children} />
-              </div>
-            ))}
+            {headerType === 0 && (
+              <>
+                {headers.map((item, id) => (
+                  <div key={id} className="py-3">
+                    <NavMenu item={item} children={item.children} />
+                  </div>
+                ))}
+              </>
+            )}
+            {headerType === 1 && (
+              <>
+                {marketHeader.map((item, id) => (
+                  <div key={id} className="py-3">
+                    <NavMenu
+                      item={item}
+                      children={item.children}
+                      stockID={stockID}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -63,7 +83,7 @@ function isValidImageData(string) {
   return pattern.test(string);
 }
 
-const NavMenu = ({ item, children, ...props }) => {
+const NavMenu = ({ item, children, stockID = null, ...props }) => {
   return (
     <>
       {children ? (
@@ -73,21 +93,42 @@ const NavMenu = ({ item, children, ...props }) => {
               <>
                 <Disclosure.Button
                   {...props}
-                  className={`hover:text-slate-200 border border-transparent flex justify-between items-center w-full px-4 py-2 transition-all text-sm font-medium text-left text-slate-400 rounded-md ${
+                  className={`hover:text-slate-200 border border-b-0 border-transparent flex justify-between items-center w-full px-4 transition-all text-sm font-medium text-left text-slate-400 rounded-md ${
                     open
-                      ? 'bg-slate-700 rounded-b-none border border-b-0 border-slate-500'
+                      ? 'bg-slate-700 rounded-b-none border-slate-500 pt-2'
                       : ''
                   }`}
                 >
                   <div className="flex items-center ">
-                    <i className={`${item.icon} text-lg ml-4`}></i>
+                    {'icon' in item && (
+                      <>
+                        {isValidImageData(item.icon) ? (
+                          <img
+                            src={item.icon}
+                            className="w-4 ml-4 inline-block"
+                          />
+                        ) : (
+                          <>
+                            {typeof item.icon === 'string' ? (
+                              <i className={`${item.icon} ml-3`}></i>
+                            ) : (
+                              <span className="ml-4">{item.icon}</span>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
                     <span className={`text-[13px] `}>{item.name}</span>
                   </div>
-                  <i
-                    className={`fa-solid fa-chevron-right text-[9px] transition-all ${
-                      open ? 'transform -rotate-90' : ''
+                  <svg
+                    className={`w-3 h-3 fill-gray-600 transition-all  ${
+                      open ? 'transform rotate-90' : ''
                     }`}
-                  ></i>
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                  >
+                    <path d="M224 416c-8.188 0-16.38-3.125-22.62-9.375l-192-192c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L224 338.8l169.4-169.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-192 192C240.4 412.9 232.2 416 224 416z" />
+                  </svg>
                 </Disclosure.Button>
                 <Transition
                   enter="transition duration-100 linear h-0"
@@ -104,20 +145,13 @@ const NavMenu = ({ item, children, ...props }) => {
                       {children.map((child, id) => (
                         <li
                           key={id}
-                          className={`hover:text-slate-200 bg-slate-700  text-[13px]  flex items-center transition-all duration-200 hover:mr-1 ${
-                            child.account ? 'text-gray-500' : 'text-gray-400'
-                          } ${
+                          className={`text-slate-500 hover:text-slate-200 bg-slate-700  text-[13px]  flex items-center transition-all duration-200 hover:mr-1 ${
                             id === 0
-                              ? 'mb-5 border-t pt-5 border-slate-500'
+                              ? 'mb-5 pt-5'
                               : 'my-6'
                           }`}
                         >
-                          {child.account ? (
-                            <i className="fa-solid fa-lock-keyhole ml-3"></i>
-                          ) : (
-                            <i className="fa-solid fa-arrow-left ml-3"></i>
-                          )}
-                          <Link to={child.link}>{child.name}</Link>
+                          <Link to={`${child.link}${child.replace ? `/${stockID}` : ''}`}>{child.name}</Link>
                         </li>
                       ))}
                     </ul>
@@ -129,19 +163,19 @@ const NavMenu = ({ item, children, ...props }) => {
         </>
       ) : (
         <Link
-          to={item.link}
-          className="text-[13px] text-slate-400 hover:text-slate-200 px-5 py-2"
+        to={`${item.link}${item.replace ? `/${stockID}` : ''}`}
+          className="text-[13px] text-slate-400 hover:text-slate-200 px-5 py-4"
         >
           {'icon' in item && (
             <>
               {isValidImageData(item.icon) ? (
-                <img src={item.icon} className="w-4 ml-2" />
+                <img src={item.icon} className="w-4 ml-4 inline-block" />
               ) : (
                 <>
                   {typeof item.icon === 'string' ? (
                     <i className={`${item.icon} ml-3`}></i>
                   ) : (
-                    item.icon
+                    <span className="ml-4 inline-block">{item.icon}</span>
                   )}
                 </>
               )}
@@ -154,9 +188,9 @@ const NavMenu = ({ item, children, ...props }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   marketHeader: state.main.mainHeaders,
-  marketId: state.main.marketId
-})
+  marketId: state.main.marketId,
+});
 
 export default connect(mapStateToProps)(Sidebar);

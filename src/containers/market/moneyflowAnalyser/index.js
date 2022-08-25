@@ -7,15 +7,16 @@ import { Form, Formik } from 'formik';
 import TextField from '../../../components/FormsUI/TextField';
 import ITable from '../../../components/ITable';
 import { ColorizeTag } from '../../../helper';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
 import { withRouter } from 'react-router-dom';
 import {setMarketId,setMainHeader} from "../../../redux/reducers/main";
-import ls from "localstorage-slim"
+import RoutesContext from "../../../contexts/routes"
 
 class Index extends Component {
+  static contextType = RoutesContext;
   state = {
     data: [],
     loading: false,
@@ -68,9 +69,9 @@ class Index extends Component {
 
   getInformation(id = this.state.id) {
     return new Promise((resolve, reject) => {
-      let thatItem = this.props.table;
+      let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolInfo');
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({
           title: res.data.data.name,
         });
@@ -82,7 +83,8 @@ class Index extends Component {
   }
 
   getDataFromServer = (id = this.state.id) => {
-    let thatItem = this.props.table;
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "symbolStockSignalWatch");
     this.setState({ loading: true });
     getEveryFeeder(
       `${thatItem.feeder_url}/${id}/${this.state.selectRight}/${this.state.selectLeft}/${this.state.filters.period4}/${this.state.filters.period1}/${this.state.filters.period2}/${this.state.filters.period3}`
@@ -105,8 +107,6 @@ class Index extends Component {
   };
 
   async componentDidMount() {
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
     try {
       let id = await this.getInformation(this.state.id); 
       this.getDataFromServer(id);
@@ -115,14 +115,10 @@ class Index extends Component {
     }
       
     this.props.history.listen(async location => {
-      let { pathname } = location;
-      let URL_ID = pathname.split('/')[3];
-      this.setState({ id: URL_ID });
-      this.props.setMarketId(URL_ID);
-      this.props.setMainHeader(1);
+      this.setState({ id: this.context.stockID });
       try {
-        let id = await this.getInformation(URL_ID); 
-        this.getDataFromServer(id);
+        await this.getInformation(this.context.stockID); 
+        this.getDataFromServer(this.context.stockID);
       } catch (error) {
         console.log(error);
       }
@@ -131,7 +127,6 @@ class Index extends Component {
   }
   componentWillUnmount(){
     clearInterval(this.moneyFlowAnalyserInterval);
-    this.props.setMainHeader(0);
   }
 
   render() {
@@ -337,14 +332,8 @@ const schema = Yup.object().shape({
 });
 
 const mapStateToProps = (state) => ({
-  table: state.config.needs.chartAndtables.find(
-    (item) => item.key === 'symbolStockSignalWatch'
-  ),
+  chartAndtables: state.config.needs.chartAndtables,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Index));
+export default withRouter(connect(mapStateToProps)(Index));

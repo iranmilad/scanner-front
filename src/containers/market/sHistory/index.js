@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import ITable from '../../../components/ITable';
 import {header} from "./header"
-import {getEveryFeeder} from "../../../apis/main/main";
+import {getEveryFeeder} from "../../../apis/main";
 import {connect} from "react-redux"
 import { Helmet } from 'react-helmet';
 import { Group, Text } from '@mantine/core';
 import { withRouter } from 'react-router-dom';
 import {setMainHeader,setMarketId} from "../../../redux/reducers/main";
-import ls from "localstorage-slim"
+import RoutesContext from "../../../contexts/routes"
 
 class SHistory extends Component {
+  static contextType = RoutesContext
   state = {
     title: '',
     data: [],
@@ -37,7 +38,7 @@ class SHistory extends Component {
   getInformation(id = this.state.id) {
     return new Promise((resolve, reject) => {
       let thatItem = this.props.table;
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
         this.setState({
           title: res.data.data.name,
         });
@@ -49,8 +50,6 @@ class SHistory extends Component {
   }
 
   async componentDidMount(){
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
     try {
       let id = await this.getInformation(this.state.id)
       this.getFeed(id);
@@ -59,24 +58,20 @@ class SHistory extends Component {
     }
 
     this.props.history.listen(async location => {
-      let { pathname } = location;
-      let URL_ID = pathname.split('/')[2];
-      this.setState({ id: URL_ID });
-      this.props.setMarketId(URL_ID);
-      this.props.setMainHeader(1);
+      this.setState({ id: this.context.stockID});
       try {
-        let id = await this.getInformation(URL_ID)
-        this.getFeed(id);
+        await this.getInformation(this.context.stockID)
+        this.getFeed(this.context.stockID);
       } catch (error) {
         console.log(error)
-      }
-    
+      } 
     })
   }
 
   componentWillUnmount(){
-    this.props.setMainHeader(0);
+    clearInterval(this.interval)
   }
+
 
   render() {
     return (
@@ -105,9 +100,4 @@ const mapStateToProps = (state) => ({
   table: state.config.needs.chartAndtables.find(item => item.key === "symbolHistory")
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
-
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SHistory))
+export default withRouter(connect(mapStateToProps)(SHistory))

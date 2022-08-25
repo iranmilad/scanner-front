@@ -2,7 +2,7 @@ import { Component } from 'react';
 import ITable from '../../../../components/ITable';
 import { header } from './header';
 import { connect } from 'react-redux';
-import { getEveryFeeder } from '../../../../apis/main/main';
+import { getEveryFeeder } from '../../../../apis/main';
 
 class TraderSummary extends Component {
   state = {

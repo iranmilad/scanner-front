@@ -2,7 +2,7 @@ import { Grid } from '@mantine/core';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../../../components/Chart';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import { Text } from '@mantine/core';
 import { Group } from '@mantine/core';
 import { Select } from '@mantine/core';

@@ -6,7 +6,7 @@ import { matchSorter } from 'match-sorter';
 import FilterModal from './components/filterModal';
 import { header } from './headers';
 import lodash from 'lodash';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 
 /**
  * All industries in Table with filter them

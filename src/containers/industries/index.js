@@ -10,9 +10,8 @@ import {
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { getTable } from '../../apis/tables';
+import { getEveryFeeder } from '../../apis/main';
 import Chart from '../../components/Chart';
-import { getChart } from '../../apis/charts';
 import {withRouter} from "react-router-dom"
 
 class Index extends Component {
@@ -38,7 +37,7 @@ class Index extends Component {
 
   table1() {
     this.setState({ loading: true });
-    getTable(`/industries/totalIndustriesActivity/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesActivity/${this.id}`)
       .then((res) => {
         this.setState({ table1: res.data, loading: false });
       })
@@ -47,7 +46,7 @@ class Index extends Component {
 
   table2() {
     this.setState({ loading: true });
-    getTable(`/industries/totalIndustriesStockLOrN/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesStockLOrN/${this.id}`)
       .then((res) => {
         this.setState({ table2: res.data.data, loading: false });
       })
@@ -56,7 +55,7 @@ class Index extends Component {
 
   table3() {
     this.setState({ loading: true });
-    getTable(`/industries/totalIndustrialsStocks/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustrialsStocks/${this.id}`)
       .then((res) => {
         this.setState({ table3: res.data, loading: false });
       })
@@ -64,7 +63,7 @@ class Index extends Component {
   }
 
   chart1() {
-    getChart(`/industries/totalIndustriesStockPresent/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesStockPresent/${this.id}`)
       .then((res) => {
         this.setState({ chart1: res.data.data, loading: false });
       })
@@ -72,7 +71,7 @@ class Index extends Component {
   }
 
   chart2() {
-    getChart(`/industries/totalIndustriesStockValueQueue/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesStockValueQueue/${this.id}`)
       .then((res) => {
         this.setState({ chart2: res.data.data, loading: false });
       })
@@ -80,7 +79,7 @@ class Index extends Component {
   }
 
   chart3() {
-    getChart(`/industries/totalIndustriesChangeBuySellHeadsHistory/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesChangeBuySellHeadsHistory/${this.id}`)
       .then((res) => {
         this.setState({ chart3: res.data.data, loading: false });
       })
@@ -88,7 +87,7 @@ class Index extends Component {
   }
 
   chart4() {
-    getChart(`/industries/totalIndustriesEnterManyBuyerIHistory/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesEnterManyBuyerIHistory/${this.id}`)
       .then((res) => {
         this.setState({ chart4: res.data.data, loading: false });
       })
@@ -96,7 +95,7 @@ class Index extends Component {
   }
 
   chart5() {
-    getChart(`/industries/totalIndustriesMarketOrderValueHistory/${this.id}`)
+    getEveryFeeder(`/industries/totalIndustriesMarketOrderValueHistory/${this.id}`)
       .then((res) => {
         this.setState({ chart5: res.data.data, loading: false });
       })
@@ -105,7 +104,7 @@ class Index extends Component {
 
   getIndustryList = () => {
     if (_.isEmpty(this.state.industryLists)) {
-      getChart('/industries/totalIndustriesGroup')
+      getEveryFeeder('/industries/totalIndustriesGroup')
         .then((res) => {
           this.setState({ industryLists: res.data.data});
         })

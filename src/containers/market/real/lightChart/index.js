@@ -6,7 +6,7 @@ import { Group } from '@mantine/core';
 import { Button } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import colors from 'tailwindcss/colors';
-import { getEveryFeeder } from '../../../../apis/main/main';
+import { getEveryFeeder } from '../../../../apis/main';
 
 class LightChart extends Component {
   constructor(props) {
@@ -202,7 +202,6 @@ class LightChart extends Component {
       let response = await getEveryFeeder(
         `${thatItem.feeder_url}/${this.props.stockId}`
       );
-      console.log(response);
       this.linearGraph.setData(response.data.data);
     } catch (error) {
       console.log(error);

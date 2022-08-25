@@ -3,6 +3,7 @@ import {
   Paper,
   Tabs,
   Text,
+  Button,
   Group,
   MediaQuery,
   SimpleGrid,
@@ -11,16 +12,16 @@ import { Component } from 'react';
 import Logo from '../../assets/images/logo.png';
 import IChart from '../../components/IChart';
 import Lock from '../LockBox';
-import { getLocalStorage } from '../../helper/localStorage';
-import { gridColumn } from '../../helper';
 import ls from 'localstorage-slim';
+import { withCookies } from 'react-cookie';
 
 class LoopChart extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const { cookies } = props;
     let gridSystem = ls.get('grids');
     this.state = {
-      auth: false,
+      auth: cookies.get('token') ? true : false,
       gridSystem: gridSystem ? gridSystem : 0,
     };
   }
@@ -82,6 +83,7 @@ class LoopChart extends Component {
             this.props.charts.map((chart, index) =>
               chart.active === false ? (
                 <div
+                  key={index}
                   className={
                     index === this.props.charts.length - 1
                       ? this.state.gridSystem === 0
@@ -91,7 +93,6 @@ class LoopChart extends Component {
                   }
                 >
                   <Paper
-                    key={index}
                     shadow="xs"
                     p="lg"
                     radius="md"
@@ -112,6 +113,7 @@ class LoopChart extends Component {
                 </div>
               ) : (
                 <div
+                  key={index}
                   className={
                     index === this.props.charts.length - 1
                       ? this.state.gridSystem === 0
@@ -138,4 +140,4 @@ class LoopChart extends Component {
   }
 }
 
-export default LoopChart;
+export default withCookies(LoopChart);

@@ -6,11 +6,13 @@ import Sidebar from '../../layouts/sidebar'
 import { Container } from '@mantine/core';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 
 export default ({ Component, route }) => {
   let [open,setopen] = useState(false);
   let closeMenu = () => setopen(false); 
   let openMenu = () => setopen(true);
+  let history = useHistory();
 
   let token = localStorage.getItem('token');
   let [authed, setAuthed] = useState(false);

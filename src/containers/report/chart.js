@@ -2,7 +2,7 @@ import { Stack } from '@mantine/core';
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import Chart from '../../components/Chart';
-import { getEveryFeeder } from '../../apis/main/main';
+import { getEveryFeeder } from '../../apis/main';
 import ChartData from '../../components/Chart/chartData';
 
 class ReportChart extends Component {

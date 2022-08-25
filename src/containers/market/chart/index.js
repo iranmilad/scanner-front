@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Chip,
-  Chips,
   Group,
   Input,
   Paper,
@@ -10,13 +9,13 @@ import {
   Button,
   Modal,
   Grid,
-  InputWrapper,
+  TextInput,
   Divider,
   MultiSelect,
   LoadingOverlay,
 } from '@mantine/core';
 import { Helmet } from 'react-helmet';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import { createChart, PriceScaleMode, CrosshairMode } from 'lightweight-charts';
 import { withRouter } from 'react-router-dom';
 import { Formik, Form } from 'formik';
@@ -509,7 +508,7 @@ class Market extends Component {
           />
         </Group>
         <Paper p="lg" shadow="xs" radius="md" mt="lg">
-          <Chips
+          <Chip.Group
             defaultValue="0"
             radius="sm"
             onChange={(e) => this.onChangeChips(e)}
@@ -524,7 +523,7 @@ class Market extends Component {
             <Chip value="5" disabled={this.state.allowSelectLastChip}>
               مقایسه ای سرانه خرید و فروش
             </Chip>
-          </Chips>
+          </Chip.Group>
           <Group mt="sm">
             <Input
               value={this.state.comparisonPeriod}
@@ -600,34 +599,34 @@ class Market extends Component {
             <Form>
               <Grid>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین کوتاه مدت">
+                  <TextInput label="دوره میانگین کوتاه مدت">
                     <TextField placeholder="1 تا 50" name="shortterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین میان مدت">
+                  <TextInput label="دوره میانگین میان مدت">
                     <TextField placeholder="1 تا 100" name="midterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین بلند مدت">
+                  <TextInput label="دوره میانگین بلند مدت">
                     <TextField placeholder="1 تا 200" name="longterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین متحرک کوتاه مدت">
+                  <TextInput label="دوره میانگین متحرک کوتاه مدت">
                     <TextField placeholder="1 تا 200" name="shortmovingterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین متحرک میان مدت">
+                  <TextInput label="دوره میانگین متحرک میان مدت">
                     <TextField placeholder="1 تا 200" name="midmovingterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <InputWrapper label="دوره میانگین متحرک بلند مدت">
+                  <TextInput label="دوره میانگین متحرک بلند مدت">
                     <TextField placeholder="1 تا 200" name="longmovingterm" />
-                  </InputWrapper>
+                  </TextInput>
                 </Grid.Col>
               </Grid>
               <Group position="apart" mt="lg">

@@ -61,32 +61,32 @@ class Dashboard extends Component {
           <title>حساب کاربری</title>
         </Helmet>
             <Grid >
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <Information user={this.props.user} />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <Subscription subscription={this.props.subscription} />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <PublicMessages messages={this.props.publicMessages} />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <PrivateMessages setAllMessagesToState={this.setAllMessagesToState} loading={this.state.loading} messages={this.separateMessages(this.state.privateMessages)} />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <Question />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={2} sm={12} md={6}>
+        <Grid.Col sm={12} md={6}>
           <Paper shadow="xs" p="md" sx={{height: "100%"}}>
             <ChangePassword />
           </Paper>

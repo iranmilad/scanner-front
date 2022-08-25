@@ -54,17 +54,17 @@ export const publicRoute = [
     layout: 'public'
   },
   {
-    path: "/market/real/:id",
+    path: "/stock/:id",
     component: RealMarket,
     layout: 'public'
   },
   {
-    path: "/shistory/:id",
+    path: "/stock/shistory/:id",
     component: SHistory,
     layout: 'public'
   },
   {
-    path: "/market/moneyflowanalyser/:id",
+    path: "/stock/moneyflowanalyser/:id",
     component: MoneyFlowAnalyser,
     layout: "public"
   }

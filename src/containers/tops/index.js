@@ -4,7 +4,7 @@ import ITable from '../../components/ITable';
 import { Helmet } from 'react-helmet';
 import { Text, Input ,Group} from '@mantine/core';
 import { matchSorter } from 'match-sorter';
-import { getEveryFeeder } from '../../apis/main/main';
+import { getEveryFeeder } from '../../apis/main';
 import lodash from 'lodash';
 
 class Tops extends Component {

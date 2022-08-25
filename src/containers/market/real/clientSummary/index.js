@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import ITable from '../../../../components/ITable';
 import { header } from './header';
-import { getEveryFeeder } from '../../../../apis/main/main';
+import { getEveryFeeder } from '../../../../apis/main';
 import { connect } from 'react-redux';
 
 class ClientSummary extends Component {

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Group, Input, Select, Text } from '@mantine/core';
-import { getEveryFeeder } from '../../apis/main/main';
+import { getEveryFeeder } from '../../apis/main';
 import { matchSorter } from 'match-sorter';
 import lodash from 'lodash';
 import ITable from '../../components/ITable';

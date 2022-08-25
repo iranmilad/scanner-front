@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { MultiSelect } from '@mantine/core';
 import { connect } from 'react-redux';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 import {setMarket} from "../../../redux/reducers/market";
 import lodash from 'lodash'
 

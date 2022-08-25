@@ -13,7 +13,7 @@ import {
 import { Helmet } from 'react-helmet';
 import ITable from '../../../components/ITable';
 import { header } from './header';
-import { getEveryFeeder } from '../../../apis/main/main';
+import { getEveryFeeder } from '../../../apis/main';
 
 class MarketWatch extends TechnoWatch {
   constructor(props) {
@@ -139,21 +139,13 @@ class MarketWatch extends TechnoWatch {
             </>
           )}
         </Group>
-        {this.state.loading ? (
-          <Paper radius="md" shadow="xs" p="sm" mt="lg">
-            <Center>
-              <Loader variant="dots" />
-            </Center>
-          </Paper>
-        ) : (
-          <ITable
+        <ITable
             pagination
             fixedHeader
             fixedHeaderScrollHeight="70vh"
             data={this.state.filteredData}
             column={this.state.header}
           />
-        )}
         <FilterModal
           headers={this.HeadersByName()}
           filter={this.filterByAllHeaders}

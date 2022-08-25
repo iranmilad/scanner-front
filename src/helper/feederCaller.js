@@ -1,35 +1,46 @@
 import axios from 'axios';
-import {getLocalStorage,clearLocalStorage} from './localStorage';
-import configStore from '../redux/store';
-import { getApiPath } from '../redux/reducers/main';
+import Cookies from 'js-cookie';
 
-const FeederCaller = (config)=>{
-
+/**
+ * This method made because of just feeders
+ * This method doesn't need a base url because we get a full address from config
+ */
+const FeederCaller = (config) => {
   const axiosInstance = axios.create({
-    headers:{},
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    method: "GET",
     responseType: 'json',
-		baseURL: 'https://feed.tseshow.com/api'
   });
 
-	axiosInstance.interceptors.request.use(
-		res => {
-			return res;
-		},
-		error => {
-			return Promise.reject(error);
-		}
-	)
+  axiosInstance.interceptors.request.use(
+    (request) => {
+      const token = Cookies.get('token');
+      if (config.token) {
+        request.headers['Authorization'] = `Bearer ${token}`;
+      }
+      if(window['networkStatus'].online === false){
+        return false
+      }
+      return request;
+    },
+    (error) => {
+      Promise.reject(error);
+    }
+  );
 
-	// axiosInstance.interceptors.response.use(
-	// 	response => {
-	// 		return response;
-	// 	},
-	// 	error => {
-	// 		return Promise.reject(error);
-	// 	}
-	// )
-  return axiosInstance
-}
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
+  return axiosInstance;
+};
 
 export default FeederCaller;

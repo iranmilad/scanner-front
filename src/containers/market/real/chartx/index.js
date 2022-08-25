@@ -5,10 +5,11 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { getEveryFeeder } from '../../../../apis/main/main';
-import { setMarketId, setMainHeader } from '../../../../redux/reducers/main';
+import { getEveryFeeder } from '../../../../apis/main';
+import RoutesContext from "../../../../contexts/routes"
 
 class Chartx extends Component {
+  static contextType = RoutesContext
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +40,6 @@ class Chartx extends Component {
   };
 
   async componentDidMount() {
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
     try {
       await this.getOptions(this.state.id);
     } catch (error) {
@@ -48,21 +47,14 @@ class Chartx extends Component {
     }
 
     this.props.history.listen(async (location) => {
-      let { pathname } = location;
-      let URL_ID = pathname.split('/')[3];
-      this.props.setMarketId(URL_ID);
-      this.props.setMainHeader(1);
       try {
-        await this.getOptions(URL_ID);
+        await this.getOptions(this.context.stockID);
       } catch (error) {
         console.log(error);
       }
     });
   }
 
-  componentWillUnmount() {
-    this.props.setMainHeader(0);
-  }
   render() {
     return (
       <>
@@ -84,7 +76,7 @@ class Chartx extends Component {
           <iframe
             width="100%"
             className="h-[80vh] mt-5"
-            src={`${this.technical.feeder_url}/${this.state.id}/${this.state.selectBoxValue}`}
+            src={`${this.technical.feeder_url}/${this.context.stockID}/${this.state.selectBoxValue}`}
             seamless
           />
         )}
@@ -97,9 +89,5 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Chartx));
+export default withRouter(connect(mapStateToProps)(Chartx));

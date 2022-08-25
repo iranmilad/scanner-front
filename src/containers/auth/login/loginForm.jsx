@@ -1,19 +1,14 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { Space, Button, Group, Text, Alert, Anchor } from '@mantine/core';
-import { History } from '../../../helper/history';
 import { loginAPI } from '../../../apis/auth';
 import { loginSchema } from './schema';
 import TextField from '../../../components/FormsUI/TextField';
-import colors from 'tailwindcss/colors';
 import { Link, withRouter } from 'react-router-dom';
-import {
-  setLocalStorage,
-  setLocalStorageWithExpiry,
-} from '../../../helper/localStorage';
-import Cookies from 'js-cookie';
+import {withCookies,Cookies} from "react-cookie"
 
 class LoginForm extends React.PureComponent {
+
   state = {
     loading: false,
     loginSuccess: false,
@@ -41,24 +36,25 @@ class LoginForm extends React.PureComponent {
           time: 4,
         });
         this.countDownTimer();
-        // set local storage token
-        localStorage.setItem('token', res.data.data.access_token);
-        Cookies.set('token', res.data.data.access_token, {
-          expires: Math.floor(res.data.data.expires_in / (3600 * 24)),
-          path: '/',
-          secure: true,
-        });
+        const {cookies} = this.props;
+        cookies.set("token",res.data.data.access_token,{path:'/',maxAge: res.data.data.expires_in})
 
         // redirect to home page
         setTimeout(() => {
-          this.props.history.goBack();
+          const {history:{action}} = this.props;
+          if(action === 'PUSH'){
+            this.props.history.goBack();
+          }
+          else{
+            this.props.history.go("/");
+          }
         }, 4000);
       })
       .catch((err) => {
-        this.setState({
-          loading: false,
-          loginFaild: err.response.data.message,
-        });
+        // this.setState({
+        //   loading: false,
+        //   loginFaild: err.response.data.message,
+        // });
       });
   }
 
@@ -77,6 +73,12 @@ class LoginForm extends React.PureComponent {
       }
     }, 1000);
   }
+
+  componentDidMount(){
+    const cookies = new Cookies();
+    cookies.remove("token",{path:'/'});
+  }
+
 
   render() {
     const INITIAL_FORM_STATE = {
@@ -171,4 +173,4 @@ class LoginForm extends React.PureComponent {
   }
 }
 
-export default withRouter(LoginForm);
+export default withRouter(withCookies(LoginForm));

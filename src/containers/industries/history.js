@@ -6,10 +6,9 @@ import {
   industries_history_type_1,
   industries_history_type_2,
 } from '../../helper/statics';
-import { getTable } from '../../apis/tables';
+import { getEveryFeeder } from '../../apis/main';
 import { connect } from 'react-redux';
 import lodash from 'lodash';
-import { getChart } from '../../apis/charts';
 import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
@@ -39,20 +38,19 @@ class History extends React.Component {
   getIndustryList() {
     if (lodash.isEmpty(this.state.industryLists)) {
       this.setState({ loading: true });
-      getChart('/totalIndustriesGroupHisory').then((res) => {
+      getEveryFeeder('/totalIndustriesGroupHisory').then((res) => {
         this.setState({ industryLists: res.data.data, loading: false });
       });
     }
   }
 
-
-  getTableData(id = this.state.id){
-    getTable(`/totalMarketHistory/${id}`).then((res) => {
+  getTableData(id = this.state.id) {
+    getEveryFeeder(`/totalMarketHistory/${id}`).then((res) => {
       this.setState({
         title: res.data.title,
         data: res.data.data,
         type: res.data.type,
-        loading: false
+        loading: false,
       });
     });
   }
@@ -62,14 +60,14 @@ class History extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({loading:true})
-    this.getTableData(this.state.id)
+    this.setState({ loading: true });
+    this.getTableData(this.state.id);
     this.props.history.listen((location, action) => {
       let { pathname } = location;
       let id = pathname.split('/')[3];
-      this.setState({id});
+      this.setState({ id });
       this.getTableData(id);
-    })
+    });
   }
   render() {
     return (
@@ -87,25 +85,25 @@ class History extends React.Component {
             data={this.state.industryLists || []}
           />
         </Group>
-          <>
-            {this.state.loading ? (
-              <Paper p="xl" radius="md" shadow="xs" mt="xl">
-                <Center>
-                  <Loader variant="dots" />
-                </Center>
-              </Paper>
-            ) : (
-              <ITable
-                title=""
-                data={this.state.data}
-                column={
-                  this.state.type == 1
-                    ? industries_history_type_1.header
-                    : industries_history_type_2.header
-                }
-              />
-            )}
-          </>
+        <>
+          {this.state.loading ? (
+            <Paper p="xl" radius="md" shadow="xs" mt="xl">
+              <Center>
+                <Loader variant="dots" />
+              </Center>
+            </Paper>
+          ) : (
+            <ITable
+              title=""
+              data={this.state.data}
+              column={
+                this.state.type == 1
+                  ? industries_history_type_1.header
+                  : industries_history_type_2.header
+              }
+            />
+          )}
+        </>
       </>
     );
   }

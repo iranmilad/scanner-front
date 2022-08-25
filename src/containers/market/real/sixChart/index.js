@@ -1,14 +1,13 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import InstantCharts from '../instantCharts';
 import { Group, Text, Select, Grid } from '@mantine/core';
-import { getEveryFeeder } from '../../../../apis/main/main';
+import { getEveryFeeder } from '../../../../apis/main';
 import Chart from '../../../../components/Chart';
-import lodash from 'lodash';
-import {setMarketId,setMainHeader} from "../../../../redux/reducers/main"
 import { withRouter } from 'react-router-dom';
+import RoutesContext from "../../../../contexts/routes";
 
 class SixChart extends Component {
+  static contextType = RoutesContext
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +31,7 @@ class SixChart extends Component {
     thatItem = thatItem.find(
       (item) => item.key === 'symbolMoneyflowTotalEnterManyBuyerIHistory'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           MoneyflowTotalEnterManyBuyerIHistoryData: res.data.data.series,
@@ -40,7 +39,7 @@ class SixChart extends Component {
       }
     );
     this.MoneyflowTotalEnterManyBuyerIHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             MoneyflowTotalEnterManyBuyerIHistoryData: res.data.data.series,
@@ -57,7 +56,7 @@ class SixChart extends Component {
     thatItem = thatItem.find(
       (item) => item.key === 'symbolMoneyflowTotalChangeBuySellHeadsHistory'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           MoneyflowTotalChangeBuySellHeadsHistoryData: res.data.data.series,
@@ -65,7 +64,7 @@ class SixChart extends Component {
       }
     );
     this.MoneyflowTotalChangeBuySellHeadsHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             MoneyflowTotalChangeBuySellHeadsHistoryData: res.data.data.series,
@@ -80,7 +79,7 @@ class SixChart extends Component {
     thatItem = thatItem.find(
       (item) => item.key === 'symbolTradeLastDayHistory'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           symbolTradeLastDayHistoryData: res.data.data.series,
@@ -88,7 +87,7 @@ class SixChart extends Component {
       }
     );
     this.symbolTradeLastDayHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             symbolTradeLastDayHistoryData: res.data.data.series,
@@ -101,7 +100,7 @@ class SixChart extends Component {
   getTradeValueHistoryData(date = this.state.SelectedDate) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolTradeValueHistory');
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           symbolTradeValueHistoryData: res.data.data.series,
@@ -109,7 +108,7 @@ class SixChart extends Component {
       }
     );
     this.symbolTradeValueHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             symbolTradeValueHistoryData: res.data.data.series,
@@ -124,7 +123,7 @@ class SixChart extends Component {
     thatItem = thatItem.find(
       (item) => item.key === 'symbolCounterBuyerSellerHistory'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           symbolCounterBuyerSellerHistoryData: res.data.data.series,
@@ -132,7 +131,7 @@ class SixChart extends Component {
       }
     );
     this.symbolCounterBuyerSellerHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             symbolCounterBuyerSellerHistoryData: res.data.data.series,
@@ -147,7 +146,7 @@ class SixChart extends Component {
     thatItem = thatItem.find(
       (item) => item.key === 'symbolTradeTimeValueHistory'
     );
-    getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+    getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
       (res) => {
         this.setState({
           symbolTradeTimeValueHistoryData: res.data.data.series,
@@ -155,7 +154,7 @@ class SixChart extends Component {
       }
     );
     this.symbolTradeTimeValueHistoryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}/${date}`).then(
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}/${date}`).then(
         (res) => {
           this.setState({
             symbolTradeTimeValueHistoryData: res.data.data.series,
@@ -169,7 +168,7 @@ class SixChart extends Component {
     return new Promise((resolve, reject) => {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolInfo');
-      getEveryFeeder(`${thatItem.feeder_url}/${this.state.id}`).then((res) => {
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}`).then((res) => {
         this.setState({
           title: res.data.data.name,
         });
@@ -185,7 +184,7 @@ class SixChart extends Component {
     return new Promise((resolve, reject) => {
       let thatItem = this.props.chartAndtables;
       thatItem = thatItem.find((item) => item.key === 'symbolHistoryDate');
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+      getEveryFeeder(`${thatItem.feeder_url}/${this.context.stockID}`)
         .then((res) => {
           this.setState({
             DatePickerItems: res.data.data,
@@ -214,11 +213,9 @@ class SixChart extends Component {
   };
 
   async componentDidMount() {
-    this.props.setMarketId(this.state.id);
-    this.props.setMainHeader(1);
     try {
-      let id = await this.getInformation(this.state.id);
-      let date = await this.getDates(id);
+      await this.getInformation(this.context.stockID);
+      let date = await this.getDates(this.context.stockID);
       this.getMoneyflowTotalEnterManyBuyerIHistoryData(date);
       this.getMoneyflowTotalChangeBuySellHeadsHistoryData(date);
       this.getTradeLastDayHistoryData(date);
@@ -230,13 +227,10 @@ class SixChart extends Component {
     }
 
     this.props.history.listen(async location => {
-      let { pathname } = location;
-      let URL_ID = pathname.split('/')[3];
-      this.setState({id: URL_ID});
-      this.props.setMarketId(URL_ID);
+      this.setState({id: this.context.stockID});
       try {
-        let id = await this.getInformation(URL_ID);
-        let date = await this.getDates(id);
+        await this.getInformation(this.context.stockID);
+        let date = await this.getDates(this.context.stockID);
         this.getMoneyflowTotalEnterManyBuyerIHistoryData(date);
         this.getMoneyflowTotalChangeBuySellHeadsHistoryData(date);
         this.getTradeLastDayHistoryData(date);
@@ -251,7 +245,6 @@ class SixChart extends Component {
 
   }
   componentWillUnmount() {
-    this.props.setMainHeader(0);
     clearInterval(this.MoneyflowTotalEnterManyBuyerIHistoryInterval);
     clearInterval(this.MoneyflowTotalChangeBuySellHeadsHistoryInterval);
     clearInterval(this.symbolTradeLastDayHistoryInterval);
@@ -345,9 +338,5 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setMarketId: (marketId) => dispatch(setMarketId(marketId)),
-  setMainHeader: (id) => dispatch(setMainHeader(id)),
-});
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SixChart));
+export default withRouter(connect(mapStateToProps)(SixChart));

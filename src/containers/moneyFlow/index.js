@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import Chart from '../../components/Chart';
 import ChartData from '../../components/Chart/chartData';
-import { getEveryFeeder } from '../../apis/main/main';
+import { getEveryFeeder } from '../../apis/main';
 import { matchSorter } from 'match-sorter';
 
 class MoneyFlow extends Component {
