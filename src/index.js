@@ -9,6 +9,7 @@ import { theme } from './helper/theme';
 import App from './containers/app';
 import configureStore from './redux/store';
 import { Provider } from 'react-redux';
+import swDev from './swDev';
 
 const store = configureStore();
 
@@ -25,3 +26,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+swDev()

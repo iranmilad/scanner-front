@@ -50,7 +50,7 @@ const Header = withRouter((props) => {
   };
 
   useEffect(() => {
-    // setStocks();
+    setStocks();
   }, []);
 
   return (

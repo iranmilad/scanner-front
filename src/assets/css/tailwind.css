@@ -1071,6 +1071,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.rounded-full {
+  border-radius: 9999px;
+}
+
+
 .rounded-b-none {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;

@@ -42,8 +42,8 @@ class PrivateSection extends React.PureComponent {
         getEveryUser('/notifications', { token: true })
           .then((res) => {
             let count = 0;
-            res.data.data.map((item) => (!'seen_at' in item ? count++ : null));
-            this.setState({ notificationsCount: count === '0' ? '' : count });
+            res.data.data.map((item) => (item.seen_at === null ? count++ : null));
+            this.setState({ notificationsCount: count === 0 ? '' : count });
           })
           .catch((err) => {
             console.log(err);
@@ -54,6 +54,12 @@ class PrivateSection extends React.PureComponent {
   }
 
   componentDidMount() {
+    getEveryUser('/notifications', { token: true })
+    .then((res) => {
+      let count = 0;
+      res.data.data.map((item) => (item.seen_at === null ? count++ : null));
+      this.setState({ notificationsCount: count === 0 ? '' : count });
+    })
     this.getNotifications();
   }
 

@@ -7,7 +7,10 @@
     <meta name="theme-color" content="#3b82f6" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Tseshow" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Tseshow</title>
@@ -23,5 +26,24 @@
   <body>
     <noscript>برای اجرای وبسایت جاوااسکریپت را فعال کنید</noscript>
     <div id="root"></div>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('./serviceWorker.js')
+            .then((res) => {
+              console.log(
+                `service worker is installed completly: ${res.scope}`
+              );
+            })
+            .catch((err) => {
+              console.log('service worker is not installed');
+            });
+        });
+      } else {
+        console.log("your browser doesn't support service worker");
+      }
+    </script>
   </body>
 </html>
