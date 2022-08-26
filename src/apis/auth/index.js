@@ -16,8 +16,8 @@ export const registerAPI = ({url,data})=>{
   * @param {object} data
   * @param {string} url
  */
-export const loginAPI = ({url,data})=>{
-  return ApiCaller().post(url,data);
+export const loginAPI = ({url,data,config})=>{
+  return ApiCaller({token:false}).post(url,data);
 }
 
 /**

@@ -5,10 +5,12 @@ import { loginAPI } from '../../../apis/auth';
 import { loginSchema } from './schema';
 import TextField from '../../../components/FormsUI/TextField';
 import { Link, withRouter } from 'react-router-dom';
-import {withCookies,Cookies} from "react-cookie"
+import { withCookies, Cookies } from 'react-cookie';
+import { getEveryUser } from '../../../apis/main';
+import { setConfig } from '../../../redux/reducers/config';
+import { connect } from 'react-redux';
 
 class LoginForm extends React.PureComponent {
-
   state = {
     loading: false,
     loginSuccess: false,
@@ -25,8 +27,8 @@ class LoginForm extends React.PureComponent {
    */
   handleLogin({ values, actions }) {
     this.setState({
-      loading:true,
-      loginFaild:false,
+      loading: true,
+      loginFaild: false,
     });
     loginAPI({ url: '/auth/login', data: values })
       .then((res) => {
@@ -36,25 +38,37 @@ class LoginForm extends React.PureComponent {
           time: 4,
         });
         this.countDownTimer();
-        const {cookies} = this.props;
-        cookies.set("token",res.data.data.access_token,{path:'/',maxAge: res.data.data.expires_in})
+        const { cookies } = this.props;
+        cookies.set('token', res.data.data.access_token, {
+          path: '/',
+          maxAge: res.data.data.expires_in,
+        });
+
+        getEveryUser('/home/data', { token: res.data.data.access_token })
+          .then((res) => {
+            this.props.setConfig(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
 
         // redirect to home page
         setTimeout(() => {
-          const {history:{action}} = this.props;
-          if(action === 'PUSH'){
+          const {
+            history: { action },
+          } = this.props;
+          if (action === 'PUSH') {
             this.props.history.goBack();
-          }
-          else{
-            this.props.history.go("/");
+          } else {
+            this.props.history.go('/');
           }
         }, 4000);
       })
       .catch((err) => {
-        // this.setState({
-        //   loading: false,
-        //   loginFaild: err.response.data.message,
-        // });
+        this.setState({
+          loading: false,
+          loginFaild: err.response.data.message,
+        });
       });
   }
 
@@ -74,11 +88,10 @@ class LoginForm extends React.PureComponent {
     }, 1000);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const cookies = new Cookies();
-    cookies.remove("token",{path:'/'});
+    cookies.remove('token', { path: '/' });
   }
-
 
   render() {
     const INITIAL_FORM_STATE = {
@@ -114,7 +127,10 @@ class LoginForm extends React.PureComponent {
               this.handleLogin({ values, actions })
             }
           >
-            <Form className="w-[90%] mt-5" onChange={(e) => this.setState({loginFaild:false})}>
+            <Form
+              className="w-[90%] mt-5"
+              onChange={(e) => this.setState({ loginFaild: false })}
+            >
               <TextField
                 label={<Text size="sm">شماره تلفن همراه</Text>}
                 name="mobile"
@@ -173,4 +189,10 @@ class LoginForm extends React.PureComponent {
   }
 }
 
-export default withRouter(withCookies(LoginForm));
+const mapDispatchToProps = (dispatch) => ({
+  setConfig: (data) => dispatch(setConfig(data)),
+});
+
+export default withRouter(
+  withCookies(connect(null, mapDispatchToProps)(LoginForm))
+);

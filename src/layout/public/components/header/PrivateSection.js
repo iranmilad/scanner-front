@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Divider, Avatar, Button } from '@mantine/core';
+import { Menu, Divider, Avatar, Button, Indicator } from '@mantine/core';
 import ProfilePic from '../../../../assets/images/pp.jpg';
 import axios from 'axios';
 import { withCookies } from 'react-cookie';
+import { getEveryUser } from '../../../../apis/main';
 
 class PrivateSection extends React.PureComponent {
   constructor(props) {
@@ -11,6 +12,7 @@ class PrivateSection extends React.PureComponent {
     const { cookies } = props;
     this.state = {
       token: cookies.get('token') || '',
+      notificationsCount: '',
     };
   }
   handleLogout() {
@@ -29,6 +31,32 @@ class PrivateSection extends React.PureComponent {
       });
   }
 
+  getNotifications() {
+    const {
+      cookies: {
+        cookies: { token },
+      },
+    } = this.props;
+    if (token) {
+      setInterval(() => {
+        getEveryUser('/notifications', { token: true })
+          .then((res) => {
+            let count = 0;
+            res.data.data.map((item) => (!'seen_at' in item ? count++ : null));
+            this.setState({ notificationsCount: count === '0' ? '' : count });
+          })
+          .catch((err) => {
+            console.log(err);
+            this.setState({ notificationsCount: '' });
+          });
+      }, 60000);
+    }
+  }
+
+  componentDidMount() {
+    this.getNotifications();
+  }
+
   render() {
     if (this.state.token !== '') {
       return (
@@ -36,7 +64,25 @@ class PrivateSection extends React.PureComponent {
           <Menu
             zIndex={999999}
             dir="rtl"
-            control={<Avatar src={ProfilePic} radius="md" />}
+            control={
+              <Indicator
+                size={16}
+                label={this.state.notificationsCount}
+                inline
+                color={this.state.notificationsCount === '' ? 'green' : 'red'}
+                position="bottom-start"
+                offset={5}
+                withBorder
+                sx={(theme) => ({
+                  '.mantine-Indicator-indicator': {
+                    paddingTop: '2px',
+                    borderRadius: 9999,
+                  },
+                })}
+              >
+                <Avatar radius="xl" src={ProfilePic} />
+              </Indicator>
+            }
           >
             <Menu.Item
               icon={

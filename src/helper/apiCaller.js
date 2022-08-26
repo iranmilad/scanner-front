@@ -13,10 +13,13 @@ const ApiCaller = (config) => {
 
   axiosInstance.interceptors.request.use(
     (request) => {
-      const token = Cookies.get('token');
-      // if (config.token) {
-      //   request.headers['Authorization'] = `Bearer ${token}`;
-      // }
+      if(typeof config.token === 'string' && config.token !== ''){
+        request.headers['Authorization'] = `Bearer ${config.token}`;
+      }
+      if (config.token === true) {
+        const token = Cookies.get('token');
+        request.headers['Authorization'] = `Bearer ${token}`;
+      }
       if (window['networkStatus'].online === false) {
         return false;
       }

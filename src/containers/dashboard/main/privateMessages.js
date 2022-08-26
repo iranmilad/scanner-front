@@ -15,6 +15,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 class PrivateMessages extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      newMessage: false
+    }
+  }
   async seeMessage(id) {
     try {
       let response = await axios.put(
@@ -27,19 +33,25 @@ class PrivateMessages extends Component {
           },
         }
       );
+      let count = 0;
+      response.data.data.map(item => ! 'seen_at' in item ? count++ : null)
+      this.setState({newMessage: count === 0 ? false : true});
       this.props.setAllMessagesToState();
     } catch (error) {
       console.log(error);
     }
   }
   componentDidMount() {
-    console.log(this.props)
+    let count = 0;
+    this.props.messages.map(item => ! 'seen_at' in item ? count++ : null)
+    this.setState({newMessage: count === 0 ? false : true});
   }
   render() {
     return (
       <Stack>
         <Text size="lg" weight="bold">
           پیام های خصوصی
+          <span className={`w-5 h-5 rounded-full ${this.state.newMessage ? 'bg-red-500' : 'bg-emerald-500'}`}></span>
         </Text>
         {this.props.loading ? (
           <Center>
