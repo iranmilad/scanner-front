@@ -2,6 +2,11 @@ import { ColorizeTag, LinkTag } from '../../../../helper';
 
 export const header = [
   {
+    name: 'شناسه',
+    selector: (row) => row.id,
+    omit: true,
+  },
+  {
     name: 'نماد',
     selector: (row) => row.n0,
     sortable: true,
@@ -84,6 +89,44 @@ export const header = [
   {
     name: 'ارزش سفارش های فروش',
     selector: (row) => row.n15,
+    sortable: true,
+  },
+];
+
+export const tableHeader = [
+  {
+    name: 'تعداد خریداران',
+    selector: (row) => row.n0,
+    sortable: true,
+  },
+  {
+    name: 'ارزش خرید',
+    selector: (row) => row.n1,
+    sortable: true,
+  },
+  {
+    name: 'درصد خرید',
+    selector: (row) => row.n2,
+    sortable: true,
+  },
+  {
+    name: '',
+    selector: (row) => row.n3,
+    sortable: true,
+  },
+  {
+    name: 'تعداد فروشندگان',
+    selector: (row) => row.n4,
+    sortable: true,
+  },
+  {
+    name: 'ارزش فروش',
+    selector: (row) => row.n5,
+    sortable: true,
+  },
+  {
+    name: 'درصد فروش',
+    selector: (row) => row.n6,
     sortable: true,
   },
 ];

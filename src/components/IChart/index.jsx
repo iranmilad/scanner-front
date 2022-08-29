@@ -5,7 +5,7 @@ import { Group, Loader } from '@mantine/core';
 import { chartType } from './functions';
 import ChartData from '../Chart/chartData';
 import { connect } from 'react-redux';
-import {setModal ,setChart,setPoint} from "../../redux/reducers/chartable/chart";
+import {setModal ,setChart} from "../../redux/reducers/chartable/chart";
 import { getEveryFeeder } from '../../apis/main';
 
 /**
@@ -28,7 +28,6 @@ class IChart extends Component {
   componentDidMount() {
     window['chartable'] = {
       setModal: this.props.setModal,
-      setPoint: this.props.setPoint,
       setChart: this.props.setChart
     }
     // let options = chartType(this.props.special);
@@ -95,7 +94,6 @@ export const clockTime = () => {
 const mapDispatchToProps = (dispatch) => ({
   setModal: data => dispatch(setModal(data)),
   setChart: data => dispatch(setChart(data)),
-  setPoint: data => dispatch(setPoint(data)),
 });
 
 export default connect(null, mapDispatchToProps)(IChart);

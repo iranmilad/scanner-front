@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import TechnoWatch from '../technoWatch';
 import { header } from './header';
 
@@ -10,9 +11,10 @@ class PivotWatch extends TechnoWatch {
       openedModal: false,
       header: header,
       title: 'دیده بان حمایت ها و مقاومت ها',
-      requestURL: '/PivotWatch',
+      requestURL: 'https://feed.tseshow.com/api/PivotWatch',
     };
   }
+
 
   /**
    * remove first index of array
@@ -39,4 +41,8 @@ class PivotWatch extends TechnoWatch {
   }
 }
 
-export default PivotWatch;
+const mapStateToProps = state => ({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
+export default connect(mapStateToProps)(PivotWatch);

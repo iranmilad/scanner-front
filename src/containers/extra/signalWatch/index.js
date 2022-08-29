@@ -10,7 +10,7 @@ class SignalWatch extends TechnoWatch {
       openedModal: false,
       header: header,
       title: 'دیده بان جریانات نقدینگی بلندمدت',
-      requestURL: '/SignalWatch',
+      requestURL: 'https://feed.tseshow.com/api/SignalWatch',
     };
   }
 

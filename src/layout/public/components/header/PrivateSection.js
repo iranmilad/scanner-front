@@ -42,24 +42,42 @@ class PrivateSection extends React.PureComponent {
         getEveryUser('/notifications', { token: true })
           .then((res) => {
             let count = 0;
-            res.data.data.map((item) => (item.seen_at === null ? count++ : null));
+            res.data.data.map((item) =>
+              item.seen_at === null ? count++ : null
+            );
             this.setState({ notificationsCount: count === 0 ? '' : count });
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((error) => {
             this.setState({ notificationsCount: '' });
+            const { response } = error;
+            if (response.status === 401) {
+              window.location.reload();
+            }
           });
       }, 60000);
     }
   }
 
   componentDidMount() {
-    getEveryUser('/notifications', { token: true })
-    .then((res) => {
-      let count = 0;
-      res.data.data.map((item) => (item.seen_at === null ? count++ : null));
-      this.setState({ notificationsCount: count === 0 ? '' : count });
-    })
+    const {
+      cookies: {
+        cookies: { token },
+      },
+    } = this.props;
+    if (token) {
+      getEveryUser('/notifications', { token: true })
+        .then((res) => {
+          let count = 0;
+          res.data.data.map((item) => (item.seen_at === null ? count++ : null));
+          this.setState({ notificationsCount: count === 0 ? '' : count });
+        })
+        .catch((error) => {
+          const { response } = error;
+          if (response.status === 401) {
+            window.location.reload();
+          }
+        });
+    }
     this.getNotifications();
   }
 

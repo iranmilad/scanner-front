@@ -1,3 +1,4 @@
+import { connect } from "react-redux";
 import TechnoWatch from "../technoWatch";
 import {header} from './header';
 
@@ -11,9 +12,10 @@ class IndustrialWatch extends TechnoWatch{
       openedModal: false,
       header: header,
       title: 'دیده بان گروه های صنعت',
-      requestURL: '/IndustriesWatch',
+      requestURL: 'https://feed.tseshow.com/api/IndustriesWatch',
     }
   }
+
     /**
    * remove first index of array
    * export array to a select type of data
@@ -39,4 +41,8 @@ class IndustrialWatch extends TechnoWatch{
     }
 }
 
-export default IndustrialWatch;
+const mapStateToProps = state => ({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
+export default connect(mapStateToProps)(IndustrialWatch);

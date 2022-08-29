@@ -5,6 +5,7 @@ import { matchSorter } from 'match-sorter';
 import lodash from 'lodash';
 import ITable from '../../components/ITable';
 import { orderWatch } from '../../helper/statics';
+import { connect } from 'react-redux';
 
 class OrderWatch extends Component {
   constructor(props) {
@@ -21,8 +22,10 @@ class OrderWatch extends Component {
    * @param {number} defaultState
    */
   async GetTotalOrders(defaultState = 0) {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "getTotalOrders")
     try {
-      let orders = await getEveryFeeder(`getTotalOrders/${defaultState}`);
+      let orders = await getEveryFeeder(`${thatItem.feeder_url}/${defaultState}`);
       this.setState({
         orders: orders.data.data,
         ordersFiltered: orders.data.data,
@@ -36,8 +39,10 @@ class OrderWatch extends Component {
    * get 6 stats for select
    */
   async totalOrderWatchStates() {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "totalOrdersWatchState")
     try {
-      let stats = await getEveryFeeder('/totalOrdersWatchState');
+      let stats = await getEveryFeeder(thatItem.feeder_url);
       this.setState({ stats: stats.data.data });
     } catch (err) {
       console.log(err);
@@ -90,4 +95,8 @@ class OrderWatch extends Component {
   }
 }
 
-export default OrderWatch;
+const mapStateToProps = state => ({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
+export default connect(mapStateToProps)(OrderWatch);

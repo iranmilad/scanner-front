@@ -940,6 +940,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
+
 .list-outside {
   list-style-position: outside;
 }

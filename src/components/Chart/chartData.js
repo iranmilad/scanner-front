@@ -20,17 +20,26 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        toolbar:{
+          show: true,
+        },
         id: 'A1',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
             event,
             chartContext,
-            { dataPointIndex,config}
+            { dataPointIndex }
           ) {
             // this.reducer.setModal({ show: true, content: 'tree' });
             // console.log(window.chartable.setModal());
-            console.log(dataPointIndex,chartContext);
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
           },
         },
       },
@@ -99,6 +108,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A1",
         fontFamily: 'Iran-sans',
       },
       legend: {
@@ -117,12 +127,14 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A3",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
         categories: clockTime(),
       },
-      dataLabels:{
+      dataLabels: {
         enabled: false,
       },
       legend: {
@@ -155,6 +167,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A4",
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -202,6 +215,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A5",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -234,9 +249,10 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A6",
         fontFamily: 'Iran-sans',
       },
-      colors: ['#ec4899'],
       xaxis: {
         categories: clockTime(),
       },
@@ -267,6 +283,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A7",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -299,6 +316,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A8",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -331,6 +350,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A9",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -374,6 +395,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        group: "AGroup",
+        id: "A10",
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -401,7 +424,25 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A11",
         fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex }
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
+          },
+        },
       },
       plotOptions: {
         horizontal: false,
@@ -428,7 +469,25 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A12",
         fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex }
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
+          },
+        },
       },
       plotOptions: {
         horizontal: false,
@@ -458,7 +517,25 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A13",
         fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex }
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
+          },
+        },
       },
       plotOptions: {
         bar: {
@@ -516,6 +593,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A14",
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -554,7 +632,25 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A15",
         fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex }
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
+          },
+        },
       },
       plotOptions: {
         horizontal: false,
@@ -586,7 +682,25 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A16",
         fontFamily: 'Iran-sans',
+        events: {
+          dataPointSelection: function (
+            event,
+            chartContext,
+            { dataPointIndex }
+          ) {
+            // this.reducer.setModal({ show: true, content: 'tree' });
+            // console.log(window.chartable.setModal());
+            let {
+              w: { globals },
+            } = chartContext;
+            let label = globals.labels[dataPointIndex];
+            let id = globals['chartID'];
+            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setModal();
+          },
+        },
       },
       plotOptions: {
         horizontal: false,
@@ -632,7 +746,11 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A17",
         fontFamily: 'Iran-sans',
+      },
+      dataLabels: {
+        enabled: false
       },
       xaxis: {
         categories: clockTime(),
@@ -648,6 +766,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+        id: "A18",
         fontFamily: 'Iran-sans',
       },
       dataLabels: {

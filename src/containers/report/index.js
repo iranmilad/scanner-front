@@ -65,7 +65,9 @@ class Report extends Component {
   async setStocks(){
     if (this.props.reportList.length === 0) {
       try {
-        let response = await getEveryFeeder('/totalStockSearch');
+        let thatItem = this.props.chartAndtables;
+        thatItem = thatItem.find(item => item.key === "stockSearch")
+        let response = await getEveryFeeder(thatItem.feeder_url);
         this.props.setReportList(response.data.data);
       } catch (error) {}
     }
@@ -160,6 +162,7 @@ class Report extends Component {
 
 const mapStateToProps = (state) => ({
   reportList: state.config.reportList,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
 const mapDispatchToProps = (dispatch) => ({

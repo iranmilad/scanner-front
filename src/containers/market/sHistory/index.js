@@ -13,6 +13,7 @@ class SHistory extends Component {
   static contextType = RoutesContext
   state = {
     title: '',
+    symbol: '',
     data: [],
     id: this.props.route.match.params.id
    }
@@ -22,7 +23,9 @@ class SHistory extends Component {
       try {
         let response = await getEveryFeeder(`${table.feeder_url}/${id}`);
         this.setState({
-          data: response.data.data
+          data: response.data.data,
+          title: response.data.title,
+          symbol: response.data.symbol
         })
       } catch (error) {
         console.log(error)
@@ -77,11 +80,11 @@ class SHistory extends Component {
     return (
       <>
         <Helmet>
-          <title>سوابق : {this.state.title}</title>
+          <title>{this.state.title || ''}</title>
         </Helmet>
-        {this.state.title && (
+        {this.state.symbol && (
         <Group>
-          <Text size='md'>سوابق : {this.state.title}</Text>
+          <Text size='md'>سوابق : {this.state.symbol}</Text>
         </Group>
         )}
         <ITable

@@ -1,55 +1,85 @@
 import React, { Component } from 'react';
-import { Modal } from '@mantine/core';
+import { Center, Loader, Modal } from '@mantine/core';
 import ITable from '../../../../components/ITable';
-import { header } from './header';
+import { header ,tableHeader} from './header';
 import { connect } from 'react-redux';
-import { setModal} from '../../../../redux/reducers/chartable/chart';
-import {getEveryFeeder} from "../../../../apis/main"
+import { setModal } from '../../../../redux/reducers/chartable/chart';
+import { getEveryFeeder } from '../../../../apis/main';
+import lodash from 'lodash';
 
 class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       data: [],
-      title: ""
     };
   }
-  async getData(){
+  async getData() {
     let thatItem = this.props.subTable;
-    thatItem = thatItem.find(item => item.key === "subTableController")
+    this.setState({ loading: true });
+    thatItem = thatItem.find((item) => item.key === 'subTableController');
     try {
-      let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.props.chartName}/${this.props.point}`)
-      this.setState({data: response.data.data,title:response.data.title})
+      let response = await getEveryFeeder(
+        `${thatItem.feeder_url}/${this.props.chart.id}/${this.props.chart.pointIndex}`
+      );
+      this.setState({ data: response.data.data, loading: false });
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.modalStatus !== this.props.modalStatus) {
+      if (nextProps.modalStatus) {
+        this.getData();
+      }
+      return true;
+    } else if (nextState.data !== this.state.data) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  onClose() {
+    this.setState({ data: [] ,loading:false});
+    this.props.setModal();
+  }
+
   render() {
     return (
       <Modal
         zIndex={99999999999}
         size="100%"
         opened={this.props.modalStatus}
-        title={this.state.title}
+        title={this.props.chart.label}
         dir="rtl"
-        onClose={() => this.props.setModal()}
+        onClose={() => this.onClose()}
       >
-        <ITable
-          column={header}
-          data={this.state.data}
-          fixedHeader
-          fixedHeaderScrollHeight="70vh"
-        />
+        {this.state.loading ? (
+          <Center>
+            <Loader variant="dots" />
+          </Center>
+        ) : (
+          <ITable
+            column={this.props.chart.id === 'tb-GroupState' ? tableHeader : header}
+            data={this.state.data}
+            pagination
+            fixedHeader
+            fixedHeaderScrollHeight="70vh"
+          />
+        )}
       </Modal>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  subTable: state.config.needs.chartAndtable,
+  subTable: state.config.needs.chartAndtables,
   modalStatus: state.chartable_chart.modal,
-  point: state.chartable_chart.point,
-  chartName: state.chartable_chart.chart
+  chart: state.chartable_chart.chart,
 });
 
 const mapDispatchToProps = (dispatch) => ({

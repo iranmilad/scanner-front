@@ -30,7 +30,9 @@ class Treemap extends PureComponent {
    * Fetch data from server
    */
   fetchData() {
-    getEveryFeeder('marketMap').then(async (res) => {
+    let treeConfig = this.props.config.needs.chartAndtables;
+    treeConfig = treeConfig.find((item) => item.key === 'treemap');
+    getEveryFeeder(treeConfig.feeder_url).then(async (res) => {
       let data = anychart.data.tree(res.data.data, 'as-table');
       this.state.chart.data(data);
     });

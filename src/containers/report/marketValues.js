@@ -4,6 +4,7 @@ import ITable from '../../components/ITable';
 import {getEveryFeeder} from '../../apis/main';
 import {marketValues} from '../../helper/statics';
 import {matchSorter} from 'match-sorter'
+import { connect } from 'react-redux';
 
 
 
@@ -23,8 +24,10 @@ class MarketValues extends Component{
   }
 
   async getMarketValues(){
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "marketValues");
     try {
-      let response = await getEveryFeeder('/marketValues')
+      let response = await getEveryFeeder(thatItem.feeder_url)
       this.setState({data: response.data.data, filteredData: response.data.data})
     }
     catch (error) {
@@ -54,4 +57,8 @@ class MarketValues extends Component{
   }
 }
 
-export default MarketValues;
+const mapStateToProps = state => ({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
+export default connect(mapStateToProps)(MarketValues);

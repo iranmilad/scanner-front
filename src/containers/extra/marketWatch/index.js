@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet';
 import ITable from '../../../components/ITable';
 import { header } from './header';
 import { getEveryFeeder } from '../../../apis/main';
+import { connect } from 'react-redux';
 
 class MarketWatch extends TechnoWatch {
   constructor(props) {
@@ -45,9 +46,11 @@ class MarketWatch extends TechnoWatch {
     this.setState({
       loading: true,
     });
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "MarketWatch")
     try {
       let response = await getEveryFeeder(
-        `${this.state.requestURL}/${watchGroup}/${watchFilter}${this.state.id ? `/${this.state.id}` : ''}`
+        `${thatItem.feeder_url}/${watchGroup}/${watchFilter}${this.state.id ? `/${this.state.id}` : ''}`
       );
       this.setState({
         fullData: response.data.data,
@@ -64,8 +67,10 @@ class MarketWatch extends TechnoWatch {
    * Get Watch Groups from server
    */
   async getWatchGroup() {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "MarketWatchGroup");
     try {
-      let response = await getEveryFeeder('/MarketWatchGroup');
+      let response = await getEveryFeeder(thatItem.feeder_url);
       this.setState({
         watchGroup: response.data.data,
       });
@@ -78,8 +83,10 @@ class MarketWatch extends TechnoWatch {
    * Get Watch Filter from server
    */
   async getFilters() {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "MarketWatchFilter");
     try {
-      let response = await getEveryFeeder('/MarketWatchFilter');
+      let response = await getEveryFeeder(thatItem.feeder_url);
       this.setState({
         watchFilter: response.data.data,
       });
@@ -157,4 +164,8 @@ class MarketWatch extends TechnoWatch {
   }
 }
 
-export default MarketWatch;
+const mapStateToProps = state => ({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
+export default connect(mapStateToProps)(MarketWatch);

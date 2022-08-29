@@ -1,37 +1,54 @@
 import { Link } from 'react-router-dom';
 import { ColorizeTag, LinkTag } from './index';
 
+function openSubModal({label,id,pointIndex}){
+  window.chartable.setChart({ label, id ,pointIndex});
+  window.chartable.setModal();
+}
+
 export const totalSummeryGroupState = {
   header: [
     {
+      name: 'شناسه',
+      selector: row => row.id,
+      omit: true
+    },
+    {
       name: 'نام گروه',
       selector: (row) => row.n0,
+      cell: row => <span className='text-blue-500 cursor-pointer' onClick={()=> openSubModal({label:row.n0,id:"tb-GroupState",pointIndex:row.id})}>{row.n0}</span>
     },
     {
       name: 'حجم معاملات',
       selector: (row) => row.n1,
+      sortable: true
     },
     {
       name: 'ارزش معاملات',
       selector: (row) => row.n2,
+      sortable: true
     },
     {
       name: 'سرانه خرید حقیق',
       selector: (row) => row.n3,
+      sortable: true
     },
     {
       name: 'سرانه فروش حقیقی',
       selector: (row) => row.n4,
+      sortable: true
     },
     {
       name: 'قدرت خرید',
       selector: (row) => row.n5,
       cell: (row) => <ColorizeTag row={row.n5} />,
+      sortable: true
     },
     {
       name: 'ورود پول حقیقی',
       selector: (row) => row.n6,
       cell: (row) => <ColorizeTag row={row.n6} />,
+      sortable: true
     },
   ],
 };

@@ -23,7 +23,6 @@ const Index = ({ data,options,special,type,title, ...other }) => {
           </Group>
         ) : (
               <Chart
-              width="100%"
               height={350}
               options={special ? ChartData[special].options : options.options}
               series={data.length > 0 ? data : []}

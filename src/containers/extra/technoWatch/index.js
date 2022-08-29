@@ -7,6 +7,7 @@ import FilterModal from './components/filterModal';
 import { header } from './headers';
 import lodash from 'lodash';
 import { getEveryFeeder } from '../../../apis/main';
+import { connect } from 'react-redux';
 
 /**
  * All industries in Table with filter them
@@ -21,9 +22,10 @@ class TechnoWatch extends Component {
       openedModal: false,
       header: header,
       title: 'دیده بان تکنیکال',
-      requestURL: '/getTechnicalStocks',
+      requestURL: 'https://feed.tseshow.com/api/getTechnicalStocks',
     };
   }
+
 
   /**
    * Filter Table by name
@@ -58,32 +60,41 @@ class TechnoWatch extends Component {
       if (thisHeader.min !== '' && thisHeader.max !== '') {
         let minNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
         let maxNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
-          return number >= minNumber && number <= maxNumber;
-        }));
+        let itemFinded = newData.filter((item) =>
+          convertNumber(item[thisHeader.name], (number) => {
+            return number >= minNumber && number <= maxNumber;
+          })
+        );
         newData = itemFinded;
       } else if (thisHeader.min !== '' && thisHeader.max === '') {
         let pureNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
-          return number >= pureNumber
-        }));
+        let itemFinded = newData.filter((item) =>
+          convertNumber(item[thisHeader.name], (number) => {
+            return number >= pureNumber;
+          })
+        );
         newData = itemFinded;
       } else if (thisHeader.min === '' && thisHeader.max !== '') {
         let pureNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>convertNumber(item[thisHeader.name],(number)=>{
-          return number <= pureNumber
-      }));
+        let itemFinded = newData.filter((item) =>
+          convertNumber(item[thisHeader.name], (number) => {
+            return number <= pureNumber;
+          })
+        );
         newData = itemFinded;
       }
     }
     /**
      * @callback
      */
-    function convertNumber(number,callBack){
+    function convertNumber(number, callBack) {
       let convertedNumber = number;
-      if((/M/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
-      else if((/B/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
-      else if((/K/g).test(number)) convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
+      if (/M/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
+      else if (/B/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
+      else if (/K/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
       return callBack(+convertedNumber);
     }
     this.setState({ filteredData: lodash.uniq(newData) });
@@ -96,18 +107,20 @@ class TechnoWatch extends Component {
     this.setState({ openedModal: !this.state.openedModal });
   };
 
-    /**
+  /**
    * Get all industries from server
    */
   async getFeedData() {
-    try {
-      let response = await getEveryFeeder(this.state.requestURL);
-      this.setState({
-        fullData: response.data.data,
-        filteredData: response.data.data,
-      });
-    } catch (error) {
-      console.log(error);
+    if (this.state.requestURL !== '') {
+      try {
+        let response = await getEveryFeeder(this.state.requestURL);
+        this.setState({
+          fullData: response.data.data,
+          filteredData: response.data.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -134,6 +147,8 @@ class TechnoWatch extends Component {
     );
     return headersByName;
   }
+
+  
 
   componentDidMount() {
     this.getFeedData();

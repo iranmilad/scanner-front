@@ -38,14 +38,19 @@ class History extends React.Component {
   getIndustryList() {
     if (lodash.isEmpty(this.state.industryLists)) {
       this.setState({ loading: true });
-      getEveryFeeder('/totalIndustriesGroupHisory').then((res) => {
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find(item => item.key === "totalIndustriesGroupHisory");
+      getEveryFeeder(thatItem.feeder_url).then((res) => {
         this.setState({ industryLists: res.data.data, loading: false });
       });
     }
   }
 
   getTableData(id = this.state.id) {
-    getEveryFeeder(`/totalMarketHistory/${id}`).then((res) => {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "marketHistory");
+
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({
         title: res.data.title,
         data: res.data.data,
@@ -101,6 +106,9 @@ class History extends React.Component {
                   ? industries_history_type_1.header
                   : industries_history_type_2.header
               }
+              fixedHeader
+              fixedHeaderScrollHeight="70vh"
+              pagination
             />
           )}
         </>
@@ -111,6 +119,7 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => ({
   industry: state.config.industries,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
 export default withRouter(connect(mapStateToProps)(History));

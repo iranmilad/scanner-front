@@ -361,7 +361,7 @@ class RealMarket extends Component {
                     style={{ background: colors.sky[500] }}
                   >
                     <Text size="sm" color="white">
-                      {item['n0']}
+                      {item['n0'].label}
                     </Text>
                   </Box>
                 </Grid.Col>
@@ -372,7 +372,7 @@ class RealMarket extends Component {
                     style={{ background: colors.indigo[500] }}
                   >
                     <Text size="sm" color="white">
-                      {item['n1']}
+                      {item['n1'].label}
                     </Text>
                   </Box>
                 </Grid.Col>

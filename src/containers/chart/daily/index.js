@@ -24,21 +24,27 @@ class Daily extends Component {
   }
 
   chart1(id = this.id) {
-    getEveryUser(`/CashFlowDaily/dailyTradeValue/${id}`).then((res) => {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "dailyTradeValue")
+    getEveryUser(`${thatItem.feeder_url}/${id}`).then((res) => {
       ChartData.dailyChart1.options.labels = res.data.data.date;
       this.setState({ chart1: res.data.data, title: res.data.title });
     });
   }
 
   chart2(id = this.id) {
-    getEveryUser(`/CashFlowDaily/dailyEntryMany/${id}`).then((res) => {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "dailyEntryMany")
+    getEveryUser(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ chart2: res.data.data, title: res.data.title });
       ChartData.dailyChart2.options.labels = res.data.data.date;
     });
   }
 
   chart3(id = this.id) {
-    getEveryUser(`/CashFlowDaily/dailyPowerBuyer/${id}`).then((res) => {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "dailyPowerBuyer")
+    getEveryUser(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ chart3: res.data.data, title: res.data.title });
       ChartData.dailyChart3.options.labels = res.data.data.date;
     });
@@ -50,7 +56,9 @@ class Daily extends Component {
 
   get_daily_history() {
     if (!this.props.dailyList.length > 0) {
-      getEveryUser(`/CashFlowDaily/dailyCashFlowIndustriesGroup`).then(
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find(item => item.key === "dailyCashFlowIndustriesGroup")
+      getEveryUser(thatItem.feeder_url).then(
         (res) => {
           this.setState({ dailyLists: res.data.data });
           this.props.setDailyList(res.data.data);
@@ -129,6 +137,7 @@ class Daily extends Component {
 
 const mapStateToProps = (state) => ({
   dailyList: state.config.dailyList,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
 const mapDispatchToProps = (dispatch) => ({
