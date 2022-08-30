@@ -30,7 +30,7 @@ const Index = ({ Component, route ,props}) => {
                         variant="filled"
                         className="w-full flex flex-col items-center text-center"
                         color="red"
-                        title="شما اجازه ورود به این صفحه را ندارید"
+                        title="اجازه ورود به این صفحه را ندارید"
                       >
                         <Link to="/login">
                           <Button variant="light" color="red">

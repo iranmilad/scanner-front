@@ -97,7 +97,7 @@ class Market extends Component {
    * @param {string} value
    */
   changeGroup(value) {
-    this.history.push(`/market/chart/${value}`);
+    this.history.push(`/stock/chart/${value}`);
   }
 
   /**

@@ -6,6 +6,7 @@ import { Text, Input ,Group} from '@mantine/core';
 import { matchSorter } from 'match-sorter';
 import { getEveryFeeder } from '../../apis/main';
 import lodash from 'lodash';
+import { connect } from 'react-redux';
 
 class Tops extends Component {
   state = {
@@ -25,6 +26,8 @@ class Tops extends Component {
    * get 6 stats for select
    */
   async getTopsList() {
+    let thatItem = this.props.chartAndtables;
+    thatItem = thatItem.find(item => item.key === "tops")
     try {
       let stats = await getEveryFeeder('/tops');
       this.setState({ data: stats.data.data, filterData: stats.data.data });
@@ -64,4 +67,9 @@ class Tops extends Component {
   }
 }
 
-export default Tops;
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables
+});
+
+
+export default connect(mapStateToProps)(Tops);

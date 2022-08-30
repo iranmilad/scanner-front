@@ -86,7 +86,7 @@ class Market extends Component {
    */
   async getGroupLists() {
     try {
-      let response = await getEveryFeeder('/totalIndustriesGroupHisory');
+      let response = await getEveryFeeder('https://feed.tseshow.com/api/totalIndustriesGroupHisory');
       this.setState({ industrieLists: response.data.data });
     } catch (error) {
       console.log(error);
@@ -98,7 +98,7 @@ class Market extends Component {
    * @param {string} value
    */
   changeGroup(value) {
-    this.history.push(`/market/chart/${value}`);
+    this.history.push(`https://feed.tseshow.com/api/market/chart/${value}`);
   }
 
   /**
@@ -163,7 +163,7 @@ class Market extends Component {
         visible: true,
       });
     try {
-      let response = await getEveryFeeder(`/market/chart/${id}`);
+      let response = await getEveryFeeder(`https://feed.tseshow.com/api/market/chart/${id}`);
       this.Candlestick.setData(response.data.data);
       this.candleStickData = response.data.data;
     } catch (error) {
@@ -256,7 +256,7 @@ class Market extends Component {
     if (chips !== 5) {
       try {
         let volumeData = await getEveryFeeder(
-          `/market/movingAveragePrice/${id}/1`
+          `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/1`
         );
         this.volumeStudy.setData(volumeData.data.data);
       } catch (error) {
@@ -279,7 +279,7 @@ class Market extends Component {
       this.compareSell.applyOptions({visible: true});
     try {
       let compareData = await getEveryFeeder(
-        `/market/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
+        `https://feed.tseshow.com/api/market/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
       );
       this.compareSell.setData(compareData.data.data);
     } catch (error) {
@@ -301,7 +301,7 @@ class Market extends Component {
       this.compareBuy.applyOptions({visible: true});
     try {
       let compareData = await getEveryFeeder(
-        `/market/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
+        `https://feed.tseshow.com/api/market/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
       );
       this.compareBuy.setData(compareData.data.data);
     } catch (error) {
@@ -327,7 +327,7 @@ class Market extends Component {
 
     try {
       let shortterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
+        `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
       );
       this.shorttermChart.setData(shortterm.data.data);
     } catch (error) {
@@ -352,7 +352,7 @@ class Market extends Component {
       });
     try {
       let midterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
+        `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
       );
       this.midtermChart.setData(midterm.data.data);
     } catch (error) {
@@ -377,7 +377,7 @@ class Market extends Component {
       });
     try {
       let longterm = await getEveryFeeder(
-        `/market/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
+        `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
       );
       this.longtermChart.setData(longterm.data.data);
     } catch (error) {
@@ -393,7 +393,7 @@ class Market extends Component {
       });
     try {
       let shortmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
+        `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
       );
       this.shortmovingtermChart.setData(shortmovingterm.data.data);
     } catch (error) {
@@ -409,7 +409,7 @@ class Market extends Component {
       });
     try {
       let midtmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
+        `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
       );
       this.midmovingtermChart.setData(midtmovingterm.data.data);
     } catch (error) {
@@ -425,7 +425,7 @@ class Market extends Component {
       });
     try {
       let longtmovingterm = await getEveryFeeder(
-        `/market/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
+        `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
       );
       this.longmovingtermChart.setData(longtmovingterm.data.data);
     } catch (error) {
@@ -574,7 +574,7 @@ class Market extends Component {
               />
             </div>
           </Group>
-          <div ref={this.chartRef} className="mt-10 w-full h-[900px]" />
+          {/* <div ref={this.chartRef} className="mt-10 w-full h-[900px]" /> */}
         </Paper>
         <Modal
           dir="rtl"
