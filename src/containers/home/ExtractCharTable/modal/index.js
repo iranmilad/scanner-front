@@ -3,7 +3,7 @@ import { Center, Loader, Modal } from '@mantine/core';
 import ITable from '../../../../components/ITable';
 import { header ,tableHeader} from './header';
 import { connect } from 'react-redux';
-import { setModal } from '../../../../redux/reducers/chartable/chart';
+import chart, { setModal } from '../../../../redux/reducers/chartable/chart';
 import { getEveryFeeder } from '../../../../apis/main';
 import lodash from 'lodash';
 
@@ -15,13 +15,13 @@ class Index extends Component {
       data: [],
     };
   }
-  async getData() {
+  async getData(chartId = this.props.chart.id,chartPointIndex = this.props.chart.pointIndex) {
     let thatItem = this.props.subTable;
     this.setState({ loading: true });
     thatItem = thatItem.find((item) => item.key === 'subTableController');
     try {
       let response = await getEveryFeeder(
-        `${thatItem.feeder_url}/${this.props.chart.id}/${this.props.chart.pointIndex}`
+        `${thatItem.feeder_url}/${chartId}/${chartPointIndex}`
       );
       this.setState({ data: response.data.data, loading: false });
     } catch (error) {
@@ -33,7 +33,7 @@ class Index extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.modalStatus !== this.props.modalStatus) {
       if (nextProps.modalStatus) {
-        this.getData();
+        this.getData(nextProps.chart.id,nextProps.chart.pointIndex);
       }
       return true;
     } else if (nextState.data !== this.state.data) {
@@ -52,7 +52,8 @@ class Index extends Component {
     return (
       <Modal
         zIndex={99999999999}
-        size="100%"
+        size="90%"
+        overflow="outside"
         opened={this.props.modalStatus}
         title={this.props.chart.label}
         dir="rtl"

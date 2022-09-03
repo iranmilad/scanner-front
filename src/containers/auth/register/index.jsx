@@ -181,7 +181,7 @@ class Register extends React.PureComponent {
                         </Button>
                         <Group
                           position="center"
-                          className="flex items-end h-32"
+                          className="flex items-end mt-10"
                         >
                           <Text color={colors.slate[500]} size="sm">
                             حساب کاربری دارید ?{' '}
@@ -196,6 +196,19 @@ class Register extends React.PureComponent {
                               </Text>
                             </Link>
                           </Text>
+                        </Group>
+                        <Group position="center" className="flex mt-5">
+                          رفتن به
+                          <Link to="/">
+                            <Text
+                              className="inline-block mr-3"
+                              color="blue"
+                              weight="bold"
+                              sx={{ cursor: 'pointer' }}
+                            >
+                              خانه
+                            </Text>
+                          </Link>
                         </Group>
                       </Form>
                     </Formik>

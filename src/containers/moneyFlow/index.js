@@ -262,242 +262,57 @@ class MoneyFlow extends Component {
             تنظیمات نمایش چارت ها
           </Button>
         </Group>
-        <Grid mt="md">
-          {this.state.list[0].checked && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart1.title}
-                data={this.state.chart1.data.series}
-                type="line"
-                special="MF1"
-                options={ChartData['MF1'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[6].checked && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart7.title}
-                data={this.state.chart7.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF1'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[12].checked && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart13.title}
-                data={this.state.chart13.data.series}
-                type="area"
-                special="MF13"
-                options={ChartData['MF13'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[1].checked === true && (
-            <Grid.Col sm={12} md={4} ref={this.oneCol}>
-              <Chart
-                title={this.state.chart2.title}
-                data={this.state.chart2.data.series}
-                type="line"
-                special="MF1"
-                options={ChartData['MF1'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[7].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart8.title}
-                data={this.state.chart8.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[13].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart14.title}
-                data={this.state.chart14.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[2].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart3.title}
-                data={this.state.chart3.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[8].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart9.title}
-                data={this.state.chart9.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[14].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart15.title}
-                data={this.state.chart15.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[3].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart4.title}
-                data={this.state.chart4.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[9].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart10.title}
-                data={this.state.chart10.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[15].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart16.title}
-                data={this.state.chart16.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[4].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart5.title}
-                data={this.state.chart5.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[10].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart11.title}
-                data={this.state.chart11.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}  
-          {this.state.list[16].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart17.title}
-                data={this.state.chart17.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[5].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart6.title}
-                data={this.state.chart6.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[11].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart12.title}
-                data={this.state.chart12.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-          {this.state.list[17].checked === true && (
-            <Grid.Col sm={12} md={4}>
-              <Chart
-                title={this.state.chart18.title}
-                data={this.state.chart18.data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                width={350}
-                height={300}
-              />
-            </Grid.Col>
-          )}
-        </Grid>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div>
+            {[0, 1, 2, 3, 4, 5].map((item) => (
+              <>
+                {this.state.list[item].checked && (
+                  <Chart
+                    title={this.state[`chart${item + 1}`].title}
+                    data={this.state[`chart${item + 1}`].data.series}
+                    type="line"
+                    special="MF1"
+                    options={ChartData['MF1'].options}
+                    height={300}
+                  />
+                )}
+              </>
+            ))}
+          </div>
+          <div>
+            {[6, 7, 8, 9, 10, 11].map((item) => (
+              <>
+                {this.state.list[item].checked && (
+                  <Chart
+                    title={this.state[`chart${item + 1}`].title}
+                    data={this.state[`chart${item + 1}`].data.series}
+                    type="line"
+                    special="MF7"
+                    options={ChartData['MF7'].options}
+                    height={300}
+                  />
+                )}
+              </>
+            ))}
+          </div>
+          <div>
+            {[12, 13, 14, 15, 16, 17].map((item) => (
+              <>
+                {this.state.list[item].checked && (
+                  <Chart
+                    title={this.state[`chart${item + 1}`].title}
+                    data={this.state[`chart${item + 1}`].data.series}
+                    type="area"
+                    special="MF13"
+                    options={ChartData['MF13'].options}
+                    width={350}
+                    height={300}
+                  />
+                )}
+              </>
+            ))}
+          </div>
+        </div>
         <Modal
           opened={this.state.modalOpen}
           onClose={() => this.setState({ modalOpen: false })}

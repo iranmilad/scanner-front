@@ -30,7 +30,7 @@ class FlowFilters extends Component {
   async ChipsOnChange(value) {
     this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder(`/LongMoneFlow/${value}`);
+      let response = await getEveryFeeder(`https://feed.tseshow.com/api/LongMoneFlow/${value}`);
       this.setState({
         fullData: response.data.data,
         filteredData: response.data.data,
@@ -56,7 +56,7 @@ class FlowFilters extends Component {
   async componentDidMount(){
     this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder("/LongMoneFlow/1");
+      let response = await getEveryFeeder("https://feed.tseshow.com/api/LongMoneFlow/1");
       this.setState({
         fullData: response.data.data,
         filteredData: response.data.data,

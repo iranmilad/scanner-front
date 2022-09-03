@@ -47,6 +47,8 @@ class IChart extends Component {
   worker() {
     getEveryFeeder(this.props.feeder_url)
       .then((res) => {
+        let thatItem = this.props.chartAndtables;
+        thatItem = thatItem.find(item => item.key === res.data.data.special)
         this.setState({
           series: res.data.data.series,
           options: ChartData[res.data.data.special].options,
@@ -88,6 +90,10 @@ export const clockTime = () => {
   return arr;
 };
 
+const mapStateToProps = state =>({
+  chartAndtables: state.config.needs.chartAndtables
+})
+
 /**
  * Dispatch to props
  */
@@ -96,4 +102,4 @@ const mapDispatchToProps = (dispatch) => ({
   setChart: data => dispatch(setChart(data)),
 });
 
-export default connect(null, mapDispatchToProps)(IChart);
+export default connect(mapStateToProps, mapDispatchToProps)(IChart);

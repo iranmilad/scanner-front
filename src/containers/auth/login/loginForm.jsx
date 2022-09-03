@@ -168,7 +168,7 @@ class LoginForm extends React.PureComponent {
               >
                 ورود
               </Button>
-              <Group position="center" className="flex items-end h-32">
+              <Group position="center" className="flex items-end mt-10">
                 نیاز به حساب کاربری دارید ؟{' '}
                 <Link to="/register">
                   <Text
@@ -178,6 +178,19 @@ class LoginForm extends React.PureComponent {
                     sx={{ cursor: 'pointer' }}
                   >
                     ثبت نام
+                  </Text>
+                </Link>
+              </Group>
+              <Group position="center" className="flex mt-5">
+                رفتن به
+                <Link to="/">
+                  <Text
+                    className="inline-block mr-3"
+                    color="blue"
+                    weight="bold"
+                    sx={{ cursor: 'pointer' }}
+                  >
+                    خانه
                   </Text>
                 </Link>
               </Group>

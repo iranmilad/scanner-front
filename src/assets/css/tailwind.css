@@ -768,13 +768,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.h-56 {
-  height: 14rem;
+.h-full {
+  height: 100%;
 }
 
 
-.h-full {
-  height: 100%;
+.h-56 {
+  height: 14rem;
 }
 
 
@@ -803,13 +803,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.h-32 {
-  height: 8rem;
-}
-
-
-.h-\[900px\] {
-  height: 900px;
+.h-\[70vh\] {
+  height: 70vh;
 }
 
 
@@ -1061,13 +1056,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.rounded {
-  border-radius: 0.25rem;
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 
-.rounded-lg {
-  border-radius: 0.5rem;
+.rounded {
+  border-radius: 0.25rem;
 }
 
 
@@ -1212,6 +1207,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .object-cover {
   object-fit: cover;
+}
+
+
+.p-28 {
+  padding: 7rem;
 }
 
 
@@ -1867,6 +1867,11 @@ body{
 
   .lg\:w-96 {
     width: 24rem;
+  }
+
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
 
