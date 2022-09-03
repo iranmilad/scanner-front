@@ -15,6 +15,7 @@ import ITable from '../../../components/ITable';
 import { header } from './header';
 import { getEveryFeeder } from '../../../apis/main';
 import { connect } from 'react-redux';
+import lodash from 'lodash';
 
 class MarketWatch extends TechnoWatch {
   constructor(props) {
@@ -31,7 +32,7 @@ class MarketWatch extends TechnoWatch {
       watchGroupSelected: 'M00',
       watchFilterSelected: 0,
       loading: false,
-      id: this.props.route.match.params.id
+      id: this.props.route.match.params.id,
     };
   }
 
@@ -46,20 +47,22 @@ class MarketWatch extends TechnoWatch {
     this.setState({
       loading: true,
     });
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatch")
-    try {
-      let response = await getEveryFeeder(
-        `${thatItem.feeder_url}/${watchGroup}/${watchFilter}${this.state.id ? `/${this.state.id}` : ''}`
-      );
-      this.setState({
-        fullData: response.data.data,
-        filteredData: response.data.data,
-        loading: false,
-      });
-    } catch (error) {
-      this.setState({ loading: false });
-      console.log(error);
+    // let thatItem = this.props.chartAndtables;
+    // thatItem = thatItem.find((item) => item.key === 'MarketWatch');
+    if (this.state.id) {
+      try {
+        let response = await getEveryFeeder(
+          `https://feed.tseshow.com/api/MarketWatch/${watchGroup}/${watchFilter}${this.state.id}`
+        );
+        this.setState({
+          fullData: response.data.data,
+          filteredData: lodash.isEmpty(response.data.data) ? false : response.data.data,
+          loading: false,
+        });
+      } catch (error) {
+        this.setState({ loading: false });
+        console.log(error);
+      }
     }
   }
 
@@ -67,10 +70,10 @@ class MarketWatch extends TechnoWatch {
    * Get Watch Groups from server
    */
   async getWatchGroup() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatchGroup");
+    // let thatItem = this.props.chartAndtables;
+    // thatItem = thatItem.find((item) => item.key === 'MarketWatchGroup');
     try {
-      let response = await getEveryFeeder(thatItem.feeder_url);
+      let response = await getEveryFeeder("https://feed.tseshow.com/api/MarketWatchGroup");
       this.setState({
         watchGroup: response.data.data,
       });
@@ -83,10 +86,10 @@ class MarketWatch extends TechnoWatch {
    * Get Watch Filter from server
    */
   async getFilters() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatchFilter");
+    // let thatItem = this.props.chartAndtables;
+    // thatItem = thatItem.find((item) => item.key === 'MarketWatchFilter');
     try {
-      let response = await getEveryFeeder(thatItem.feeder_url);
+      let response = await getEveryFeeder("https://feed.tseshow.com/api/MarketWatchFilter");
       this.setState({
         watchFilter: response.data.data,
       });
@@ -147,12 +150,12 @@ class MarketWatch extends TechnoWatch {
           )}
         </Group>
         <ITable
-            pagination
-            fixedHeader
-            fixedHeaderScrollHeight="70vh"
-            data={this.state.filteredData}
-            column={this.state.header}
-          />
+          pagination
+          fixedHeader
+          fixedHeaderScrollHeight="70vh"
+          data={this.state.filteredData}
+          column={this.state.header}
+        />
         <FilterModal
           headers={this.HeadersByName()}
           filter={this.filterByAllHeaders}
@@ -164,8 +167,8 @@ class MarketWatch extends TechnoWatch {
   }
 }
 
-const mapStateToProps = state => ({
-  chartAndtables: state.config.needs.chartAndtables
-})
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables,
+});
 
 export default connect(mapStateToProps)(MarketWatch);

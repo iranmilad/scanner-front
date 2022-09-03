@@ -51,9 +51,17 @@ const ITable = ({ title, column, data, children, customStyles, ...other }) => {
           {children}
         </>
       ) : (
-        <Center>
-          <Loader variant="dots" color="blue" />
-        </Center>
+        <>
+        {data === false ? (
+          <Center>
+            <p>داده ای وجود ندارد</p>
+          </Center>
+        ) : (
+          <Center>
+            <Loader variant="dots" color="blue" />
+          </Center>
+        )}
+        </>
       )}
     </Paper>
   );

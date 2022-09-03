@@ -6,6 +6,7 @@ import {
   Text,
   Paper,
   Loader,
+  Chips,
 } from '@mantine/core';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet';
@@ -82,7 +83,7 @@ class FlowFilters extends Component {
             onChange={(e) => this.filterData(e.target.value)}
           />
         </Group>
-        <Chip.Group
+        <Chips
           my="lg"
           defaultValue="1"
           radius="sm"
@@ -98,7 +99,7 @@ class FlowFilters extends Component {
           <Chip value="6" disabled={this.state.loading}>نسبت های خرید و پارابولیک نزولی</Chip>
           <Chip value="7" disabled={this.state.loading}>ورود پول بلند مدتی و پارابولیک صعودی</Chip>
           <Chip value="8" disabled={this.state.loading}>خروج پول بلند مدتی و پارابولیک نزولی</Chip>
-        </Chip.Group>
+        </Chips>
         {this.state.loading ? (
           <Paper radius="md" shadow="xs" p="sm" mt="lg">
             <Center>
