@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, HashRouter } from 'react-router-dom';
 import { PublicLayout, AuthLayout, PrivateLayout } from '../../layout';
 import Routes from '../../router';
 import { withRouter } from 'react-router';
@@ -25,7 +25,7 @@ const App = () => {
   let [error, setError] = useState(false);
   let [stockID, setStockID] = useState(null);
   let [headerType, setHeaderType] = useState(0);
-  const [cookies, setCookies] = useCookies(['token']);
+  const [cookies, setCookies,removeCookie] = useCookies(['token']);
 
   const layoutManager = (item, key) => {
     switch (item.layout) {
@@ -135,16 +135,20 @@ const App = () => {
     //   })
     // })
     return new Promise((resolve, reject) => {
-      getEveryUser('/home/data',{token:true})
+      const token = cookies.token ? true : false;
+      getEveryUser('/home/data',{token})
         .then((res) => {
           dispatch(setConfig(res.data));
+          if(token && res.data.profile === null){
+            removeCookie('token')
+          }
           setLoading(false);
           setError(false);
           resolve(res.data);
         })
         .catch((err) => {
-          setLoading(false);
           setError(true);
+          setLoading(false);
           reject(err);
         });
     });

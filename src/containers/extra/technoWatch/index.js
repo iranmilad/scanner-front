@@ -169,9 +169,9 @@ class TechnoWatch extends Component {
                 placeholder="جستجو در نماد ها"
                 onChange={(e) => this.FilterDataByName(e.target.value)}
               />
-              <Button size="sm" onClick={() => this.ModalAction()}>
+              {/* <Button size="sm" onClick={() => this.ModalAction()}>
                 فیلتر
-              </Button>
+              </Button> */}
             </>
           )}
         </Group>

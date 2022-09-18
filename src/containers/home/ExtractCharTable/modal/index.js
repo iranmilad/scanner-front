@@ -3,9 +3,8 @@ import { Center, Loader, Modal } from '@mantine/core';
 import ITable from '../../../../components/ITable';
 import { header ,tableHeader} from './header';
 import { connect } from 'react-redux';
-import chart, { setModal } from '../../../../redux/reducers/chartable/chart';
+import { setModal } from '../../../../redux/reducers/chartable/chart';
 import { getEveryFeeder } from '../../../../apis/main';
-import lodash from 'lodash';
 
 class Index extends Component {
   constructor(props) {

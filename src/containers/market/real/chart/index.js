@@ -2279,8 +2279,8 @@ class Market extends Component {
               />
             </div>
           </Group>
-          <div className='h-[70vh]'>
-            <LoadingOverlay visible={this.state.loading} />
+          <div className='h-[70vh] relative'>
+            <LoadingOverlay visible={this.state.loading} loaderProps={{variant:"dots"}} />
             <div ref={this.chartRef} className="mt-10 w-full h-full"  />
           </div>
         </Paper>

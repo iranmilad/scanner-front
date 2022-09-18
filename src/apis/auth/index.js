@@ -8,7 +8,7 @@ import { loading } from '../../redux/reducers/main';
   * @param {string} url
  */
 export const registerAPI = ({url,data})=>{
-  return ApiCaller().post(url,data);
+  return ApiCaller({token:false}).post(url,data);
 }
 
 /**
@@ -26,7 +26,7 @@ export const loginAPI = ({url,data,config})=>{
  * @param {string} url
  */
 export const rememberPasswordAPI = ({url,data})=>{
-  return ApiCaller().post(url,data);
+  return ApiCaller({token:false}).post(url,data);
 }
 
 /**

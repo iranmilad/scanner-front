@@ -7,13 +7,13 @@ class Information extends Component {
         <Stack>
           <Text size='lg' weight="bold">مشخصات حساب کاربری</Text>
           <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            نام :{this.props.user.firstname}
+            نام :{this.props.user.firstname || ''}
           </Badge>
           <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            نام خانوادگی :{this.props.user.last_name}
+            نام خانوادگی :{this.props.user.last_name || ''}
           </Badge>
           <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            شماره تلفن :{this.props.user.mobile}
+            شماره تلفن :{this.props.user.mobile || ''}
           </Badge>
           <Badge radius="xs" color={this.props.user.active ? 'indigo' : 'orange'} p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
             وضعیت حساب :{this.props.user.active ? 'فعال' : 'غیر فعال'}
@@ -24,15 +24,15 @@ class Information extends Component {
           {this.props.user.special && (
             <>
             <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            اعتبار اشتراک:{this.props.user.special_date}
+            اعتبار اشتراک:{this.props.user.special_date || ''}
             </Badge>
             <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            نوع اعتبار : {this.props.user.special_name}
+            نوع اعتبار : {this.props.user.special_name || ''}
             </Badge>
             </>
           )}
           <Badge radius="xs" color="indigo" p="md" size='lg' sx={{width: "100%",display:"flex",alignItems:"center"}}>
-            ساخته شده در :{this.props.user.created_at}
+            ساخته شده در :{this.props.user.created_at || ''}
           </Badge>
         </Stack>
     );

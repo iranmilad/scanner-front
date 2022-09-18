@@ -11,7 +11,7 @@ import {
 import colors from 'tailwindcss/colors';
 import Logo from '../../../assets/images/logo-white.png';
 import { withRouter,Link } from 'react-router-dom';
-import loginImage from '../../../assets/images/login.jpg';
+import loginImage from '../../../assets/images/login.webp';
 import ResetForm from './resetForm';
 import { Helmet } from 'react-helmet';
 import Cookies from 'js-cookie';

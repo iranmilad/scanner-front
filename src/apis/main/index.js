@@ -10,6 +10,9 @@ import Cookies from 'js-cookie';
  * @returns {Promise}
  */
 export const getEveryUser = (url,config = {})=>{
+  if(config.method === "POST" || config.method === 'post'){
+    return ApiCaller(config).post(url,config.data)
+  }
   return ApiCaller(config).get(url);
 }
 

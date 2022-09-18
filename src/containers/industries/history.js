@@ -1,5 +1,5 @@
 import { Select, Group, Text } from '@mantine/core';
-import React from 'react';
+import {Component} from 'react';
 import { Helmet } from 'react-helmet';
 import ITable from '../../components/ITable';
 import {
@@ -14,7 +14,7 @@ import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
 import { withRouter } from 'react-router-dom';
 
-class History extends React.Component {
+class History extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,21 +25,15 @@ class History extends React.Component {
       loading: false,
       id: this.props.match.params.id,
     };
-    /**
-     * @type {String}
-     */
-    this.id = props.route.match.params.id;
-    /**
-     * @type {Array}
-     */
-    this.industries_lists = props.industry;
   }
 
   getIndustryList() {
     if (lodash.isEmpty(this.state.industryLists)) {
       this.setState({ loading: true });
       let thatItem = this.props.chartAndtables;
-      thatItem = thatItem.find(item => item.key === "totalIndustriesGroupHisory");
+      thatItem = thatItem.find(
+        (item) => item.key === 'totalIndustriesGroupHisory'
+      );
       getEveryFeeder(thatItem.feeder_url).then((res) => {
         this.setState({ industryLists: res.data.data, loading: false });
       });
@@ -48,16 +42,35 @@ class History extends React.Component {
 
   getTableData(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "marketHistory");
+    thatItem = thatItem.find((item) => item.key === 'marketHistory');
 
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({
-        title: res.data.title,
-        data: res.data.data,
-        type: res.data.type,
-        loading: false,
+    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+      .then((res) => {
+        this.setState({
+          title: res.data.title,
+          data: res.data.data,
+          type: res.data.type,
+          loading: false,
+        });
+      })
+      .catch((res) => {
+        this.setState({ loading: false });
       });
-    });
+
+    this.interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({
+            title: res.data.title,
+            data: res.data.data,
+            type: res.data.type,
+            loading: false,
+          });
+        })
+        .catch((res) => {
+          this.setState({ loading: false });
+        });
+    }, thatItem.refresh_time * 1000);
   }
 
   changeIndustry(value) {
@@ -73,6 +86,10 @@ class History extends React.Component {
       this.setState({ id });
       this.getTableData(id);
     });
+  }
+
+  componentWillUnmount(){
+    this.clearInterval();
   }
   render() {
     return (
@@ -119,7 +136,7 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => ({
   industry: state.config.industries,
-  chartAndtables: state.config.needs.chartAndtables
+  chartAndtables: state.config.needs.chartAndtables,
 });
 
 export default withRouter(connect(mapStateToProps)(History));

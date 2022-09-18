@@ -1,7 +1,6 @@
 import React from 'react';
 import PivotWatch from "../containers/extra/pivotWatch";
 import SignalWatch from "../containers/extra/signalWatch";
-import MarketWatch from "../containers/extra/marketWatch";
 import IndustrialWatch from "../containers/extra/industrialWatch";
 
 const Market_Values = React.lazy(()=>import("../containers/report/marketValues"));
@@ -16,6 +15,7 @@ const StockMarket_Chart = React.lazy(()=> import("../containers/market/real/char
 const MarketChartX = React.lazy(()=> import("../containers/market/real/chartx"));
 const MarketSixChart = React.lazy(()=> import("../containers/market/real/sixChart"));
 const MonthlyPerfomance = React.lazy(()=> import("../containers/market/real/monthlyPerfomance"));
+const MarketWatch = React.lazy(()=> import("../containers/extra/marketWatch"))
 
 
 export const privateRoute = [
@@ -60,7 +60,7 @@ export const privateRoute = [
     layout: "private"
   },
   {
-    path: "/extra/marketwatch/:id?",
+    path: "/extra/marketwatch/:date?",
     component: MarketWatch,
     layout: "private"
   },

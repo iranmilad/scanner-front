@@ -1,4 +1,4 @@
-import { clockTime, randomNumber } from '../../helper';
+import { clockTime } from '../../helper';
 import colors from 'tailwindcss/colors';
 
 const ChartData = {
@@ -808,6 +808,7 @@ const ChartData = {
         },
       },
       chart: {
+        width:"100%",
         animations: {
           enabled: false,
         },
@@ -881,6 +882,7 @@ const ChartData = {
           horizontal: true,
         },
         chart: {
+          width: "100%",
           animations: {
             enabled: false,
           },
@@ -913,17 +915,11 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        width: "100%",
         animations: {
           enabled: false,
         },
         type: 'line',
-        animations: {
-          enabled: true,
-          easing: 'linear',
-          dynamicAnimation: {
-            speed: 1000,
-          },
-        },
         fontFamily: 'Iran-sans',
       },
       stroke: {
@@ -951,6 +947,7 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        width: "100%",
         animations: {
           enabled: false,
         },
@@ -978,17 +975,11 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        width: "100%",
         animations: {
           enabled: false,
         },
         type: 'line',
-        animations: {
-          enabled: true,
-          easing: 'linear',
-          dynamicAnimation: {
-            speed: 1000,
-          },
-        },
         fontFamily: 'Iran-sans',
       },
       stroke: {
