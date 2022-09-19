@@ -10,7 +10,7 @@ import {
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
 import Logo from '../../../assets/images/logo-white.png';
-import loginImage from '../../../assets/images/login.jpg';
+import loginImage from '../../../assets/images/login.webp';
 import LoginForm from './loginForm';
 import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router';

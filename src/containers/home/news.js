@@ -18,7 +18,6 @@ import { connect } from 'react-redux';
 class NewsTable extends Component {
   state = {
     news: [],
-    interval: true,
   };
   getNews() {
     let thatItem = this.props.chartAndtables;
@@ -27,12 +26,10 @@ class NewsTable extends Component {
       .then((res) => this.setState({ news: res.data.data }))
       .catch((err) => console.log(err));
 
-    setInterval(() => {
-      if (this.state.interval) {
-        getEveryFeeder(thatItem.feeder_url)
-          .then((res) => this.setState({ news: res.data.data }))
-          .catch((err) => console.log(err));
-      }
+    this.interval = setInterval(() => {
+      getEveryFeeder(thatItem.feeder_url)
+        .then((res) => this.setState({ news: res.data.data }))
+        .catch((err) => console.log(err));
     }, thatItem.refresh_time * 1000);
   }
 
@@ -41,7 +38,7 @@ class NewsTable extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ interval: false });
+    this.clearInterval();
   }
 
   render() {

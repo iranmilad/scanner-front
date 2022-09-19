@@ -141,7 +141,7 @@ export const totalSummeryIndustrials = {
       selector: (row) => row.n0,
       sortable: true,
       cell: (row) => <LinkTag link={`/industries/${row.id}`} text={row.n0} />,
-      grow: 3,
+      grow: 2
     },
     {
       name: 'حجم معاملات',

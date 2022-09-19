@@ -18,7 +18,7 @@ import CheckboxField from '../../../components/FormsUI/Checkbox';
 import { registerStepOne } from './schema';
 import { Formik, Form } from 'formik';
 import { Link, withRouter } from 'react-router-dom';
-import actionBG from '../../../assets/images/action.png';
+import actionBG from '../../../assets/images/action.webp';
 import { registerAPI } from '../../../apis/auth';
 import { connect } from 'react-redux';
 import VerifyForm from './verifyForm';
@@ -56,8 +56,9 @@ class Register extends React.PureComponent {
         this.setState({
           loading: false,
         });
-        let errors = {};
-        for (let item of Object.entries(err.response.data.errors)) {
+        let errors = {}
+        const { response, data, config } = err;
+        for (let item of Object.entries(response.data.errors)) {
           errors[item[0]] = item[1][0];
         }
         actions.setErrors(errors);
@@ -107,7 +108,7 @@ class Register extends React.PureComponent {
                           <style>{`.fa-secondary{opacity:.4}`}</style>
                         </defs>
                         <path
-                          class="fa-primary"
+                          className="fa-primary"
                           d="M416 101.5V64C416 46.33 430.3 32 448 32H480C497.7 32 512 46.33 512 64V185.5L565.1 231.9C578.4 243.6 579.7 263.8 568.1 277.1C556.4 290.4 536.2 291.7 522.9 280.1L288 74.52L53.07 280.1C39.77 291.7 19.56 290.4 7.917 277.1C-3.72 263.8-2.372 243.6 10.93 231.9L266.9 7.918C278.1-2.639 297-2.639 309.1 7.918L416 101.5z"
                         />
                         <path
@@ -181,7 +182,7 @@ class Register extends React.PureComponent {
                         </Button>
                         <Group
                           position="center"
-                          className="flex items-end h-32"
+                          className="flex items-end mt-10"
                         >
                           <Text color={colors.slate[500]} size="sm">
                             حساب کاربری دارید ?{' '}
@@ -196,6 +197,19 @@ class Register extends React.PureComponent {
                               </Text>
                             </Link>
                           </Text>
+                        </Group>
+                        <Group position="center" className="flex mt-5">
+                          رفتن به
+                          <Link to="/">
+                            <Text
+                              className="inline-block mr-3"
+                              color="blue"
+                              weight="bold"
+                              sx={{ cursor: 'pointer' }}
+                            >
+                              خانه
+                            </Text>
+                          </Link>
                         </Group>
                       </Form>
                     </Formik>

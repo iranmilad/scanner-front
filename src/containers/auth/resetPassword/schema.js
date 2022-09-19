@@ -7,6 +7,6 @@ export const verifyMobileShema = Yup.object().shape({
   mobile: Yup.string()
   .required("شماره تلفن را وارد کنید")
   .matches(phoneRegExp, 'شماره تلفن معتبر نیست')
-  .min(10, "شماره تلفن معتبر نیست")
+  .min(11, "شماره تلفن معتبر نیست")
   .max(11, "شماره تلفن معتبر نیست"),
 })

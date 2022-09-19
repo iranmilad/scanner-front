@@ -9,9 +9,10 @@ import {
   Button,
   Modal,
   Grid,
-  TextInput,
+  InputWrapper,
   Divider,
   MultiSelect,
+  Chips,
   LoadingOverlay,
 } from '@mantine/core';
 import { Helmet } from 'react-helmet';
@@ -30,7 +31,7 @@ class Market extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "بازار",
+      title: 'بازار',
       industrieLists: [],
       shorttermData: null,
       midtermData: null,
@@ -43,6 +44,7 @@ class Market extends Component {
       allowSelectLastChip: true,
       openedModal: false,
       overloayModal: false,
+      loading: false,
       averageSettings: {
         shortterm: '10',
         midterm: '20',
@@ -85,10 +87,14 @@ class Market extends Component {
    * it doesn't have a specific api route
    */
   async getGroupLists() {
+    this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder('https://feed.tseshow.com/api/totalIndustriesGroupHisory');
-      this.setState({ industrieLists: response.data.data });
+      let response = await getEveryFeeder(
+        'https://feed.tseshow.com/api/totalIndustriesGroupHisory'
+      );
+      this.setState({ industrieLists: response.data.data, loading: false });
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
@@ -98,7 +104,7 @@ class Market extends Component {
    * @param {string} value
    */
   changeGroup(value) {
-    this.history.push(`https://feed.tseshow.com/api/market/chart/${value}`);
+    this.history.push(`/market/chart/${value}`);
   }
 
   /**
@@ -159,14 +165,19 @@ class Market extends Component {
         priceScaleId: 'right',
         visible: true,
       });
-      this.Candlestick.applyOptions({
-        visible: true,
-      });
+    this.Candlestick.applyOptions({
+      visible: true,
+    });
+    this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder(`https://feed.tseshow.com/api/market/chart/${id}`);
+      let response = await getEveryFeeder(
+        `https://feed.tseshow.com/api/market/chart/${id}`
+      );
+      this.setState({ loading: false });
       this.Candlestick.setData(response.data.data);
       this.candleStickData = response.data.data;
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
@@ -180,12 +191,11 @@ class Market extends Component {
       visible: values.includes('0') ? false : true,
     });
     this.chart.applyOptions({
-      rightPriceScale: values.includes('1')
-        ? PriceScaleMode.Logarithmic
-        : PriceScaleMode.Normal,
-    });
-    this.volumeStudy.applyOptions({
-      visible: values.includes('2') ? true : false,
+      rightPriceScale: {
+        mode: values.includes('1')
+          ? PriceScaleMode.Logarithmic
+          : PriceScaleMode.Normal,
+      },
     });
   }
 
@@ -218,23 +228,26 @@ class Market extends Component {
    * @param {array} values
    */
   averagesDisplaySettings(values) {
-    this.shorttermChart.applyOptions({
+    this.volumeStudy.applyOptions({
       visible: values.includes('0') ? true : false,
     });
-    this.midtermChart.applyOptions({
+    this.shorttermChart.applyOptions({
       visible: values.includes('1') ? true : false,
     });
-    this.longtermChart.applyOptions({
+    this.midtermChart.applyOptions({
       visible: values.includes('2') ? true : false,
     });
-    this.shortmovingtermChart.applyOptions({
+    this.longtermChart.applyOptions({
       visible: values.includes('3') ? true : false,
     });
-    this.midmovingtermChart.applyOptions({
+    this.shortmovingtermChart.applyOptions({
       visible: values.includes('4') ? true : false,
     });
-    this.longmovingtermChart.applyOptions({
+    this.midmovingtermChart.applyOptions({
       visible: values.includes('5') ? true : false,
+    });
+    this.longmovingtermChart.applyOptions({
+      visible: values.includes('6') ? true : false,
     });
   }
 
@@ -245,21 +258,24 @@ class Market extends Component {
         priceFormat: {
           type: 'volume',
         },
-        priceScaleId: '',
-        visible: false,
+        priceScaleId: 'left',
         overlay: true,
+        visible: false,
         scaleMargins: {
           top: 0.5,
           bottom: 0,
         },
       });
     if (chips !== 5) {
+      this.setState({ loading: true });
       try {
         let volumeData = await getEveryFeeder(
           `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/1`
         );
         this.volumeStudy.setData(volumeData.data.data);
+        this.setState({ loading: false });
       } catch (error) {
+        this.setState({ loading: false });
         console.log(error);
       }
     }
@@ -271,18 +287,22 @@ class Market extends Component {
         color: colors.red[500],
         visible: true,
       });
-      if(this.Candlestick !== null) {
-        this.Candlestick.applyOptions({
-          visible: false,
-        });
-      }
-      this.compareSell.applyOptions({visible: true});
+    if (this.Candlestick !== null) {
+      this.Candlestick.applyOptions({
+        visible: false,
+      });
+    }
+    this.compareSell.applyOptions({ visible: true });
+    this.setState({ loading: true });
     try {
       let compareData = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
       );
       this.compareSell.setData(compareData.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -293,18 +313,23 @@ class Market extends Component {
         color: colors.green[500],
         visible: true,
       });
-      if(this.Candlestick !== null) {
-        this.Candlestick.applyOptions({
-          visible: true,
-        });
-      }
-      this.compareBuy.applyOptions({visible: true});
+    if (this.Candlestick !== null) {
+      this.Candlestick.applyOptions({
+        visible: true,
+      });
+    }
+    this.compareBuy.applyOptions({ visible: true });
+    this.setState({ loading: true });
+
     try {
       let compareData = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
       );
       this.compareBuy.setData(compareData.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -315,22 +340,28 @@ class Market extends Component {
   ) {
     if (this.shorttermChart === null)
       this.shorttermChart = this.chart.addLineSeries({
-        color: colors.blue[600],
+        color: colors.emerald[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
 
     try {
       let shortterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
       );
       this.shorttermChart.setData(shortterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -344,18 +375,25 @@ class Market extends Component {
         color: colors.red[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
+
     try {
       let midterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
       );
       this.midtermChart.setData(midterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -369,18 +407,25 @@ class Market extends Component {
         color: colors.yellow[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
+
     try {
       let longterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
       );
       this.longtermChart.setData(longterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -391,12 +436,17 @@ class Market extends Component {
         color: colors.blue[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let shortmovingterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
       );
       this.shortmovingtermChart.setData(shortmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -407,12 +457,17 @@ class Market extends Component {
         color: colors.green[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let midtmovingterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
       );
       this.midmovingtermChart.setData(midtmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -423,12 +478,16 @@ class Market extends Component {
         color: colors.yellow[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let longtmovingterm = await getEveryFeeder(
         `https://feed.tseshow.com/api/market/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
       );
       this.longmovingtermChart.setData(longtmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
@@ -439,12 +498,16 @@ class Market extends Component {
     this.chart = createChart(this.chartRef.current, {
       width: this.chartRef.current.offsetWidth,
       height: this.chartRef.current.offsetHeight,
-      priceScale: {
-        scaleMargins: {
-          top: 0.05,
-          bottom: 0.55,
+      overlayPriceScales: {
+        visible: false,
+      },
+      grid: {
+        horzLines: {
+          color: 'rgba(240, 243, 250,1)',
         },
-        borderVisible: false,
+        vertLines: {
+          color: 'rgba(240, 243, 250,0)',
+        },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
@@ -452,10 +515,18 @@ class Market extends Component {
       rightPriceScale: {
         visible: true,
         borderColor: 'rgba(197, 203, 206, 1)',
+        scaleMargins: {
+          top: 0,
+          bottom: 0.5,
+        },
       },
       leftPriceScale: {
         visible: true,
         borderColor: 'rgba(197, 203, 206, 1)',
+        scaleMargins: {
+          top: 0.5,
+          bottom: 0,
+        },
       },
       layout: {
         backgroundColor: '#ffffff',
@@ -508,7 +579,7 @@ class Market extends Component {
           />
         </Group>
         <Paper p="lg" shadow="xs" radius="md" mt="lg">
-          <Chip.Group
+          <Chips
             defaultValue="0"
             radius="sm"
             onChange={(e) => this.onChangeChips(e)}
@@ -523,7 +594,7 @@ class Market extends Component {
             <Chip value="5" disabled={this.state.allowSelectLastChip}>
               مقایسه ای سرانه خرید و فروش
             </Chip>
-          </Chip.Group>
+          </Chips>
           <Group mt="sm">
             <Input
               value={this.state.comparisonPeriod}
@@ -553,28 +624,30 @@ class Market extends Component {
               data={[
                 { value: '0', label: 'مخفی کردن نمودار قیمت' },
                 { value: '1', label: 'لگاریتمی' },
-                { value: '2', label: 'روزانه' },
               ]}
             />
             <div className="relative">
-              {/* <LoadingOverlay visible /> */}
               <MultiSelect
                 clearable
                 placeholder="انتخاب کنید"
                 label="میانگین ها"
                 onChange={(e) => this.averagesDisplaySettings(e)}
                 data={[
-                  { value: '0', label: 'کوتاه مدت' },
-                  { value: '1', label: 'میان مدت' },
-                  { value: '2', label: 'بلند مدت' },
-                  { value: '3', label: 'متحرک کوتاه مدت - پول' },
-                  { value: '4', label: 'متحرک میان مدت - پول' },
-                  { value: '5', label: 'متحرک بلند مدت - پول' },
+                  { value: '0', label: 'بازار' },
+                  { value: '1', label: 'کوتاه مدت' },
+                  { value: '2', label: 'میان مدت' },
+                  { value: '3', label: 'بلند مدت' },
+                  { value: '4', label: 'متحرک کوتاه مدت - پول' },
+                  { value: '5', label: 'متحرک میان مدت - پول' },
+                  { value: '6', label: 'متحرک بلند مدت - پول' },
                 ]}
               />
             </div>
           </Group>
-          {/* <div ref={this.chartRef} className="mt-10 w-full h-[900px]" /> */}
+          <div className='h-[70vh] relative'>
+            <LoadingOverlay visible={this.state.loading} loaderProps={{variant:"dots"}} />
+            <div ref={this.chartRef} className="mt-10 w-full h-full"  />
+          </div>
         </Paper>
         <Modal
           dir="rtl"
@@ -599,34 +672,34 @@ class Market extends Component {
             <Form>
               <Grid>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین کوتاه مدت">
+                  <InputWrapper label="دوره میانگین کوتاه مدت">
                     <TextField placeholder="1 تا 50" name="shortterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین میان مدت">
+                  <InputWrapper label="دوره میانگین میان مدت">
                     <TextField placeholder="1 تا 100" name="midterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین بلند مدت">
+                  <InputWrapper label="دوره میانگین بلند مدت">
                     <TextField placeholder="1 تا 200" name="longterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک کوتاه مدت">
+                  <InputWrapper label="دوره میانگین متحرک کوتاه مدت">
                     <TextField placeholder="1 تا 200" name="shortmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک میان مدت">
+                  <InputWrapper label="دوره میانگین متحرک میان مدت">
                     <TextField placeholder="1 تا 200" name="midmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک بلند مدت">
+                  <InputWrapper label="دوره میانگین متحرک بلند مدت">
                     <TextField placeholder="1 تا 200" name="longmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
               </Grid>
               <Group position="apart" mt="lg">

@@ -12,10 +12,10 @@ export const TableDesign = {
       backgroundColor: colors.slate[200],
       fontWeight: "bold",
       fontSize: "12px",
+      padding: 0,
       color: colors.slate[600],
-      overflow: "visible",
       "&:first-child": {
-        paddingRight: "50px",
+        paddingRight: "10px",
       }
     },
   },
@@ -23,8 +23,7 @@ export const TableDesign = {
     style:{
       fontSize: "13px",
       textAlign: "right",
-      overflow: "visible",
-      paddingRight: "30px",
+      paddingRight: "10px",
       "&:hover": {
         backgroundColor: colors.gray[50]
       },
@@ -38,7 +37,7 @@ export const TableDesign = {
   },
   cells: {
     style: {
-      overflow: "visible"
+      padding: 0
     }
   }
 }

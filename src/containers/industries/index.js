@@ -37,7 +37,6 @@ class Index extends Component {
       chart3: [],
       chart4: [],
       chart5: [],
-      interval: false,
       industryLists: [],
       id: props.route.match.params.id,
     };
@@ -52,6 +51,14 @@ class Index extends Component {
         this.setState({ table1: res.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.table1Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ table1: res.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   table2(id = this.state.id) {
@@ -63,6 +70,14 @@ class Index extends Component {
         this.setState({ table2: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.table2Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ table2: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   table3(id = this.state.id) {
@@ -74,6 +89,14 @@ class Index extends Component {
         this.setState({ table3: res.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.table3Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ table3: res.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   chart1(id = this.state.id) {
@@ -86,6 +109,14 @@ class Index extends Component {
         this.setState({ chart1: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.chart1Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ chart1: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   chart2(id = this.state.id) {
@@ -98,6 +129,14 @@ class Index extends Component {
         this.setState({ chart2: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.chart2Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ chart2: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   chart3(id = this.state.id) {
@@ -110,6 +149,14 @@ class Index extends Component {
         this.setState({ chart3: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.chart3Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ chart3: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   chart4(id = this.state.id) {
@@ -122,6 +169,14 @@ class Index extends Component {
         this.setState({ chart4: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.chart4Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ chart4: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   chart5(id = this.state.id) {
@@ -134,6 +189,14 @@ class Index extends Component {
         this.setState({ chart5: res.data.data, loading: false });
       })
       .catch((err) => this.setState({ error: true, loading: false }));
+
+    this.chart5Interval = setInterval(() => {
+      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
+        .then((res) => {
+          this.setState({ chart5: res.data.data, loading: false });
+        })
+        .catch((err) => this.setState({ error: true, loading: false }));
+    }, thatItem.refresh_time * 1000);
   }
 
   getIndustryList = (id = this.state.id) => {
@@ -181,7 +244,7 @@ class Index extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({ interval: false });
+    this.clearInterval();
   }
 
   render() {
@@ -238,43 +301,43 @@ class Index extends Component {
               data={this.state.table2}
               column={industries_table2.header}
             />
-            <Grid grow mt="lg">
-              <Grid.Col sm={12} lg={6}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
+              <div>
                 <Chart
                   data={this.state.chart1.series}
                   special={this.state.chart1.special}
                   title="محدوده قیمتی آخرین معامله نماد"
                 />
-              </Grid.Col>
-              <Grid.Col sm={12} lg={6}>
+              </div>
+              <div>
                 <Chart
                   data={this.state.chart2.series}
                   special={this.state.chart2.special}
                   title="ارزش کل سفارش های روی تابلو گروه به میلیارد تومان"
                 />
-              </Grid.Col>
-              <Grid.Col sm={12} lg={6}>
+              </div>
+              <div>
                 <Chart
                   data={this.state.chart3.series}
                   special={this.state.chart3.special}
                   title="تغیرات سرانه های خرید و فروش گروه به میلیون تومان"
                 />
-              </Grid.Col>
-              <Grid.Col sm={12} lg={6}>
+              </div>
+              <div>
                 <Chart
                   data={this.state.chart4.series}
                   special={this.state.chart4.special}
                   title="تغییرات ورود پول اشخاص حقیقی به میلیارد تومان"
                 />
-              </Grid.Col>
-              <Grid.Col span={6}>
+              </div>
+              <div className='col-span-1 lg:col-span-2'>
                 <Chart
                   data={this.state.chart5.series}
                   special={this.state.chart5.special}
                   title="تغییرات ارزش کل سفارش ها به میلیارد تومان"
                 />
-              </Grid.Col>
-            </Grid>
+              </div>
+            </div>
 
             {'type' in this.state.table3 ? (
               <ITable

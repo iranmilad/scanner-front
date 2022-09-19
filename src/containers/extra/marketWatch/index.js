@@ -1,22 +1,17 @@
 import TechnoWatch from '../technoWatch';
 import FilterModal from '../technoWatch/components/filterModal';
-import {
-  Text,
-  Group,
-  Input,
-  Button,
-  Select,
-  Paper,
-  Center,
-  Loader,
-} from '@mantine/core';
+import { Text, Group, Input, Button, Select } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import ITable from '../../../components/ITable';
 import { header } from './header';
 import { getEveryFeeder } from '../../../apis/main';
 import { connect } from 'react-redux';
+import lodash from 'lodash';
+import { Component } from 'react';
+import { matchSorter } from 'match-sorter';
+import ModalFilter from '../../../components/modalFilter';
 
-class MarketWatch extends TechnoWatch {
+class MarketWatch extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,43 +19,42 @@ class MarketWatch extends TechnoWatch {
       filteredData: [],
       openedModal: false,
       header: header,
-      title: 'دیده بان بازار',
-      requestURL: '/MarketWatch',
       watchGroup: [],
       watchFilter: [],
       watchGroupSelected: 'M00',
       watchFilterSelected: 0,
       loading: false,
-      id: this.props.route.match.params.id
+      date: this.props.route.match.params.date,
+      splitedHeader: header,
+      filters: []
     };
   }
 
-  /**
-   * Get all industries from server
-   * @param {string} selectDefault
-   */
-  async getFeedData(
-    watchGroup = this.state.watchGroupSelected,
-    watchFilter = this.state.watchFilterSelected
-  ) {
-    this.setState({
-      loading: true,
-    });
+  ModalAction = (value)=>{
+    this.setState({openedModal: !this.state.openedModal})
+  }
+
+  async getFeedData(){
     let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatch")
+    thatItem = thatItem.find(item => item.key === "MarketWatch");
+    this.setState({loading:true,filteredData:[]})
     try {
-      let response = await getEveryFeeder(
-        `${thatItem.feeder_url}/${watchGroup}/${watchFilter}${this.state.id ? `/${this.state.id}` : ''}`
-      );
-      this.setState({
-        fullData: response.data.data,
-        filteredData: response.data.data,
-        loading: false,
-      });
-    } catch (error) {
-      this.setState({ loading: false });
-      console.log(error);
+      if(this.state.date){
+        let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}/${this.state.date}`)
+        response = lodash.isEmpty(response.data.data) ? false : response.data.data
+        this.setState({fullData: response,filteredData:response,loading:false})
+      }
+      else{
+        let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}`)
+        response = lodash.isEmpty(response.data.data) ? false : response.data.data
+        this.setState({fullData: response,filteredData:response,loading:false})
+      }
     }
+    catch(err){
+      console.log(err);
+      this.setState({loading:false})
+    }
+
   }
 
   /**
@@ -68,9 +62,9 @@ class MarketWatch extends TechnoWatch {
    */
   async getWatchGroup() {
     let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatchGroup");
+    thatItem = thatItem.find((item) => item.key === 'MarketWatchGroup');
     try {
-      let response = await getEveryFeeder(thatItem.feeder_url);
+      let response = await getEveryFeeder("https://feed.tseshow.com/api/MarketWatchGroup");
       this.setState({
         watchGroup: response.data.data,
       });
@@ -83,16 +77,39 @@ class MarketWatch extends TechnoWatch {
    * Get Watch Filter from server
    */
   async getFilters() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatchFilter");
     try {
-      let response = await getEveryFeeder(thatItem.feeder_url);
+      let thatItem = this.props.chartAndtables;
+      thatItem = thatItem.find((item) => item.key === 'MarketWatchFilter');
+      let response = await getEveryFeeder(
+        'https://feed.tseshow.com/api/MarketWatchFilter'
+      );
       this.setState({
         watchFilter: response.data.data,
       });
     } catch (error) {
       console.log(error);
     }
+  }
+
+  FilterDataByName(value) {
+    if (value.length === 0)
+      return this.setState({ filteredData: this.state.fullData });
+    let filter = matchSorter(this.state.fullData, value, { keys: ['n0'] });
+    this.setState({ filteredData: lodash.isEmpty(filter) ? false : filter });
+  }
+
+  changeHeader(){
+    /**
+     * @type {Array}
+     */
+    let splited = header.map((item,id) => ({value:id, label: item.name}));
+    splited.shift();
+    splited.shift();
+    return splited;
+  }
+
+  onSubmit(filters){
+    this.setState({filters});
   }
 
   componentDidMount() {
@@ -109,14 +126,15 @@ class MarketWatch extends TechnoWatch {
         </Helmet>
         <Text size="sm">{this.state.title}</Text>
         <Group position="apart" mt="md">
-          {this.state.fullData.length > 0 && (
             <>
               <Input
                 type="text"
                 placeholder="جستجو در نماد ها"
                 onChange={(e) => this.FilterDataByName(e.target.value)}
+                disabled={this.state.loading}
               />
               <Select
+                disabled={this.state.loading}
                 searchable
                 onChange={(value) => {
                   this.getFeedData(value);
@@ -126,9 +144,10 @@ class MarketWatch extends TechnoWatch {
                 }}
                 placeholder="نوع اوراق"
                 data={this.state.watchGroup || []}
-                defaultValue={this.state.watchGroupSelected}
+                defaultValue={this.state.watchGroup[0]?.value || ''}
               />
               <Select
+                disabled={this.state.loading}
                 searchable
                 onChange={(value) => {
                   this.getFeedData(this.state.watchGroupSelected, value);
@@ -138,34 +157,29 @@ class MarketWatch extends TechnoWatch {
                 }}
                 placeholder="فیلتر جدول"
                 data={this.state.watchFilter || []}
-                defaultValue={this.state.watchFilterSelected}
+                defaultValue={this.state.watchFilter[0]?.value || ''}
               />
-              <Button size="sm" onClick={() => this.ModalAction()}>
+              {/* <Button size="sm" onClick={() => this.ModalAction()} disabled={this.state.loading}>
                 فیلتر ستون ها
-              </Button>
+              </Button> */}
             </>
-          )}
         </Group>
         <ITable
-            pagination
-            fixedHeader
-            fixedHeaderScrollHeight="70vh"
-            data={this.state.filteredData}
-            column={this.state.header}
-          />
-        <FilterModal
-          headers={this.HeadersByName()}
-          filter={this.filterByAllHeaders}
-          opened={this.state.openedModal}
-          ModalAction={this.ModalAction}
+        className="narrow"
+          pagination
+          fixedHeader
+          fixedHeaderScrollHeight="70vh"
+          data={this.state.filteredData}
+          column={this.state.header}
         />
+        <ModalFilter opened={this.state.openedModal} ModalAction={this.ModalAction} onSubmit={(values) => this.onSubmit(values.filters)} headers={this.changeHeader()} filters={this.state.filters} />
       </>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  chartAndtables: state.config.needs.chartAndtables
-})
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables,
+});
 
 export default connect(mapStateToProps)(MarketWatch);

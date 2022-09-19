@@ -4,13 +4,16 @@ import {
   Group,
   Input,
   Paper,
+  Select,
   Text,
   Button,
   Modal,
   Grid,
-  TextInput,
+  InputWrapper,
   Divider,
   MultiSelect,
+  Chips,
+  LoadingOverlay,
 } from '@mantine/core';
 import { Helmet } from 'react-helmet';
 import { getEveryFeeder } from '../../../../apis/main';
@@ -20,16 +23,15 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import TextField from '../../../../components/FormsUI/TextField';
 import { connect } from 'react-redux';
+import { getMarket, setMarket } from '../../../../redux/reducers/market';
+import lodash from 'lodash';
 import colors from 'tailwindcss/colors';
-import {setMarketId,setMainHeader} from "../../../../redux/reducers/main";
-import RoutesContext from "../../../../contexts/routes"
 
 class Market extends Component {
-  static contextType = RoutesContext
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
+      title: 'بازار',
       industrieLists: [],
       shorttermData: null,
       midtermData: null,
@@ -42,6 +44,7 @@ class Market extends Component {
       allowSelectLastChip: true,
       openedModal: false,
       overloayModal: false,
+      loading: false,
       averageSettings: {
         shortterm: '10',
         midterm: '20',
@@ -84,10 +87,14 @@ class Market extends Component {
    * it doesn't have a specific api route
    */
   async getGroupLists() {
+    this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder('/totalIndustriesGroupHisory');
-      this.setState({ industrieLists: response.data.data });
+      let response = await getEveryFeeder(
+        'https://feed.tseshow.com/api/totalIndustriesGroupHisory'
+      );
+      this.setState({ industrieLists: response.data.data, loading: false });
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
@@ -158,14 +165,19 @@ class Market extends Component {
         priceScaleId: 'right',
         visible: true,
       });
-      this.Candlestick.applyOptions({
-        visible: true,
-      });
+    this.Candlestick.applyOptions({
+      visible: true,
+    });
+    this.setState({ loading: true });
     try {
-      let response = await getEveryFeeder(`/stock/moneyFlow/${id}`);
+      let response = await getEveryFeeder(
+        `https://feed.tseshow.com/api/stock/chart/${id}`
+      );
+      this.setState({ loading: false });
       this.Candlestick.setData(response.data.data);
       this.candleStickData = response.data.data;
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
@@ -179,12 +191,11 @@ class Market extends Component {
       visible: values.includes('0') ? false : true,
     });
     this.chart.applyOptions({
-      rightPriceScale: values.includes('1')
-        ? PriceScaleMode.Logarithmic
-        : PriceScaleMode.Normal,
-    });
-    this.volumeStudy.applyOptions({
-      visible: values.includes('2') ? true : false,
+      rightPriceScale: {
+        mode: values.includes('1')
+          ? PriceScaleMode.Logarithmic
+          : PriceScaleMode.Normal,
+      },
     });
   }
 
@@ -217,23 +228,26 @@ class Market extends Component {
    * @param {array} values
    */
   averagesDisplaySettings(values) {
-    this.shorttermChart.applyOptions({
+    this.volumeStudy.applyOptions({
       visible: values.includes('0') ? true : false,
     });
-    this.midtermChart.applyOptions({
+    this.shorttermChart.applyOptions({
       visible: values.includes('1') ? true : false,
     });
-    this.longtermChart.applyOptions({
+    this.midtermChart.applyOptions({
       visible: values.includes('2') ? true : false,
     });
-    this.shortmovingtermChart.applyOptions({
+    this.longtermChart.applyOptions({
       visible: values.includes('3') ? true : false,
     });
-    this.midmovingtermChart.applyOptions({
+    this.shortmovingtermChart.applyOptions({
       visible: values.includes('4') ? true : false,
     });
-    this.longmovingtermChart.applyOptions({
+    this.midmovingtermChart.applyOptions({
       visible: values.includes('5') ? true : false,
+    });
+    this.longmovingtermChart.applyOptions({
+      visible: values.includes('6') ? true : false,
     });
   }
 
@@ -244,21 +258,24 @@ class Market extends Component {
         priceFormat: {
           type: 'volume',
         },
-        priceScaleId: '',
-        visible: false,
+        priceScaleId: 'left',
         overlay: true,
+        visible: false,
         scaleMargins: {
           top: 0.5,
           bottom: 0,
         },
       });
     if (chips !== 5) {
+      this.setState({ loading: true });
       try {
         let volumeData = await getEveryFeeder(
-          `/stock/movingAveragePrice/${id}/1`
+          `https://feed.tseshow.com/api/stock/movingAveragePrice/${id}/1`
         );
         this.volumeStudy.setData(volumeData.data.data);
+        this.setState({ loading: false });
       } catch (error) {
+        this.setState({ loading: false });
         console.log(error);
       }
     }
@@ -270,18 +287,22 @@ class Market extends Component {
         color: colors.red[500],
         visible: true,
       });
-      if(this.Candlestick !== null) {
-        this.Candlestick.applyOptions({
-          visible: false,
-        });
-      }
-      this.compareSell.applyOptions({visible: true});
+    if (this.Candlestick !== null) {
+      this.Candlestick.applyOptions({
+        visible: false,
+      });
+    }
+    this.compareSell.applyOptions({ visible: true });
+    this.setState({ loading: true });
     try {
       let compareData = await getEveryFeeder(
-        `/stock/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
+        `https://feed.tseshow.com/api/stock/movingAverage/${this.state.pageID}/3/${this.state.comparisonPeriod}`
       );
       this.compareSell.setData(compareData.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -292,18 +313,23 @@ class Market extends Component {
         color: colors.green[500],
         visible: true,
       });
-      if(this.Candlestick !== null) {
-        this.Candlestick.applyOptions({
-          visible: true,
-        });
-      }
-      this.compareBuy.applyOptions({visible: true});
+    if (this.Candlestick !== null) {
+      this.Candlestick.applyOptions({
+        visible: true,
+      });
+    }
+    this.compareBuy.applyOptions({ visible: true });
+    this.setState({ loading: true });
+
     try {
       let compareData = await getEveryFeeder(
-        `/stock/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
+        `https://feed.tseshow.com/api/stock/movingAverage/${this.state.pageID}/2/${this.state.comparisonPeriod}`
       );
       this.compareBuy.setData(compareData.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -314,22 +340,573 @@ class Market extends Component {
   ) {
     if (this.shorttermChart === null)
       this.shorttermChart = this.chart.addLineSeries({
-        color: colors.blue[600],
+        color: colors.emerald[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
 
     try {
       let shortterm = await getEveryFeeder(
-        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
+        `https://feed.tseshow.com/api/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.shortterm}`
       );
-      this.shorttermChart.setData(shortterm.data.data);
+      this.shorttermChart.setData([
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "14"
+          },
+          "value": 2248
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "15"
+          },
+          "value": 2207
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "16"
+          },
+          "value": 2205
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "17"
+          },
+          "value": 2194
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "18"
+          },
+          "value": 2193
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "21"
+          },
+          "value": 2185
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "22"
+          },
+          "value": 2176
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "23"
+          },
+          "value": 2153
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "24"
+          },
+          "value": 2136
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "25"
+          },
+          "value": 2124
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "28"
+          },
+          "value": 2103
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "29"
+          },
+          "value": 2076
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "30"
+          },
+          "value": 2053
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "31"
+          },
+          "value": 2033
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "01"
+          },
+          "value": 2017
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "06"
+          },
+          "value": 1994
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "07"
+          },
+          "value": 1974
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "08"
+          },
+          "value": 1958
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "11"
+          },
+          "value": 1941
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "12"
+          },
+          "value": 1927
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "13"
+          },
+          "value": 1925
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "14"
+          },
+          "value": 1926
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "15"
+          },
+          "value": 1921
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "19"
+          },
+          "value": 1910
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "20"
+          },
+          "value": 1907
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "21"
+          },
+          "value": 1905
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "22"
+          },
+          "value": 1907
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "25"
+          },
+          "value": 1918
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "26"
+          },
+          "value": 1920
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "27"
+          },
+          "value": 1921
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "28"
+          },
+          "value": 1927
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "29"
+          },
+          "value": 1931
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "02"
+          },
+          "value": 1925
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "03"
+          },
+          "value": 1921
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "04"
+          },
+          "value": 1919
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "05"
+          },
+          "value": 1916
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "06"
+          },
+          "value": 1907
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "09"
+          },
+          "value": 1897
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "11"
+          },
+          "value": 1880
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "12"
+          },
+          "value": 1869
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "13"
+          },
+          "value": 1863
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "16"
+          },
+          "value": 1852
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "17"
+          },
+          "value": 1842
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "19"
+          },
+          "value": 1833
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "20"
+          },
+          "value": 1825
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "23"
+          },
+          "value": 1819
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "24"
+          },
+          "value": 1810
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "25"
+          },
+          "value": 1794
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "26"
+          },
+          "value": 1779
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "27"
+          },
+          "value": 1767
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "30"
+          },
+          "value": 1752
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "31"
+          },
+          "value": 1731
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "01"
+          },
+          "value": 1715
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "02"
+          },
+          "value": 1700
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "03"
+          },
+          "value": 1694
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "06"
+          },
+          "value": 1697
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "09"
+          },
+          "value": 1704
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "10"
+          },
+          "value": 1711
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "13"
+          },
+          "value": 1726
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "14"
+          },
+          "value": 1747
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "15"
+          },
+          "value": 1771
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "16"
+          },
+          "value": 1800
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "17"
+          },
+          "value": 1836
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "27"
+          },
+          "value": 1858
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "28"
+          },
+          "value": 1879
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "29"
+          },
+          "value": 1897
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "30"
+          },
+          "value": 1907
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "31"
+          },
+          "value": 1919
+        }
+      ]);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -343,18 +920,570 @@ class Market extends Component {
         color: colors.red[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
+
     try {
       let midterm = await getEveryFeeder(
-        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
+        `https://feed.tseshow.com/api/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.midterm}`
       );
-      this.midtermChart.setData(midterm.data.data);
+      this.midtermChart.setData([
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "14"
+          },
+          "value": 2248
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "15"
+          },
+          "value": 2208
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "16"
+          },
+          "value": 2206
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "17"
+          },
+          "value": 2195
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "18"
+          },
+          "value": 2194
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "21"
+          },
+          "value": 2187
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "22"
+          },
+          "value": 2179
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "23"
+          },
+          "value": 2159
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "24"
+          },
+          "value": 2145
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "25"
+          },
+          "value": 2135
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "28"
+          },
+          "value": 2117
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "29"
+          },
+          "value": 2095
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "30"
+          },
+          "value": 2077
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "31"
+          },
+          "value": 2060
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "01"
+          },
+          "value": 2046
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "06"
+          },
+          "value": 2027
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "07"
+          },
+          "value": 2012
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "08"
+          },
+          "value": 1998
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "11"
+          },
+          "value": 1984
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "12"
+          },
+          "value": 1972
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "13"
+          },
+          "value": 1967
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "14"
+          },
+          "value": 1965
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "15"
+          },
+          "value": 1960
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "19"
+          },
+          "value": 1950
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "20"
+          },
+          "value": 1946
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "21"
+          },
+          "value": 1943
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "22"
+          },
+          "value": 1941
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "25"
+          },
+          "value": 1946
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "26"
+          },
+          "value": 1945
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "27"
+          },
+          "value": 1944
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "28"
+          },
+          "value": 1946
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "29"
+          },
+          "value": 1947
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "02"
+          },
+          "value": 1944
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "03"
+          },
+          "value": 1940
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "04"
+          },
+          "value": 1938
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "05"
+          },
+          "value": 1936
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "06"
+          },
+          "value": 1930
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "09"
+          },
+          "value": 1923
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "11"
+          },
+          "value": 1914
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "12"
+          },
+          "value": 1907
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "13"
+          },
+          "value": 1902
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "16"
+          },
+          "value": 1894
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "17"
+          },
+          "value": 1887
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "19"
+          },
+          "value": 1881
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "20"
+          },
+          "value": 1875
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "23"
+          },
+          "value": 1869
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "24"
+          },
+          "value": 1863
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "25"
+          },
+          "value": 1853
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "26"
+          },
+          "value": 1843
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "27"
+          },
+          "value": 1834
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "30"
+          },
+          "value": 1824
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "31"
+          },
+          "value": 1811
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "01"
+          },
+          "value": 1800
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "02"
+          },
+          "value": 1789
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "03"
+          },
+          "value": 1783
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "06"
+          },
+          "value": 1780
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "09"
+          },
+          "value": 1780
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "10"
+          },
+          "value": 1780
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "13"
+          },
+          "value": 1783
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "14"
+          },
+          "value": 1790
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "15"
+          },
+          "value": 1800
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "16"
+          },
+          "value": 1811
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "17"
+          },
+          "value": 1827
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "27"
+          },
+          "value": 1837
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "28"
+          },
+          "value": 1847
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "29"
+          },
+          "value": 1857
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "30"
+          },
+          "value": 1863
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "31"
+          },
+          "value": 1870
+        }
+      ]);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -368,18 +1497,570 @@ class Market extends Component {
         color: colors.yellow[600],
         visible: false,
         priceScaleId: 'left',
-        overlay: true,
+        priceFormat: {
+          type: 'volume',
+        },
         scaleMargins: {
           top: 0.5,
-          bottom: 0.15,
+          bottom: 0,
         },
       });
+    this.setState({ loading: true });
+
     try {
       let longterm = await getEveryFeeder(
-        `/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
+        `https://feed.tseshow.com/api/stock/movingAverage/${id}/${chips}/${this.state.averageSettings.longterm}`
       );
-      this.longtermChart.setData(longterm.data.data);
+      this.longtermChart.setData([
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "13"
+          },
+          "value": 2248
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "14"
+          },
+          "value": 2205
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "15"
+          },
+          "value": 2204
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "16"
+          },
+          "value": 2191
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "17"
+          },
+          "value": 2191
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "20"
+          },
+          "value": 2181
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "21"
+          },
+          "value": 2171
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "22"
+          },
+          "value": 2141
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "23"
+          },
+          "value": 2121
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "24"
+          },
+          "value": 2108
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "27"
+          },
+          "value": 2081
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "28"
+          },
+          "value": 2046
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "29"
+          },
+          "value": 2018
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "30"
+          },
+          "value": 1993
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "05",
+            "day": "31"
+          },
+          "value": 1976
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "05"
+          },
+          "value": 1946
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "06"
+          },
+          "value": 1925
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "07"
+          },
+          "value": 1908
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "10"
+          },
+          "value": 1888
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "11"
+          },
+          "value": 1875
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "12"
+          },
+          "value": 1880
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "13"
+          },
+          "value": 1890
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "14"
+          },
+          "value": 1889
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "18"
+          },
+          "value": 1875
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "19"
+          },
+          "value": 1877
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "20"
+          },
+          "value": 1879
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "21"
+          },
+          "value": 1887
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "24"
+          },
+          "value": 1910
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "25"
+          },
+          "value": 1915
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "26"
+          },
+          "value": 1918
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "27"
+          },
+          "value": 1929
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "06",
+            "day": "28"
+          },
+          "value": 1936
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "01"
+          },
+          "value": 1925
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "02"
+          },
+          "value": 1916
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "03"
+          },
+          "value": 1915
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "04"
+          },
+          "value": 1910
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "05"
+          },
+          "value": 1894
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "08"
+          },
+          "value": 1877
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "10"
+          },
+          "value": 1850
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "11"
+          },
+          "value": 1835
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "12"
+          },
+          "value": 1829
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "15"
+          },
+          "value": 1815
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "16"
+          },
+          "value": 1803
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "18"
+          },
+          "value": 1794
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "19"
+          },
+          "value": 1786
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "22"
+          },
+          "value": 1780
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "23"
+          },
+          "value": 1771
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "24"
+          },
+          "value": 1748
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "25"
+          },
+          "value": 1727
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "26"
+          },
+          "value": 1715
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "29"
+          },
+          "value": 1695
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "30"
+          },
+          "value": 1666
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "07",
+            "day": "31"
+          },
+          "value": 1647
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "01"
+          },
+          "value": 1632
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "02"
+          },
+          "value": 1633
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "05"
+          },
+          "value": 1648
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "08"
+          },
+          "value": 1672
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "09"
+          },
+          "value": 1691
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "12"
+          },
+          "value": 1722
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "13"
+          },
+          "value": 1762
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "14"
+          },
+          "value": 1807
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "15"
+          },
+          "value": 1856
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "16"
+          },
+          "value": 1913
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "26"
+          },
+          "value": 1941
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "27"
+          },
+          "value": 1966
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "28"
+          },
+          "value": 1985
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "29"
+          },
+          "value": 1988
+        },
+        {
+          "time": {
+            "year": "2022",
+            "month": "08",
+            "day": "30"
+          },
+          "value": 1995
+        }
+      ]);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -390,12 +2071,17 @@ class Market extends Component {
         color: colors.blue[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let shortmovingterm = await getEveryFeeder(
-        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
+        `https://feed.tseshow.com/api/stock/movingAveragePrice/${id}/${this.state.averageSettings.shortmovingterm}`
       );
       this.shortmovingtermChart.setData(shortmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -406,12 +2092,17 @@ class Market extends Component {
         color: colors.green[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let midtmovingterm = await getEveryFeeder(
-        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
+        `https://feed.tseshow.com/api/stock/movingAveragePrice/${id}/${this.state.averageSettings.midmovingterm}`
       );
       this.midmovingtermChart.setData(midtmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
+
       console.log(error);
     }
   }
@@ -422,33 +2113,36 @@ class Market extends Component {
         color: colors.yellow[600],
         visible: false,
       });
+    this.setState({ loading: true });
+
     try {
       let longtmovingterm = await getEveryFeeder(
-        `/stock/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
+        `https://feed.tseshow.com/api/stock/movingAveragePrice/${id}/${this.state.averageSettings.longmovingterm}`
       );
       this.longmovingtermChart.setData(longtmovingterm.data.data);
+      this.setState({ loading: false });
     } catch (error) {
+      this.setState({ loading: false });
       console.log(error);
     }
   }
 
   componentDidMount() {
-    let thatChart = this.props.chartAndtables;
-    thatChart = thatChart.find(item => item.key === "symbolInfo");
-    getEveryFeeder(`${thatChart.feeder_url}/${this.context.stockID}`).then(res => {
-      this.setState({title: res.data.data.name})
-    });
     this.getGroupLists();
     // CREATE CHART
     this.chart = createChart(this.chartRef.current, {
       width: this.chartRef.current.offsetWidth,
       height: this.chartRef.current.offsetHeight,
-      priceScale: {
-        scaleMargins: {
-          top: 0.05,
-          bottom: 0.55,
+      overlayPriceScales: {
+        visible: false,
+      },
+      grid: {
+        horzLines: {
+          color: 'rgba(240, 243, 250,1)',
         },
-        borderVisible: false,
+        vertLines: {
+          color: 'rgba(240, 243, 250,0)',
+        },
       },
       crosshair: {
         mode: CrosshairMode.Normal,
@@ -456,10 +2150,18 @@ class Market extends Component {
       rightPriceScale: {
         visible: true,
         borderColor: 'rgba(197, 203, 206, 1)',
+        scaleMargins: {
+          top: 0,
+          bottom: 0.5,
+        },
       },
       leftPriceScale: {
         visible: true,
         borderColor: 'rgba(197, 203, 206, 1)',
+        scaleMargins: {
+          top: 0.5,
+          bottom: 0,
+        },
       },
       layout: {
         backgroundColor: '#ffffff',
@@ -475,8 +2177,28 @@ class Market extends Component {
     this.shortmovingtermWorker();
     this.midmovingtermWorker();
     this.longmovingtermWorker();
-  }
 
+    /**
+     * change candle stick data
+     */
+    this.history.listen((location) => {
+      let { pathname } = location;
+      let id = pathname.split('/')[3];
+      this.setState({ pageID: id });
+      this.CandlestickInitialize(id);
+      // this.VolumeStudyWorker(id);
+      if (!this.state.chipsValue.includes('0')) {
+        this.getNormalAverages(id);
+        this.getMovingAverages(id);
+        this.shortTermChartWorker();
+        this.midTermChartWorker();
+        this.longTermChartWorker();
+        this.shortmovingtermWorker();
+        this.midmovingtermWorker();
+        this.longmovingtermWorker();
+      }
+    });
+  }
   render() {
     return (
       <>
@@ -485,9 +2207,14 @@ class Market extends Component {
         </Helmet>
         <Group position="apart">
           <Text>{this.state.title}</Text>
+          <Select
+            onChange={(e) => this.changeGroup(e)}
+            placeholder="انتخاب کنید"
+            data={this.state.industrieLists}
+          />
         </Group>
         <Paper p="lg" shadow="xs" radius="md" mt="lg">
-          <Chip.Group
+          <Chips
             defaultValue="0"
             radius="sm"
             onChange={(e) => this.onChangeChips(e)}
@@ -502,7 +2229,7 @@ class Market extends Component {
             <Chip value="5" disabled={this.state.allowSelectLastChip}>
               مقایسه ای سرانه خرید و فروش
             </Chip>
-          </Chip.Group>
+          </Chips>
           <Group mt="sm">
             <Input
               value={this.state.comparisonPeriod}
@@ -532,28 +2259,30 @@ class Market extends Component {
               data={[
                 { value: '0', label: 'مخفی کردن نمودار قیمت' },
                 { value: '1', label: 'لگاریتمی' },
-                { value: '2', label: 'روزانه' },
               ]}
             />
             <div className="relative">
-              {/* <LoadingOverlay visible /> */}
               <MultiSelect
                 clearable
                 placeholder="انتخاب کنید"
                 label="میانگین ها"
                 onChange={(e) => this.averagesDisplaySettings(e)}
                 data={[
-                  { value: '0', label: 'کوتاه مدت' },
-                  { value: '1', label: 'میان مدت' },
-                  { value: '2', label: 'بلند مدت' },
-                  { value: '3', label: 'متحرک کوتاه مدت - پول' },
-                  { value: '4', label: 'متحرک میان مدت - پول' },
-                  { value: '5', label: 'متحرک بلند مدت - پول' },
+                  { value: '0', label: 'بازار' },
+                  { value: '1', label: 'کوتاه مدت' },
+                  { value: '2', label: 'میان مدت' },
+                  { value: '3', label: 'بلند مدت' },
+                  { value: '4', label: 'متحرک کوتاه مدت - پول' },
+                  { value: '5', label: 'متحرک میان مدت - پول' },
+                  { value: '6', label: 'متحرک بلند مدت - پول' },
                 ]}
               />
             </div>
           </Group>
-          <div ref={this.chartRef} className="mt-10 w-full h-[900px]" />
+          <div className='h-[70vh] relative'>
+            <LoadingOverlay visible={this.state.loading} loaderProps={{variant:"dots"}} />
+            <div ref={this.chartRef} className="mt-10 w-full h-full"  />
+          </div>
         </Paper>
         <Modal
           dir="rtl"
@@ -578,34 +2307,34 @@ class Market extends Component {
             <Form>
               <Grid>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین کوتاه مدت">
+                  <InputWrapper label="دوره میانگین کوتاه مدت">
                     <TextField placeholder="1 تا 50" name="shortterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین میان مدت">
+                  <InputWrapper label="دوره میانگین میان مدت">
                     <TextField placeholder="1 تا 100" name="midterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین بلند مدت">
+                  <InputWrapper label="دوره میانگین بلند مدت">
                     <TextField placeholder="1 تا 200" name="longterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک کوتاه مدت">
+                  <InputWrapper label="دوره میانگین متحرک کوتاه مدت">
                     <TextField placeholder="1 تا 200" name="shortmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک میان مدت">
+                  <InputWrapper label="دوره میانگین متحرک میان مدت">
                     <TextField placeholder="1 تا 200" name="midmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
                 <Grid.Col md={6} sm={12}>
-                  <TextInput label="دوره میانگین متحرک بلند مدت">
+                  <InputWrapper label="دوره میانگین متحرک بلند مدت">
                     <TextField placeholder="1 تا 200" name="longmovingterm" />
-                  </TextInput>
+                  </InputWrapper>
                 </Grid.Col>
               </Grid>
               <Group position="apart" mt="lg">
@@ -669,5 +2398,13 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables
 });
 
+/**
+ * Mapping actions to props
+ * @param {object} dispatch
+ * @returns
+ */
+const mapDispatchToProps = (dispatch) => ({
+  setMarket: (data) => dispatch(setMarket(data)),
+});
 
-export default withRouter(connect(mapStateToProps)(Market));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Market));

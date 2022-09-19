@@ -11,12 +11,23 @@ import configureStore from './redux/store';
 import { Provider } from 'react-redux';
 import swDev from './swDev';
 
+/**
+ * Global ClearInterval
+ * It is here because of cleaner code
+ * in this method , doesnt need to make seperated method in each component
+ * @return {void}
+ */
+React.Component.prototype.clearInterval = function(){
+  let keys = Object.keys(this).filter(item => item.match(/Interval|interval/g));
+  keys.map(item => clearInterval(this[item]));
+}
+
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
     <MantineProvider
-      theme={theme}
+      theme={{...theme}}
       emotionOptions={{ key: 'rtl', stylisPlugins: [rtlPlugin] }}
     >
       <NotificationsProvider dir="rtl">

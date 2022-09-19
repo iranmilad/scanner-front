@@ -13,7 +13,6 @@ import { getEveryFeeder } from '../../apis/main';
 import _ from 'lodash';
 import NewsTable from './news';
 import { Text } from '@mantine/core';
-import { CheckTabActiviation } from '../../helper/tabActivation';
 import ExtractCharTable from './ExtractCharTable';
 
 class Index extends Component {
@@ -114,10 +113,7 @@ class Index extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval1);
-    clearInterval(this.interval2);
-    clearInterval(this.interval3);
-    clearInterval(this.interval4);
+    this.clearInterval();
   }
 
   render() {
@@ -146,11 +142,12 @@ class Index extends Component {
 
         <LoopChart charts={this.state.charts} />
         <ITable
+          className="narrow"
           column={totalSummeryIndustrials.header}
           data={this.state.table4}
           title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)"
           fixedHeader
-          fixedHeaderScrollHeight="70vh"
+          fixedHeaderScrollHeight="80vh"
         />
         <ExtractCharTable />
       </>

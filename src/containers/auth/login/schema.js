@@ -7,7 +7,7 @@ export const loginSchema = Yup.object().shape({
   mobile: Yup.string()
   .required("شماره تلفن را وارد کنید")
   .matches(phoneRegExp, 'شماره تلفن معتبر نیست')
-  .min(10, "شماره تلفن معتبر نیست")
+  .min(11, "شماره تلفن معتبر نیست")
   .max(11, "شماره تلفن معتبر نیست"),
   password: Yup.string()
   .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")

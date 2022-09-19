@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { Menu, Divider, Avatar, Button, Indicator } from '@mantine/core';
 import ProfilePic from '../../../../assets/images/pp.jpg';
 import axios from 'axios';
-import { withCookies } from 'react-cookie';
+import { Cookies, withCookies } from 'react-cookie';
 import { getEveryUser } from '../../../../apis/main';
+import JsCookie from "js-cookie"
 
 class PrivateSection extends React.PureComponent {
   constructor(props) {
@@ -27,6 +28,7 @@ class PrivateSection extends React.PureComponent {
       })
       .then((res) => {
         cookies.remove('token');
+        JsCookie.remove("token");
         window.location.href = '/';
       });
   }
