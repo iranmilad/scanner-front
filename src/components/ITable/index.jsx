@@ -26,7 +26,7 @@ import { TableDesign } from '../../helper/theme';
  * />
  */
 
-const ITable = ({ title, column, data, children, customStyles, ...other }) => {
+const ITable = ({ title, column, data,className, children, customStyles, ...other }) => {
   let paginationComponentOptions = {
     rowsPerPageText: 'تعداد نمایش',
     rangeSeparatorText: 'از',
@@ -39,7 +39,7 @@ const ITable = ({ title, column, data, children, customStyles, ...other }) => {
         </Text>
       </Group>
       {!lodash.isEmpty(data) ? (
-        <>
+        <div className={className}>
           <DataTable
             columns={column}
             data={data}
@@ -49,7 +49,7 @@ const ITable = ({ title, column, data, children, customStyles, ...other }) => {
             {...other}
           />
           {children}
-        </>
+        </div>
       ) : (
         <>
         {data === false ? (

@@ -64,8 +64,17 @@ body{
 }
 
 
-.bnAwAJ{
+.narrow .bnAwAJ{
   @apply lg:min-w-0 !important;
+}
+
+.narrow-sm .bnAwAJ{
+  @apply lg:min-w-[50px] !important;
+
+}
+
+.narrow-md .bnAwAJ{
+  @apply lg:min-w-[70px] !important;
 }
 
 .container,

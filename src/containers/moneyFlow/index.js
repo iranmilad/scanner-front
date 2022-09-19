@@ -215,9 +215,8 @@ class MoneyFlow extends Component {
   };
   getAllCharts = () => {
     // get all charts feed
-    let findKeys = matchSorter(this.props.chartAndtables, 'MF', {
-      keys: ['key'],
-    });
+    let config = this.props.chartAndtables;
+    let findKeys = config.filter((item) => item.key.match(/MF[0-9]/g));
     findKeys.map(async (item) => {
       try {
         let response = await getEveryFeeder(item.feeder_url);
@@ -231,7 +230,7 @@ class MoneyFlow extends Component {
       } catch (error) {
         console.log(error);
       }
-      setInterval(async () => {
+      this[`${item.key}Interval`] = setInterval(async () => {
         try {
           let response = await getEveryFeeder(item.feeder_url);
           let removeLettersFromKey = item.key.replace('MF', '');
@@ -250,6 +249,10 @@ class MoneyFlow extends Component {
   componentDidMount() {
     this.getAllCharts();
   }
+
+  componentWillUnmount() {
+    this.clearInterval();
+  }
   render() {
     return (
       <>
@@ -262,12 +265,13 @@ class MoneyFlow extends Component {
             تنظیمات نمایش چارت ها
           </Button>
         </Group>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
           <div>
-            {[0, 1, 2, 3, 4, 5].map((item) => (
-              <>
-                {this.state.list[item].checked && (
+            {[0, 1, 2, 3, 4, 5].map((item, id) => (
+              <div className="my-2">
+                {this.state.list[item].checked == true && (
                   <Chart
+                    key={id}
                     title={this.state[`chart${item + 1}`].title}
                     data={this.state[`chart${item + 1}`].data.series}
                     type="line"
@@ -276,14 +280,15 @@ class MoneyFlow extends Component {
                     height={300}
                   />
                 )}
-              </>
+              </div>
             ))}
           </div>
           <div>
-            {[6, 7, 8, 9, 10, 11].map((item) => (
-              <>
-                {this.state.list[item].checked && (
+            {[6, 7, 8, 9, 10, 11].map((item, id) => (
+              <div className="my-2">
+                {this.state.list[item].checked == true && (
                   <Chart
+                    key={id}
                     title={this.state[`chart${item + 1}`].title}
                     data={this.state[`chart${item + 1}`].data.series}
                     type="line"
@@ -292,14 +297,15 @@ class MoneyFlow extends Component {
                     height={300}
                   />
                 )}
-              </>
+              </div>
             ))}
           </div>
           <div>
-            {[12, 13, 14, 15, 16, 17].map((item) => (
-              <>
-                {this.state.list[item].checked && (
+            {[12, 13, 14, 15, 16, 17].map((item, id) => (
+              <div className="my-2">
+                {this.state.list[item].checked == true && (
                   <Chart
+                    key={id}
                     title={this.state[`chart${item + 1}`].title}
                     data={this.state[`chart${item + 1}`].data.series}
                     type="area"
@@ -309,7 +315,7 @@ class MoneyFlow extends Component {
                     height={300}
                   />
                 )}
-              </>
+              </div>
             ))}
           </div>
         </div>

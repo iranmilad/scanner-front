@@ -142,6 +142,7 @@ class Index extends Component {
 
         <LoopChart charts={this.state.charts} />
         <ITable
+          className="narrow"
           column={totalSummeryIndustrials.header}
           data={this.state.table4}
           title="خلاصه معاملات صنایع بورس (جهت مشاهده دیده بان هر گروه روی نام آن گروه کلیک کنید.)"

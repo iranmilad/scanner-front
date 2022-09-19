@@ -624,6 +624,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+
 .my-3 {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
@@ -633,12 +639,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .my-6 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-}
-
-
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 
@@ -1715,8 +1715,18 @@ body{
 @media (min-width: 1200px) {
 
 
-  .bnAwAJ {
+  .narrow .bnAwAJ {
     min-width: 0px !important;
+  }
+
+
+  .narrow-sm .bnAwAJ {
+    min-width: 50px !important;
+  }
+
+
+  .narrow-md .bnAwAJ {
+    min-width: 70px !important;
   }
 }
 

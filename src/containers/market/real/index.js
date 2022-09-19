@@ -378,6 +378,7 @@ class RealMarket extends Component {
     }
 
     this.props.history.listen(async (location) => {
+    this.clearInterval();
       try {
         await this.checkNavExist(this.context.stockID);
         this.getInformation(this.context.stockID);
@@ -397,16 +398,7 @@ class RealMarket extends Component {
     });
   }
   componentWillUnmount() {
-    clearInterval(this.ClientSummaryInterval);
-    clearInterval(this.TraderSummaryInterval);
-    clearInterval(this.BookMarkSummaryInterval);
-    clearInterval(this.TotlaBookMarkSummaryInterval);
-    clearInterval(this.totalClientSummaryInterval);
-    clearInterval(this.statementPerdiodInterval);
-    clearInterval(this.SupportResistanceInterval);
-    clearInterval(this.technicalValueInterval);
-    clearInterval(this.ChangePerfomance);
-    clearInterval(this.CombinationAssetsInterval);
+    this.clearInterval();
   }
   render() {
     return (
@@ -528,7 +520,7 @@ class RealMarket extends Component {
                                     </ActionIcon>
                                   </Tooltip>
                                 )
-                              : null}
+                              : ""}
 
                             {this.CheckMemberListExist(
                               this.state.id,
@@ -566,7 +558,7 @@ class RealMarket extends Component {
                                     </ActionIcon>
                                   </Tooltip>
                                 )
-                              : null}
+                              : ""}
                             {this.CheckMemberListExist(
                               this.state.id,
                               item['n0'].id
@@ -590,7 +582,7 @@ class RealMarket extends Component {
                                     </ActionIcon>
                                   </Tooltip>
                                 )
-                              : null}
+                              : ""}
                           </>
                         ) : null}
                       </Group>
@@ -647,7 +639,7 @@ class RealMarket extends Component {
                                     </ActionIcon>
                                   </Tooltip>
                                 )
-                              : null}
+                              : ""}
 
                             {this.CheckMemberListExist(
                               this.state.id,

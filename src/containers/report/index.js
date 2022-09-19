@@ -99,7 +99,7 @@ class Report extends Component {
         </Center>
         <Center mt="lg">
           <Input
-            onInput={(e) => this.searhCompany(e.target.value)}
+            onInput={(e) => this.searhCompany(e.target.value.trim())}
             sx={{ width: '300px' }}
             placeholder="شرکت مورد نظر خود را جستجو کنید"
           />

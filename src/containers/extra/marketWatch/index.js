@@ -54,6 +54,7 @@ class MarketWatch extends Component {
       console.log(err);
       this.setState({loading:false})
     }
+
   }
 
   /**
@@ -158,12 +159,13 @@ class MarketWatch extends Component {
                 data={this.state.watchFilter || []}
                 defaultValue={this.state.watchFilter[0]?.value || ''}
               />
-              <Button size="sm" onClick={() => this.ModalAction()} disabled={this.state.loading}>
+              {/* <Button size="sm" onClick={() => this.ModalAction()} disabled={this.state.loading}>
                 فیلتر ستون ها
-              </Button>
+              </Button> */}
             </>
         </Group>
         <ITable
+        className="narrow"
           pagination
           fixedHeader
           fixedHeaderScrollHeight="70vh"

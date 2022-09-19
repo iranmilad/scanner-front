@@ -4,6 +4,7 @@ export const TableDesign = {
   table:{
     style: {
       paddingBottom: "10px",
+      borderRadius: "13px"
     }
   },
   headCells: {
@@ -13,13 +14,16 @@ export const TableDesign = {
       fontSize: "12px",
       padding: 0,
       color: colors.slate[600],
+      "&:first-child": {
+        paddingRight: "10px",
+      }
     },
   },
   rows:{
     style:{
       fontSize: "13px",
       textAlign: "right",
-      padding: "2px",
+      paddingRight: "10px",
       "&:hover": {
         backgroundColor: colors.gray[50]
       },

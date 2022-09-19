@@ -176,6 +176,7 @@ class TechnoWatch extends Component {
           )}
         </Group>
         <ITable
+        className="narrow-sm"
           pagination
           fixedHeader
           fixedHeaderScrollHeight="70vh"

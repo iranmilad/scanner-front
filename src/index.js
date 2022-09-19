@@ -18,7 +18,7 @@ import swDev from './swDev';
  * @return {void}
  */
 React.Component.prototype.clearInterval = function(){
-  let keys = Object.keys(this).filter(item => item.toLowerCase(item.includes("interval")));
+  let keys = Object.keys(this).filter(item => item.match(/Interval|interval/g));
   keys.map(item => clearInterval(this[item]));
 }
 

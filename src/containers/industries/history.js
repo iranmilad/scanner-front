@@ -116,6 +116,7 @@ class History extends Component {
             </Paper>
           ) : (
             <ITable
+            className="narrow-md"
               title=""
               data={this.state.data}
               column={
