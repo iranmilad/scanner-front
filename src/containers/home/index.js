@@ -10,7 +10,6 @@ import LoopChart from '../../components/LoopChart';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { getEveryFeeder } from '../../apis/main';
-import _ from 'lodash';
 import NewsTable from './news';
 import { Text } from '@mantine/core';
 import ExtractCharTable from './ExtractCharTable';

@@ -8,12 +8,15 @@ const ApiCaller = (config) => {
       'Content-Type': 'application/json',
     },
     responseType: 'json',
-    baseURL: process.env.REACT_APP_USER_FEED_URL,
+    baseURL:
+      process.env.NODE_ENV !== 'production'
+        ? process.env.REACT_APP_USER_FEED_URL
+        : '/',
   });
 
   axiosInstance.interceptors.request.use(
     (request) => {
-      if(typeof config.token === 'string' && config.token !== ''){
+      if (typeof config.token === 'string' && config.token !== '') {
         request.headers['Authorization'] = `Bearer ${config.token}`;
       }
       if (config.token === true) {

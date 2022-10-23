@@ -2,6 +2,7 @@
   "name": "tradersarena",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@headlessui/react": "^1.4.3",
     "@mantine/core": "^4.2.12",
@@ -18,7 +19,9 @@
     "apexcharts": "^3.33.0",
     "autoprefixer": "^10.4.2",
     "axios": "^0.25.0",
+    "axios-mock-adapter": "^1.21.2",
     "bootstrap-icons": "^1.9.1",
+    "dotenv": "^16.0.3",
     "firebase": "^9.9.3",
     "formik": "^2.2.9",
     "history": "^4.10.1",
@@ -26,6 +29,7 @@
     "js-cookie": "^3.0.1",
     "lightweight-charts": "^3.8.0",
     "localstorage-slim": "^2.2.0",
+    "locmock": "file:./src/mock",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "postcss": "^8.4.6",
@@ -48,6 +52,7 @@
     "stylis": "^4.0.13",
     "stylis-plugin-rtl": "^2.1.1",
     "tailwindcss": "^3.0.18",
+    "url-parse": "^1.5.10",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -58,6 +63,7 @@
     "start-js": "react-scripts start",
     "build-js": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "build": "npm-run-all build:css build-js",
+    "config": "node setconfig.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
