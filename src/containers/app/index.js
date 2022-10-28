@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BrowserRouter, Switch, Route, HashRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, } from 'react-router-dom';
 import { PublicLayout, AuthLayout, PrivateLayout } from '../../layout';
 import Routes from '../../router';
 import { withRouter } from 'react-router';
@@ -25,7 +25,7 @@ const App = () => {
   let [error, setError] = useState(false);
   let [stockID, setStockID] = useState(null);
   let [headerType, setHeaderType] = useState(0);
-  const [cookies, setCookies,removeCookie] = useCookies(['token']);
+  const [cookies,removeCookie] = useCookies(['token']);
 
   const layoutManager = (item, key) => {
     switch (item.layout) {

@@ -1,6 +1,4 @@
 import ApiCaller from '../../helper/apiCaller';
-import { loading } from '../../redux/reducers/main';
-
 
 /**
  * Register Api 

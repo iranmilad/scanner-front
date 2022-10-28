@@ -69,12 +69,14 @@ class NewsTable extends Component {
                   <Text size="sm" color="dark" style={{ lineHeight: 1.5 }}>
                     <div dangerouslySetInnerHTML={{ __html: item.body }} />
                   </Text>
-                  <Group position="apart" my="md">
+                  <Group position={(item.category !== '' && item.category) && (item.date !== '' && item.date) ? 'apart' : 'right'} my="md">
+                    {item.category && item.category !== '' && (
                     <Badge color="pink" variant="light">
                       <div
                         dangerouslySetInnerHTML={{ __html: item.category }}
                       />
                     </Badge>
+                    )}
                     <Badge color="indigo" variant="light">
                       <div dangerouslySetInnerHTML={{ __html: item.date }} />
                     </Badge>

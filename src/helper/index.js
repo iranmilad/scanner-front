@@ -40,7 +40,9 @@ export function ColorizeTag({ row, style, ...other }) {
   /**
    * @type {string}
    */
-  let number = typeof row === 'string' ? row : row.toString();
+  let number = typeof row === 'string' ? row : `${row}`;
+
+  // console.log((1.2).toString)
 
   number = number.replace(/[% a-zA-Z]/g, '');
   if (number === 0) {

@@ -22,6 +22,14 @@ class LoginForm extends React.PureComponent {
     var days = Math.floor(seconds / (3600 * 24));
   }
 
+  redirect(action){
+    if (action === 'PUSH') {
+      this.props.history.goBack();
+    } else {
+      this.props.history.go('/');
+    }
+  }
+
   /**
    * Handle login request
    */
@@ -35,7 +43,7 @@ class LoginForm extends React.PureComponent {
         this.setState({
           loading: false,
           loginSuccess: res.data.message,
-          time: 4,
+          time: 3,
         });
         this.countDownTimer();
         const { cookies } = this.props;
@@ -57,12 +65,8 @@ class LoginForm extends React.PureComponent {
           const {
             history: { action },
           } = this.props;
-          if (action === 'PUSH') {
-            this.props.history.goBack();
-          } else {
-            this.props.history.go('/');
-          }
-        }, 4000);
+          this.redirect(action)
+        }, 3000);
       })
       .catch((err) => {
         this.setState({
@@ -82,7 +86,7 @@ class LoginForm extends React.PureComponent {
         ...state,
         time: state.time - 1,
       }));
-      if (this.state.time < 0) {
+      if (this.state.time <= 0) {
         clearInterval(timer);
       }
     }, 1000);
@@ -105,7 +109,10 @@ class LoginForm extends React.PureComponent {
           <Alert mt="lg" title={this.state.loginSuccess} color="green">
             <Group position="apart">
               <Text size="sm">به طور خودکار هدایت میشوید</Text>
-              <Text size="sm">{this.state.time}</Text>
+              <Text size="sm">{this.state.time > 0 ? this.state.time : ''}</Text>
+            </Group>
+            <Group position='apart' mt="md">
+              <Text size='sm'>اگر به طور خودکار هدایت نشدید روی این <Text onClick={() => this.redirect(this.props.history.action)} className='inline-block cursor-pointer' weight="bold" color="blue" size='sm'>لینک</Text> کلیک کنید</Text>
             </Group>
           </Alert>
           <Space h="lg" />

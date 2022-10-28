@@ -2,12 +2,11 @@ import {
   Text,
   Select,
   Group,
-  Grid,
   Paper,
   Center,
   Loader,
 } from '@mantine/core';
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import ITable from '../../components/ITable';
 import {
   industries_table1,

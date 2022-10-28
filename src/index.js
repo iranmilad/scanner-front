@@ -10,6 +10,7 @@ import App from './containers/app';
 import configureStore from './redux/store';
 import { Provider } from 'react-redux';
 import swDev from './swDev';
+import "./mock";
 
 /**
  * Global ClearInterval

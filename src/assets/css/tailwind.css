@@ -1712,25 +1712,6 @@ body{
 }
 
 
-@media (min-width: 1200px) {
-
-
-  .narrow .bnAwAJ {
-    min-width: 0px !important;
-  }
-
-
-  .narrow-sm .bnAwAJ {
-    min-width: 50px !important;
-  }
-
-
-  .narrow-md .bnAwAJ {
-    min-width: 70px !important;
-  }
-}
-
-
 .container,
 .container-fluid,
 .container-xxl,

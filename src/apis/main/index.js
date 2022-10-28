@@ -1,8 +1,5 @@
 import ApiCaller from '../../helper/apiCaller';
 import FeederCaller from '../../helper/feederCaller'
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
 /**
  * 
  * @param {string} url
@@ -11,7 +8,14 @@ import Cookies from 'js-cookie';
  */
 export const getEveryUser = (url,config = {})=>{
   if(config.method === "POST" || config.method === 'post'){
-    return ApiCaller(config).post(url,config.data)
+    let data = config.data;
+    delete config.data;
+    return ApiCaller(config).post(url,data,config)
+  }
+  else if(config.method === "PUT" || config.method === "put"){
+    let data = config.data;
+    delete config.data;
+    return ApiCaller(config).put(url,data,config)
   }
   return ApiCaller(config).get(url);
 }

@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Divider, Avatar, Button, Indicator } from '@mantine/core';
 import ProfilePic from '../../../../assets/images/pp.jpg';
-import axios from 'axios';
-import { Cookies, withCookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
 import { getEveryUser } from '../../../../apis/main';
-import JsCookie from "js-cookie"
+import JsCookie from 'js-cookie';
+import { withRouter } from 'react-router-dom';
 
 class PrivateSection extends React.PureComponent {
   constructor(props) {
@@ -18,22 +18,21 @@ class PrivateSection extends React.PureComponent {
   }
   handleLogout() {
     const { cookies } = this.props;
-    axios
-      .get('https://user.tseshow.com/api/auth/logout', {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${cookies.get('token')}`,
-        },
-      })
-      .then((res) => {
-        cookies.remove('token');
-        JsCookie.remove("token");
-        window.location.href = '/';
-      });
+    getEveryUser('/auth/logout', {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${cookies.get('token')}`,
+      },
+    }).then((res) => {
+      cookies.remove('token');
+      JsCookie.remove('token');
+      window.location.href = '/';
+    });
   }
 
   getNotifications() {
+    const { pathname } = this.props.location;
     const {
       cookies: {
         cookies: { token },
@@ -41,6 +40,36 @@ class PrivateSection extends React.PureComponent {
     } = this.props;
     if (token) {
       setInterval(() => {
+        if (pathname !== '/dashboard') {
+          getEveryUser('/notifications', { token: true })
+            .then((res) => {
+              let count = 0;
+              res.data.data.map((item) =>
+                item.seen_at === null ? count++ : null
+              );
+              this.setState({ notificationsCount: count === 0 ? '' : count });
+            })
+            .catch((error) => {
+              this.setState({ notificationsCount: '' });
+              const { response } = error;
+              if (response.status === 401) {
+                window.location.reload();
+              }
+            });
+        }
+      }, 60000);
+    }
+  }
+
+  componentDidMount() {
+    const { pathname } = this.props.location;
+    const {
+      cookies: {
+        cookies: { token },
+      },
+    } = this.props;
+    if (token) {
+      if (pathname !== '/dashboard') {
         getEveryUser('/notifications', { token: true })
           .then((res) => {
             let count = 0;
@@ -50,35 +79,12 @@ class PrivateSection extends React.PureComponent {
             this.setState({ notificationsCount: count === 0 ? '' : count });
           })
           .catch((error) => {
-            this.setState({ notificationsCount: '' });
             const { response } = error;
             if (response.status === 401) {
               window.location.reload();
             }
           });
-      }, 60000);
-    }
-  }
-
-  componentDidMount() {
-    const {
-      cookies: {
-        cookies: { token },
-      },
-    } = this.props;
-    if (token) {
-      getEveryUser('/notifications', { token: true })
-        .then((res) => {
-          let count = 0;
-          res.data.data.map((item) => (item.seen_at === null ? count++ : null));
-          this.setState({ notificationsCount: count === 0 ? '' : count });
-        })
-        .catch((error) => {
-          const { response } = error;
-          if (response.status === 401) {
-            window.location.reload();
-          }
-        });
+      }
     }
     this.getNotifications();
   }
@@ -92,6 +98,7 @@ class PrivateSection extends React.PureComponent {
             dir="rtl"
             control={
               <Indicator
+              disabled={this.props.location.pathname === "/dashboard"}
                 size={16}
                 label={this.state.notificationsCount}
                 inline
@@ -168,4 +175,4 @@ class PrivateSection extends React.PureComponent {
   }
 }
 
-export default withCookies(PrivateSection);
+export default withCookies(withRouter(PrivateSection));

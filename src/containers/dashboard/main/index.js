@@ -11,6 +11,7 @@ import PrivateMessages from './privateMessages';
 import PublicMessages from './publicMessages';
 import Question from './question';
 import Subscription from './subscription';
+import { getEveryUser } from '../../../apis/main';
 
 class Dashboard extends Component {
   state = {
@@ -19,16 +20,14 @@ class Dashboard extends Component {
   };
   async getPrivateMessages() {
     this.setState({ loading: true });
+
     try {
-      let response = await axios.get(
-        'https://user.tseshow.com/api/notifications',
-        {
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${Cookies.get('token')}`,
-          },
-        }
-      );
+      let response = await getEveryUser('/notifications', {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${Cookies.get('token')}`,
+        },
+      });
       this.setState({
         privateMessages: response.data.data,
         loading: false,
@@ -37,28 +36,6 @@ class Dashboard extends Component {
       this.setState({ loading: false });
       console.log(error);
     }
-
-    this.privateMessagesInterval = setInterval(async () => {
-      this.setState({ loading: true });
-      try {
-        let response = await axios.get(
-          'https://user.tseshow.com/api/notifications',
-          {
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${Cookies.get('token')}`,
-            },
-          }
-        );
-        this.setState({
-          privateMessages: response.data.data,
-          loading: false,
-        });
-      } catch (error) {
-        this.setState({ loading: false });
-        console.log(error);
-      }
-    }, 60 * 5 * 1000);
   }
   setAllMessagesToState = () => {
     this.getPrivateMessages();
@@ -77,8 +54,12 @@ class Dashboard extends Component {
   };
   componentDidMount() {
     this.getPrivateMessages();
+    this.privateMessagesInterval = setInterval(
+      this.getPrivateMessages(),
+      60 * 5 * 1000
+    );
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.clearInterval();
   }
   render() {

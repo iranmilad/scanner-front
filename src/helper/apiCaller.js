@@ -9,7 +9,7 @@ const ApiCaller = (config) => {
     },
     responseType: 'json',
     baseURL:
-      process.env.NODE_ENV !== 'production'
+      process.env.REACT_APP_ENVIRONMENT === 'production'
         ? process.env.REACT_APP_USER_FEED_URL
         : '/',
   });

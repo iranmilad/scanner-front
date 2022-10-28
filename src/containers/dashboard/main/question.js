@@ -7,6 +7,7 @@ import Textarea from '../../../components/FormsUI/Textarea';
 import axios from 'axios';
 import { showNotification } from '@mantine/notifications';
 import Cookies from "js-cookie"
+import { getEveryUser } from '../../../apis/main';
 
 class Question extends Component {
   state = {
@@ -16,12 +17,13 @@ class Question extends Component {
   async sendMessage(values){
     this.setState({loading: true})
     try {
-      let response = await axios.post('https://user.tseshow.com/api/question', {
-        type: this.state.messageTypesSelected,
-        title: values['subject'],
-        question: values['body'],
-      },
-      {
+      await getEveryUser("/question",{
+        method: "post",
+        data: {
+          type: this.state.messageTypesSelected,
+          title: values['subject'],
+          question: values['body'],
+        },
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${Cookies.get('token')}`,

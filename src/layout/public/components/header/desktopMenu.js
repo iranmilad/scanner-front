@@ -1,7 +1,7 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import chartLogo from '../../../../assets/images/treemap-chart.png';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const DesktopMenu = ({ data, props, marketid }) => {
   function isValidImageData(string) {

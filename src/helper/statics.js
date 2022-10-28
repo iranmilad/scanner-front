@@ -147,75 +147,89 @@ export const totalSummeryIndustrials = {
       name: 'حجم معاملات',
       selector: (row) => row.n1,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش معاملات',
       selector: (row) => row.n2,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش خرید حقیقی',
       selector: (row) => row.n3,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش فروش حقیقی',
       selector: (row) => row.n4,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش سفارش های خرید',
       selector: (row) => row.n5,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش سفارش های فروش',
       selector: (row) => row.n6,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'تراز سفارش ها',
       selector: (row) => row.n7,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n7} />,
+      minWidth: "0px"
     },
     {
       name: 'هم وزن',
       selector: (row) => row.n8,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n8} />,
+      minWidth: "0px"
     },
     {
       name: 'سرانه خرید',
       selector: (row) => row.n9,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'سرانه فروش',
       selector: (row) => row.n10,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'قدرت خرید',
       selector: (row) => row.n11,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n11} />,
+      minWidth: "0px"
     },
     {
       name: 'درصد خرید حقیقی',
       selector: (row) => row.n12,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'درصد فروش حقیقی',
       selector: (row) => row.n13,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ورود پول حقیقی',
       selector: (row) => row.n14,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n14} />,
+      minWidth: "0px"
     },
   ],
 };
@@ -278,94 +292,111 @@ export const industries_table3_type1 = {
       selector: (row) => row.n0,
       sortable: true,
       cell: (row) => <LinkTag link={`/stock/${row.id}`} text={row.n0} />,
+      minWidth: "50px"
     },
     {
       name: 'حجم معاملات',
       selector: (row) => row.n1,
       sortable: true,
+      minWidth: "70px"
     },
     {
       name: 'میانگین حجم 20 روزه',
       selector: (row) => row.n2,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'ارزش معاملات',
       selector: (row) => row.n3,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'آخرین',
       selector: (row) => row.n4,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'درصد',
       selector: (row) => row.n5,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n5} />,
+      minWidth: "0px"
     },
     {
       name: 'پایانی',
       selector: (row) => row.n6,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'درصد',
       selector: (row) => row.n7,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n7} />,
+      minWidth: "0px"
     },
     {
       name: 'نوسان',
       selector: (row) => row.n8,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'سرانه خرید',
       selector: (row) => row.n9,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'سرانه فروش',
       selector: (row) => row.n10,
       sortable: true,
+      minWidth: "0px"
     },
     {
       name: 'قدرت خرید',
       selector: (row) => row.n11,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n11} />,
+      minWidth: "0px"
     },
     {
       name: 'قدرت خرید 5 روزه',
       selector: (row) => row.n12,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n12} />,
+      minWidth: "0px"
     },
     {
       name: 'ورود پول',
       selector: (row) => row.n13,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n13} />,
+      minWidth: "0px"
     },
     {
       name: 'بازدهی 5 روزه',
       selector: (row) => row.n14,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n14} />,
+      minWidth: "0px"
     },
     {
       name: 'بازدهی 20 روزه',
       selector: (row) => row.n15,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n15} />,
+      minWidth: "0px"
     },
     {
       name: 'بازدهی 60 روزه',
       selector: (row) => row.n16,
       sortable: true,
       cell: (row) => <ColorizeTag row={row.n16} />,
+      minWidth: "0px"
     },
   ],
 };

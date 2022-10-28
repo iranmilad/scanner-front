@@ -1,10 +1,11 @@
 // This file fetchs main config from server and will write in a file
-import axios from 'axios';
-import * as dotenv from 'dotenv';
-import fs from 'fs';
-import Url from "url-parse";
 
+const axios = require("axios");
+const dotenv = require("dotenv");
+const fs = require("fs");
+const Url = require("url-parse");
 dotenv.config();
+
 
 
 async function run() {
@@ -41,7 +42,7 @@ async function run() {
     });
     configres.data.chartAndtables = chartAndtables;
     await fs.writeFileSync(
-      './src/mock/user/home/config.json',
+      './src/mock/config.json',
       JSON.stringify(configres.data, null, 4),
       (err) => {
         if (err) throw err;
@@ -50,6 +51,7 @@ async function run() {
     console.log("DONE !")
   } catch (error) {
     console.log('FAILED');
+    console.log(error)
   }
 }
 
