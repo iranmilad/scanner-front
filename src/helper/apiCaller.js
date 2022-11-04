@@ -8,10 +8,7 @@ const ApiCaller = (config) => {
       'Content-Type': 'application/json',
     },
     responseType: 'json',
-    baseURL:
-      process.env.REACT_APP_ENVIRONMENT === 'production'
-        ? process.env.REACT_APP_USER_FEED_URL
-        : '/',
+    baseURL: process.env.REACT_APP_USER_FEED_URL
   });
 
   axiosInstance.interceptors.request.use(

@@ -15,6 +15,7 @@ class VerifyForm extends React.PureComponent {
     userData: this.props.userData,
     successCode: false,
     time: 60,
+    title: this.props.title,
   };
   handleVerify({ values, actions }) {
     /**
@@ -68,24 +69,22 @@ class VerifyForm extends React.PureComponent {
   }
 
   sendAgainCode() {
-    this.setState((state) => ({
-      ...state,
+    this.setState({
       successCode: false,
-    }));
+    });
     registerAPI({ url: '/user/register', data: this.props.userData })
       .then((result) => {
-        this.setState((prev) => ({
-          ...prev,
+        this.setState({
           successCode: result.data.data.code,
           time: 60,
-        }));
+          title: result.data.message,
+        });
         this.countDownTimer();
       })
       .catch((error) => {
-        this.setState((state) => ({
-          ...state,
+        this.setState({
           error: true,
-        }));
+        });
       });
   }
 
@@ -93,7 +92,6 @@ class VerifyForm extends React.PureComponent {
     const INITIAL_VALUES = {
       verifyCode: '',
     };
-    let title = `کد تایید به شماره تلفن ${this.props.mobile} ارسال شد`;
     return (
       <>
         {this.state.success ? (
@@ -124,7 +122,19 @@ class VerifyForm extends React.PureComponent {
             >
               <Form className="w-[90%] mt-7">
                 {this.state.successCode && (
-                  <Alert title={title} color="green" />
+                  <Alert
+                    title={
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: String(this.state.title).replace(
+                            /\d+/g,
+                            (num) => `<i>${num}</i>`
+                          ),
+                        }}
+                      />
+                    }
+                    color="green"
+                  />
                 )}
                 <Space h="sm" />
                 <TextField

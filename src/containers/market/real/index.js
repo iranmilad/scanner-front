@@ -75,6 +75,7 @@ class RealMarket extends Component {
   ClientSummaryFetcher(id = this.state.id) {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'symbolClientSummery');
+    console.log("hello world")
     getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
       this.setState({ clientSummaryData: res.data.data });
     });
@@ -249,6 +250,7 @@ class RealMarket extends Component {
         let response = await getEveryUser('/user/member-lists', {
           token: cookies.get('token'),
         });
+        console.log(response)
         this.setState({ allUserMemberList: response.data.data });
         resolve(true);
       } catch (error) {

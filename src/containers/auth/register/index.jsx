@@ -7,18 +7,19 @@ import {
   Group,
   Space,
   Title,
+  Center,
   Text,
   Button,
   SimpleGrid,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../../assets/images/logo-white.png';
+import Logo from '../../../assets/images/login.svg';
 import TextField from '../../../components/FormsUI/TextField';
 import CheckboxField from '../../../components/FormsUI/Checkbox';
 import { registerStepOne } from './schema';
 import { Formik, Form } from 'formik';
 import { Link, withRouter } from 'react-router-dom';
-import actionBG from '../../../assets/images/action.webp';
+import actionBG from '../../../assets/images/login.webp';
 import { registerAPI } from '../../../apis/auth';
 import { connect } from 'react-redux';
 import VerifyForm from './verifyForm';
@@ -50,6 +51,7 @@ class Register extends React.PureComponent {
           loading: false,
           verify: res.data.data,
           datas: values,
+          message: res.data.message
         });
       })
       .catch((err) => {
@@ -133,8 +135,9 @@ class Register extends React.PureComponent {
                     <VerifyForm
                       verify={this.state.verify}
                       userData={this.state.datas}
-                      mobile={this.state.datas.mobile}
-                    />
+                      mobile={this.state.datas.mobile}      
+                      message={this.state.message}
+                                    />
                   ) : (
                     <Formik
                       initialValues={INITIAL_FORM_STATE}
@@ -218,6 +221,7 @@ class Register extends React.PureComponent {
               </Group>
             </Box>
             <Box
+            className='relative'
               span={6}
               sx={(theme) => ({
                 height: '100vh',
@@ -230,38 +234,10 @@ class Register extends React.PureComponent {
                 src={actionBG}
               />
               <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70" />
-              <Box className="absolute top-0 lef-0 w-full h-full z-40 p-10">
-                <Group position="apart">
-                  <img
-                    className="filter grayscale brightness-200"
-                    width={200}
-                    src={Logo}
-                  />
-                  <ActionIcon
-                    onClick={() => this.props.history.goBack()}
-                    variant="filled"
-                    color="blue"
-                    size="lg"
-                  >
-                    <svg
-                      className="w-5 h-5 fill-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                    >
-                      <defs>
-                        <style>{`.fa-secondary{opacity:.4}`}</style>
-                      </defs>
-                      <path
-                        className="fa-primary"
-                        d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"
-                      />
-                      <path
-                        className="fa-secondary"
-                        d="M447.1 256C447.1 273.7 433.7 288 416 288H109.3l-32-32l32-32H416C433.7 224 447.1 238.3 447.1 256z"
-                      />
-                    </svg>
-                  </ActionIcon>
-                </Group>
+              <Box className="absolute top-48  w-full h-full z-40">
+                <Center>
+                  <img className='h-80' src={Logo} alt="logo" />
+                </Center>
               </Box>
             </Box>
           </SimpleGrid>

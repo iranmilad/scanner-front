@@ -26,35 +26,48 @@ class MarketWatch extends Component {
       loading: false,
       date: this.props.route.match.params.date,
       splitedHeader: header,
-      filters: []
+      filters: [],
     };
   }
 
-  ModalAction = (value)=>{
-    this.setState({openedModal: !this.state.openedModal})
-  }
+  ModalAction = (value) => {
+    this.setState({ openedModal: !this.state.openedModal });
+  };
 
-  async getFeedData(){
+  async getFeedData() {
     let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(item => item.key === "MarketWatch");
-    this.setState({loading:true,filteredData:[]})
+    thatItem = thatItem.find((item) => item.key === 'MarketWatch');
+    this.setState({ loading: true, filteredData: [] });
     try {
-      if(this.state.date){
-        let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}/${this.state.date}`)
-        response = lodash.isEmpty(response.data.data) ? false : response.data.data
-        this.setState({fullData: response,filteredData:response,loading:false})
+      if (this.state.date) {
+        let response = await getEveryFeeder(
+          `${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}/${this.state.date}`
+        );
+        response = lodash.isEmpty(response.data.data)
+          ? false
+          : response.data.data;
+        this.setState({
+          fullData: response,
+          filteredData: response,
+          loading: false,
+        });
+      } else {
+        let response = await getEveryFeeder(
+          `${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}`
+        );
+        response = lodash.isEmpty(response.data.data)
+          ? false
+          : response.data.data;
+        this.setState({
+          fullData: response,
+          filteredData: response,
+          loading: false,
+        });
       }
-      else{
-        let response = await getEveryFeeder(`${thatItem.feeder_url}/${this.state.watchGroupSelected}/${this.state.watchFilterSelected}`)
-        response = lodash.isEmpty(response.data.data) ? false : response.data.data
-        this.setState({fullData: response,filteredData:response,loading:false})
-      }
-    }
-    catch(err){
+    } catch (err) {
       console.log(err);
-      this.setState({loading:false})
+      this.setState({ loading: false });
     }
-
   }
 
   /**
@@ -64,7 +77,9 @@ class MarketWatch extends Component {
     let thatItem = this.props.chartAndtables;
     thatItem = thatItem.find((item) => item.key === 'MarketWatchGroup');
     try {
-      let response = await getEveryFeeder("https://feed.tseshow.com/api/MarketWatchGroup");
+      let response = await getEveryFeeder(
+        'https://feed.tseshow.com/api/MarketWatchGroup'
+      );
       this.setState({
         watchGroup: response.data.data,
       });
@@ -98,18 +113,65 @@ class MarketWatch extends Component {
     this.setState({ filteredData: lodash.isEmpty(filter) ? false : filter });
   }
 
-  changeHeader(){
+  changeHeader() {
     /**
      * @type {Array}
      */
-    let splited = header.map((item,id) => ({value:id, label: item.name}));
+    let splited = header.map((item, id) => ({ value: id, label: item.name }));
     splited.shift();
     splited.shift();
     return splited;
   }
 
-  onSubmit(filters){
-    this.setState({filters});
+  onSubmit(filters) {
+    // this.setState({filters});
+    /**
+     * filter each row depends row
+     * @param {array} arr
+     * @param {number} min
+     * @param {number} max
+     * @param {string} row
+     * @returns
+     */
+    console.log(filters)
+    if(filters.length === 0){
+      this.setState(prev => ({
+        filteredData: {...prev.fullData},
+      }));
+      return this.ModalAction();
+    }
+    this.setState({filters})
+    function filter(arr, min, max, row) {
+      return arr.filter(
+        (x) =>
+          (min === null || convertNumber(x[row]) >= convertNumber(min)) && (max === null || convertNumber(x[row]) <= convertNumber(max))
+      );
+    }
+
+    function convertNumber(number) {
+      let convertedNumber = number;
+      if (/M/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
+      else if (/B/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
+      else if (/K/g.test(number))
+        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
+      return convertedNumber;
+    }
+
+    if (filters.length > 0) {
+      let data = this.state.fullData;
+      filters.map((item) => {
+        data = filter(
+          data,
+          item.min !== '' ? item.min : null,
+          item.max !== '' ? item.max : null,
+          `n${+item.name - 1}`
+        );
+      });
+      this.setState({filteredData:data})
+    }
+    this.ModalAction();
   }
 
   componentDidMount() {
@@ -126,53 +188,63 @@ class MarketWatch extends Component {
         </Helmet>
         <Text size="sm">{this.state.title}</Text>
         <Group position="apart" mt="md">
-            <>
-              <Input
-                type="text"
-                placeholder="جستجو در نماد ها"
-                onChange={(e) => this.FilterDataByName(e.target.value)}
-                disabled={this.state.loading}
-              />
-              <Select
-                disabled={this.state.loading}
-                searchable
-                onChange={(value) => {
-                  this.getFeedData(value);
-                  this.setState({
-                    watchGroupSelected: value,
-                  });
-                }}
-                placeholder="نوع اوراق"
-                data={this.state.watchGroup || []}
-                defaultValue={this.state.watchGroup[0]?.value || ''}
-              />
-              <Select
-                disabled={this.state.loading}
-                searchable
-                onChange={(value) => {
-                  this.getFeedData(this.state.watchGroupSelected, value);
-                  this.setState({
-                    watchFilterSelected: value,
-                  });
-                }}
-                placeholder="فیلتر جدول"
-                data={this.state.watchFilter || []}
-                defaultValue={this.state.watchFilter[0]?.value || ''}
-              />
-              {/* <Button size="sm" onClick={() => this.ModalAction()} disabled={this.state.loading}>
-                فیلتر ستون ها
-              </Button> */}
-            </>
+          <>
+            <Input
+              type="text"
+              placeholder="جستجو در نماد ها"
+              onChange={(e) => this.FilterDataByName(e.target.value)}
+              disabled={this.state.loading}
+            />
+            <Select
+              disabled={this.state.loading}
+              searchable
+              onChange={(value) => {
+                this.getFeedData(value);
+                this.setState({
+                  watchGroupSelected: value,
+                });
+              }}
+              placeholder="نوع اوراق"
+              data={this.state.watchGroup || []}
+              defaultValue={this.state.watchGroup[0]?.value || ''}
+            />
+            <Select
+              disabled={this.state.loading}
+              searchable
+              onChange={(value) => {
+                this.getFeedData(this.state.watchGroupSelected, value);
+                this.setState({
+                  watchFilterSelected: value,
+                });
+              }}
+              placeholder="فیلتر جدول"
+              data={this.state.watchFilter || []}
+              defaultValue={this.state.watchFilter[0]?.value || ''}
+            />
+            <Button
+              size="sm"
+              onClick={() => this.ModalAction()}
+              disabled={this.state.loading}
+            >
+              فیلتر ستون ها
+            </Button>
+          </>
         </Group>
         <ITable
-        className="narrow"
+          className="narrow"
           pagination
           fixedHeader
           fixedHeaderScrollHeight="70vh"
           data={this.state.filteredData}
           column={this.state.header}
         />
-        <ModalFilter opened={this.state.openedModal} ModalAction={this.ModalAction} onSubmit={(values) => this.onSubmit(values.filters)} headers={this.changeHeader()} filters={this.state.filters} />
+        <ModalFilter
+          opened={this.state.openedModal}
+          ModalAction={this.ModalAction}
+          onSubmit={(values) => this.onSubmit(values.filters)}
+          headers={this.changeHeader()}
+          filters={this.state.filters}
+        />
       </>
     );
   }

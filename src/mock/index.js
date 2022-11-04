@@ -104,6 +104,69 @@ mock.onPost('/question').reply(200, {
   status: 'success',
 });
 
+mock.onGet('/user/member-lists').reply(function(config){
+  if(config.headers.Authorization !== ""){
+    return [200,{
+      "message": null,
+      "data": [
+          {
+              "id": 37,
+              "user_id": 8,
+              "member_list_id": 1,
+              "title": "S35366681030756042",
+              "description": "support_SMA_5",
+              "created_at": "1401/07/08"
+          }
+      ],
+      "status": "success"
+  }]
+  }
+  else {
+    return [200,{
+      "message": null,
+      "data": [],
+      "status": "success"
+  }]
+  }
+})
+
+mock.onGet("/member-lists").reply(200,{
+  "message": [
+      {
+          "id": 1,
+          "title": "S35366681030756042",
+          "description": "support_SMA_5",
+          "active": true
+      },
+      {
+          "id": 3,
+          "title": "S35425587644337450",
+          "description": "support_SMA_200",
+          "active": false
+      },
+      {
+          "id": 4,
+          "title": "S408934423224097",
+          "description": "support_SMA_200",
+          "active": true
+      },
+      {
+          "id": 5,
+          "title": "S35366681030756042",
+          "description": "resistant_SMA_200",
+          "active": true
+      },
+      {
+          "id": 6,
+          "title": "S35366681030756042",
+          "description": "support_SMA_200",
+          "active": true
+      }
+  ],
+  "data": null,
+  "status": "success"
+})
+
 let feeds = feeder.item;
 /**
  * @type {array}
