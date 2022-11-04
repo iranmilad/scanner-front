@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="375pt" height="375pt" viewBox="0 0 375 375">
+<g enable-background="new">
+<clipPath id="cp0">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 0 0 L 1562.5 0 L 1562.5 1593.75 L 0 1593.75 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp0)">
+<path transform="matrix(.75,0,0,.75,0,0)" d="M 0 0 L 500 0 L 500 510 L 0 510 Z " fill="#ffffff"/>
+</g>
+<clipPath id="cp1">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 0 0 L 1562.5 0 L 1562.5 1562.5 L 0 1562.5 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp1)">
+<path transform="matrix(.75,0,0,.75,0,0)" d="M 0 0 L 500 0 L 500 500 L 0 500 Z " fill="#ffffff"/>
+</g>
+<clipPath id="cp2">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 0 0 L 1562.5 0 L 1562.5 1562.5 L 0 1562.5 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp2)">
+<path transform="matrix(.75,0,0,.75,0,0)" d="M 0 0 L 500 0 L 500 500 L 0 500 Z " fill="#231f20"/>
+</g>
+<clipPath id="cp3">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 0 0 L 1562.5 0 L 1562.5 1562.5 L 0 1562.5 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp3)">
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#fbfaf9" xml:space="preserve" transform="matrix(.75 0 0 .75 -72.73324 144.48157)" font-size="85.47" font-family="ABeeZee"><tspan y="77" x="168.28125 208.79303 251.2706">TSE</tspan></text>
+</g>
+<clipPath id="cp4">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 398.51304 1010.52096 L 895.38809 1010.52096 L 895.38809 1082.396 L 398.51304 1082.396 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp4)">
+<path transform="matrix(2.5962823,0,0,2.645076,95.660999,242.52503)" d="M 0 0 L 45.917299 0 L 45.917299 6.521551 L 0 6.521551 L 0 0 " fill="#231f20"/>
+</g>
+<clipPath id="cp5">
+<path transform="matrix(.24,0,0,.24,0,0)" d="M 0 0 L 1562.5 0 L 1562.5 1562.5 L 0 1562.5 Z " fill-rule="evenodd"/>
+</clipPath>
+<g clip-path="url(#cp5)">
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="98.1875 104.1583">  </tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="110.125 123.56352 136.11988 153.41535 168.39253">STOCK</tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="183.79688 189.76769 195.7385">   </tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="201.70313 221.3579 237.17624 252.68685 268.09486 282.2309">MARKET</tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="294.78126 300.75205 306.72285">   </tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#dec2ba" xml:space="preserve" transform="matrix(.75 0 0 .75 -15.927832 199.6951)" font-size="20.53" font-family="Montserrat"><tspan y="22" x="312.6875 328.50584 345.432 361.25035 372.88346 386.6297 400.06825 406.94175">ANALYSIS</tspan></text>
+<g id="Layer-1" data-name="P">
+</g>
+<text fill="#ff1616" xml:space="preserve" transform="matrix(.75 0 0 .75 149.01702 144.48157)" font-size="85.47" font-family="ABeeZee"><tspan y="77" x="0 36.06696 84.69782 137.26026">SHOW</tspan></text>
+</g>
+</g>
+</svg>
