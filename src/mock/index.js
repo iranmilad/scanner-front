@@ -111,59 +111,10 @@ function MockRunner() {
       return [
         200,
         {
-          message: [
-            {
-              id: 1,
-              title: 'S35366681030756042',
-              description: 'support_SMA_5',
-              active: true,
-            },
-            {
-              id: 3,
-              title: 'S35425587644337450',
-              description: 'support_SMA_200',
-              active: false,
-            },
-            {
-              id: 4,
-              title: 'S408934423224097',
-              description: 'support_SMA_200',
-              active: true,
-            },
-            {
-              id: 5,
-              title: 'S35366681030756042',
-              description: 'resistant_SMA_200',
-              active: true,
-            },
-            {
-              id: 6,
-              title: 'S35366681030756042',
-              description: 'support_SMA_200',
-              active: true,
-            },
-            {
-              id: 7,
-              title: 'S44891482026867833',
-              description: 'support_SMA_200',
-              active: true,
-            },
-            {
-              id: 8,
-              title: 'S44891482026867833',
-              description: 'support_SMA_5',
-              active: true,
-            },
-            {
-              id: 9,
-              title: 'S44891482026867833',
-              description: 'resistant_SMA_200',
-              active: true,
-            },
-          ],
-          data: null,
-          status: 'success',
-        },
+          "message": null,
+          "data": [],
+          "status": "success"
+      }
       ];
     } else {
       return [
@@ -178,41 +129,59 @@ function MockRunner() {
   });
 
   mock.onGet('/member-lists').reply(200, {
-    message: [
-      {
-        id: 1,
-        title: 'S35366681030756042',
-        description: 'support_SMA_5',
-        active: true,
-      },
-      {
-        id: 3,
-        title: 'S35425587644337450',
-        description: 'support_SMA_200',
-        active: false,
-      },
-      {
-        id: 4,
-        title: 'S408934423224097',
-        description: 'support_SMA_200',
-        active: true,
-      },
-      {
-        id: 5,
-        title: 'S35366681030756042',
-        description: 'resistant_SMA_200',
-        active: true,
-      },
-      {
-        id: 6,
-        title: 'S35366681030756042',
-        description: 'support_SMA_200',
-        active: true,
-      },
+    "message": [
+        {
+            "id": 1,
+            "title": "S35366681030756042",
+            "description": "support_SMA_5",
+            "active": true
+        },
+        {
+            "id": 3,
+            "title": "S35425587644337450",
+            "description": "support_SMA_200",
+            "active": false
+        },
+        {
+            "id": 4,
+            "title": "S408934423224097",
+            "description": "support_SMA_200",
+            "active": true
+        },
+        {
+            "id": 5,
+            "title": "S35366681030756042",
+            "description": "resistant_SMA_200",
+            "active": true
+        },
+        {
+            "id": 6,
+            "title": "S35366681030756042",
+            "description": "support_SMA_200",
+            "active": true
+        },
+        {
+            "id": 7,
+            "title": "S44891482026867833",
+            "description": "support_SMA_200",
+            "active": true
+        },
+        {
+            "id": 8,
+            "title": "S44891482026867833",
+            "description": "support_SMA_5",
+            "active": true
+        },
+        {
+            "id": 9,
+            "title": "S44891482026867833",
+            "description": "resistant_SMA_200",
+            "active": true
+        }
     ],
-    data: null,
-    status: 'success',
-  });
+    "data": null,
+    "status": "success"
+});
 
   let feeds = feeder.item;
   /**
