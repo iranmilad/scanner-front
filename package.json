@@ -61,7 +61,7 @@
     "build-css": "postcss src/index.css -o src/assets/css/tailwind.css",
     "watch-css": "postcss src/index.css -o src/assets/css/tailwind.css -w",
     "start": "concurrently -k  \"npm run watch-css\" \"npm run start-js\" ",
-    "start-js": " \"cross-env REACT_APP_ENVIRONMENT='production' react-scripts start\"",
+    "start-js": "react-scripts start",
     "build-js": "set \"GENERATE_SOURCE=false\" && react-scripts build",
     "build": "concurrently -k \"npm run build-css\" \"npm run build-js\" ",
     "config": "node setconfig.js",

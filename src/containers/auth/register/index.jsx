@@ -13,7 +13,7 @@ import {
   SimpleGrid,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../../assets/images/login.svg';
+import Logo from '../../../assets/images/header.svg';
 import TextField from '../../../components/FormsUI/TextField';
 import CheckboxField from '../../../components/FormsUI/Checkbox';
 import { registerStepOne } from './schema';
@@ -232,11 +232,11 @@ class Register extends React.PureComponent {
               <img
                 className="w-full h-full object-cover z-20 opacity-70"
                 src={actionBG}
+                alt="bg"
               />
-              <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70" />
-              <Box className="absolute top-48  w-full h-full z-40">
-                <Center>
-                  <img className='h-80' src={Logo} alt="logo" />
+              <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70">
+                <Center style={{width: "100%",height: "100%"}}>
+                  <img className="h-1/5" src={Logo} alt="logo" />
                 </Center>
               </Box>
             </Box>

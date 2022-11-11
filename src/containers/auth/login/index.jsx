@@ -10,7 +10,7 @@ import {
   Center,
 } from '@mantine/core';
 import colors from 'tailwindcss/colors';
-import Logo from '../../../assets/images/login.svg';
+import Logo from '../../../assets/images/header.svg';
 import loginImage from '../../../assets/images/login.webp';
 import LoginForm from './loginForm';
 import { Helmet } from 'react-helmet';
@@ -92,7 +92,7 @@ class Login extends React.PureComponent {
               </Group>
             </Box>
             <Box
-            className='relative'
+              className="relative"
               span={6}
               sx={(theme) => ({
                 height: '100vh',
@@ -103,11 +103,11 @@ class Login extends React.PureComponent {
               <img
                 className="w-full h-full object-cover z-20 opacity-70"
                 src={loginImage}
+                alt="logo"
               />
-              <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70" />
-              <Box className="absolute top-48  w-full h-full z-40">
-                <Center>
-                  <img className='h-80' src={Logo} alt="logo" />
+              <Box className="absolute top-0 left-0 w-full h-full z-30 bg-slate-800 bg-opacity-70">
+                <Center style={{width: "100%",height: "100%"}}>
+                  <img className="h-1/5" src={Logo} alt="logo" />
                 </Center>
               </Box>
             </Box>

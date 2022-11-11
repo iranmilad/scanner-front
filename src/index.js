@@ -10,7 +10,11 @@ import App from './containers/app';
 import configureStore from './redux/store';
 import { Provider } from 'react-redux';
 import swDev from './swDev';
-// import "./mock";
+import MockRunner from "./mock";
+
+if (process.env.REACT_APP_ENV === 'dev') {
+  MockRunner();
+}
 
 /**
  * Global ClearInterval

@@ -1,7 +1,7 @@
 import React, { useEffect, useState,useContext } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
 import { headers, marketHeader } from '../../../../helper/navbar';
-import LogoWhite from '../../../../assets/images/login2.png';
+import LogoWhite from '../../../../assets/images/header.svg';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
 import { Link,withRouter } from 'react-router-dom';
