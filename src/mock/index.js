@@ -111,10 +111,35 @@ function MockRunner() {
       return [
         200,
         {
-          "message": null,
-          "data": [],
-          "status": "success"
-      }
+          message: null,
+          data: [
+            {
+              id: 39,
+              user_id: '8',
+              member_list_id: '7',
+              title: 'S44891482026867833',
+              description: 'support_SMA_200',
+              created_at: '1401/08/22',
+            },
+            {
+              id: 40,
+              user_id: '8',
+              member_list_id: '8',
+              title: 'S44891482026867833',
+              description: 'support_SMA_5',
+              created_at: '1401/08/22',
+            },
+            {
+              id: 41,
+              user_id: '8',
+              member_list_id: '9',
+              title: 'S44891482026867833',
+              description: 'resistant_SMA_200',
+              created_at: '1401/08/22',
+            },
+          ],
+          status: 'success',
+        },
       ];
     } else {
       return [
@@ -129,59 +154,82 @@ function MockRunner() {
   });
 
   mock.onGet('/member-lists').reply(200, {
-    "message": [
-        {
-            "id": 1,
-            "title": "S35366681030756042",
-            "description": "support_SMA_5",
-            "active": true
-        },
-        {
-            "id": 3,
-            "title": "S35425587644337450",
-            "description": "support_SMA_200",
-            "active": false
-        },
-        {
-            "id": 4,
-            "title": "S408934423224097",
-            "description": "support_SMA_200",
-            "active": true
-        },
-        {
-            "id": 5,
-            "title": "S35366681030756042",
-            "description": "resistant_SMA_200",
-            "active": true
-        },
-        {
-            "id": 6,
-            "title": "S35366681030756042",
-            "description": "support_SMA_200",
-            "active": true
-        },
-        {
-            "id": 7,
-            "title": "S44891482026867833",
-            "description": "support_SMA_200",
-            "active": true
-        },
-        {
-            "id": 8,
-            "title": "S44891482026867833",
-            "description": "support_SMA_5",
-            "active": true
-        },
-        {
-            "id": 9,
-            "title": "S44891482026867833",
-            "description": "resistant_SMA_200",
-            "active": true
-        }
+    message: [
+      {
+        id: 1,
+        title: 'S35366681030756042',
+        description: 'support_SMA_5',
+        active: true,
+      },
+      {
+        id: 3,
+        title: 'S35425587644337450',
+        description: 'support_SMA_200',
+        active: false,
+      },
+      {
+        id: 4,
+        title: 'S408934423224097',
+        description: 'support_SMA_200',
+        active: true,
+      },
+      {
+        id: 5,
+        title: 'S35366681030756042',
+        description: 'resistant_SMA_200',
+        active: true,
+      },
+      {
+        id: 6,
+        title: 'S35366681030756042',
+        description: 'support_SMA_200',
+        active: true,
+      },
+      {
+        id: 7,
+        title: 'S44891482026867833',
+        description: 'support_SMA_200',
+        active: true,
+      },
+      {
+        id: 8,
+        title: 'S44891482026867833',
+        description: 'support_SMA_5',
+        active: true,
+      },
+      {
+        id: 9,
+        title: 'S44891482026867833',
+        description: 'resistant_SMA_200',
+        active: true,
+      },
     ],
-    "data": null,
-    "status": "success"
-});
+    data: null,
+    status: 'success',
+  });
+
+  mock.onPost('/user/member-lists/create').reply(function (config) {
+    // console.log(JSON.parse(config.data).length)
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        if (Math.random() > 0.1) {
+          resolve([200, { id: 4, name: 'foo' }]);
+        } else {
+          // reject() reason will be passed as-is.
+          // Use HTTP error status code to simulate server failure.
+          resolve([500, { success: false }]);
+        }
+      }, 1000);
+    });
+  });
+
+  mock.onPost('/user/member-lists/delete').reply(function (config) {
+    return new Promise(function(resolve,reject){
+      setTimeout(() => {
+        return [200, { message: 'ok' }];
+      }, 1000);
+    })
+  });
 
   let feeds = feeder.item;
   /**

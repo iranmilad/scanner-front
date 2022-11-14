@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { Component, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { setMainHeader, setMarketId } from '../../../redux/reducers/main';
@@ -247,9 +247,9 @@ class RealMarket extends Component {
     return new Promise(async (resolve, reject) => {
       try {
         let response = await getEveryUser('/user/member-lists', {
-          token: cookies.get('token'),
+          token: true,
         });
-        console.log(response)
+        console.log(response);
         this.setState({ allUserMemberList: response.data.data });
         resolve(true);
       } catch (error) {
@@ -288,9 +288,12 @@ class RealMarket extends Component {
     return { id: item.id, type: 'ADD' };
   }
 
-  createNotification(id) {
+  createNotification(id, setLoading) {
     if (!id) return null;
     setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     getEveryUser('/user/member-lists/create', {
       token: true,
       method: 'post',
@@ -299,18 +302,16 @@ class RealMarket extends Component {
       },
     })
       .then((res) => {
-        setLoading(false)
+        setLoading();
       })
       .catch((err) => {
-        setLoading(false);
+        setLoading();
       });
   }
 
-
-
-  removeNotification(id) {
+  removeNotification(id, loadingWorker,setLoading) {
     if (!id) return null;
-    this.setState({ memberListLoading: true });
+    setLoading()
     getEveryUser('/user/member-lists/delete', {
       token: true,
       method: 'post',
@@ -319,12 +320,10 @@ class RealMarket extends Component {
       },
     })
       .then((res) => {
-        this.AllUserMemberList().then((res) => {
-          this.setState({ memberListLoading: false });
-        });
+        loadingWorker();
       })
       .catch((err) => {
-        this.setState({ memberListLoading: false });
+        loadingWorker();
       });
   }
 
@@ -379,7 +378,7 @@ class RealMarket extends Component {
     }
 
     this.props.history.listen(async (location) => {
-    this.clearInterval();
+      this.clearInterval();
       try {
         await this.checkNavExist(this.context.stockID);
         this.getInformation(this.context.stockID);
@@ -469,11 +468,58 @@ class RealMarket extends Component {
           <Text size="sm">
             حمایت ها و مقاومت های پیش روی {this.state.stockInfo.name || ''}
           </Text>
-          <Grid mt="md" align="stretch">
-            {this.state.supportResistanceData.map((item ,index) => {
-              if(index % 2 === 0) return <RightSupport item={item} CheckMemberListExist={this.CheckMemberListExist} />
-            })}
-          </Grid>
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Right Section */}
+            <div className="w-full space-y-3">
+              {'n0' in this.state.supportResistanceData
+                ? this.state.supportResistanceData.n0.map((item, index) => {
+                    return (
+                      <div className="w-full h-12">
+                        <SupportBox
+                          allow={
+                            this.state.allMembmerList.length > 0 ? true : false
+                          }
+                          CheckMemberListExist={this.CheckMemberListExist.bind(
+                            this
+                          )}
+                          id={this.state.id}
+                          key={index}
+                          add={this.createNotification}
+                          remove={this.removeNotification}
+                          item={item}
+                          bg={colors.sky[500]}
+                        />
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+            {/* Left section */}
+            <div className="w-full space-y-3">
+              {'n1' in this.state.supportResistanceData
+                ? this.state.supportResistanceData.n1.map((item, index) => {
+                    return (
+                      <div className="w-full h-12">
+                        <SupportBox
+                          item={item}
+                          allow={
+                            this.state.allMembmerList.length > 0 ? true : false
+                          }
+                          CheckMemberListExist={this.CheckMemberListExist.bind(
+                            this
+                          )}
+                          id={this.state.id}
+                          key={index}
+                          add={this.createNotification}
+                          remove={this.removeNotification}
+                          bg={colors.indigo[500]}
+                        />
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+          </div>
         </Paper>
         <Paper p="xl" radius="md" shadow="xs" mt="xl">
           <Text size="sm">
@@ -539,128 +585,117 @@ class RealMarket extends Component {
   }
 }
 
-const SupportBox = ({item,bg,add,delete,CheckMemberListExist,id}) => {
-  const [loading,setLoading] = useState(false);
-  const [state,setState] = useState(CheckMemberListExist(id,item))
+const SupportBox = ({
+  item,
+  bg,
+  add,
+  remove,
+  allow,
+  CheckMemberListExist,
+  id,
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState(null);
 
+  function loadingWorker(status) {
+    if(state.type === 'ADD') setState(prev => ({...prev,type:'REMOVE'}))
+    else if(state.type === 'REMOVE') setState(prev => ({...prev,type:"ADD"}));
+    else setState(prev => ({...prev,type:"DISABLE"}))
+  }
+
+  useEffect(() => {
+    setState(CheckMemberListExist(id, item.id));
+    setLoading(!loading);
+  }, []);
 
   return (
     <Box
-    className="rounded-sm"
-    p="md"
-    style={{ background: bg, height: '100%' }}
-  >
-    <Group position="apart">
-      <Text size="sm" color="white">
-        {item['n0'].label}
-      </Text>
-      {this.state.allMembmerList.length > 0 ? (
-        <>
-          {this.CheckMemberListExist(
-            this.state.id,
-            item['n0'].id
-          ) !== null
-            ? this.CheckMemberListExist(
-                this.state.id,
-                item['n0'].id
-              ).type === 'ADD' && (
-                <Tooltip
-                  withArrow
-                  color="teal"
-                  label="فعال کردن اعلان"
-                  openDelay={500}
-                >
-                  <ActionIcon
-                    variant="filled"
-                    color="teal"
-                    onClick={() =>
-                      this.createNotification(
-                        this.CheckMemberListExist(
-                          this.state.id,
-                          item['n0'].id
-                        ).id
-                      )
-                    }
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="fill-white w-4 h-4"
-                    >
-                      <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
-                    </svg>
-                  </ActionIcon>
-                </Tooltip>
-              )
-            : ""}
+      className="rounded-sm"
+      p="md"
+      style={{ background: bg, height: '100%' }}
+    >
+      <Group position="apart">
+        <Text size="sm" color="white">
+          {item.label}
+        </Text>
 
-          {this.CheckMemberListExist(
-            this.state.id,
-            item['n0'].id
-          ) !== null
-            ? this.CheckMemberListExist(
-                this.state.id,
-                item['n0'].id
-              ).type === 'REMOVE' && (
-                <Tooltip
-                  withArrow
-                  color="red"
-                  label="غیر فعال کردن اعلان"
-                  openDelay={500}
-                >
-                  <ActionIcon
-                    variant="filled"
-                    color="red"
-                    onClick={() =>
-                      this.removeNotification(
-                        this.CheckMemberListExist(
-                          this.state.id,
-                          item['n0'].id
-                        ).id
-                      )
-                    }
+        {allow ? (
+          <>
+            {state !== null
+              ? state.type === 'ADD' && (
+                  <Tooltip
+                    withArrow
+                    color="teal"
+                    label="فعال کردن اعلان"
+                    openDelay={500}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 448 512"
-                      className="fill-white w-4 h-4"
+                    <ActionIcon
+                      variant="filled"
+                      color="teal"
+                      loading={loading}
+                      onClick={() =>
+                        add(CheckMemberListExist(id, item.id).id, loadingWorker,()=>setLoading(!loading))
+                      }
                     >
-                      <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
-                    </svg>
-                  </ActionIcon>
-                </Tooltip>
-              )
-            : ""}
-          {this.CheckMemberListExist(
-            this.state.id,
-            item['n0'].id
-          ) !== null
-            ? this.CheckMemberListExist(
-                this.state.id,
-                item['n0'].id
-              ).type === 'DISABLE' && (
-                <Tooltip
-                  withArrow
-                  color="gray"
-                  label="اعلان در دسترس نیست"
-                  openDelay={500}
-                >
-                  <ActionIcon
-                    variant="filled"
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                        className="fill-white w-4 h-4"
+                      >
+                        <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
+                      </svg>
+                    </ActionIcon>
+                  </Tooltip>
+                )
+              : ''}
+
+            {state !== null
+              ? state.type === 'REMOVE' && (
+                  <Tooltip
+                    withArrow
                     color="red"
-                    disabled
+                    label="غیر فعال کردن اعلان"
+                    openDelay={500}
                   >
-                    #
-                  </ActionIcon>
-                </Tooltip>
-              )
-            : ""}
-        </>
-      ) : null}
-    </Group>
-  </Box>
-  )
-}
+                    <ActionIcon
+                      variant="filled"
+                      color="red"
+                      loading={loading}
+                      onClick={() =>
+                        remove(CheckMemberListExist(id, item.id).id, loadingWorker,setLoading)
+                      }
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"
+                        className="fill-white w-4 h-4"
+                      >
+                        <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
+                      </svg>
+                    </ActionIcon>
+                  </Tooltip>
+                )
+              : ''}
+            {state !== null
+              ? state.type === 'DISABLE' && (
+                  <Tooltip
+                    withArrow
+                    color="gray"
+                    label="اعلان در دسترس نیست"
+                    openDelay={500}
+                  >
+                    <ActionIcon variant="filled" color="red" disabled>
+                      #
+                    </ActionIcon>
+                  </Tooltip>
+                )
+              : ''}
+          </>
+        ) : null}
+      </Group>
+    </Box>
+  );
+};
 
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,

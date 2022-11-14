@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { getEveryFeeder } from "../../../../apis/main"
-import {Group,Text,Paper,Center} from '@mantine/core';
+import {Group,Text,Paper,Center, Loader} from '@mantine/core';
 import lodash from "lodash";
 import Chart from "../../../../components/Chart";
 import ChartData from "../../../../components/Chart/chartData";
@@ -145,7 +145,7 @@ class Index extends Component{
         {lodash.isEmpty(this.state.sellPerfomance) && lodash.isEmpty(this.state.performanceValue) && (
           <Paper p="xl" radius="md" shadow="xs" mt="xl">
             <Center>
-              <Text>داده ای وجود ندارد</Text>
+              <Loader variant="dots" />
             </Center>
           </Paper>
         )}

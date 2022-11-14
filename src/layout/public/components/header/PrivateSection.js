@@ -62,31 +62,31 @@ class PrivateSection extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { pathname } = this.props.location;
-    const {
-      cookies: {
-        cookies: { token },
-      },
-    } = this.props;
-    if (token) {
-      if (pathname !== '/dashboard') {
-        getEveryUser('/notifications', { token: true })
-          .then((res) => {
-            let count = 0;
-            res.data.data.map((item) =>
-              item.seen_at === null ? count++ : null
-            );
-            this.setState({ notificationsCount: count === 0 ? '' : count });
-          })
-          .catch((error) => {
-            const { response } = error;
-            if (response.status === 401) {
-              window.location.reload();
-            }
-          });
-      }
-    }
-    this.getNotifications();
+    // const { pathname } = this.props.location;
+    // const {
+    //   cookies: {
+    //     cookies: { token },
+    //   },
+    // } = this.props;
+    // if (token) {
+    //   if (pathname !== '/dashboard') {
+    //     getEveryUser('/notifications', { token: true })
+    //       .then((res) => {
+    //         let count = 0;
+    //         res.data.data.map((item) =>
+    //           item.seen_at === null ? count++ : null
+    //         );
+    //         this.setState({ notificationsCount: count === 0 ? '' : count });
+    //       })
+    //       .catch((error) => {
+    //         const { response } = error;
+    //         if (response.status === 401) {
+    //           window.location.reload();
+    //         }
+    //       });
+    //   }
+    // }
+    // this.getNotifications();
   }
 
   render() {
