@@ -1,0 +1,125 @@
+/*
+  Author: Farhad Bagheri
+  Github: CFarhad
+  Linkedin: www.linkedin.com/in/cfarhad
+  Description: front-end of this website made by farhad bagheri completly
+*/
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.sideMenu {
+  @apply bg-slate-700 overflow-scroll transition-all duration-500 items-start
+   fixed z-50 top-0 right-0 w-72 h-screen
+    sm:h-screen sm:overflow-auto px-2.5;
+  z-index: 999;
+}
+
+.tooltip-div{
+  @apply flex w-full items-center justify-between my-3;
+  text-align: right;
+  direction: rtl;
+}
+
+
+body{
+  padding: 0;
+  margin: 0;
+  font-family: "Iran-sans" !important;
+  @apply bg-white overflow-x-hidden !important;
+}
+
+/* Custom Scrollbar */
+@media (min-width: 1024px){
+  .custom-scroll::-webkit-scrollbar {
+    margin-left: 5px;
+    width: 10px;
+    transition: 0.2s;
+  }
+  
+  .custom-scroll::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    @apply bg-gray-300
+  }
+}
+
+
+.rt-td *{
+  overflow-y: visible !important;
+  white-space: normal !important;
+}
+.rdt_TableCell *{
+  overflow: visible !important;
+  white-space: normal !important;
+  direction: ltr;
+}
+
+
+
+.rdt_TableCol_Sortable div{
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm {
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container-sm, .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .container-md, .container-sm, .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .container-lg, .container-md, .container-sm, .container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1140px;
+  }
+}
+@media (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1400px;
+  }
+}
+
+.anychart-tooltip{
+  @apply w-72 bg-white text-black py-4 border-2 border-black !important;
+}
+
+.anychart-tooltip-title{
+  font-family: "Iran-sans" !important;
+  @apply font-bold text-center border-b-0
+}
+
+.anychart-tooltip-separator {
+  @apply rounded-md h-0.5 bg-gray-400 my-4 font-persian
+}
+
+.treeamp-tooltip-table tr {
+  @apply my-3
+}
+
+.anychart-credits{
+  display: none !important;
+}

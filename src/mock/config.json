@@ -1,0 +1,858 @@
+{
+    "menus": [],
+    "chartAndtables": [
+        {
+            "id": 5,
+            "title": "treemap",
+            "key": "treemap",
+            "refresh_time": 15,
+            "feeder_url": "/api/marketMap",
+            "active": true
+        },
+        {
+            "id": 6,
+            "title": "خلاصه معاملات خرد سهام و صندوق ها",
+            "key": "tb-summaryTrans",
+            "refresh_time": 10,
+            "feeder_url": "/api/summaryTrans",
+            "active": false
+        },
+        {
+            "id": 7,
+            "title": "آمار تفکیک شده معاملات خرد",
+            "key": "tb-GroupState",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalSummeryGroupState",
+            "active": true
+        },
+        {
+            "id": 8,
+            "title": "حقیقی حقوقی",
+            "key": "tb-StockLOrN",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalSummerStockLOrN",
+            "active": true
+        },
+        {
+            "id": 9,
+            "title": "خلاصه معاملات صنایع بورس",
+            "key": "tb-Industrials",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalSummeryIndustrials",
+            "active": true
+        },
+        {
+            "id": 10,
+            "title": "محدوده قیمتی آخرین معاملات سهام حق تقدم و ص.سهامی",
+            "key": "A1",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalSummerStockPresent",
+            "active": true
+        },
+        {
+            "id": 11,
+            "title": "وضعیت آخرین معاملات سهام ، حق تقدم، ص.سهامی",
+            "key": "A2",
+            "refresh_time": 50,
+            "feeder_url": "/api/totalSummerStockPositiveNegative",
+            "active": true
+        },
+        {
+            "id": 12,
+            "title": "روند تغییرات آخرین قیمت سهام حق تقدم، ص.سهامی",
+            "key": "A3",
+            "refresh_time": 50,
+            "feeder_url": "/api/totalSummeryStockPosNegHistory",
+            "active": true
+        },
+        {
+            "id": 13,
+            "title": "ارزش کل سفارش های روی تابلو نماد های سهامی ، حق تقدم ، ص.سهامی",
+            "key": "A4",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalSummerStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 14,
+            "title": "تغیرات ورود پول اشخاص حقیقی به سهام ، حق تقدم و ص.سهامی",
+            "key": "A5",
+            "refresh_time": 100,
+            "feeder_url": "/api/totalSummeryEnterManyBuyerHistory",
+            "active": true
+        },
+        {
+            "id": 15,
+            "title": "تغیرات ورود پول اشخاص حقیقی",
+            "key": "A6",
+            "refresh_time": 110,
+            "feeder_url": "/api/totalSummeryEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 16,
+            "title": "تغیرات ارزش کل سفارش ها به میلیارد تومان",
+            "key": "A9",
+            "refresh_time": 140,
+            "feeder_url": "/api/totalSummeryMarketOrderValueHistory",
+            "active": true
+        },
+        {
+            "id": 17,
+            "title": "تغیرات سرانه های خرید و فروش بازار",
+            "key": "A10",
+            "refresh_time": 140,
+            "feeder_url": "/api/totalSummeryChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 18,
+            "title": "آخرین قیمت به پایانی",
+            "key": "A11",
+            "refresh_time": 140,
+            "feeder_url": "/api/totalSummeryStockLastPriceFinishPrice",
+            "active": false
+        },
+        {
+            "id": 19,
+            "title": "کندل های امروز سهم ها",
+            "key": "A12",
+            "refresh_time": 55,
+            "feeder_url": "/api/totalSummeryStockTodayCandle",
+            "active": true
+        },
+        {
+            "id": 20,
+            "title": "تعداد صف های خرید و فروش",
+            "key": "A13",
+            "refresh_time": 30,
+            "feeder_url": "/api/totalSummerStockInQueue",
+            "active": true
+        },
+        {
+            "id": 21,
+            "title": "نقش حقیقی و حقوقی در معاملات",
+            "key": "A14",
+            "refresh_time": 45,
+            "feeder_url": "/api/totalSummerEffectLOrN",
+            "active": true
+        },
+        {
+            "id": 22,
+            "title": "نماد های با نوسان بالا",
+            "key": "A16",
+            "refresh_time": 43,
+            "feeder_url": "/api/totalSummerStockValatilite",
+            "active": false
+        },
+        {
+            "id": 23,
+            "title": "کندل های نوسانی",
+            "key": "A15",
+            "refresh_time": 55,
+            "feeder_url": "/api/totalSummeryStockCandleCount",
+            "active": true
+        },
+        {
+            "id": 24,
+            "title": "تغییرات ارزش معاملات خرد",
+            "key": "A17",
+            "refresh_time": 67,
+            "feeder_url": "/api/totalSummeryChangeStockPresentHistory",
+            "active": true
+        },
+        {
+            "id": 25,
+            "title": "تغیرات ارزش معاملات در هر دقیقه",
+            "key": "A18",
+            "refresh_time": 300,
+            "feeder_url": "/api/totalSummeryStockValueHistory",
+            "active": true
+        },
+        {
+            "id": 26,
+            "title": "تغییرات سرانه های خرید و فروش بازار",
+            "key": "MF1",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowTotalChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 27,
+            "title": "تغییرات سرانه های خرید و فروش  سهام و صندوق",
+            "key": "MF2",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSHChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 28,
+            "title": "تغییرات سرانه های خرید و فروش  درامد ثابت",
+            "key": "MF3",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSabetChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 29,
+            "title": "تغییرات سرانه های خرید و فروش  پنجاه سهم بزرگ",
+            "key": "MF4",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflow50ChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 30,
+            "title": "تغییرات سرانه های خرید و فروش  سهام و حق تقدم ها",
+            "key": "MF5",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowChangeHaghBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 31,
+            "title": "تغییرات سرانه های خرید و فروش صندوق  های سهامی",
+            "key": "MF6",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSahamiChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 32,
+            "title": "تغییرات ارزش کل سفارش های بازار",
+            "key": "MF7",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowTotalStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 33,
+            "title": "تغییرات ارزش کل سفارش های  سهام و حق تقدم و ص.سهامی",
+            "key": "MF8",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowTotalStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 34,
+            "title": "تغییرات ارزش کل سفارش های  صندوق های درآمد ثابت",
+            "key": "MF9",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSabetStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 35,
+            "title": "تغییرات ارزش کل سفارش های  پنجاه سهم بزرگ",
+            "key": "MF10",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflow50StockValueQueue",
+            "active": true
+        },
+        {
+            "id": 36,
+            "title": "تغییرات ارزش کل سفارش های  سهام و حق تقدم ها",
+            "key": "MF11",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowHaghStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 37,
+            "title": "تغییرات ارزش کل سفارش های صندوق  های سهامی",
+            "key": "MF12",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSahamiStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 38,
+            "title": "تغییرات ورود پول اشخاص حقیقی به  بازار",
+            "key": "MF13",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowTotalEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 39,
+            "title": "تغییرات ورود پول اشخاص حقیقی به  سهام و حق تقدم و ص.سهامی",
+            "key": "MF14",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSHEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 40,
+            "title": "تغییرات ورود پول اشخاص حقیقی به  صندوق  های درآمد ثابت",
+            "key": "MF15",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSabetEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 41,
+            "title": "تغییرات ورود پول اشخاص حقیقی به  پنجاه سهم بزرگ",
+            "key": "MF16",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflow50EnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 42,
+            "title": "تغییرات ورود پول اشخاص حقیقی به  سهام و حق تقدم  ها",
+            "key": "MF17",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowHaghEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 43,
+            "title": "تغییرات ورود پول اشخاص حقیقی به صندوق  های سهامی",
+            "key": "MF18",
+            "refresh_time": 60,
+            "feeder_url": "/api/moneyflow/moneyflowSandoghSahamiEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 44,
+            "title": "اطلاعات سهم",
+            "key": "symbolInfo",
+            "refresh_time": 600,
+            "feeder_url": "/api/stock/header",
+            "active": true
+        },
+        {
+            "id": 45,
+            "title": "آمارهای دوره ای",
+            "key": "symbolStatmentPeriod",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/statmentPeriod",
+            "active": true
+        },
+        {
+            "id": 46,
+            "title": "معاملات تفکیکی اشخاص حقیقی و حقوقی",
+            "key": "symbolTotalClientSummery",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/totalClientSummery",
+            "active": true
+        },
+        {
+            "id": 47,
+            "title": "سفارش های خرید و فروش",
+            "key": "symbolBookMarkSummery",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/bookMarkSummery",
+            "active": true
+        },
+        {
+            "id": 48,
+            "title": "خلاصه معاملات اشخاص حقیقی",
+            "key": "symbolClientSummery",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/clientSummery",
+            "active": true
+        },
+        {
+            "id": 49,
+            "title": "خلاصه معاملات",
+            "key": "symbolTradeSummery",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/tradeSummery",
+            "active": true
+        },
+        {
+            "id": 50,
+            "title": "خلاصه سفارش ها",
+            "key": "symboltotalBookMarkSummery",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/totalBookMarkSummery",
+            "active": true
+        },
+        {
+            "id": 51,
+            "title": "سوابق سهم",
+            "key": "symbolHistory",
+            "refresh_time": 120,
+            "feeder_url": "/api/stock/totalStockHistory",
+            "active": true
+        },
+        {
+            "id": 52,
+            "title": "تغییرات  ورود پول اشخاص حقیقی",
+            "key": "symbolMoneyflowTotalEnterManyBuyerIHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/moneyflowTotalEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 53,
+            "title": "تغییرات سرانه های خرید و فروش",
+            "key": "symbolMoneyflowTotalChangeBuySellHeadsHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/moneyflowTotalChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 54,
+            "title": "نمودار تغییرات قیمت",
+            "key": "symbolTradeLastDayHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/tradeLastDayHistory",
+            "active": true
+        },
+        {
+            "id": 55,
+            "title": "تغییرات ارزش معاملات",
+            "key": "symbolTradeValueHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/tradeValueHistory",
+            "active": false
+        },
+        {
+            "id": 56,
+            "title": "تغییرات تعداد کدهای خریدار و فروشنده",
+            "key": "symbolCounterBuyerSellerHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/counterBuyerSellerHistory",
+            "active": true
+        },
+        {
+            "id": 57,
+            "title": "ارزش لحظه ای معاملات",
+            "key": "symbolTradeTimeValueHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/tradeTimeValueHistory",
+            "active": true
+        },
+        {
+            "id": 58,
+            "title": "حمایت ها و مقاومت های",
+            "key": "symbolSupportResistance",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/supportResistance",
+            "active": true
+        },
+        {
+            "id": 59,
+            "title": "اندیکاتورها",
+            "key": "symbolTechnicalValue",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/technicalValue",
+            "active": true
+        },
+        {
+            "id": 60,
+            "title": "چارت شاخص",
+            "key": "symbolChartIndex",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/chartIndex",
+            "active": true
+        },
+        {
+            "id": 61,
+            "title": "چارت قیمت",
+            "key": "symbolChart",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/chart",
+            "active": true
+        },
+        {
+            "id": 62,
+            "title": "نمودار جریان نقدی",
+            "key": "symbolMoneyFlow",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/moneyFlow",
+            "active": true
+        },
+        {
+            "id": 63,
+            "title": "میانگین جریانات نقدی",
+            "key": "symbolMovingAverage",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/movingAverage",
+            "active": true
+        },
+        {
+            "id": 64,
+            "title": "میانگین جریان نقدی قیمت",
+            "key": "symbolMovingAveragePrice",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/movingAveragePrice",
+            "active": true
+        },
+        {
+            "id": 65,
+            "title": "تحلیل جریانات نقدینگی",
+            "key": "symbolStockSignalWatch",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/stockSignalWatch",
+            "active": false
+        },
+        {
+            "id": 66,
+            "title": "تغییرات عملکرد و قیمت",
+            "key": "symbolChangePerfomance",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/changePerfomance",
+            "active": true
+        },
+        {
+            "id": 67,
+            "title": "ترکیب دارایی ها",
+            "key": "symbolCombinationAssets",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/combinationAssets",
+            "active": false
+        },
+        {
+            "id": 68,
+            "title": "عملکرد ماهانه سرمایه گذاری شرکت",
+            "key": "stockSellPerfomanceValue",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/sellPerfomance",
+            "active": true
+        },
+        {
+            "id": 69,
+            "title": "عملکرد ماهانه شرکت",
+            "key": "stockPerfomanceValue",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/perfomance",
+            "active": true
+        },
+        {
+            "id": 70,
+            "title": "چارت Nav سهم",
+            "key": "symbolChartNav",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/chartNav",
+            "active": false
+        },
+        {
+            "id": 71,
+            "title": "چارت حجم",
+            "key": "symbolChartVolume",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/chartVolume",
+            "active": true
+        },
+        {
+            "id": 72,
+            "title": "لیست تاریخچه سهم",
+            "key": "symbolHistoryDate",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/historyDate",
+            "active": true
+        },
+        {
+            "id": 73,
+            "title": "چارت تکنیکال",
+            "key": "symbolTechnicalChart",
+            "refresh_time": 60,
+            "feeder_url": "/technicalChart",
+            "active": true
+        },
+        {
+            "id": 74,
+            "title": "لیست حمایت و مقاومت",
+            "key": "supportResistanceOption",
+            "refresh_time": 60,
+            "feeder_url": "/api/stock/supportResistanceOption",
+            "active": true
+        },
+        {
+            "id": 75,
+            "title": "جدول نمایش زیر گروه ها",
+            "key": "subTableController",
+            "refresh_time": 60,
+            "feeder_url": "/api/subTable",
+            "active": true
+        },
+        {
+            "id": 76,
+            "title": "خبر",
+            "key": "getNews",
+            "refresh_time": 60,
+            "feeder_url": "/api/getNews",
+            "active": true
+        },
+        {
+            "id": 77,
+            "title": "لیست همه سهم ها",
+            "key": "stockSearch",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalStockSearch",
+            "active": true
+        },
+        {
+            "id": 78,
+            "title": "سوابق بازار",
+            "key": "marketHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalMarketHistory",
+            "active": true
+        },
+        {
+            "id": 79,
+            "title": "لیست صنایع",
+            "key": "totalIndustriesGroupHisory",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalIndustriesGroupHisory",
+            "active": true
+        },
+        {
+            "id": 80,
+            "title": "دیده بان بازار",
+            "key": "MarketWatch",
+            "refresh_time": 60,
+            "feeder_url": "/api/MarketWatch",
+            "active": true
+        },
+        {
+            "id": 81,
+            "title": "گروه های دیده بان بازار",
+            "key": "MarketWatchGroup",
+            "refresh_time": 60,
+            "feeder_url": "/api/MarketWatchGroup",
+            "active": true
+        },
+        {
+            "id": 82,
+            "title": "فیلتر دیده بان بازار",
+            "key": "MarketWatchFilter",
+            "refresh_time": 60,
+            "feeder_url": "/api/MarketWatchFilter",
+            "active": true
+        },
+        {
+            "id": 83,
+            "title": "دیده بان تکنیکال",
+            "key": "getTechnicalStocks",
+            "refresh_time": 60,
+            "feeder_url": "/api/getTechnicalStocks",
+            "active": true
+        },
+        {
+            "id": 84,
+            "title": "دیده بان صنایع",
+            "key": "IndustriesWatch",
+            "refresh_time": 60,
+            "feeder_url": "/api/IndustriesWatch",
+            "active": true
+        },
+        {
+            "id": 85,
+            "title": "نوع اوراق دیده بان سفارش ها",
+            "key": "totalOrdersWatchState",
+            "refresh_time": 60,
+            "feeder_url": "/api/totalOrdersWatchState",
+            "active": true
+        },
+        {
+            "id": 86,
+            "title": "دیده بان سفارش ها",
+            "key": "getTotalOrders",
+            "refresh_time": 60,
+            "feeder_url": "/api/getTotalOrders",
+            "active": true
+        },
+        {
+            "id": 87,
+            "title": "دیده بان حمایت ها و مقاومت ها",
+            "key": "PivotWatch",
+            "refresh_time": 60,
+            "feeder_url": "/api/PivotWatch",
+            "active": true
+        },
+        {
+            "id": 88,
+            "title": "دیده بان جریانات نقدیندگی بلند مدت",
+            "key": "SignalWatch",
+            "refresh_time": 60,
+            "feeder_url": "/api/SignalWatch",
+            "active": true
+        },
+        {
+            "id": 89,
+            "title": "فعالیت صنعت",
+            "key": "totalIndustriesActivity",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesActivity",
+            "active": true
+        },
+        {
+            "id": 90,
+            "title": "جدول حقیقی حقوقی صنایع",
+            "key": "totalIndustriesStockLOrN",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesStockLOrN",
+            "active": true
+        },
+        {
+            "id": 91,
+            "title": "لیست نماد های صنایع",
+            "key": "totalIndustrialsStocks",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustrialsStocks",
+            "active": true
+        },
+        {
+            "id": 92,
+            "title": "محدوده قیمتی آخرین معامله نماد",
+            "key": "totalIndustriesStockPresent",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesStockPresent",
+            "active": true
+        },
+        {
+            "id": 93,
+            "title": "ارزش کل سفارش های روی تابلو گروه به میلیارد تومان",
+            "key": "totalIndustriesStockValueQueue",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesStockValueQueue",
+            "active": true
+        },
+        {
+            "id": 94,
+            "title": "تغیرات سرانه های خرید و فروش گروه به میلیون تومان",
+            "key": "totalIndustriesChangeBuySellHeadsHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesChangeBuySellHeadsHistory",
+            "active": true
+        },
+        {
+            "id": 95,
+            "title": "تغییرات ورود پول اشخاص حقیقی به میلیارد تومان",
+            "key": "totalIndustriesEnterManyBuyerIHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesEnterManyBuyerIHistory",
+            "active": true
+        },
+        {
+            "id": 96,
+            "title": "تغییرات ارزش کل سفارش ها به میلیارد تومان",
+            "key": "totalIndustriesMarketOrderValueHistory",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesMarketOrderValueHistory",
+            "active": true
+        },
+        {
+            "id": 97,
+            "title": "لیست صنایع",
+            "key": "totalIndustriesGroup",
+            "refresh_time": 60,
+            "feeder_url": "/api/industries/totalIndustriesGroup",
+            "active": true
+        },
+        {
+            "id": 98,
+            "title": "نمودارهای جریانات نقدینگی روزانه ارزش معاملات به میلیارد تومان",
+            "key": "dailyTradeValue",
+            "refresh_time": 60,
+            "feeder_url": "/api/CashFlowDaily/dailyTradeValue",
+            "active": true
+        },
+        {
+            "id": 99,
+            "title": "نمودارهای جریانات نقدینگی روزانه ورود پول اشخاص حقیقی به میلیارد تومان",
+            "key": "dailyEntryMany",
+            "refresh_time": 60,
+            "feeder_url": "/api/CashFlowDaily/dailyEntryMany",
+            "active": true
+        },
+        {
+            "id": 100,
+            "title": "نمودارهای جریانات نقدینگی روزانه قدرت نسبتی خریدار به فروشنده",
+            "key": "dailyPowerBuyer",
+            "refresh_time": 60,
+            "feeder_url": "/api/CashFlowDaily/dailyPowerBuyer",
+            "active": true
+        },
+        {
+            "id": 101,
+            "title": "گروه صنایع جریان نقدی روزانه",
+            "key": "dailyCashFlowIndustriesGroup",
+            "refresh_time": 60,
+            "feeder_url": "/api/CashFlowDaily/dailyCashFlowIndustriesGroup",
+            "active": true
+        },
+        {
+            "id": 102,
+            "title": "فهرست شرکت ها بر اساس ارزش بازار",
+            "key": "marketValues",
+            "refresh_time": 60,
+            "feeder_url": "/api/marketValues",
+            "active": true
+        },
+        {
+            "id": 103,
+            "title": "لیست شرکت ها بر اساس فاصله تا سقف قیمت",
+            "key": "tops",
+            "refresh_time": 60,
+            "feeder_url": "/api/tops",
+            "active": true
+        }
+    ],
+    "public_message": [
+        {
+            "title": "تغییر کرده توسط لوکال",
+            "body": "متن پیام عمومی",
+            "link": "https://news.tseshow.com"
+        },
+        {
+            "title": "2 تایتل پیام عمومی",
+            "body": "2 متن پیام عمومی",
+            "link": "https://news.tseshow.com"
+        }
+    ],
+    "subscribes": [
+        "اشتراک 30 روزه 70 هزار تومان",
+        "اشتراک 60 روزه 140 هزار تومان",
+        "اشتراک 90 روزه 210 هزار تومان",
+        "اشتراک 365 روزه 800 هزار تومان"
+    ],
+    "plans": [
+        {
+            "title": "اشتراک یک ماهه",
+            "price": "30000",
+            "price_monthly": "30000",
+            "price_discount": "",
+            "time": "30",
+            "payment_link": "https://payment.tseshow.com/123"
+        },
+        {
+            "title": "اشتراک سه ماهه",
+            "price": "90000",
+            "price_monthly": "30000",
+            "price_discount": "80000",
+            "time": "90",
+            "payment_link": "https://payment.tseshow.com/123"
+        },
+        {
+            "title": "اشتراک شش ماهه",
+            "price": "180000",
+            "price_monthly": "30000",
+            "price_discount": "150000",
+            "time": "180",
+            "payment_link": "https://payment.tseshow.com/123"
+        },
+        {
+            "title": "اشتراک یک ساله",
+            "price": "360000",
+            "price_monthly": "30000",
+            "price_discount": "300000",
+            "time": "365",
+            "payment_link": "https://payment.tseshow.com/123"
+        }
+    ],
+    "profile": {
+        "id": 8,
+        "first_name": "",
+        "last_name": "فرهاد باقری",
+        "mobile": "09374039436",
+        "active": 1,
+        "special": false,
+        "created_at": "1401/06/19"
+    }
+}
