@@ -606,8 +606,12 @@ const ChartData = {
       colors: ['#E91E63', '#66DA26', colors.blue[500]],
       dataLabels: {
         enabled: true,
+        textAnchor: 'end',
         formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val;
+        },
+        style: {
+          colors: ['#000'],
         },
       },
       xaxis: {

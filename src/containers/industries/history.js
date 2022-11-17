@@ -1,5 +1,5 @@
 import { Select, Group, Text } from '@mantine/core';
-import {Component} from 'react';
+import { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import ITable from '../../components/ITable';
 import {
@@ -12,128 +12,80 @@ import lodash from 'lodash';
 import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
+import { useData, findConfig } from '../../helper';
+import { useState } from 'react';
+import { QueryCache } from '@tanstack/react-query';
 
-class History extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      type: null,
-      data: [],
-      industryLists: [],
-      loading: false,
-      id: this.props.match.params.id,
-    };
-  }
 
-  getIndustryList() {
-    if (lodash.isEmpty(this.state.industryLists)) {
-      this.setState({ loading: true });
-      let thatItem = this.props.chartAndtables;
-      thatItem = thatItem.find(
-        (item) => item.key === 'totalIndustriesGroupHisory'
-      );
-      getEveryFeeder(thatItem.feeder_url).then((res) => {
-        this.setState({ industryLists: res.data.data, loading: false });
-      });
-    }
-  }
+const History = (props) => {
+  let { id } = useParams();
 
-  getTableData(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'marketHistory');
+  const [param, setParam] = useState(id);
 
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({
-          title: res.data.title,
-          data: res.data.data,
-          type: res.data.type,
-          loading: false,
-        });
-      })
-      .catch((res) => {
-        this.setState({ loading: false });
-      });
+  let totalIndustriesGroupHisory = findConfig(
+    props.chartAndtables,
+    'totalIndustriesGroupHisory'
+  );
+  let totalIndustriesGroupHisory_query = useData(
+    totalIndustriesGroupHisory,
+    undefined,
+    { refetchInterval: false }
+  );
 
-    this.interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({
-            title: res.data.title,
-            data: res.data.data,
-            type: res.data.type,
-            loading: false,
-          });
-        })
-        .catch((res) => {
-          this.setState({ loading: false });
-        });
-    }, thatItem.refresh_time * 1000);
-  }
+  let marketHistory = findConfig(props.chartAndtables, 'marketHistory');
+  let marketHistory_query = useData(marketHistory, `/${param}`,{refetchInterval:false});
 
-  changeIndustry(value) {
-    this.props.history.push(`/industries/history/${value}`);
-  }
-
-  componentDidMount() {
-    this.setState({ loading: true });
-    this.getTableData(this.state.id);
-    this.props.history.listen((location, action) => {
-      let { pathname } = location;
-      let id = pathname.split('/')[3];
-      this.setState({ id });
-      this.getTableData(id);
-    });
-  }
-
-  componentWillUnmount(){
-    this.clearInterval();
-  }
-  render() {
-    return (
-      <>
-        <Helmet>
-          <title>{this.state.title || 'Tseshow'}</title>
-        </Helmet>
-        <Group position="apart">
-          <Text size="md">{`سوابق ${this.state.title}` || ''}</Text>
-          <Select
-            searchable
-            onChange={(value) => this.changeIndustry(value)}
-            placeholder="انتخاب صنعت"
-            onMouseOver={() => this.getIndustryList()}
-            data={this.state.industryLists || []}
-          />
-        </Group>
-        <>
-          {this.state.loading ? (
-            <Paper p="xl" radius="md" shadow="xs" mt="xl">
-              <Center>
-                <Loader variant="dots" />
-              </Center>
-            </Paper>
-          ) : (
-            <ITable
+  return (
+    <>
+      <Helmet>
+        <title>{'' || 'Tseshow'}</title>
+      </Helmet>
+      <Group position="apart">
+        <Text size="md">{`سوابق ${marketHistory_query?.data?.title || ''}`}</Text>
+        <Select
+          searchable
+          disabled={marketHistory_query.isLoading ? true : false}
+          onChange={setParam}
+          placeholder="انتخاب صنعت"
+          defaultValue={param}
+          data={
+            totalIndustriesGroupHisory_query.isLoading
+              ? []
+              : totalIndustriesGroupHisory_query.data?.data
+          }
+        />
+      </Group>
+      {!marketHistory_query.isLoading ? (
+        marketHistory_query.isError ? (
+          <Center mt="xl">
+            <h2>دیتایی برای نمایش یافت نشد</h2>
+          </Center>
+        ) : (
+          <ITable
             className="narrow-md"
-              title=""
-              data={this.state.data}
-              column={
-                this.state.type == 1
-                  ? industries_history_type_1.header
-                  : industries_history_type_2.header
-              }
-              fixedHeader
-              fixedHeaderScrollHeight="70vh"
-              pagination
-            />
-          )}
-        </>
-      </>
-    );
-  }
-}
+            title=""
+            data={marketHistory_query.data?.data}
+            column={
+              marketHistory_query.data?.type == 1
+                ? industries_history_type_1.header
+                : industries_history_type_2.header
+            }
+            fixedHeader
+            fixedHeaderScrollHeight="70vh"
+            pagination
+          />
+        )
+      ) : (
+        <Paper p="xl" radius="md" shadow="xs" mt="xl">
+          <Center>
+            <Loader variant="dots" />
+          </Center>
+        </Paper>
+      )}
+    </>
+  );
+};
 
 const mapStateToProps = (state) => ({
   industry: state.config.industries,

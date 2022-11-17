@@ -26,6 +26,57 @@ function MockRunner() {
     status: 'success',
   });
 
+  let sms_code = 1337;
+  let gu_id = '6375eaa27923d';
+  let mobile = '09374039436';
+  mock.onPost('/user/register').reply(function (config) {
+    let data = JSON.parse(config).data;
+    if (data.mobile === mobile) {
+      return [
+        422,
+        {
+          message: 'شماره همراه قبلا انتخاب شده است.',
+          errors: {
+            mobile: ['شماره همراه قبلا انتخاب شده است.'],
+          },
+        },
+      ];
+    }
+    return [
+      200,
+      {
+        message: ` لطفا کد ${sms_code} را در کادر زیر وارد کنید `,
+        data: {
+          gu_id,
+          code: sms_code,
+        },
+        status: 'success',
+      },
+    ];
+  });
+
+  mock.onPost('/user/confirm-register').reply(function (config) {
+    let data = JSON.parse(config).data;
+    if (data.code !== sms_code)
+      return [
+        422,
+        {
+          message: 'code used',
+          errors: {
+            code: ['code used'],
+          },
+        },
+      ];
+    return [
+      200,
+      {
+        message: 'حساب کاربری شما با موفقیت ایجاد شده است.',
+        data: null,
+        status: 'success',
+      },
+    ];
+  });
+
   mock.onGet('/notifications').reply(200, {
     message: '',
     data: [
@@ -224,11 +275,11 @@ function MockRunner() {
   });
 
   mock.onPost('/user/member-lists/delete').reply(function (config) {
-    return new Promise(function(resolve,reject){
+    return new Promise(function (resolve, reject) {
       setTimeout(() => {
         return [200, { message: 'ok' }];
       }, 1000);
-    })
+    });
   });
 
   let feeds = feeder.item;

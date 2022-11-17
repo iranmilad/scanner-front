@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import Logo from '../../assets/images/logo-white.png';
+import Logo from '../../assets/images/header.svg';
 import { Disclosure, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { headers, marketHeader } from '../../helper/navbar';
@@ -31,7 +31,7 @@ const Sidebar = ({ setOpen, open, props }) => {
     <div className={classes} style={{ zIndex: 99999999 }}>
       <div className="w-full flex items-center justify-between h-16">
         <Link to="/">
-          <img src={Logo} width="150" />
+          <img src={Logo} width="150" alt='Logo' />
         </Link>
         <button
           onClick={() => setOpen()}

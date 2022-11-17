@@ -11,6 +11,7 @@ import {
   ActionIcon,
   Tooltip,
   LoadingOverlay,
+  Center,
 } from '@mantine/core';
 import StockInformation from './stockInformation';
 import TraderSummary from './traderSummary';
@@ -34,266 +35,417 @@ import { Box } from '@mantine/core';
 import colors from 'tailwindcss/colors';
 import InstantCharts from './instantCharts';
 import LightChart from './lightChart';
-import { withRouter } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 import RoutesContext from '../../../contexts/routes';
 import { withCookies } from 'react-cookie';
 import lodash from 'lodash';
+import { findConfig, useData } from '../../../helper';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 /**
  * @description Real Market means Sahm - صفحه سهم
  */
-class RealMarket extends Component {
-  static contextType = RoutesContext;
-  state = {
-    marketId: this.props.route.match.params.id,
-    title: '',
-    stockDetails: [],
-    stockDetailsModalState: false,
-    id: this.props.route.match.params.id,
-    stockInfo: [],
-    clientSummaryData: [],
-    traderSummaryData: [],
-    bookMarkSummaryData: [],
-    totlaBookMarkSummaryData: [],
-    totalClientSummaryData: [],
-    statementPerdiodData: [],
-    supportResistanceData: [],
-    technicalValueData: [],
-    ChangePerfomanceData: [],
-    CombinationAssetsData: [],
-    allMembmerList: [],
-    allUserMemberList: [],
-    memberListLoading: false,
-    navExist: false,
-  };
-  modalWorker = () => {
-    this.setState({
-      stockDetailsModalState: !this.state.stockDetailsModalState,
-    });
-  };
+// class RealMarket extends Component {
+//   static contextType = RoutesContext;
+//   state = {
+//     marketId: this.props.route.match.params.id,
+//     title: '',
+//     stockDetails: [],
+//     stockDetailsModalState: false,
+//     id: this.props.route.match.params.id,
+//     stockInfo: [],
+//     clientSummaryData: [],
+//     traderSummaryData: [],
+//     bookMarkSummaryData: [],
+//     totlaBookMarkSummaryData: [],
+//     totalClientSummaryData: [],
+//     statementPerdiodData: [],
+//     supportResistanceData: [],
+//     technicalValueData: [],
+//     ChangePerfomanceData: [],
+//     CombinationAssetsData: [],
+//     allMembmerList: [],
+//     allUserMemberList: [],
+//     memberListLoading: false,
+//     navExist: false,
+//   };
+//   modalWorker = () => {
+//     this.setState({
+//       stockDetailsModalState: !this.state.stockDetailsModalState,
+//     });
+//   };
 
-  ClientSummaryFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolClientSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ clientSummaryData: res.data.data });
-    });
+//   async AllMemberList(id = this.state.id) {
+//     const { cookies } = this.props;
+//     if (!cookies.get('token')) {
+//       this.setState({ allowMemberList: false });
+//       return false;
+//     }
+//     /**
+//      * Fetch member lists
+//      */
+//     return new Promise(async (resolve, reject) => {
+//       try {
+//         let response = await getEveryUser('/member-lists', {
+//           token: cookies.get('token'),
+//         });
+//         this.setState({ allMembmerList: response.data.message });
+//         resolve(true);
+//       } catch (error) {
+//         console.log(error);
+//         reject(false);
+//       }
+//     });
+//   }
 
-    this.ClientSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ clientSummaryData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+//   AllUserMemberList() {
+//     const { cookies } = this.props;
+//     if (!cookies.get('token')) {
+//       return false;
+//     }
+//     return new Promise(async (resolve, reject) => {
+//       try {
+//         let response = await getEveryUser('/user/member-lists', {
+//           token: true,
+//         });
+//         console.log(response);
+//         this.setState({ allUserMemberList: response.data.data });
+//         resolve(true);
+//       } catch (error) {
+//         console.log(error);
+//         reject(false);
+//       }
+//     });
+//   }
 
-  TraderSummaryFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolTradeSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ traderSummaryData: res.data.data });
-    });
+//   /**
+//    *
+//    * @param {string} title
+//    * @param {string} description
+//    * @returns
+//    */
+//   CheckMemberListExist(title, description) {
+//     if (!description) return null;
+//     if (lodash.isEmpty(this.state.allMembmerList)) return null;
+//     let item = this.state.allMembmerList.find(
+//       (item) => item.title === title && item.description === description
+//     );
+//     if (lodash.isEmpty(item)) return null;
 
-    this.TraderSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ traderSummaryData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+//     if (item.active === false) {
+//       return { id: item.id, type: 'DISABLE' };
+//     }
+//     if (lodash.isEmpty(this.state.allUserMemberList)) {
+//       return { id: item.id, type: 'ADD' };
+//     }
+//     let existItemInUserMemberList = this.state.allUserMemberList.find(
+//       (item) => item.title === title && item.description === description
+//     );
+//     if (existItemInUserMemberList)
+//       return { id: existItemInUserMemberList.member_list_id, type: 'REMOVE' };
 
-  BookMarkSummaryFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolBookMarkSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ bookMarkSummaryData: res.data.data });
-    });
+//     return { id: item.id, type: 'ADD' };
+//   }
 
-    this.BookMarkSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ bookMarkSummaryData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+//   /**
+//    * Get Information of a stock
+//    * @param {string} id
+//    */
+//   async getInformation(id = this.state.id) {
+//     let thatItem = this.props.chartAndtables;
+//     thatItem = thatItem.find((item) => item.key === 'symbolInfo');
+//     try {
+//       let response = await getEveryFeeder(`${thatItem.feeder_url}/${id}`);
+//       this.setState({ stockInfo: response.data.data });
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
 
-  TotlaBookMarkSummaryFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'symboltotalBookMarkSummery'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ totlaBookMarkSummaryData: res.data.data });
-    });
+//   async checkNavExist(id = this.state.id) {
+//     let thatItem = this.props.chartAndtables;
+//     thatItem = thatItem.find((item) => item.key === 'symbolChart');
+//     try {
+//       let response = await getEveryFeeder(`${thatItem.feeder_url}/${id}`);
+//       if (response.data.fund) {
+//         this.setState({ navExist: true });
+//       } else {
+//         this.setState({ navExist: false });
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
 
-    this.TotlaBookMarkSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ totlaBookMarkSummaryData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+//   async componentDidMount() {
+//     try {
+//       await this.AllUserMemberList();
+//       await this.AllMemberList();
+//       this.checkNavExist();
+//       this.getInformation();
+//       this.SupportResistanceFetcher();
+//       this.ClientSummaryFetcher();
+//       this.TraderSummaryFetcher();
+//       this.BookMarkSummaryFetcher();
+//       this.TotlaBookMarkSummaryFetcher();
+//       this.totalClientSummaryFetcher();
+//       this.statementPerdiodFetcher();
+//       this.technicalValueFetcher();
+//       this.ChangePerfomanceFetcher();
+//       this.CombinationAssetsFetcher();
+//     } catch (error) {
+//       console.log(error);
+//     }
 
-  totalClientSummaryFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolTotalClientSummery');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ totalClientSummaryData: res.data.data });
-    });
+//     this.props.history.listen(async (location) => {
+//       this.clearInterval();
+//       try {
+//         await this.checkNavExist(this.context.stockID);
+//         this.getInformation(this.context.stockID);
+//         this.ClientSummaryFetcher(this.context.stockID);
+//         this.TraderSummaryFetcher(this.context.stockID);
+//         this.BookMarkSummaryFetcher(this.context.stockID);
+//         this.TotlaBookMarkSummaryFetcher(this.context.stockID);
+//         this.totalClientSummaryFetcher(this.context.stockID);
+//         this.statementPerdiodFetcher(this.context.stockID);
+//         this.SupportResistanceFetcher(this.context.stockID);
+//         this.technicalValueFetcher(this.context.stockID);
+//         this.ChangePerfomanceFetcher(this.context.stockID);
+//         this.CombinationAssetsFetcher(this.context.stockID);
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     });
+//   }
+//   componentWillUnmount() {
+//     this.clearInterval();
+//   }
+//   render() {
+//     return (
+//       <>
+//         <Helmet>
+//           <title>{this.state.stockInfo.name}</title>
+//         </Helmet>
+//         <Group position="apart">
+//           <Text>{this.state.stockInfo.name}</Text>
+//           <Button onClick={() => this.modalWorker()}>اطلاعات نماد</Button>
+//         </Group>
 
-    this.totalClientSummaryInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ totalClientSummaryData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+//         <LightChart stockId={this.state.id} />
+//         <InstantCharts stockId={this.state.id} />
+//         <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
+//           <LoadingOverlay
+//             visible={this.state.memberListLoading}
+//             loaderProps={{ variant: 'dots' }}
+//           />
+//           <Text size="sm">
+//             حمایت ها و مقاومت های پیش روی {this.state.stockInfo.name || ''}
+//           </Text>
+//           <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+//             {/* Right Section */}
+//             <div className="w-full space-y-3">
+//               {'n0' in this.state.supportResistanceData
+//                 ? this.state.supportResistanceData.n0.map((item, index) => {
+//                     return (
+//                       <div className="w-full h-12">
+//                         <SupportBox
+//                           allow={
+//                             this.state.allMembmerList.length > 0 ? true : false
+//                           }
+//                           CheckMemberListExist={this.CheckMemberListExist.bind(
+//                             this
+//                           )}
+//                           id={this.state.id}
+//                           key={index}
+//                           add={this.createNotification}
+//                           remove={this.removeNotification}
+//                           item={item}
+//                           bg={colors.sky[500]}
+//                         />
+//                       </div>
+//                     );
+//                   })
+//                 : null}
+//             </div>
+//             {/* Left section */}
+//             <div className="w-full space-y-3">
+//               {'n1' in this.state.supportResistanceData
+//                 ? this.state.supportResistanceData.n1.map((item, index) => {
+//                     return (
+//                       <div className="w-full h-12">
+//                         <SupportBox
+//                           item={item}
+//                           allow={
+//                             this.state.allMembmerList.length > 0 ? true : false
+//                           }
+//                           CheckMemberListExist={this.CheckMemberListExist.bind(
+//                             this
+//                           )}
+//                           id={this.state.id}
+//                           key={index}
+//                           add={this.createNotification}
+//                           remove={this.removeNotification}
+//                           bg={colors.indigo[500]}
+//                         />
+//                       </div>
+//                     );
+//                   })
+//                 : null}
+//             </div>
+//           </div>
+//         </Paper>
+//         <Paper p="xl" radius="md" shadow="xs" mt="xl">
+//           <Text size="sm">
+//             اندیکاتور های نماد {this.state.stockInfo.name || ''}
+//           </Text>
+//           <Grid mt="md">
+//             {this.state.technicalValueData.map((item, index) => (
+//               <>
+//                 <Grid.Col sm={12} md={3} key={index}>
+//                   <Box
+//                     dir="ltr"
+//                     className="rounded-sm"
+//                     p="md"
+//                     style={{ background: colors.slate[200] }}
+//                   >
+//                     <Text size="sm" color="black">
+//                       {item['n0']}
+//                     </Text>
+//                   </Box>
+//                 </Grid.Col>
+//                 <Grid.Col sm={12} md={3}>
+//                   <Box
+//                     dir="ltr"
+//                     className="rounded-sm"
+//                     p="md"
+//                     style={{ background: colors.slate[200] }}
+//                   >
+//                     <Text size="sm" color="black">
+//                       {item['n1']}
+//                     </Text>
+//                   </Box>
+//                 </Grid.Col>
+//                 <Grid.Col sm={12} md={3}>
+//                   <Box
+//                     dir="ltr"
+//                     className="rounded-sm"
+//                     p="md"
+//                     style={{ background: colors.slate[200] }}
+//                   >
+//                     <Text size="sm" color="black">
+//                       {item['n2']}
+//                     </Text>
+//                   </Box>
+//                 </Grid.Col>
+//                 <Grid.Col sm={12} md={3}>
+//                   <Box
+//                     dir="ltr"
+//                     className="rounded-sm"
+//                     p="md"
+//                     style={{ background: colors.slate[200] }}
+//                   >
+//                     <Text size="sm" color="black">
+//                       {item['n3']}
+//                     </Text>
+//                   </Box>
+//                 </Grid.Col>
+//               </>
+//             ))}
+//           </Grid>
+//         </Paper>
+//       </>
+//     );
+//   }
+// }
 
-  statementPerdiodFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolStatmentPeriod');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ statementPerdiodData: res.data.data });
-    });
+const RealMarket = (props) => {
+  let { id } = useParams();
+  const [modal, setModal] = useState(false);
+  let symbolInfo = findConfig(props.chartAndtables, 'symbolInfo');
+  let symbolInfo_query = useData(symbolInfo, `/${id}`, {
+    refetchInterval: false,
+  });
 
-    this.statementPerdiodInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ statementPerdiodData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+  let symbolClientSummery = findConfig(
+    props.chartAndtables,
+    'symbolClientSummery'
+  );
+  let symbolClientSummery_query = useData(symbolClientSummery, `/${id}`);
 
-  SupportResistanceFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolSupportResistance');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ supportResistanceData: res.data.data });
-    });
+  let symbolTradeSummery = findConfig(
+    props.chartAndtables,
+    'symbolTradeSummery'
+  );
+  let symbolTradeSummery_query = useData(symbolTradeSummery, `/${id}`);
 
-    this.SupportResistanceInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ supportResistanceData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+  let symbolBookMarkSummery = findConfig(
+    props.chartAndtables,
+    'symbolBookMarkSummery'
+  );
+  let symbolBookMarkSummery_query = useData(symbolBookMarkSummery, `/${id}`);
 
-  technicalValueFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolTechnicalValue');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ technicalValueData: res.data.data });
-    });
+  let symboltotalBookMarkSummery = findConfig(
+    props.chartAndtables,
+    'symboltotalBookMarkSummery'
+  );
+  let symboltotalBookMarkSummery_query = useData(
+    symboltotalBookMarkSummery,
+    `/${id}`
+  );
 
-    this.technicalValueInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ technicalValueData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+  let symbolTotalClientSummery = findConfig(
+    props.chartAndtables,
+    'symbolTotalClientSummery'
+  );
+  let symbolTotalClientSummery_query = useData(
+    symbolTotalClientSummery,
+    `/${id}`
+  );
 
-  ChangePerfomanceFetcher(id = this.state.id) {
-    if (this.state.navExist) {
-      let thatItem = this.props.chartAndtables;
-      thatItem = thatItem.find((item) => item.key === 'symbolChangePerfomance');
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ ChangePerfomanceData: res.data.data });
-      });
+  let symbolStatmentPeriod = findConfig(
+    props.chartAndtables,
+    'symbolStatmentPeriod'
+  );
+  let symbolStatmentPeriod_query = useData(symbolStatmentPeriod, `/${id}`);
 
-      this.ChangePerfomance = setInterval(() => {
-        getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-          this.setState({ ChangePerfomanceData: res.data.data });
-        });
-      }, thatItem.refresh_time * 1000);
-    }
-  }
+  let symbolSupportResistance = findConfig(
+    props.chartAndtables,
+    'symbolSupportResistance'
+  );
+  let symbolSupportResistance_query = useData(
+    symbolSupportResistance,
+    `/${id}`
+  );
 
-  CombinationAssetsFetcher(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolCombinationAssets');
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-      this.setState({ CombinationAssetsData: res.data.data });
-    });
+  let symbolTechnicalValue = findConfig(
+    props.chartAndtables,
+    'symbolTechnicalValue'
+  );
+  let symbolTechnicalValue_query = useData(symbolTechnicalValue, `/${id}`);
 
-    this.CombinationAssetsInterval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`).then((res) => {
-        this.setState({ CombinationAssetsData: res.data.data });
-      });
-    }, thatItem.refresh_time * 1000);
-  }
+  let symbolChangePerfomance = findConfig(
+    props.chartAndtables,
+    'symbolChangePerfomance'
+  );
+  let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`);
 
-  async AllMemberList(id = this.state.id) {
-    const { cookies } = this.props;
-    if (!cookies.get('token')) {
-      this.setState({ allowMemberList: false });
-      return false;
-    }
-    /**
-     * Fetch member lists
-     */
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await getEveryUser('/member-lists', {
-          token: cookies.get('token'),
-        });
-        this.setState({ allMembmerList: response.data.message });
-        resolve(true);
-      } catch (error) {
-        console.log(error);
-        reject(false);
-      }
-    });
-  }
+  let symbolCombinationAssets = findConfig(
+    props.chartAndtables,
+    'symbolCombinationAssets'
+  );
+  let symbolCombinationAssets_query = useData(
+    symbolCombinationAssets,
+    `/${id}`
+  );
 
-  AllUserMemberList() {
-    const { cookies } = this.props;
-    if (!cookies.get('token')) {
-      return false;
-    }
-    return new Promise(async (resolve, reject) => {
-      try {
-        let response = await getEveryUser('/user/member-lists', {
-          token: true,
-        });
-        console.log(response);
-        this.setState({ allUserMemberList: response.data.data });
-        resolve(true);
-      } catch (error) {
-        console.log(error);
-        reject(false);
-      }
-    });
-  }
+  let symbolChart = findConfig(props.chartAndtables, 'symbolChart');
+  let symbolChart_query = useData(symbolChart, `/${id}`);
 
-  /**
-   *
-   * @param {string} title
-   * @param {string} description
-   * @returns
-   */
-  CheckMemberListExist(title, description) {
-    if (!description) return null;
-    if (lodash.isEmpty(this.state.allMembmerList)) return null;
-    let item = this.state.allMembmerList.find(
-      (item) => item.title === title && item.description === description
-    );
-    if (lodash.isEmpty(item)) return null;
-
-    if (item.active === false) {
-      return { id: item.id, type: 'DISABLE' };
-    }
-    if (lodash.isEmpty(this.state.allUserMemberList)) {
-      return { id: item.id, type: 'ADD' };
-    }
-    let existItemInUserMemberList = this.state.allUserMemberList.find(
-      (item) => item.title === title && item.description === description
-    );
-    if (existItemInUserMemberList)
-      return { id: existItemInUserMemberList.member_list_id, type: 'REMOVE' };
-
-    return { id: item.id, type: 'ADD' };
-  }
-
-  createNotification(id, setLoading) {
+  function createNotification(id, setLoading) {
     if (!id) return null;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+
     getEveryUser('/user/member-lists/create', {
       token: true,
       method: 'post',
@@ -309,9 +461,9 @@ class RealMarket extends Component {
       });
   }
 
-  removeNotification(id, loadingWorker,setLoading) {
+  function removeNotification(id, loadingWorker, setLoading) {
     if (!id) return null;
-    setLoading()
+    setLoading();
     getEveryUser('/user/member-lists/delete', {
       token: true,
       method: 'post',
@@ -327,263 +479,266 @@ class RealMarket extends Component {
       });
   }
 
+  const [allowMemberList, setAllowMemberList] = useState(false);
+  let member_lists_query = useQuery({
+    queryKey: ['member-lists', id],
+    queryFn: async () => {
+      let response = await getEveryUser('/member-lists', {
+        token: true,
+      });
+      return response.data;
+    },
+    staleTime: 90 * 1000,
+    retry: 2,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (e) => {
+      setAllowMemberList(true);
+    },
+    onError: () => {
+      setAllowMemberList(false);
+    },
+  });
+
+  let user_member_lists = useQuery({
+    queryKey: ['user_member_lists'],
+    queryFn: async () => {
+      let response = await getEveryUser('/user/member-lists', {
+        token: true,
+      });
+      return response.data;
+    },
+  });
+
   /**
-   * Get Information of a stock
-   * @param {string} id
+   *
+   * @param {string} title
+   * @param {string} description
+   * @returns
    */
-  async getInformation(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolInfo');
-    try {
-      let response = await getEveryFeeder(`${thatItem.feeder_url}/${id}`);
-      this.setState({ stockInfo: response.data.data });
-    } catch (error) {
-      console.log(error);
+  function CheckMemberListExist(title, description) {
+    if (!description) return null;
+    if (lodash.isEmpty(member_lists_query.data?.data)) return null;
+    let item = member_lists_query.data?.data.find(
+      (item) => item.title === title && item.description === description
+    );
+    if (lodash.isEmpty(item)) return null;
+
+    if (item.active === false) {
+      return { id: item.id, type: 'DISABLE' };
     }
+    if (lodash.isEmpty(user_member_lists.data?.data)) {
+      return { id: item.id, type: 'ADD' };
+    }
+    let existItemInUserMemberList = user_member_lists.data?.data.find(
+      (item) => item.title === title && item.description === description
+    );
+    if (existItemInUserMemberList)
+      return { id: existItemInUserMemberList.member_list_id, type: 'REMOVE' };
+
+    return { id: item.id, type: 'ADD' };
   }
 
-  async checkNavExist(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'symbolChart');
-    try {
-      let response = await getEveryFeeder(`${thatItem.feeder_url}/${id}`);
-      if (response.data.fund) {
-        this.setState({ navExist: true });
-      } else {
-        this.setState({ navExist: false });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async componentDidMount() {
-    try {
-      await this.AllUserMemberList();
-      await this.AllMemberList();
-      this.checkNavExist();
-      this.getInformation();
-      this.SupportResistanceFetcher();
-      this.ClientSummaryFetcher();
-      this.TraderSummaryFetcher();
-      this.BookMarkSummaryFetcher();
-      this.TotlaBookMarkSummaryFetcher();
-      this.totalClientSummaryFetcher();
-      this.statementPerdiodFetcher();
-      this.technicalValueFetcher();
-      this.ChangePerfomanceFetcher();
-      this.CombinationAssetsFetcher();
-    } catch (error) {
-      console.log(error);
-    }
-
-    this.props.history.listen(async (location) => {
-      this.clearInterval();
-      try {
-        await this.checkNavExist(this.context.stockID);
-        this.getInformation(this.context.stockID);
-        this.ClientSummaryFetcher(this.context.stockID);
-        this.TraderSummaryFetcher(this.context.stockID);
-        this.BookMarkSummaryFetcher(this.context.stockID);
-        this.TotlaBookMarkSummaryFetcher(this.context.stockID);
-        this.totalClientSummaryFetcher(this.context.stockID);
-        this.statementPerdiodFetcher(this.context.stockID);
-        this.SupportResistanceFetcher(this.context.stockID);
-        this.technicalValueFetcher(this.context.stockID);
-        this.ChangePerfomanceFetcher(this.context.stockID);
-        this.CombinationAssetsFetcher(this.context.stockID);
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  }
-  componentWillUnmount() {
-    this.clearInterval();
-  }
-  render() {
-    return (
-      <>
-        <Helmet>
-          <title>{this.state.stockInfo.name}</title>
-        </Helmet>
-        <Group position="apart">
-          <Text>{this.state.stockInfo.name}</Text>
-          <Button onClick={() => this.modalWorker()}>اطلاعات نماد</Button>
-        </Group>
-        <StockInformation
-          opended={this.state.stockDetailsModalState}
-          onClose={this.modalWorker}
-          stockId={this.state.id}
-          fullData={this.state.stockInfo}
-        />
+  return (
+    <>
+      <Helmet>
+        <title>{symbolInfo_query.data?.data?.name || ''}</title>
+      </Helmet>
+      <Group position="apart">
+        <Text>{symbolInfo_query.data?.data?.name || ''}</Text>
+        <Button onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
+      </Group>
+      <StockInformation
+        opended={modal}
+        onClose={() => setModal(!modal)}
+        stockId={id}
+        fullData={symbolInfo_query?.data?.data}
+      />
+      <ITable
+        data={symbolTradeSummery_query?.data?.data}
+        column={traderSummaryHeader}
+        title={symbolTradeSummery.title}
+      />
+      <ITable
+        data={symbolClientSummery_query?.data?.data}
+        column={clientSummaryHeader}
+        title={symbolClientSummery.title}
+      />
+      <ITable
+        data={symbolBookMarkSummery_query?.data?.data}
+        column={bookMarkSummary}
+        title={symbolBookMarkSummery.title}
+      />
+      <ITable
+        data={symboltotalBookMarkSummery_query?.data?.data}
+        column={totlaBookMarkSummary}
+        title={symboltotalBookMarkSummery.title}
+      />
+      <ITable
+        data={symbolTotalClientSummery_query?.data?.data}
+        column={totalClientSummary}
+        title={symbolTotalClientSummery.title}
+      />
+      <ITable
+        data={symbolStatmentPeriod_query?.data?.data}
+        column={statementPerdiod}
+        title={`آمار های دوره ای ${symbolInfo_query.data?.name || ''}`}
+      />
+      {!symbolChart_query.data?.fund && (
         <ITable
-          data={this.state.traderSummaryData}
-          column={traderSummaryHeader}
-          title="خلاصه معاملات"
+          data={symbolChangePerfomance_query?.data?.data}
+          column={changePerfomance}
+          title={`تغییر عملکرد و قیمت ${
+            symbolInfo_query?.data?.data.name || ''
+          }`}
         />
-        <ITable
-          data={this.state.clientSummaryData}
-          column={clientSummaryHeader}
-          title="خلاصه معاملات اشخاص حقیقی"
-        />
-        <ITable
-          data={this.state.bookMarkSummaryData}
-          column={bookMarkSummary}
-          title="سفارش های خرید و فروش"
-        />
-        <ITable
-          data={this.state.totlaBookMarkSummaryData}
-          column={totlaBookMarkSummary}
-          title="خلاصه سفارش ها"
-        />
-        <ITable
-          data={this.state.totalClientSummaryData}
-          column={totalClientSummary}
-          title="معاملات تفکیکی اشخاص حقیقی و حقوقی"
-        />
-        <ITable
-          data={this.state.statementPerdiodData}
-          column={statementPerdiod}
-          title={`آمار های دوره ای ${this.state.stockInfo.name || ''}`}
-        />
-        {this.state.navExist && (
-          <ITable
-            data={this.state.ChangePerfomanceData}
-            column={changePerfomance}
-            title={`تغییر عملکرد و قیمت ${this.state.stockInfo.name || ''}`}
-          />
-        )}
-        <ITable
-          data={this.state.CombinationAssetsData}
-          column={combinationAssets}
-          title={`ترکیب دارایی های ${this.state.stockInfo.name || ''}`}
-        />
-        <LightChart stockId={this.state.id} />
-        <InstantCharts stockId={this.state.id} />
-        <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
-          <LoadingOverlay
-            visible={this.state.memberListLoading}
-            loaderProps={{ variant: 'dots' }}
-          />
-          <Text size="sm">
-            حمایت ها و مقاومت های پیش روی {this.state.stockInfo.name || ''}
-          </Text>
+      )}
+      <ITable
+        data={symbolCombinationAssets_query?.data?.data}
+        column={combinationAssets}
+        title={`ترکیب دارایی های ${symbolInfo_query?.data?.data.name || ''}`}
+      />
+           <LightChart stockId={id} />
+     <InstantCharts stockId={id} />
+      <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
+        <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
+        <Text size="sm">
+          حمایت ها و مقاومت های پیش روی {symbolInfo_query.data?.name || ''}
+        </Text>
+        {symbolSupportResistance_query.isLoading ? (
+          <Center>
+            <Loader variant="dots" />
+          </Center>
+        ) : (
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Right Section */}
             <div className="w-full space-y-3">
-              {'n0' in this.state.supportResistanceData
-                ? this.state.supportResistanceData.n0.map((item, index) => {
-                    return (
-                      <div className="w-full h-12">
-                        <SupportBox
-                          allow={
-                            this.state.allMembmerList.length > 0 ? true : false
-                          }
-                          CheckMemberListExist={this.CheckMemberListExist.bind(
-                            this
-                          )}
-                          id={this.state.id}
-                          key={index}
-                          add={this.createNotification}
-                          remove={this.removeNotification}
-                          item={item}
-                          bg={colors.sky[500]}
-                        />
-                      </div>
-                    );
-                  })
+              {'data' in symbolSupportResistance_query.data
+                ? symbolSupportResistance_query?.data?.data.n0.map(
+                    (item, index) => {
+                      return (
+                        <div className="w-full h-12">
+                          <SupportBox
+                            allow={
+                              // this.state.allMembmerList.length > 0
+                              //   ? true
+                              //   : false
+                              true
+                            }
+                            CheckMemberListExist={CheckMemberListExist}
+                            id={id}
+                            key={index}
+                            add={createNotification}
+                            remove={removeNotification}
+                            item={item}
+                            bg={colors.sky[500]}
+                          />
+                        </div>
+                      );
+                    }
+                  )
                 : null}
             </div>
             {/* Left section */}
             <div className="w-full space-y-3">
-              {'n1' in this.state.supportResistanceData
-                ? this.state.supportResistanceData.n1.map((item, index) => {
-                    return (
-                      <div className="w-full h-12">
-                        <SupportBox
-                          item={item}
-                          allow={
-                            this.state.allMembmerList.length > 0 ? true : false
-                          }
-                          CheckMemberListExist={this.CheckMemberListExist.bind(
-                            this
-                          )}
-                          id={this.state.id}
-                          key={index}
-                          add={this.createNotification}
-                          remove={this.removeNotification}
-                          bg={colors.indigo[500]}
-                        />
-                      </div>
-                    );
-                  })
+              {'data' in symbolSupportResistance_query.data
+                ? symbolSupportResistance_query?.data?.data?.n1.map(
+                    (item, index) => {
+                      return (
+                        <div className="w-full h-12">
+                          <SupportBox
+                            item={item}
+                            allow={
+                              // this.state.allMembmerList.length > 0 ? true : false
+                              true
+                            }
+                            CheckMemberListExist={CheckMemberListExist}
+                            id={id}
+                            key={index}
+                            add={createNotification}
+                            remove={removeNotification}
+                            bg={colors.indigo[500]}
+                          />
+                        </div>
+                      );
+                    }
+                  )
                 : null}
             </div>
           </div>
-        </Paper>
-        <Paper p="xl" radius="md" shadow="xs" mt="xl">
-          <Text size="sm">
-            اندیکاتور های نماد {this.state.stockInfo.name || ''}
-          </Text>
-          <Grid mt="md">
-            {this.state.technicalValueData.map((item, index) => (
-              <>
-                <Grid.Col sm={12} md={3} key={index}>
-                  <Box
-                    dir="ltr"
-                    className="rounded-sm"
-                    p="md"
-                    style={{ background: colors.slate[200] }}
-                  >
-                    <Text size="sm" color="black">
-                      {item['n0']}
-                    </Text>
-                  </Box>
-                </Grid.Col>
-                <Grid.Col sm={12} md={3}>
-                  <Box
-                    dir="ltr"
-                    className="rounded-sm"
-                    p="md"
-                    style={{ background: colors.slate[200] }}
-                  >
-                    <Text size="sm" color="black">
-                      {item['n1']}
-                    </Text>
-                  </Box>
-                </Grid.Col>
-                <Grid.Col sm={12} md={3}>
-                  <Box
-                    dir="ltr"
-                    className="rounded-sm"
-                    p="md"
-                    style={{ background: colors.slate[200] }}
-                  >
-                    <Text size="sm" color="black">
-                      {item['n2']}
-                    </Text>
-                  </Box>
-                </Grid.Col>
-                <Grid.Col sm={12} md={3}>
-                  <Box
-                    dir="ltr"
-                    className="rounded-sm"
-                    p="md"
-                    style={{ background: colors.slate[200] }}
-                  >
-                    <Text size="sm" color="black">
-                      {item['n3']}
-                    </Text>
-                  </Box>
-                </Grid.Col>
-              </>
-            ))}
-          </Grid>
-        </Paper>
-      </>
-    );
-  }
-}
+        )}
+      </Paper>
+
+      <Paper p="xl" radius="md" shadow="xs" mt="xl">
+        <Text size="sm">
+          اندیکاتور های نماد {symbolInfo_query.data?.name || ''}
+        </Text>
+        <Grid mt="md">
+          {symbolTechnicalValue_query.isLoading ? (
+            <Center>
+              <Loader variant="dots" />
+            </Center>
+          ) : (
+            <>
+              {symbolTechnicalValue_query?.data?.data.map((item, index) => (
+                <>
+                  <Grid.Col sm={12} md={3} key={index}>
+                    <Box
+                      dir="ltr"
+                      className="rounded-sm"
+                      p="md"
+                      style={{ background: colors.slate[200] }}
+                    >
+                      <Text size="sm" color="black">
+                        {item['n0']}
+                      </Text>
+                    </Box>
+                  </Grid.Col>
+                  <Grid.Col sm={12} md={3}>
+                    <Box
+                      dir="ltr"
+                      className="rounded-sm"
+                      p="md"
+                      style={{ background: colors.slate[200] }}
+                    >
+                      <Text size="sm" color="black">
+                        {item['n1']}
+                      </Text>
+                    </Box>
+                  </Grid.Col>
+                  <Grid.Col sm={12} md={3}>
+                    <Box
+                      dir="ltr"
+                      className="rounded-sm"
+                      p="md"
+                      style={{ background: colors.slate[200] }}
+                    >
+                      <Text size="sm" color="black">
+                        {item['n2']}
+                      </Text>
+                    </Box>
+                  </Grid.Col>
+                  <Grid.Col sm={12} md={3}>
+                    <Box
+                      dir="ltr"
+                      className="rounded-sm"
+                      p="md"
+                      style={{ background: colors.slate[200] }}
+                    >
+                      <Text size="sm" color="black">
+                        {item['n3']}
+                      </Text>
+                    </Box>
+                  </Grid.Col>
+                </>
+              ))}
+            </>
+          )}
+        </Grid>
+      </Paper>
+    </>
+  );
+};
 
 const SupportBox = ({
   item,
@@ -598,9 +753,10 @@ const SupportBox = ({
   const [state, setState] = useState(null);
 
   function loadingWorker(status) {
-    if(state.type === 'ADD') setState(prev => ({...prev,type:'REMOVE'}))
-    else if(state.type === 'REMOVE') setState(prev => ({...prev,type:"ADD"}));
-    else setState(prev => ({...prev,type:"DISABLE"}))
+    if (state.type === 'ADD') setState((prev) => ({ ...prev, type: 'REMOVE' }));
+    else if (state.type === 'REMOVE')
+      setState((prev) => ({ ...prev, type: 'ADD' }));
+    else setState((prev) => ({ ...prev, type: 'DISABLE' }));
   }
 
   useEffect(() => {
@@ -634,7 +790,11 @@ const SupportBox = ({
                       color="teal"
                       loading={loading}
                       onClick={() =>
-                        add(CheckMemberListExist(id, item.id).id, loadingWorker,()=>setLoading(!loading))
+                        add(
+                          CheckMemberListExist(id, item.id).id,
+                          loadingWorker,
+                          () => setLoading(!loading)
+                        )
                       }
                     >
                       <svg
@@ -662,7 +822,11 @@ const SupportBox = ({
                       color="red"
                       loading={loading}
                       onClick={() =>
-                        remove(CheckMemberListExist(id, item.id).id, loadingWorker,setLoading)
+                        remove(
+                          CheckMemberListExist(id, item.id).id,
+                          loadingWorker,
+                          setLoading
+                        )
                       }
                     >
                       <svg

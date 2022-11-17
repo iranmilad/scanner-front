@@ -13,7 +13,7 @@
             "id": 6,
             "title": "خلاصه معاملات خرد سهام و صندوق ها",
             "key": "tb-summaryTrans",
-            "refresh_time": 60,
+            "refresh_time": 10,
             "feeder_url": "/api/summaryTrans",
             "active": false
         },

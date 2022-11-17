@@ -2,6 +2,8 @@ import colors from 'tailwindcss/colors';
 import ls from 'localstorage-slim';
 import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
+import { getEveryFeeder } from '../apis/main';
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -184,3 +186,26 @@ const minAndMax = (arr, min, max) =>
       ({ y }) => (min === null || y >= min) && (max === null || y <= max)
     ),
   }));
+
+export function findConfig(array,key){
+  let item = array;
+  item = item.find(item => item.key === key);
+  return item;
+}
+
+
+export function useData(item,params,...other) {
+  return useQuery({
+    queryKey: [item.key,params],
+    queryFn: async (key,page) => {
+      let {data} = await getEveryFeeder(`${item.feeder_url}${params ? params : ''}`);
+      return data
+    },
+    staleTime: item.refresh_time * 1000,
+    refetchInterval: item.refresh_time * 1000,
+    retry: 2,
+    retryOnMount: false,
+    refetchOnWindowFocus:false,
+    ...other
+  });
+}

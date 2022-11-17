@@ -7,9 +7,10 @@ import {
   Group,
   MediaQuery,
   SimpleGrid,
+  Center,
 } from '@mantine/core';
 import { Component } from 'react';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/header.svg';
 import IChart from '../../components/IChart';
 import Lock from '../LockBox';
 import ls from 'localstorage-slim';
@@ -39,7 +40,7 @@ class LoopChart extends Component {
   render() {
     return (
       <>
-        <div className='hidden lg:block'>
+        <div className="hidden lg:block">
           <Group position="right">
             <MediaQuery query="(min-width: 576px)">
               <Tabs
@@ -134,17 +135,11 @@ class LoopChart extends Component {
                       : ''
                   }
                 >
-                  <Paper shadow="xs" p="lg" radius="md" sx={{ height: '100%' }}>
-                    <Text size="sm" mb="lg">
-                      {chart.title}
-                    </Text>
+                  <Paper className='relative' shadow="xs" p="lg" radius="md" sx={{ height: '100%' }}>
                     {this.state.auth ? (
-                      <IChart
-                        refreshTime={chart.refresh_time}
-                        feeder_url={chart.feeder_url}
-                      />
+                      <IChart item={chart} />
                     ) : (
-                      <Lock key={index} image={Logo} />
+                      <Lock title={chart.title} key={index} image={Logo} />
                     )}
                   </Paper>
                 </div>
@@ -163,10 +158,7 @@ class LoopChart extends Component {
                     <Text size="sm" mb="lg">
                       {chart.title}
                     </Text>
-                    <IChart
-                      refreshTime={chart.refresh_time}
-                      feeder_url={chart.feeder_url}
-                    />
+                    <IChart item={chart} />
                   </Paper>
                 </div>
               )

@@ -5,79 +5,36 @@ import { Group, Loader } from '@mantine/core';
 import { chartType } from './functions';
 import ChartData from '../Chart/chartData';
 import { connect } from 'react-redux';
-import {setModal ,setChart} from "../../redux/reducers/chartable/chart";
+import { setModal, setChart } from '../../redux/reducers/chartable/chart';
 import { getEveryFeeder } from '../../apis/main';
+import { useData } from '../../helper';
+import { useEffect } from 'react';
 
-/**
- * IChart for handle the every chart
- * @component
- * @example
- * return (
- * <IChart
- *  type={'line'}
- *  series={data}
- *  options={options}
- * />
- */
-class IChart extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
-  componentDidMount() {
+const IChart = (props) => {
+  useEffect(()=>{
     window['chartable'] = {
-      setModal: this.props.setModal,
-      setChart: this.props.setChart
-    }
-    // let options = chartType(this.props.special);
-    // let extraEvents = Object.assign({},options?.chart?.events, {reducer:{setModal:this.props.setModal}});
-    // options.chart.events = extraEvents;
-    // this.setState({
-    //   series: this.props.series.series,
-    //   options,
-    // })
-    this.worker();
+      setModal: props.setModal,
+      setChart: props.setChart,
+    };
+  },[])
 
-    setInterval(()=>{
-      this.worker();
-    },15 * 60 * 1000)
-  }
-
-  worker() {
-    getEveryFeeder(this.props.feeder_url)
-      .then((res) => {
-        let thatItem = this.props.chartAndtables;
-        thatItem = thatItem.find(item => item.key === res.data.data.special)
-        this.setState({
-          series: res.data.data.series,
-          options: ChartData[res.data.data.special].options,
-          type: ChartData[res.data.data.special].type,
-        });
-      })
-      .catch((err) => {});
-  }
-
-  render() {
+  let { isFetching, data } = useData(props?.item);
+  if (isFetching)
     return (
-      <>
-        {lodash.isEmpty(this.state) ? (
-          <Group position="center">
-            <Loader color="blue" variant="dots" />
-          </Group>
-        ) : (
-          <Chart
-            width="100%"
-            options={this.state.options}
-            series={this.state.series}
-            type={this.state.type}
-            height={350}
-          />
-        )}
-      </>
+      <Group position="center">
+        <Loader color="blue" variant="dots" />
+      </Group>
     );
-  }
-}
+  return (
+    <Chart
+      width="100%"
+      options={ChartData[data?.data.special].options}
+      series={data?.data.series}
+      type={ChartData[data?.data.special].type}
+      height={350}
+    />
+  );
+};
 
 // a function for generate clock time from 9:00 to 14:00 with every 1 min
 export const clockTime = () => {
@@ -90,16 +47,16 @@ export const clockTime = () => {
   return arr;
 };
 
-const mapStateToProps = state =>({
-  chartAndtables: state.config.needs.chartAndtables
-})
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables,
+});
 
 /**
  * Dispatch to props
  */
 const mapDispatchToProps = (dispatch) => ({
-  setModal: data => dispatch(setModal(data)),
-  setChart: data => dispatch(setChart(data)),
+  setModal: (data) => dispatch(setModal(data)),
+  setChart: (data) => dispatch(setChart(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(IChart);
