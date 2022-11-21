@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import BigLoading from '../../components/bigLoading';
 import { Link } from 'react-router-dom';
-import { Alert, Button, Center } from '@mantine/core';
+import { Alert, Button, Center ,Text} from '@mantine/core';
 import Header from '../public/components/header';
 import Footer from '../public/components/footer';
 import Sidebar from '../../layouts/sidebar';
@@ -28,11 +28,11 @@ const Index = ({ Component, route, props }) => {
                   <Alert
                     variant="filled"
                     className="w-full flex flex-col items-center text-center"
-                    color="red"
-                    title="اجازه ورود به این صفحه را ندارید"
+                    sx={(theme) => ({background:theme.colors.blue[6]})}
+                    title={<Text size='sm' weight="normal">اجازه ورود به این صفحه را ندارید</Text>}
                   >
                     <Link to="/login">
-                      <Button variant="light" color="red">
+                      <Button mt="xs" sx={(theme) => ({background: "white",color:theme.colors.blue[6],":hover": {background:"white"}})}  size='xs' ml="xs">
                         ورود
                       </Button>
                     </Link>

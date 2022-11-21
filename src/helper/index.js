@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { getEveryFeeder } from '../apis/main';
+import {useCookies} from "react-cookie"
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -187,25 +188,55 @@ const minAndMax = (arr, min, max) =>
     ),
   }));
 
-export function findConfig(array,key){
+export function useConfig(array,key){
+  const [cookies] = useCookies(['token']);
   let item = array;
   item = item.find(item => item.key === key);
-  return item;
+  if(cookies.token){
+    if(item.active) return item
+    else return {...item,allow:'sub'}
+  }
+  else {
+    if(item.active) return item
+    else return {...item,allow:'login'}
+  }
 }
 
 
 export function useData(item,params,...other) {
   return useQuery({
+    enabled: item.allow ? false : true,
     queryKey: [item.key,params],
     queryFn: async (key,page) => {
-      let {data} = await getEveryFeeder(`${item.feeder_url}${params ? params : ''}`);
-      return data
+      try {
+        let {data,status} = await getEveryFeeder(`${item.feeder_url}${params ? params : ''}`);
+        if(status === 204) return Promise.reject({response:{status:204}});
+        return data
+      } catch (error) {
+        let {response:{status} } = error;
+        if(status === 404) throw new Error(404);
+        throw new Error(status)
+      }
     },
     staleTime: item.refresh_time * 1000,
     refetchInterval: item.refresh_time * 1000,
     retry: 2,
     retryOnMount: false,
     refetchOnWindowFocus:false,
+    onError:(err) => {
+      return err
+    },
     ...other
   });
 }
+
+export function ShowErrors ({status}){
+  switch(status){
+    case '404':
+      return <Text >آدرس درخواستی اشتباه است</Text>
+    case '204':
+      return <Text>داده ای برای نمایش وجود ندارد</Text>
+    default :
+    return <Text>مشکلی پیش آمده است</Text>
+  }
+} 

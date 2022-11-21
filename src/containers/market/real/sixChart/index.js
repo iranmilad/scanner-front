@@ -5,7 +5,7 @@ import { getEveryFeeder } from '../../../../apis/main';
 import Chart from '../../../../components/Chart';
 import { useParams, withRouter } from 'react-router-dom';
 import RoutesContext from "../../../../contexts/routes";
-import { findConfig, useData } from '../../../../helper';
+import { useConfig, useData } from '../../../../helper';
 
 // class SixChart extends Component {
 //   static contextType = RoutesContext
@@ -338,29 +338,29 @@ import { findConfig, useData } from '../../../../helper';
 const SixChart = (props) => {
   let {id} = useParams();
 
-  let symbolInfo = findConfig(props.chartAndtables,'symbolInfo');
+  let symbolInfo = useConfig(props.chartAndtables,'symbolInfo');
   let symbolInfo_query = useData(symbolInfo,`/${id}`);
 
-  let symbolHistoryDate = findConfig(props.chartAndtables,'symbolHistoryDate');
+  let symbolHistoryDate = useConfig(props.chartAndtables,'symbolHistoryDate');
   let symbolHistoryDate_query = useData(symbolHistoryDate,`/${id}`);
   const [date,setDate] = useState(symbolHistoryDate_query.data?.data[0].value);
 
-  let symbolMoneyflowTotalEnterManyBuyerIHistory = findConfig(props.chartAndtables,'symbolMoneyflowTotalEnterManyBuyerIHistory');
+  let symbolMoneyflowTotalEnterManyBuyerIHistory = useConfig(props.chartAndtables,'symbolMoneyflowTotalEnterManyBuyerIHistory');
   let symbolMoneyflowTotalEnterManyBuyerIHistory_query = useData(symbolMoneyflowTotalEnterManyBuyerIHistory,`/${id}`);
 
-  let symbolMoneyflowTotalChangeBuySellHeadsHistory = findConfig(props.chartAndtables,'symbolMoneyflowTotalChangeBuySellHeadsHistory');
+  let symbolMoneyflowTotalChangeBuySellHeadsHistory = useConfig(props.chartAndtables,'symbolMoneyflowTotalChangeBuySellHeadsHistory');
   let symbolMoneyflowTotalChangeBuySellHeadsHistory_query = useData(symbolMoneyflowTotalChangeBuySellHeadsHistory,`/${id}`);
 
-  let symbolTradeLastDayHistory = findConfig(props.chartAndtables,"symbolTradeLastDayHistory");
+  let symbolTradeLastDayHistory = useConfig(props.chartAndtables,"symbolTradeLastDayHistory");
   let symbolTradeLastDayHistory_query = useData(symbolTradeLastDayHistory,`/${id}`)
 
-  let symbolTradeValueHistory = findConfig(props.chartAndtables,"symbolTradeValueHistory");
+  let symbolTradeValueHistory = useConfig(props.chartAndtables,"symbolTradeValueHistory");
   let symbolTradeValueHistory_query = useData(symbolTradeValueHistory,`/${id}`);
 
-  let symbolCounterBuyerSellerHistory = findConfig(props.chartAndtables,"symbolCounterBuyerSellerHistory");
+  let symbolCounterBuyerSellerHistory = useConfig(props.chartAndtables,"symbolCounterBuyerSellerHistory");
   let symbolCounterBuyerSellerHistory_query = useData(symbolCounterBuyerSellerHistory,`/${id}`);
 
-  let symbolTradeTimeValueHistory = findConfig(props.chartAndtables,"symbolTradeTimeValueHistory");
+  let symbolTradeTimeValueHistory = useConfig(props.chartAndtables,"symbolTradeTimeValueHistory");
   let symbolTradeTimeValueHistory_query = useData(symbolTradeTimeValueHistory,`/${id}`);
 
   return (

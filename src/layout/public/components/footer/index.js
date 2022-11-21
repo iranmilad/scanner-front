@@ -8,7 +8,7 @@ const Footer = () => {
           <div>
             <p className="text-white text-sm">
               <span className="text-white">
-              کلیه حقوق این وبسایت متعلق به <Link><span className="text-sky-500">Tseshow</span></Link> است
+              کلیه حقوق این وبسایت متعلق به <Link to="/"><span className="text-sky-500">Tseshow</span></Link> است
               </span>
             </p>
           </div>

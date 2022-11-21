@@ -39,7 +39,7 @@ import { useParams, withRouter } from 'react-router-dom';
 import RoutesContext from '../../../contexts/routes';
 import { withCookies } from 'react-cookie';
 import lodash from 'lodash';
-import { findConfig, useData } from '../../../helper';
+import { useConfig, useData } from '../../../helper';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -362,30 +362,30 @@ import axios from 'axios';
 const RealMarket = (props) => {
   let { id } = useParams();
   const [modal, setModal] = useState(false);
-  let symbolInfo = findConfig(props.chartAndtables, 'symbolInfo');
+  let symbolInfo = useConfig(props.chartAndtables, 'symbolInfo');
   let symbolInfo_query = useData(symbolInfo, `/${id}`, {
     refetchInterval: false,
   });
 
-  let symbolClientSummery = findConfig(
+  let symbolClientSummery = useConfig(
     props.chartAndtables,
     'symbolClientSummery'
   );
   let symbolClientSummery_query = useData(symbolClientSummery, `/${id}`);
 
-  let symbolTradeSummery = findConfig(
+  let symbolTradeSummery = useConfig(
     props.chartAndtables,
     'symbolTradeSummery'
   );
   let symbolTradeSummery_query = useData(symbolTradeSummery, `/${id}`);
 
-  let symbolBookMarkSummery = findConfig(
+  let symbolBookMarkSummery = useConfig(
     props.chartAndtables,
     'symbolBookMarkSummery'
   );
   let symbolBookMarkSummery_query = useData(symbolBookMarkSummery, `/${id}`);
 
-  let symboltotalBookMarkSummery = findConfig(
+  let symboltotalBookMarkSummery = useConfig(
     props.chartAndtables,
     'symboltotalBookMarkSummery'
   );
@@ -394,7 +394,7 @@ const RealMarket = (props) => {
     `/${id}`
   );
 
-  let symbolTotalClientSummery = findConfig(
+  let symbolTotalClientSummery = useConfig(
     props.chartAndtables,
     'symbolTotalClientSummery'
   );
@@ -403,13 +403,13 @@ const RealMarket = (props) => {
     `/${id}`
   );
 
-  let symbolStatmentPeriod = findConfig(
+  let symbolStatmentPeriod = useConfig(
     props.chartAndtables,
     'symbolStatmentPeriod'
   );
   let symbolStatmentPeriod_query = useData(symbolStatmentPeriod, `/${id}`);
 
-  let symbolSupportResistance = findConfig(
+  let symbolSupportResistance = useConfig(
     props.chartAndtables,
     'symbolSupportResistance'
   );
@@ -418,19 +418,19 @@ const RealMarket = (props) => {
     `/${id}`
   );
 
-  let symbolTechnicalValue = findConfig(
+  let symbolTechnicalValue = useConfig(
     props.chartAndtables,
     'symbolTechnicalValue'
   );
   let symbolTechnicalValue_query = useData(symbolTechnicalValue, `/${id}`);
 
-  let symbolChangePerfomance = findConfig(
+  let symbolChangePerfomance = useConfig(
     props.chartAndtables,
     'symbolChangePerfomance'
   );
   let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`);
 
-  let symbolCombinationAssets = findConfig(
+  let symbolCombinationAssets = useConfig(
     props.chartAndtables,
     'symbolCombinationAssets'
   );
@@ -439,7 +439,7 @@ const RealMarket = (props) => {
     `/${id}`
   );
 
-  let symbolChart = findConfig(props.chartAndtables, 'symbolChart');
+  let symbolChart = useConfig(props.chartAndtables, 'symbolChart');
   let symbolChart_query = useData(symbolChart, `/${id}`);
 
   function createNotification(id, setLoading) {
@@ -546,7 +546,7 @@ const RealMarket = (props) => {
       </Helmet>
       <Group position="apart">
         <Text>{symbolInfo_query.data?.data?.name || ''}</Text>
-        <Button onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
+        <Button disabled={symbolInfo_query.isLoading} loading={symbolInfo_query.isLoading} onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
       </Group>
       <StockInformation
         opended={modal}
@@ -556,49 +556,81 @@ const RealMarket = (props) => {
       />
       <ITable
         data={symbolTradeSummery_query?.data?.data}
+        isLoading={symbolTradeSummery_query.isLoading}
+        isFetching={symbolTradeSummery_query.isFetching}
+        allow={symbolTradeSummery?.allow}
+        error={symbolTradeSummery_query.isError ? symbolTradeSummery_query.error : null}
         column={traderSummaryHeader}
         title={symbolTradeSummery.title}
       />
       <ITable
         data={symbolClientSummery_query?.data?.data}
+        isLoading={symbolClientSummery_query.isLoading}
+        isFetching={symbolClientSummery_query.isFetching}
+        allow={symbolClientSummery?.allow}
+        error={symbolClientSummery_query.isError ? symbolClientSummery_query.error : null}
         column={clientSummaryHeader}
         title={symbolClientSummery.title}
       />
       <ITable
         data={symbolBookMarkSummery_query?.data?.data}
+        isLoading={symbolBookMarkSummery_query.isLoading}
+        isFetching={symbolBookMarkSummery_query.isFetching}
+        allow={symbolBookMarkSummery?.allow}
+        error={symbolBookMarkSummery_query.isError ? symbolBookMarkSummery_query.error : null}
         column={bookMarkSummary}
         title={symbolBookMarkSummery.title}
       />
       <ITable
         data={symboltotalBookMarkSummery_query?.data?.data}
+        isLoading={symboltotalBookMarkSummery_query.isLoading}
+        isFetching={symboltotalBookMarkSummery_query.isFetching}
+        allow={symboltotalBookMarkSummery?.allow}
+        error={symboltotalBookMarkSummery_query.isError ? symboltotalBookMarkSummery_query.error : null}
         column={totlaBookMarkSummary}
         title={symboltotalBookMarkSummery.title}
       />
       <ITable
         data={symbolTotalClientSummery_query?.data?.data}
+        isLoading={symbolTotalClientSummery_query.isLoading}
+        isFetching={symbolTotalClientSummery_query.isFetching}
+        allow={symbolTotalClientSummery?.allow}
+        error={symbolTotalClientSummery_query.isError ? symbolTotalClientSummery_query.error : null}
         column={totalClientSummary}
         title={symbolTotalClientSummery.title}
       />
       <ITable
         data={symbolStatmentPeriod_query?.data?.data}
+        isLoading={symbolStatmentPeriod_query.isLoading}
+        isFetching={symbolStatmentPeriod_query.isFetching}
+        allow={symbolStatmentPeriod?.allow}
+        error={symbolStatmentPeriod_query.isError ? symbolStatmentPeriod_query.error : null}
         column={statementPerdiod}
-        title={`آمار های دوره ای ${symbolInfo_query.data?.name || ''}`}
+        title={`${symbolStatmentPeriod.title} ${symbolInfo_query.data?.name || ''}`}
       />
-      {!symbolChart_query.data?.fund && (
+      {symbolChart_query.data?.fund && (
         <ITable
           data={symbolChangePerfomance_query?.data?.data}
+          isLoading={symbolChangePerfomance_query.isLoading}
+          isFetching={symbolChangePerfomance_query.isFetching}
+          allow={symbolChangePerfomance?.allow}
+          error={symbolChangePerfomance_query.isError ? symbolChangePerfomance_query.error : null}
           column={changePerfomance}
-          title={`تغییر عملکرد و قیمت ${
+          title={`${symbolChangePerfomance.title} ${
             symbolInfo_query?.data?.data.name || ''
           }`}
         />
       )}
       <ITable
         data={symbolCombinationAssets_query?.data?.data}
+        isLoading={symbolCombinationAssets_query.isLoading}
+        isFetching={symbolCombinationAssets_query.isFetching}
+        allow={symbolCombinationAssets?.allow}
+        error={symbolCombinationAssets_query.isError ? symbolCombinationAssets_query.error : null}
         column={combinationAssets}
-        title={`ترکیب دارایی های ${symbolInfo_query?.data?.data.name || ''}`}
+        title={`${symbolCombinationAssets.title} ${symbolInfo_query?.data?.data.name || ''}`}
       />
-           <LightChart stockId={id} />
+      <LightChart stockId={id} />
      <InstantCharts stockId={id} />
       <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
         <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />

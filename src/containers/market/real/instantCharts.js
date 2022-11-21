@@ -6,7 +6,7 @@ import { getEveryFeeder } from '../../../apis/main';
 import { Text } from '@mantine/core';
 import { Group } from '@mantine/core';
 import { Select } from '@mantine/core';
-import { findConfig, useData } from '../../../helper';
+import { useConfig, useData } from '../../../helper';
 import { useParams } from 'react-router';
 
 // class InstantCharts extends Component {
@@ -246,7 +246,7 @@ import { useParams } from 'react-router';
 const InstantCharts = (props) => {
   let { id } = useParams();
 
-  let symbolMoneyflowTotalEnterManyBuyerIHistory = findConfig(
+  let symbolMoneyflowTotalEnterManyBuyerIHistory = useConfig(
     props.chartAndtables,
     'symbolMoneyflowTotalEnterManyBuyerIHistory'
   );
@@ -255,7 +255,7 @@ const InstantCharts = (props) => {
     `/${id}`
   );
 
-  let symbolMoneyflowTotalChangeBuySellHeadsHistory = findConfig(
+  let symbolMoneyflowTotalChangeBuySellHeadsHistory = useConfig(
     props.chartAndtables,
     'symbolMoneyflowTotalChangeBuySellHeadsHistory'
   );
@@ -264,7 +264,7 @@ const InstantCharts = (props) => {
     `/${id}`
   );
 
-  let symbolTradeLastDayHistory = findConfig(
+  let symbolTradeLastDayHistory = useConfig(
     props.chartAndtables,
     'symbolTradeLastDayHistory'
   );
@@ -273,7 +273,7 @@ const InstantCharts = (props) => {
     `/${id}`
   );
 
-  let symbolTradeValueHistory = findConfig(
+  let symbolTradeValueHistory = useConfig(
     props.chartAndtables,
     'symbolTradeValueHistory'
   );
@@ -282,7 +282,7 @@ const InstantCharts = (props) => {
     `/${id}`
   );
 
-  let symbolCounterBuyerSellerHistory = findConfig(
+  let symbolCounterBuyerSellerHistory = useConfig(
     props.chartAndtables,
     'symbolCounterBuyerSellerHistory'
   );
@@ -291,7 +291,7 @@ const InstantCharts = (props) => {
     `/${id}`
   );
 
-  let symbolTradeTimeValueHistory = findConfig(
+  let symbolTradeTimeValueHistory = useConfig(
     props.chartAndtables,
     'symbolTradeTimeValueHistory'
   );

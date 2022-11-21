@@ -8,7 +8,7 @@ import lodash from "lodash";
 import Chart from "../../../../components/Chart";
 import ChartData from "../../../../components/Chart/chartData";
 import RoutesContext from "../../../../contexts/routes";
-import { findConfig, useData } from "../../../../helper";
+import { useConfig, useData } from "../../../../helper";
 
 // class Index extends Component{
 //   static contextType = RoutesContext
@@ -174,15 +174,15 @@ import { findConfig, useData } from "../../../../helper";
 
 const Index = (props) => {
   let {id} = useParams();
-  let symbolInfo = findConfig(props.chartAndtables,'symbolInfo');
+  let symbolInfo = useConfig(props.chartAndtables,'symbolInfo');
   let symbolInfo_query = useData(symbolInfo,`/${id}`);
 
-  let stockSellPerfomanceValue = findConfig(props.chartAndtables,'stockSellPerfomanceValue');
+  let stockSellPerfomanceValue = useConfig(props.chartAndtables,'stockSellPerfomanceValue');
   let stockSellPerfomanceValue_query = useData(stockSellPerfomanceValue,`/${id}`);
 
   ChartData.sellPerfomance.options.labels = stockSellPerfomanceValue_query.data?.data?.date;
 
-  let stockPerfomanceValue = findConfig(props.chartAndtables,'stockPerfomanceValue');
+  let stockPerfomanceValue = useConfig(props.chartAndtables,'stockPerfomanceValue');
   let stockPerfomanceValue_query = useData(stockPerfomanceValue,`/${id}`);
 
   ChartData.sellPerfomance.options.labels = stockPerfomanceValue_query.data?.data?.date;

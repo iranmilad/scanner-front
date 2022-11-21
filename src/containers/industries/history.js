@@ -13,17 +13,21 @@ import { Paper } from '@mantine/core';
 import { Center } from '@mantine/core';
 import { Loader } from '@mantine/core';
 import { withRouter, useParams } from 'react-router-dom';
-import { useData, findConfig } from '../../helper';
+import { useData, useConfig } from '../../helper';
 import { useState } from 'react';
 import { QueryCache } from '@tanstack/react-query';
+import { useRef } from 'react';
 
 
 const History = (props) => {
   let { id } = useParams();
+  let [title,setTitle] = useState("");
 
   const [param, setParam] = useState(id);
+ 
 
-  let totalIndustriesGroupHisory = findConfig(
+
+  let totalIndustriesGroupHisory = useConfig(
     props.chartAndtables,
     'totalIndustriesGroupHisory'
   );
@@ -33,8 +37,10 @@ const History = (props) => {
     { refetchInterval: false }
   );
 
-  let marketHistory = findConfig(props.chartAndtables, 'marketHistory');
+  let marketHistory = useConfig(props.chartAndtables, 'marketHistory');
   let marketHistory_query = useData(marketHistory, `/${param}`,{refetchInterval:false});
+
+  const label = totalIndustriesGroupHisory_query.data?.data.find((item) => item.value === param)?.label
 
   return (
     <>
@@ -42,9 +48,8 @@ const History = (props) => {
         <title>{'' || 'Tseshow'}</title>
       </Helmet>
       <Group position="apart">
-        <Text size="md">{`سوابق ${marketHistory_query?.data?.title || ''}`}</Text>
+        <Text size="md">{`سوابق ${label || ''}`}</Text>
         <Select
-          searchable
           disabled={marketHistory_query.isLoading ? true : false}
           onChange={setParam}
           placeholder="انتخاب صنعت"
@@ -56,16 +61,14 @@ const History = (props) => {
           }
         />
       </Group>
-      {!marketHistory_query.isLoading ? (
-        marketHistory_query.isError ? (
-          <Center mt="xl">
-            <h2>دیتایی برای نمایش یافت نشد</h2>
-          </Center>
-        ) : (
-          <ITable
+      <ITable
             className="narrow-md"
             title=""
             data={marketHistory_query.data?.data}
+            isLoading={marketHistory_query.isLoading}
+            isFetching={marketHistory_query.isFetching}
+            allow={marketHistory?.allow}
+            error={marketHistory_query.error?.message}
             column={
               marketHistory_query.data?.type == 1
                 ? industries_history_type_1.header
@@ -75,14 +78,6 @@ const History = (props) => {
             fixedHeaderScrollHeight="70vh"
             pagination
           />
-        )
-      ) : (
-        <Paper p="xl" radius="md" shadow="xs" mt="xl">
-          <Center>
-            <Loader variant="dots" />
-          </Center>
-        </Paper>
-      )}
     </>
   );
 };

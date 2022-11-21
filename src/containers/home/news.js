@@ -7,48 +7,37 @@ import {
   Text,
   Paper,
   Grid,
+  Center,
+  Loader,
 } from '@mantine/core';
+import { ShowErrors } from '../../helper';
 import React, { useEffect, useState } from 'react';
 import { getEveryFeeder } from '../../apis/main';
 import colors from 'tailwindcss/colors';
 import { useSelector } from 'react-redux';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { useConfig, useData } from '../../helper';
 
-class NewsTable extends Component {
-  state = {
-    news: [],
-  };
-  getNews() {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'getNews');
-    getEveryFeeder(thatItem.feeder_url)
-      .then((res) => this.setState({ news: res.data.data }))
-      .catch((err) => console.log(err));
-
-    this.interval = setInterval(() => {
-      getEveryFeeder(thatItem.feeder_url)
-        .then((res) => this.setState({ news: res.data.data }))
-        .catch((err) => console.log(err));
-    }, thatItem.refresh_time * 1000);
-  }
-
-  componentDidMount() {
-    this.getNews();
-  }
-
-  componentWillUnmount() {
-    this.clearInterval();
-  }
-
-  render() {
-    return (
-      <Paper p="xl" radius="md" shadow="xs" mt="xl">
-        <Group position="apart">
-          <Text mb={'lg'}>خبرنامه</Text>
-        </Group>
+const NewsTable = (props) => {
+  let news = useConfig(props.chartAndtables, 'getNews');
+  let news_query = useData(news);
+  return (
+    <Paper p="xl" radius="md" shadow="xs" mt="xl">
+      <Group position="apart">
+        <Text mb={'lg'}>خبرنامه</Text>
+      </Group>
+      {news_query.isLoading ? (
+        <Center>
+          <Loader variant="dots" />
+        </Center>
+      ) : news_query.isError ? (
+        <Center>
+          <ShowErrors status={news_query.error} />
+        </Center>
+      ) : (
         <Grid align="stretch">
-          {this.state.news.map((item, index) => {
+          {news_query.data.data.map((item, index) => {
             return (
               <Grid.Col sx={{ height: 'auto' }} key={index} sm={12} md={6}>
                 <Card
@@ -69,13 +58,23 @@ class NewsTable extends Component {
                   <Text size="sm" color="dark" style={{ lineHeight: 1.5 }}>
                     <div dangerouslySetInnerHTML={{ __html: item.body }} />
                   </Text>
-                  <Group position={(item.category !== '' && item.category) && (item.date !== '' && item.date) ? 'apart' : 'right'} my="md">
+                  <Group
+                    position={
+                      item.category !== '' &&
+                      item.category &&
+                      item.date !== '' &&
+                      item.date
+                        ? 'apart'
+                        : 'right'
+                    }
+                    my="md"
+                  >
                     {item.category && item.category !== '' && (
-                    <Badge color="pink" variant="light">
-                      <div
-                        dangerouslySetInnerHTML={{ __html: item.category }}
-                      />
-                    </Badge>
+                      <Badge color="pink" variant="light">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.category }}
+                        />
+                      </Badge>
                     )}
                     <Badge color="indigo" variant="light">
                       <div dangerouslySetInnerHTML={{ __html: item.date }} />
@@ -98,10 +97,10 @@ class NewsTable extends Component {
             );
           })}
         </Grid>
-      </Paper>
-    );
-  }
-}
+      )}
+    </Paper>
+  );
+};
 
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,

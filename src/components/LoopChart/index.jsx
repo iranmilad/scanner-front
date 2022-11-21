@@ -136,10 +136,13 @@ class LoopChart extends Component {
                   }
                 >
                   <Paper className='relative' shadow="xs" p="lg" radius="md" sx={{ height: '100%' }}>
+                  <Text size="sm" mb="lg">
+                      {chart.title}
+                    </Text>
                     {this.state.auth ? (
                       <IChart item={chart} />
                     ) : (
-                      <Lock title={chart.title} key={index} image={Logo} />
+                      <Lock key={index} image={Logo} />
                     )}
                   </Paper>
                 </div>

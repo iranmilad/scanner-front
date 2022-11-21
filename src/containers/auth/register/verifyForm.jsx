@@ -121,12 +121,12 @@ class VerifyForm extends React.PureComponent {
               }
             >
               <Form className="w-[90%] mt-7">
-                {this.state.successCode && (
+                {this.props.message && (
                   <Alert
                     title={
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: String(this.state.title).replace(
+                          __html: String(this.props.message).replace(
                             /\d+/g,
                             (num) => `<i>${num}</i>`
                           ),
