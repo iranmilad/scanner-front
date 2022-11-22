@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'main',
-  initialState: {loading:false,modal:{show:false,content:null},routing:{},mainHeaders: 0,marketId: ''},
+  initialState: {loading:false,modal:{show:false,content:null},routing:{},mainHeaders: 0,marketId: '',symbols:[]},
   reducers: {
     loading: (state, action) => {
       state.loading = action.payload;
@@ -22,6 +22,9 @@ const slice = createSlice({
     },
     setMarketId: (state,action) => {
       state.marketId = action.payload;
+    },
+    setSymbols: (state,action) => {
+      state.symbols.push(action.payload);
     }
   }
 })
