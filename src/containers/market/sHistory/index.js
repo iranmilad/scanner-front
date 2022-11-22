@@ -14,6 +14,7 @@ import {useConfig, useData} from "../../../helper"
 const SHistory = (props) => {
   let {id} = useParams();
   let symbolHistory = useConfig(props.chartAndtables,'symbolHistory');
+  console.log()
   let symbolHistory_query = useData(symbolHistory,`/${id}`);
   let symbolInfo = useData(props.table,`/${id}`);
 

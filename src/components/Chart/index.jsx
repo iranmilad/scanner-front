@@ -1,14 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { Group, Paper, Text, Loader, Button } from '@mantine/core';
+import { Group, Paper, Text, Loader, Button ,Center} from '@mantine/core';
 import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import ChartData from './chartData';
 import lodash from 'lodash';
 import { useCookies } from 'react-cookie';
 import Logo from '../../assets/images/logo.png';
+import {ShowErrors} from "../../helper"
 
-const Index = ({ data, options, special, type, title, ...other }) => {
+const Index = ({ data, options, special, type, title,isLoading,isFetching,error,allow,className, ...other }) => {
   const [cookies, setCookie] = useCookies(['token']);
+  function Worker() {
+    if (isLoading === null || isLoading === undefined) return <></>;
+    if (isLoading && isFetching)
+      return (
+        <Center>
+          <Loader variant="dots" />
+        </Center>
+      );
+    if (isLoading && isFetching === false) {
+      if (allow === 'login') return <NeedAuth />
+      else return <NeedSubscription />
+    }
+    if(error) return <Center><ShowErrors status={error} /></Center>
+    return (
+      <div className={className}>
+        <Chart
+          height={350}
+          options={special ? ChartData[special].options : options.options}
+          series={data}
+          type={type ? type : ChartData[special].type}
+          {...other}
+          />
+    </div>
+    )
+  }
 
   return (
     <Paper shadow="xs" p="lg" radius="md">
@@ -17,25 +43,7 @@ const Index = ({ data, options, special, type, title, ...other }) => {
           {title}
         </Text>
       </Group>
-      {lodash.isEmpty(data) ? (
-        <>
-          {cookies.token && data === false && <NeedSubscription />}
-          {!cookies.token && data === false && <NeedAuth />}
-          {cookies.token && data !== false && (
-            <Group position="center">
-              <Loader variant="dots" />
-            </Group>
-          )}
-        </>
-      ) : (
-        <Chart
-          height={350}
-          options={special ? ChartData[special].options : options.options}
-          series={data.length > 0 ? data : []}
-          type={type ? type : ChartData[special].type}
-          {...other}
-        />
-      )}
+      <Worker />
     </Paper>
   );
 };
@@ -49,7 +57,7 @@ const NeedAuth = () => {
     <div className="bg-slate-700 bg-opacity-80 px-5 space-y-3 rounded-lg absolute left-0 top-0 w-full h-full flex items-center justify-center flex-col">
       <i className="fa-solid fa-lock-keyhole text-3xl text-white md:text-lg lg:text-3xl "></i>
       <Text color="white" size="sm">
-        برای استفاده از این قابلیت به حساب کاربری خود وارد شوید
+      برای مشاهده جدول به حساب کاربری خود وارد شوید
       </Text>
       <Link to="/login">
         <Button color="blue" sx={{ fontWeight: 'normal' }}>
@@ -69,11 +77,11 @@ const NeedSubscription = () => {
     <div className="bg-slate-700 bg-opacity-80 px-5 space-y-3 rounded-lg absolute left-0 top-0 w-full h-full flex items-center justify-center flex-col">
       <i className="fa-solid fa-lock-keyhole text-3xl text-white md:text-lg lg:text-3xl "></i>
       <Text color="white" size="sm">
-        این چارت در سطح اشتراک شما قابل مشاهده نیست
+      برای مشاهده این جدول باید اشتراک مناسب را تهیه کنید
       </Text>
       <Link to="/subscription">
         <Button color="blue" sx={{ fontWeight: 'normal' }}>
-          خرید اشتراک
+          خرید
         </Button>
       </Link>
     </div>

@@ -197,30 +197,27 @@ const Index = (props) => {
     <Group position="apart" mb="md">
       <Text>{symbolInfo_query.data?.data.name || ''}</Text>
     </Group>
-    {stockSellPerfomanceValue_query.isFetching && stockPerfomanceValue_query.isFetching && (
-      <Paper p="xl" radius="md" shadow="xs" mt="xl" mb="md">
-        <Center>
-          <Loader variant="dots" />
-        </Center>
-      </Paper>
-    )}
     <Stack spacing="lg">
-    {stockSellPerfomanceValue_query.isFetched && stockSellPerfomanceValue_query.data?.data?.series && (
-      <Chart 
+    <Chart 
+      isLoading={stockSellPerfomanceValue_query.isLoading}
+      isFetching={stockSellPerfomanceValue_query.isFetching}
+      error={stockSellPerfomanceValue_query.isError ? stockSellPerfomanceValue_query.error : null}
+      allow={stockSellPerfomanceValue?.allow}
       data={stockSellPerfomanceValue_query.data?.data?.series}
       title={`${stockSellPerfomanceValue.title} ${symbolInfo_query.data?.data.name}`}
       type="line"
       options={{ options: { ...ChartData.sellPerfomance.options } }}
     />
-    )}
-    {stockPerfomanceValue_query.isFetched && stockPerfomanceValue_query.data?.data?.series && (
       <Chart
+      isLoading={stockPerfomanceValue_query.isLoading}
+      isFetching={stockPerfomanceValue_query.isFetching}
+      error={stockPerfomanceValue_query.isError ? stockPerfomanceValue_query.error : null}
+      allow={stockPerfomanceValue?.allow}
       data={stockPerfomanceValue_query.data?.data.series}
       title={`${stockPerfomanceValue.title} ${symbolInfo_query.data?.data.name}`}
       type="line"
       options={{options: {...ChartData.perfomanceValue.options}}}
       />
-    )}
     </Stack>
   </>
   )
