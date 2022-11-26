@@ -192,7 +192,7 @@ export function useConfig(array,key){
   const [cookies] = useCookies(['token']);
   let item = array;
   item = item.find(item => item.key === key);
-  if(cookies.token){
+  if(cookies.token && cookies.token !== ''){
     if(item.active) return item
     else return {...item,allow:'sub'}
   }

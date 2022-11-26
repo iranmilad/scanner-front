@@ -85,8 +85,8 @@ const ITable = ({
     }
     if(error) return <Center><ShowErrors status={error} /></Center>
     return (
-      <div className={className}>
-      <DataTable
+      <>
+            <DataTable
         columns={column}
         data={data}
         noDataComponent="داده ای برای نمایش وجود ندارد"
@@ -94,11 +94,11 @@ const ITable = ({
         paginationComponentOptions={paginationComponentOptions}
         {...other}
       />
-      {children}
-    </div>
+      {children}</>
     )
   }
   return (
+    <div className={className}>
     <Paper p="xl" radius="md" shadow="xs" mt="xl">
       <Group position="apart">
         <Text size="sm" mb={'lg'}>
@@ -107,6 +107,7 @@ const ITable = ({
       </Group>
       <Worker />
     </Paper>
+    </div>
   );
 };
 

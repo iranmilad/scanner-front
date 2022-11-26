@@ -29,7 +29,7 @@ const slice = createSlice({
   }
 })
 
-export const {loading,setModal,setMainHeader,setMarketId} = slice.actions;
+export const {loading,setModal,setMainHeader,setMarketId,setSymbols} = slice.actions;
 export default slice.reducer;
 
 

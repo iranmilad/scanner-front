@@ -1,13 +1,10 @@
-import { Component } from "react";
+import { Group, Stack, Text } from '@mantine/core';
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
-import { useParams, withRouter } from "react-router-dom";
-import { getEveryFeeder } from "../../../../apis/main"
-import {Group,Text,Paper,Center, Loader, Stack} from '@mantine/core';
-import lodash from "lodash";
+import { useParams } from "react-router-dom";
 import Chart from "../../../../components/Chart";
 import ChartData from "../../../../components/Chart/chartData";
-import RoutesContext from "../../../../contexts/routes";
+import StockHighOrder from "../../../../components/StockHighOrder";
 import { useConfig, useData } from "../../../../helper";
 
 // class Index extends Component{
@@ -178,12 +175,18 @@ const Index = (props) => {
   let symbolInfo_query = useData(symbolInfo,`/${id}`);
 
   let stockSellPerfomanceValue = useConfig(props.chartAndtables,'stockSellPerfomanceValue');
-  let stockSellPerfomanceValue_query = useData(stockSellPerfomanceValue,`/${id}`);
+  let stockSellPerfomanceValue_query = useData(stockSellPerfomanceValue,`/${id}`,{
+    enabled: props?.symbol?.fund === true ? true : false
+  });
 
   ChartData.sellPerfomance.options.labels = stockSellPerfomanceValue_query.data?.data?.date;
 
   let stockPerfomanceValue = useConfig(props.chartAndtables,'stockPerfomanceValue');
-  let stockPerfomanceValue_query = useData(stockPerfomanceValue,`/${id}`);
+  let stockPerfomanceValue_query = useData(stockPerfomanceValue,`/${id}`, {
+    enabled: props?.symbol?.fund === false ? true : false
+  });
+
+  let stockPerfomanceValue_options = ChartData.sellPerfomance.options.labels
 
   ChartData.sellPerfomance.options.labels = stockPerfomanceValue_query.data?.data?.date;
 
@@ -192,29 +195,31 @@ const Index = (props) => {
   return (
     <>
     <Helmet>
-      <title>نمودار عملکرد ماهیانه : {symbolInfo_query.data?.data.name || ''}</title>
+      <title>نمودار عملکرد ماهیانه : {props?.symbol?.symbol || ''}</title>
     </Helmet>
     <Group position="apart" mb="md">
-      <Text>{symbolInfo_query.data?.data.name || ''}</Text>
+      <Text>{props?.symbol?.symbol || ''}</Text>
     </Group>
     <Stack spacing="lg">
     <Chart 
+      className={`${props?.symbol?.fund === true ? 'block' : 'hidden'}`}
       isLoading={stockSellPerfomanceValue_query.isLoading}
       isFetching={stockSellPerfomanceValue_query.isFetching}
       error={stockSellPerfomanceValue_query.isError ? stockSellPerfomanceValue_query.error : null}
       allow={stockSellPerfomanceValue?.allow}
       data={stockSellPerfomanceValue_query.data?.data?.series}
-      title={`${stockSellPerfomanceValue.title} ${symbolInfo_query.data?.data.name}`}
+      title={`${stockSellPerfomanceValue.title} ${props?.symbol?.symbol || ''}`}
       type="line"
       options={{ options: { ...ChartData.sellPerfomance.options } }}
     />
       <Chart
+      className={`${props?.symbol?.fund === false ? 'block' : 'hidden'}`}
       isLoading={stockPerfomanceValue_query.isLoading}
       isFetching={stockPerfomanceValue_query.isFetching}
       error={stockPerfomanceValue_query.isError ? stockPerfomanceValue_query.error : null}
       allow={stockPerfomanceValue?.allow}
       data={stockPerfomanceValue_query.data?.data.series}
-      title={`${stockPerfomanceValue.title} ${symbolInfo_query.data?.data.name}`}
+      title={`${stockPerfomanceValue.title} ${props?.symbol?.symbol || ''}`}
       type="line"
       options={{options: {...ChartData.perfomanceValue.options}}}
       />
@@ -228,4 +233,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default withRouter(connect(mapStateToProps)(Index));
+export default StockHighOrder(connect(mapStateToProps)(Index));
