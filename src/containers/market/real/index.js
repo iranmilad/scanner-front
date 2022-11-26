@@ -1,47 +1,27 @@
-import { Component, useEffect, useState } from 'react';
+import {
+  ActionIcon, Box, Button, Center, Grid, Group, Loader, LoadingOverlay, Paper, Text, Tooltip
+} from '@mantine/core';
+import { useQuery } from '@tanstack/react-query';
+import lodash from 'lodash';
+import { useEffect, useState } from 'react';
+import { withCookies } from 'react-cookie';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { setMainHeader, setMarketId } from '../../../redux/reducers/main';
-import {
-  Button,
-  Group,
-  Modal,
-  Loader,
-  Text,
-  ActionIcon,
-  Tooltip,
-  LoadingOverlay,
-  Center,
-} from '@mantine/core';
-import StockInformation from './stockInformation';
-import TraderSummary from './traderSummary';
-import ClientSummary from './clientSummary';
-import ITable from '../../../components/ITable';
-import { header as clientSummaryHeader } from './clientSummary/header';
-import { getEveryFeeder, getEveryUser } from '../../../apis/main';
-import { header as traderSummaryHeader } from './traderSummary/header';
-import {
-  bookMarkSummary,
-  totlaBookMarkSummary,
-  totalClientSummary,
-  statementPerdiod,
-  changePerfomance,
-  combinationAssets,
-} from './headers';
-import { Paper } from '@mantine/core';
-import { Title } from '@mantine/core';
-import { Grid } from '@mantine/core';
-import { Box } from '@mantine/core';
+import { useParams, withRouter } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
+import { getEveryUser } from '../../../apis/main';
+import ITable from '../../../components/ITable';
+import { useConfig, useData } from '../../../helper';
+import { header as clientSummaryHeader } from './clientSummary/header';
+import {
+  bookMarkSummary, changePerfomance,
+  combinationAssets, statementPerdiod, totalClientSummary, totlaBookMarkSummary
+} from './headers';
 import InstantCharts from './instantCharts';
 import LightChart from './lightChart';
-import { useParams, withRouter } from 'react-router-dom';
-import RoutesContext from '../../../contexts/routes';
-import { withCookies } from 'react-cookie';
-import lodash from 'lodash';
-import { useConfig, useData } from '../../../helper';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import StockInformation from './stockInformation';
+import { header as traderSummaryHeader } from './traderSummary/header';
+import StockHighOrder from "../../../components/StockHighOrder"
 
 /**
  * @description Real Market means Sahm - صفحه سهم
@@ -428,7 +408,9 @@ const RealMarket = (props) => {
     props.chartAndtables,
     'symbolChangePerfomance'
   );
-  let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`);
+  let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`,{
+    enabled: props?.symbol?.fund === true ? true : false
+  });
 
   let symbolCombinationAssets = useConfig(
     props.chartAndtables,
@@ -439,8 +421,6 @@ const RealMarket = (props) => {
     `/${id}`
   );
 
-  let symbolChart = useConfig(props.chartAndtables, 'symbolChart');
-  let symbolChart_query = useData(symbolChart, `/${id}`);
 
   function createNotification(id, setLoading) {
     if (!id) return null;
@@ -542,17 +522,17 @@ const RealMarket = (props) => {
   return (
     <>
       <Helmet>
-        <title>{symbolInfo_query.data?.data?.name || ''}</title>
+        <title>{props?.symbol?.name || ''}</title>
       </Helmet>
       <Group position="apart">
-        <Text>{symbolInfo_query.data?.data?.name || ''}</Text>
-        <Button disabled={symbolInfo_query.isLoading} loading={symbolInfo_query.isLoading} onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
+        <Text>{props?.symbol?.name || ''}</Text>
+        <Button disabled={props.symbol ? false : true} loading={props.symbol ? false : true} onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
       </Group>
       <StockInformation
         opended={modal}
         onClose={() => setModal(!modal)}
         stockId={id}
-        fullData={symbolInfo_query?.data?.data}
+        fullData={props?.symbol}
       />
       <ITable
         data={symbolTradeSummery_query?.data?.data}
@@ -608,8 +588,8 @@ const RealMarket = (props) => {
         column={statementPerdiod}
         title={`${symbolStatmentPeriod.title} ${symbolInfo_query.data?.name || ''}`}
       />
-      {symbolChart_query.data?.fund && (
         <ITable
+          className={props?.symbol?.fund === true ? 'block' : 'hidden'}
           data={symbolChangePerfomance_query?.data?.data}
           isLoading={symbolChangePerfomance_query.isLoading}
           isFetching={symbolChangePerfomance_query.isFetching}
@@ -617,10 +597,9 @@ const RealMarket = (props) => {
           error={symbolChangePerfomance_query.isError ? symbolChangePerfomance_query.error : null}
           column={changePerfomance}
           title={`${symbolChangePerfomance.title} ${
-            symbolInfo_query?.data?.data.name || ''
+            props?.symbol?.name || ''
           }`}
         />
-      )}
       <ITable
         data={symbolCombinationAssets_query?.data?.data}
         isLoading={symbolCombinationAssets_query.isLoading}
@@ -628,7 +607,7 @@ const RealMarket = (props) => {
         allow={symbolCombinationAssets?.allow}
         error={symbolCombinationAssets_query.isError ? symbolCombinationAssets_query.error : null}
         column={combinationAssets}
-        title={`${symbolCombinationAssets.title} ${symbolInfo_query?.data?.data.name || ''}`}
+        title={`${symbolCombinationAssets.title} ${props?.symbol?.name || ''}`}
       />
       <LightChart stockId={id} />
      <InstantCharts stockId={id} />
@@ -897,4 +876,4 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-export default withRouter(withCookies(connect(mapStateToProps)(RealMarket)));
+export default StockHighOrder(connect(mapStateToProps)(RealMarket));

@@ -1,14 +1,8 @@
-import { Component } from 'react';
-import lodash from 'lodash';
-import Chart from 'react-apexcharts';
-import { Group, Loader } from '@mantine/core';
-import { chartType } from './functions';
-import ChartData from '../Chart/chartData';
-import { connect } from 'react-redux';
-import { setModal, setChart } from '../../redux/reducers/chartable/chart';
-import { getEveryFeeder } from '../../apis/main';
-import { useData } from '../../helper';
 import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useData } from '../../helper';
+import { setChart, setModal } from '../../redux/reducers/chartable/chart';
+import Chart from "../Chart";
 
 const IChart = (props) => {
   useEffect(()=>{
@@ -18,22 +12,11 @@ const IChart = (props) => {
     };
   },[])
 
-  let { isFetching, data } = useData(props?.item);
-  if (isFetching)
-    return (
-      <Group position="center">
-        <Loader color="blue" variant="dots" />
-      </Group>
-    );
+  let item = useData(props?.item);
+
   return (
-    <Chart
-      width="100%"
-      options={ChartData[data?.data.special].options}
-      series={data?.data.series}
-      type={ChartData[data?.data.special].type}
-      height={350}
-    />
-  );
+    <Chart  />
+  )
 };
 
 // a function for generate clock time from 9:00 to 14:00 with every 1 min

@@ -1,19 +1,14 @@
-import React, { Component, useState } from 'react';
-import { connect } from 'react-redux';
-import { Modal, Button, Group, Select, Grid, Text } from '@mantine/core';
-import { Helmet } from 'react-helmet';
-import * as Yup from 'yup';
+import { Button, Grid, Group, Modal, Select, Text } from '@mantine/core';
 import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { useParams, withRouter } from 'react-router-dom';
+import * as Yup from 'yup';
 import TextField from '../../../components/FormsUI/TextField';
 import ITable from '../../../components/ITable';
-import { ColorizeTag, useData, useConfig } from '../../../helper';
-import { getEveryFeeder } from '../../../apis/main';
-import { Paper } from '@mantine/core';
-import { Center } from '@mantine/core';
-import { Loader } from '@mantine/core';
-import { useParams, withRouter } from 'react-router-dom';
-import { setMarketId, setMainHeader } from '../../../redux/reducers/main';
-import RoutesContext from '../../../contexts/routes';
+import { ColorizeTag, useConfig, useData } from '../../../helper';
+import StockHighOrder from "../../../components/StockHighOrder"
 
 // class Index extends Component {
 //   static contextType = RoutesContext;
@@ -350,10 +345,10 @@ const Index = (props) => {
   return (
     <>
       <Helmet>
-        <title>{symbolStockSignalWatch.title || ''} {symbolStockSignalWatch_query.data?.symbol || ''}</title>
+        <title>{symbolStockSignalWatch.title || ''} {props?.symbol?.symbol || ''}</title>
       </Helmet>
       <Group position="apart">
-        <Text size="md">{symbolStockSignalWatch.title || ''} {symbolStockSignalWatch_query.data?.symbol || ''}</Text>
+        <Text size="md">{symbolStockSignalWatch.title || ''} {props?.symbol?.symbol || ''}</Text>
         <Button
           onClick={() => setModal((prev) => !prev)}
           disabled={symbolStockSignalWatch.allow ? true : false}
@@ -560,4 +555,4 @@ const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 });
 
-export default withRouter(connect(mapStateToProps)(Index));
+export default StockHighOrder(connect(mapStateToProps)(Index));

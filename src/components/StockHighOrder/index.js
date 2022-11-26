@@ -1,36 +1,51 @@
 import { Component } from "react";
 import {connect} from "react-redux";
 import axios from "axios";
-import { useConfig } from "../../helper";
+import {setSymbols} from '../../redux/reducers/main';
+import UrlPattern  from 'url-pattern'
 
 
-export function StockHighOrder(WrappedComponent,id){
+function StockHighOrder(WrappedComponent,id){
   class Index extends Component{
     constructor(props){
       super(props);
+      console.log(this.props.symbol)
       this.state = {
         symbol: this.props.symbol
       }
-      this.worker();
     }
     async worker(){
       if(! this.state.symbol){
         try {
-          let item = useConfig(this.props.chartAndtables,"symbolInfo")
-          let response = await axios.get(`${item.feeder_url}/${id}`);
-          return response.data.data
+          let item = this.props.chartAndtables.find(item => item.key === "symbolInfo"); 
+          let response = await axios.get(`${item.feeder_url}/${this.props.route.match.params.id}`);
+          this.props.setSymbol({...response.data.data,id:this.props.route.match.params.id})
+          return this.setState({symbol:response.data.data})
         } catch (error) {
           throw Error(error);
         }
       }
     }
+    componentDidMount(){
+      this.worker();
+    }
     render(){
-      return <WrappedComponent id={id} symbol={this.state.symbol} />
+      return <WrappedComponent id={this.props.route.match.params.id} symbol={this.state.symbol} />
     }
   }
-  const mapStateToProps = state => ({
-    chartAndtables: state.config.needs.chartAndtables,
-    symbol: state.main.symbols.filter(item => item.id === id)
+  const mapStateToProps = state => {
+    let pattern = new UrlPattern('*/:id');
+    let pageId = pattern.match(window.location.href);
+    return {
+      chartAndtables: state.config.needs.chartAndtables,
+      symbol: state.main.symbols.find(item => item.id === pageId.id)
+    }
+  }
+
+  const mapDispatchToProps = dispatch => ({
+    setSymbol: data => dispatch(setSymbols(data))
   })
-  return connect(mapStateToProps)(Index)
+  return connect(mapStateToProps,mapDispatchToProps)(Index)
 }
+
+export default StockHighOrder

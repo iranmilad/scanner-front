@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Group, Paper, Text, Loader, Button ,Center} from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
+import React from 'react';
 import Chart from 'react-apexcharts';
-import ChartData from './chartData';
-import lodash from 'lodash';
-import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
-import {ShowErrors} from "../../helper"
+import { ShowErrors } from "../../helper";
+import ChartData from './chartData';
 
-const Index = ({ data, options, special, type, title,isLoading,isFetching,error,allow,className, ...other }) => {
-  const [cookies, setCookie] = useCookies(['token']);
+const Index = ({ data, options, special, type, title,isLoading,isFetching,error,allow,className, ...other }) => { 
+
   function Worker() {
     if (isLoading === null || isLoading === undefined) return <></>;
     if (isLoading && isFetching)
@@ -23,8 +21,8 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
       else return <NeedSubscription />
     }
     if(error) return <Center><ShowErrors status={error} /></Center>
+    console.log(special,type)
     return (
-      <div className={className}>
         <Chart
           height={350}
           options={special ? ChartData[special].options : options.options}
@@ -32,12 +30,12 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
           type={type ? type : ChartData[special].type}
           {...other}
           />
-    </div>
     )
   }
 
   return (
-    <Paper shadow="xs" p="lg" radius="md">
+    <div className={className}>
+    <Paper shadow="xs" p="lg" radius="md" sx={{height: "100%"}}>
       <Group position="apart">
         <Text order={4} mb="lg">
           {title}
@@ -45,6 +43,7 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
       </Group>
       <Worker />
     </Paper>
+    </div>
   );
 };
 
@@ -69,7 +68,8 @@ const NeedAuth = () => {
 };
 
 const NeedSubscription = () => {
-  <div className="relative p-28">
+  return (
+    <div className="relative p-28">
     <img
       src={Logo}
       className="w-96 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -85,7 +85,9 @@ const NeedSubscription = () => {
         </Button>
       </Link>
     </div>
-  </div>;
+  </div>
+  )
 };
 
+export{ChartData};
 export default Index;
