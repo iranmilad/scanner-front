@@ -1,5 +1,3 @@
-import colors from 'tailwindcss/colors';
-import ls from 'localstorage-slim';
 import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
@@ -25,14 +23,6 @@ export function clockTime() {
   return arr;
 }
 
-/**
- * Set grid column
- */
-export const gridColumn = (tabIndex, setState) => {
-  let grid = ls.get('grids');
-  if (grid === null) ls.set('grids', tabIndex);
-  else ls.set('grids', tabIndex);
-};
 
 /**
  * gets data and returns a tag with color

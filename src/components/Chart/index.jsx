@@ -48,7 +48,8 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
 };
 
 const NeedAuth = () => {
-  <div className="relative p-28">
+  return (
+    <div className="relative p-28">
     <img
       src={Logo}
       className="w-96 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -64,7 +65,8 @@ const NeedAuth = () => {
         </Button>
       </Link>
     </div>
-  </div>;
+  </div>
+  )
 };
 
 const NeedSubscription = () => {

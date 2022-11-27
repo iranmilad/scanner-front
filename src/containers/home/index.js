@@ -14,7 +14,7 @@ import NewsTable from './news';
 
 const Index = (props) => {
   let [gridSystem, setGridSystem] = useState(
-    localStorage.getItem('grids') ? localStorage.getItem('grids') : 0
+    localStorage.getItem('grids') ? +localStorage.getItem('grids') : 0
   );
   let config = props.config.needs.chartAndtables;
 
@@ -39,8 +39,8 @@ const Index = (props) => {
   }
 
   function onChangeTab(tabIndex) {
-    setGridSystem(tabIndex);
-    localStorage.setItem('grids', tabIndex);
+    setGridSystem(+tabIndex);
+    localStorage.setItem('grids', +tabIndex);
   }
 
   function GridCom() {
