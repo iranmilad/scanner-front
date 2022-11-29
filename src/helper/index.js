@@ -162,9 +162,10 @@ const minAndMax = (arr, min, max) =>
     ),
   }));
 
-export function useConfig(array, key) {
+export function useConfig(array, key,callback) {
   const [cookies] = useCookies(['token']);
   let item = array;
+  if(callback) return callback();
   item = item.find((item) => item.key === key);
   if (cookies.token && cookies.token !== '') {
     if (item.active) return item;

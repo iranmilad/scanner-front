@@ -2,12 +2,11 @@ import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
 import React, { useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/images/logo.png';
+import Logo from '../../assets/images/header.svg';
 import { ShowErrors } from "../../helper";
 import ChartData from './chartData';
 
 const Index = ({ data, options, special, type, title,isLoading,isFetching,error,allow,className, ...other }) => { 
-
   function Worker() {
     if (isLoading === null || isLoading === undefined) return <></>;
     if (isLoading && isFetching)
@@ -32,7 +31,6 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
     )
   }
 
-  useEffect(()=>{},[ChartData])
 
   return (
     <div className={className}>

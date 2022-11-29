@@ -197,7 +197,7 @@ const PrivateSection = (props) => {
     })
   }
 
-  if (cookies?.token) {
+  if (cookies.token && cookies.token !== undefined) {
     return (
       <div className="flex flex-row ">
         <Menu

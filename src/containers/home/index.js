@@ -35,6 +35,7 @@ const Index = (props) => {
   let conf = useConfig;
   for (let i = 0; i < charts.length; i++) {
     let item = conf(config, charts[i].key);
+    console.log(item)
     if (item) newChart.push(item);
   }
 
@@ -186,11 +187,11 @@ const Index = (props) => {
   );
 };
 
-const XChart = ({ item,className }) => {
+export const XChart = ({ item,className }) => {
   let query = useData(item);
   return (
     <Chart
-      allow={query?.allow}
+      allow={item?.allow}
       data={query.data?.data?.series}
       isLoading={query.isLoading}
       isFetching={query.isFetching}
