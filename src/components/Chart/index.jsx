@@ -1,5 +1,5 @@
 import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/logo.png';
@@ -21,7 +21,6 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
       else return <NeedSubscription />
     }
     if(error) return <Center><ShowErrors status={error} /></Center>
-    console.log(special,type)
     return (
         <Chart
           height={350}
@@ -32,6 +31,8 @@ const Index = ({ data, options, special, type, title,isLoading,isFetching,error,
           />
     )
   }
+
+  useEffect(()=>{},[ChartData])
 
   return (
     <div className={className}>

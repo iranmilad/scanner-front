@@ -30,9 +30,9 @@ class ModalFilter extends Component {
       >
         <Formik
           initialValues={{filters:this.props.filters}}
-          onSubmit={(values) => this.props.onSubmit(values)}
+          onSubmit={(values,{resetForm }) => this.props.onSubmit(values,resetForm)}
           validationSchema={FilterSchema}
-          enableReinitialize
+          enableReinitialize={true}
         >
           {({ errors, values, touched, setValues}) => (
             <Form>

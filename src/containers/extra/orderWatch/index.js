@@ -8,18 +8,18 @@ import { useConfig, useData } from '../../../helper';
 import { header } from './headers';
 
 
-const SignalWatch = (props) => {
+const OrderWatch = (props) => {
   let [filteredData, setFilteredData] = useState([]);
 
-  const SignalWatch = useConfig(props.chartAndtables, 'SignalWatch');
-  const SignalWatch_query = useData(SignalWatch, undefined,{
+  const TotalOrders = useConfig(props.chartAndtables, 'getTotalOrders');
+  const TotalOrders_query = useData(TotalOrders, undefined,{
     staleTime: false,
     refetchInterval:false
   });
 
 
   function FilterDataByName(value) {
-    let newData = SignalWatch_query.data?.data;
+    let newData = TotalOrders_query.data?.data;
     if (value.length === 0){
       return setFilteredData(newData);
     }
@@ -32,24 +32,24 @@ const SignalWatch = (props) => {
 
 
   useEffect(() => {
-    if (SignalWatch_query.data?.data) {
-      setFilteredData(SignalWatch_query.data?.data);
+    if (TotalOrders_query.data?.data) {
+      setFilteredData(TotalOrders_query.data?.data);
     }
-  }, [SignalWatch_query.data?.data]);
+  }, [TotalOrders_query.data?.data]);
 
   return (
     <>
       <Helmet>
-        <title>{SignalWatch.title}</title>
+        <title>{TotalOrders.title}</title>
       </Helmet>
-      <Text size="sm">{SignalWatch.title}</Text>
+      <Text size="sm">{TotalOrders.title}</Text>
       <Group position="apart" mt="md">
         <>
           <Input
             type="text"
             placeholder="جستجو در نماد ها"
             onChange={(e) => FilterDataByName(e.target.value)}
-            disabled={SignalWatch_query.isLoading || SignalWatch_query.isError}
+            disabled={TotalOrders_query.isLoading || TotalOrders_query.isError}
           />
         </>
       </Group>
@@ -58,10 +58,10 @@ const SignalWatch = (props) => {
         fixedHeader
         fixedHeaderScrollHeight="70vh"
         data={filteredData}
-        allow={SignalWatch?.allow}
-        error={SignalWatch_query.isError ? SignalWatch_query.error : null}
-        isLoading={SignalWatch_query.isLoading}
-        isFetching={SignalWatch_query.isFetching}
+        allow={TotalOrders?.allow}
+        error={TotalOrders_query.isError ? TotalOrders_query.error : null}
+        isLoading={TotalOrders_query.isLoading}
+        isFetching={TotalOrders_query.isFetching}
         column={header}
       />
     </>
@@ -72,4 +72,4 @@ const mapStateToProps = state => ({
   chartAndtables: state.config.needs.chartAndtables
 })
 
-export default connect(mapStateToProps)(SignalWatch);
+export default connect(mapStateToProps)(OrderWatch);

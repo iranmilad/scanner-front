@@ -1,197 +1,105 @@
-import { Component } from 'react';
-import { Modal, Text, Group, Input, Button } from '@mantine/core';
+import { Button, Group, Input, Text } from '@mantine/core';
+import { matchSorter } from 'match-sorter';
 import { Helmet } from 'react-helmet';
 import ITable from '../../../components/ITable';
-import { matchSorter } from 'match-sorter';
-import FilterModal from './components/filterModal';
 import { header } from './headers';
-import lodash from 'lodash';
-import { getEveryFeeder } from '../../../apis/main';
-import { connect } from 'react-redux';
-
-/**
- * All industries in Table with filter them
- * @extends Component
- */
-class TechnoWatch extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fullData: [],
-      filteredData: [],
-      openedModal: false,
-      header: header,
-      title: 'دیده بان تکنیکال',
-      requestURL: 'https://feed.tseshow.com/api/getTechnicalStocks',
-    };
-  }
+import { connect, useSelector } from 'react-redux';
+import { useState,useEffect } from 'react';
+import { useConfig,modalOnSubmit,useData ,mainFilterOfModal} from '../../../helper';
+import {registerModal} from "../../../redux/reducers/filterModal";
+import ModalFilter from '../../../components/modalFilter';
 
 
-  /**
-   * Filter Table by name
-   * @param {string} value
-   */
-  FilterDataByName = (value) => {
-    if (value.length === 0)
-      return this.setState({ filteredData: this.state.fullData });
-    let filter = matchSorter(this.state.fullData, value, { keys: ['n0'] });
-    this.setState({ filteredData: filter });
-  };
+const TechnoWatch = (props) => {
+  // get MW with findModal and useSelector redux
+  let TW = useSelector((state) => state.filterModal['TW'] || []);
+  let [modal, setModal] = useState(false);
+  let [filteredData, setFilteredData] = useState([]);
+  let [filters, setFilters] = useState(TW);
 
-  /**
-   * set filtered data to state
-   * @param {*} value
-   */
-  filterByAllHeaders = (value) => {
-    /**
-     * @type {Array}
-     */
-    let headers = value;
-    if (lodash.isEmpty(headers))
-      return this.setState({ filteredData: this.state.fullData });
+  const TechnicalStocks = useConfig(props.chartAndtables, 'getTechnicalStocks');
+  const TechnicalStocks_query = useData(TechnicalStocks, undefined,{
+    staleTime: false,
+    refetchInterval:false
+  });
 
-    /**
-     * @type {array}
-     */
-    let newData = this.state.fullData;
-    for (let i = 0; i < headers.length; i++) {
-      let thisHeader = headers[i];
-      // check it has min option
-      if (thisHeader.min !== '' && thisHeader.max !== '') {
-        let minNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
-        let maxNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>
-          convertNumber(item[thisHeader.name], (number) => {
-            return number >= minNumber && number <= maxNumber;
-          })
-        );
-        newData = itemFinded;
-      } else if (thisHeader.min !== '' && thisHeader.max === '') {
-        let pureNumber = thisHeader['min'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>
-          convertNumber(item[thisHeader.name], (number) => {
-            return number >= pureNumber;
-          })
-        );
-        newData = itemFinded;
-      } else if (thisHeader.min === '' && thisHeader.max !== '') {
-        let pureNumber = thisHeader['max'].replace(/[% a-zA-Z]/g, '');
-        let itemFinded = newData.filter((item) =>
-          convertNumber(item[thisHeader.name], (number) => {
-            return number <= pureNumber;
-          })
-        );
-        newData = itemFinded;
-      }
+
+  function FilterDataByName(value) {
+    if (value.length === 0){
+      let newData = TechnicalStocks_query.data?.data;
+      newData = mainFilterOfModal({array:filters, data:newData})
+      return setFilteredData(newData);
     }
-    /**
-     * @callback
-     */
-    function convertNumber(number, callBack) {
-      let convertedNumber = number;
-      if (/M/g.test(number))
-        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
-      else if (/B/g.test(number))
-        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
-      else if (/K/g.test(number))
-        convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
-      return callBack(+convertedNumber);
+    let newData = TechnicalStocks_query.data?.data
+    newData = mainFilterOfModal({array:filters,data:newData})
+    
+    
+    let filter = matchSorter(newData, value, {
+      keys: ['n0'],
+    });
+    setFilteredData(filter);
+  }
+
+  function changeHeader() {
+    let splited = header.map((item, id) => ({ value: id, label: item.name }));
+    splited.shift();
+    splited.shift();
+    return splited;
+  }
+
+  useEffect(() => {
+    if (TechnicalStocks_query.data?.data) {
+      setFilteredData(TechnicalStocks_query.data?.data);
     }
-    this.setState({ filteredData: lodash.uniq(newData) });
-  };
+  }, [TechnicalStocks_query.data?.data]);
 
-  /**
-   * Modal Action Worker - Open or Close Modal
-   */
-  ModalAction = () => {
-    this.setState({ openedModal: !this.state.openedModal });
-  };
+  return (
+    <>
+      <Helmet>
+        <title>{TechnicalStocks.title}</title>
+      </Helmet>
+      <Text size="sm">{TechnicalStocks.title}</Text>
+      <Group position="apart" mt="md">
+        <>
+          <Input
+            type="text"
+            placeholder="جستجو در نماد ها"
+            onChange={(e) => FilterDataByName(e.target.value)}
+            disabled={TechnicalStocks_query.isLoading || TechnicalStocks_query.isError}
+          />
+          <Button
+            size="sm"
+            onClick={() => setModal((prev) => !prev)}
+            disabled={TechnicalStocks_query.loading}
+          >
+            فیلتر ستون ها
+          </Button>
+        </>
+      </Group>
+      <ITable
+        pagination
+        fixedHeader
+        fixedHeaderScrollHeight="70vh"
+        data={filteredData}
+        allow={TechnicalStocks?.allow}
+        error={TechnicalStocks_query.isError ? TechnicalStocks_query.error : null}
+        isLoading={TechnicalStocks_query.isLoading}
+        isFetching={TechnicalStocks_query.isFetching}
+        column={header}
+      />
+      <ModalFilter
+        opened={modal}
+        ModalAction={() => setModal((prev) => !prev)}
+        onSubmit={(values) => modalOnSubmit({filters:values.filters,setModal,setFilters,setFilteredData,id:'mw',setModalFilter:registerModal,fullData:TechnicalStocks_query.data?.data})}
+        headers={changeHeader()}
+        filters={filters}
+      />
+    </>
+  );
+};
 
-  /**
-   * Get all industries from server
-   */
-  async getFeedData() {
-    if (this.state.requestURL !== '') {
-      try {
-        let response = await getEveryFeeder(this.state.requestURL);
-        this.setState({
-          fullData: response.data.data,
-          filteredData: response.data.data,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables,
+});
 
-  /**
-   * remove first index of array
-   * export array to a select type of data
-   * @returns {Array}
-   */
-  HeadersByName() {
-    /**
-     * All of headers without any filter
-     * @type {Array}
-     */
-    let headers = this.state.header;
-    headers = headers.filter((item, index) => index !== 0);
-
-    /**
-     * export all headers by their name
-     * @type {Array}
-     */
-    let headersByName = [];
-    headers.map((item, index) =>
-      headersByName.push({ value: `n${index + 1}`, label: item.name })
-    );
-    return headersByName;
-  }
-
-  
-
-  componentDidMount() {
-    this.getFeedData();
-  }
-
-  render() {
-    return (
-      <>
-        <Helmet>
-          <title>{this.state.title}</title>
-        </Helmet>
-        <Text size="sm">{this.state.title}</Text>
-        <Group position="apart" mt="lg">
-          {this.state.fullData.length > 0 && (
-            <>
-              <Input
-                type="text"
-                placeholder="جستجو در نماد ها"
-                onChange={(e) => this.FilterDataByName(e.target.value)}
-              />
-              {/* <Button size="sm" onClick={() => this.ModalAction()}>
-                فیلتر
-              </Button> */}
-            </>
-          )}
-        </Group>
-        <ITable
-        className="narrow-sm"
-          pagination
-          fixedHeader
-          fixedHeaderScrollHeight="70vh"
-          data={this.state.filteredData}
-          column={this.state.header}
-        />
-        <FilterModal
-          headers={this.HeadersByName()}
-          filter={this.filterByAllHeaders}
-          opened={this.state.openedModal}
-          ModalAction={this.ModalAction}
-        />
-      </>
-    );
-  }
-}
-
-export default TechnoWatch;
+export default connect(mapStateToProps)(TechnoWatch);

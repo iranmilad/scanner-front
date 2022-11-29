@@ -1005,7 +1005,7 @@ const ChartData = {
       },
     },
   },
-  dailyChart1: {
+  dailyTradeValue: {
     title: 'تغییرات سرانه های خرید و فروش گروه به میلیون تومان',
     auth: false,
     options: {
@@ -1050,7 +1050,7 @@ const ChartData = {
       },
     },
   },
-  dailyChart2: {
+  dailyEntryMany: {
     options: {
       chart: {
         type: 'bar',
@@ -1101,12 +1101,13 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          rotate: -90,
+          offsetX: -15,
+          offsetY: 50,
         },
       },
     },
   },
-  dailyChart3: {
+  dailyPowerBuyer: {
     options: {
       chart: {
         type: 'bar',
@@ -1141,7 +1142,8 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          rotate: -90,
+          offsetX: -15,
+          offsetY: 50,
         },
       },
     },

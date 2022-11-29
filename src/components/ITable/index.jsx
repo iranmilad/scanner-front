@@ -1,23 +1,15 @@
-import React from 'react';
-import { Component } from 'react';
-import DataTable from 'react-data-table-component';
-import lodash from 'lodash';
 import {
-  Card,
-  Group,
-  Loader,
-  Paper,
-  SimpleGrid,
-  Text,
-  Badge,
   Box,
   Button,
-  Center,
+  Center, Group,
+  Loader,
+  Paper, Text
 } from '@mantine/core';
-import { TableDesign } from '../../helper/theme';
-import { ShowErrors } from '../../helper';
+import React from 'react';
+import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
-import colors from 'tailwindcss/colors';
+import { ShowErrors } from '../../helper';
+import { TableDesign } from '../../helper/theme';
 
 /**
  * ITable for handle the every table

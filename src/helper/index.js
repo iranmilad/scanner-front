@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { getEveryFeeder } from '../apis/main';
-import {useCookies} from "react-cookie"
+import { useCookies } from 'react-cookie';
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -23,7 +23,6 @@ export function clockTime() {
   return arr;
 }
 
-
 /**
  * gets data and returns a tag with color
  * @param {string} row text or number for colorization
@@ -40,34 +39,19 @@ export function ColorizeTag({ row, style, ...other }) {
   number = number.replace(/[% a-zA-Z]/g, '');
   if (number === 0) {
     return (
-      <span
-        className="text-slate-700"
-        dir="ltr"
-        style={style}
-        {...other}
-      >
+      <span className="text-slate-700" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
   } else if (number > 0) {
     return (
-      <span
-        className="text-emerald-500"
-        dir="ltr"
-        style={style}
-        {...other}
-      >
+      <span className="text-emerald-500" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
   } else if (number < 0) {
     return (
-      <span
-        className="text-red-500"
-        dir="ltr"
-        style={style}
-        {...other}
-      >
+      <span className="text-red-500" dir="ltr" style={style} {...other}>
         {row}
       </span>
     );
@@ -178,55 +162,131 @@ const minAndMax = (arr, min, max) =>
     ),
   }));
 
-export function useConfig(array,key){
+export function useConfig(array, key) {
   const [cookies] = useCookies(['token']);
   let item = array;
-  item = item.find(item => item.key === key);
-  if(cookies.token && cookies.token !== ''){
-    if(item.active) return item
-    else return {...item,allow:'sub'}
-  }
-  else {
-    if(item.active) return item
-    else return {...item,allow:'login'}
+  item = item.find((item) => item.key === key);
+  if (cookies.token && cookies.token !== '') {
+    if (item.active) return item;
+    else return { ...item, allow: 'sub' };
+  } else {
+    if (item.active) return item;
+    else return { ...item, allow: 'login' };
   }
 }
 
-
-export function useData(item,params,...other) {
+export function useData(item, params, ...other) {
   return useQuery({
+    ...other,
     enabled: item.allow ? false : true,
-    queryKey: [item.key,params],
-    queryFn: async (key,page) => {
+    queryKey: [item.key, params],
+    queryFn: async (key, page) => {
       try {
-        let {data,status} = await getEveryFeeder(`${item.feeder_url}${params ? params : ''}`);
-        if(status === 204) return Promise.reject({response:{status:204}});
-        return data
+        let { data, status } = await getEveryFeeder(
+          `${item.feeder_url}${params ? params : ''}`
+        );
+        if (status === 204)
+          return Promise.reject({ response: { status: 204 } });
+        return data;
       } catch (error) {
-        let {response:{status} } = error;
-        if(status === 404) throw new Error(404);
-        throw new Error(status)
+        let {
+          response: { status },
+        } = error;
+        if (status === 404) throw new Error(404);
+        throw new Error(status);
       }
     },
     staleTime: item.refresh_time * 1000,
     refetchInterval: item.refresh_time * 1000,
     retry: 2,
     retryOnMount: false,
-    refetchOnWindowFocus:false,
-    onError:(err) => {
-      return err
+    refetchOnWindowFocus: false,
+    onError: (err) => {
+      return err;
     },
-    ...other
   });
 }
 
-export function ShowErrors ({status}){
-  switch(status){
+export function ShowErrors({ status }) {
+  console.log(status)
+  switch (status) {
     case '404':
-      return <Text >آدرس درخواستی اشتباه است</Text>
+      return <Text>آدرس درخواستی اشتباه است</Text>;
     case '204':
-      return <Text>داده ای برای نمایش وجود ندارد</Text>
-    default :
-    return <Text>مشکلی پیش آمده است</Text>
+      return <Text>داده ای برای نمایش وجود ندارد</Text>;
+    default:
+      return <Text>مشکلی پیش آمده است</Text>;
   }
-} 
+}
+
+/**
+ *
+ * @param {*} number  number to be formatted
+ * @returns
+ */
+export function convertNumber(number) {
+  let convertedNumber = number;
+  if (/M/g.test(number))
+    convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
+  else if (/B/g.test(number))
+    convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000000;
+  else if (/K/g.test(number))
+    convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000;
+  return convertedNumber;
+}
+
+/**
+ *
+ * @param {array} arr array of objects
+ * @param {number} min minimum value
+ * @param {number} max maximum value
+ * @param {string} row key of row
+ * @returns
+ */
+export function filterWithMinAndMax(arr, min, max, row) {
+  return arr.filter(
+    (x) =>
+      (min === null || convertNumber(x[row]) >= convertNumber(min)) &&
+      (max === null || convertNumber(x[row]) <= convertNumber(max))
+  );
+}
+
+export function modalOnSubmit({ filters, setFilters, setModal, setFilteredData ,fullData,id,setModalFilter}) {
+  // this.setState({filters});
+  /**
+   * filter each row depends row
+   * @param {array} arr
+   * @param {number} min
+   * @param {number} max
+   * @param {string} row
+   * @returns
+   */
+  setModal((prev) => !prev);
+  if (filters.length === 0) {
+    setFilteredData(fullData);
+    setFilters([]);
+    return;
+  }
+
+  let data ;
+  setFilteredData(prev => {
+    data = prev;
+    return data;
+  })
+  data = mainFilterOfModal({array:filters,data});
+  setFilters(filters);
+  setFilteredData(data);
+  setModalFilter({id,filters});
+}
+
+export function mainFilterOfModal({array,data}){
+  array.map((item) => {
+    data = filterWithMinAndMax(
+      data,
+      item.min !== '' ? item.min : null,
+      item.max !== '' ? item.max : null,
+      `n${+item.name - 1}`
+    );
+  });
+  return data;
+}

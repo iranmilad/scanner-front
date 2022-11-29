@@ -73,17 +73,6 @@ class Report extends Component {
     }
   };
 
-  showMore(){
-    let slice = this.state.companies_show.length - 1;
-    if(this.state.companies.length - slice > 3){
-      let cut_15_more_companies = this.state.companies.slice(0, slice + 15);
-      this.setState({ companies_show: cut_15_more_companies });
-    }
-    else{
-      this.setState({companies_show: this.state.companies});
-    }
-  }
-
   componentDidMount(){
     this.setStocks();
   }

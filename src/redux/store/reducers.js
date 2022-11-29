@@ -4,11 +4,13 @@ import configReducer from "../reducers/config";
 import marketReducer from "../reducers/market";
 import technowatch from '../reducers/extra/technowatch';
 import chartable_chart from "../reducers/chartable/chart"
+import filterModal from "../reducers/filterModal";
 
 export default combineReducers({
   main:mainReducer,
   config:configReducer,
   market:marketReducer,
   technowatch,
-  chartable_chart
+  chartable_chart,
+  filterModal
 })
