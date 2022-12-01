@@ -405,6 +405,22 @@ const ChartData = {
       legend: {
         show: false,
       },
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
       colors: ['#E91E63', '#66DA26'],
       tooltip: {
         y: {
@@ -800,7 +816,7 @@ const ChartData = {
       },
     },
   },
-  IndustryChart1: {
+  totalIndustriesStockPresent: {
     title: 'محدوده قیمتی آخرین معامله نماد های گروه',
     type: 'bar',
     auth: false,
@@ -874,7 +890,7 @@ const ChartData = {
       },
     },
   },
-  IndustryChart2: {
+  totalIndustriesStockValueQueue: {
     title: 'ارزش کل سفارش های روی تابلو گروه به میلیارد تومان',
     type: 'bar',
     auth: false,
@@ -913,7 +929,7 @@ const ChartData = {
       },
     },
   },
-  IndustryChart3: {
+  totalIndustriesChangeBuySellHeadsHistory: {
     title: 'تغییرات سرانه های خرید و فروش گروه به میلیون تومان',
     type: 'line',
     auth: false,
@@ -945,7 +961,7 @@ const ChartData = {
       },
     },
   },
-  IndustryChart4: {
+  totalIndustriesEnterManyBuyerIHistory: {
     title: 'تغییرات ورود پول اشخاص حقیقی به میلیارد تومان',
     type: 'area',
     auth: false,
@@ -973,7 +989,7 @@ const ChartData = {
       },
     },
   },
-  IndustryChart5: {
+  totalIndustriesMarketOrderValueHistory: {
     title: 'تغییرات ارزش کل سفارش ها به میلیارد تومان',
     type: 'line',
     auth: false,
@@ -1206,7 +1222,587 @@ const ChartData = {
       colors: ['#E91E63', '#66DA26'],
     },
   },
+  MF2: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF3: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF4: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF5: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF6: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
   MF7: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF8: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF9: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF10: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF11: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF12: {
     type: 'line',
     auth: false,
     options: {
@@ -1325,7 +1921,312 @@ const ChartData = {
       colors: ['#E91E63', '#66DA26'],
     },
   },
-  FX1: {
+  MF14: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF15: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF16: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF17: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  MF18: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        grid: {
+          show: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        type: 'category',
+        tickPlacement: 'on',
+        categories: clockTime(),
+        labels: {
+          offsetX: -10,
+        },
+        rotateAlways: false,
+        hideOverlappingLabels: true,
+        offsetY: 30,
+        axisBorder: {
+          show: false,
+        },
+      },
+
+      yaxis: {
+        show: true,
+        labels: {
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63', '#66DA26'],
+    },
+  },
+  symbolMoneyflowTotalEnterManyBuyerIHistory: {
     options: {
       chart: {
         animations: {
@@ -1365,7 +2266,7 @@ const ChartData = {
       },
     },
   },
-  FX2: {
+  symbolMoneyflowTotalChangeBuySellHeadsHistory: {
     options: {
       chart: {
         animations: {
@@ -1410,7 +2311,7 @@ const ChartData = {
       },
     },
   },
-  FX3: {
+  symbolTradeLastDayHistory: {
     options: {
       chart: {
         animations: {
@@ -1453,7 +2354,7 @@ const ChartData = {
       },
     },
   },
-  FX4: {
+  symbolTradeValueHistory: {
     options: {
       chart: {
         animations: {
@@ -1493,7 +2394,7 @@ const ChartData = {
       },
     },
   },
-  FX5: {
+  symbolCounterBuyerSellerHistory: {
     options: {
       chart: {
         animations: {
@@ -1538,7 +2439,7 @@ const ChartData = {
       },
     },
   },
-  FX6: {
+  symbolTradeTimeValueHistory: {
     options: {
       chart: {
         animations: {

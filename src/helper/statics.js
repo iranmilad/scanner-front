@@ -808,40 +808,6 @@ export const marketValues = {
 };
 
 
-export const extraTops = [
-  {
-    name: 'ردیف',
-    selector: (row) => row.id,
-    omit: true,
-  },
-  {
-    name: 'نماد',
-    selector: (row) => row.n0,
-    sortable: true,
-  },
-  {
-    name: 'سقف قیمتی سهم',
-    selector: (row) => row.n1,
-    sortable: true,
-  },
-  {
-    name: 'قیمت امروز',
-    selector: (row) => row.n2,
-    sortable: true,
-  },
-  {
-    name: 'تاریخ رسیدن به قله',
-    selector: (row) => row.n3,
-    sortable: true,
-  },
-  {
-    name: 'درصد ریزش از سقف',
-    selector: (row) => row.n4,
-    cell: (row) => <ColorizeTag row={row.n4} />,
-    sortable: true,
-  },
-];
-
 function floorNumber(row) {
   if (row > 1000000000) {
     return (row / 1000000000).toFixed(2) + 'B';

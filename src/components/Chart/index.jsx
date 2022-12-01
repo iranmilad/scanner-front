@@ -1,94 +1,117 @@
 import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Chart from 'react-apexcharts';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/header.svg';
-import { ShowErrors } from "../../helper";
+import { ShowErrors } from '../../helper';
 import ChartData from './chartData';
 
-const Index = ({ data, options, special, type, title,isLoading,isFetching,error,allow,className, ...other }) => { 
+const Index = ({
+  data,
+  options,
+  special,
+  type,
+  title,
+  isLoading,
+  isFetching,
+  error,
+  allow,
+  className,
+  ...other
+}) => {
   function Worker() {
     if (isLoading === null || isLoading === undefined) return <></>;
     if (isLoading && isFetching)
       return (
-        <Center>
+        <Center sx={{height:"100%"}}>
           <Loader variant="dots" />
         </Center>
       );
     if (isLoading && isFetching === false) {
-      if (allow === 'login') return <NeedAuth />
-      else return <NeedSubscription />
+      if (allow === 'login') return <NeedAuth />;
+      else return <NeedSubscription />;
     }
-    if(error) return <Center><ShowErrors status={error} /></Center>
+    if (error)
+      return (
+        <Center sx={{height:"100%"}}>
+          <ShowErrors status={error} />
+        </Center>
+      );
     return (
-        <Chart
-          height={350}
-          options={special ? ChartData[special].options : options.options}
-          series={data}
-          type={type ? type : ChartData[special].type}
-          {...other}
-          />
-    )
+      <Chart
+        height={350}
+        options={options ? options.options : ChartData[special].options }
+        series={data}
+        type={type ? type : ChartData[special].type}
+        {...other}
+      />
+    );
   }
 
-
   return (
-    <div className={className}>
-    <Paper shadow="xs" p="lg" radius="md" sx={{height: "100%"}}>
-      <Group position="apart">
-        <Text order={4} mb="lg">
-          {title}
-        </Text>
-      </Group>
-      <Worker />
-    </Paper>
+    <div className={`h-full ${className}`}>
+      <Paper
+        shadow="xs"
+        p="lg"
+        radius="md"
+        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
+        <Group position="apart">
+          <Text order={4} mb="lg">
+            {title}
+          </Text>
+        </Group>
+        <Worker />
+      </Paper>
     </div>
   );
 };
 
 const NeedAuth = () => {
   return (
-    <div className="relative p-28">
-    <img
-      src={Logo}
-      className="w-96 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-    />
-    <div className="bg-slate-700 bg-opacity-80 px-5 space-y-3 rounded-lg absolute left-0 top-0 w-full h-full flex items-center justify-center flex-col">
-      <i className="fa-solid fa-lock-keyhole text-3xl text-white md:text-lg lg:text-3xl "></i>
-      <Text color="white" size="sm">
-      برای مشاهده جدول به حساب کاربری خود وارد شوید
-      </Text>
-      <Link to="/login">
-        <Button color="blue" sx={{ fontWeight: 'normal' }}>
-          ورود
-        </Button>
-      </Link>
+    <div className="relative w-full h-full flex items-center justify-center flex-col">
+      <img
+        src={Logo}
+        className="w-80 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+        alt="logo"
+      />
+      <div className="bg-slate-700 bg-opacity-80 z-20 rounded-lg absolute left-0 top-0 w-full h-full" />
+      <div className="space-y-3 flex flex-col z-20 text-center">
+        <Text color="white" size="sm" className="z-20">
+        برای مشاهده جدول به حساب کاربری خود وارد شوید
+        </Text>
+        <Link to="/subscription" className="z-20">
+          <Button color="blue" sx={{ fontWeight: 'normal' }}>
+            خرید
+          </Button>
+        </Link>
+      </div>
     </div>
-  </div>
-  )
+  );
 };
 
 const NeedSubscription = () => {
   return (
-    <div className="relative p-28">
-    <img
-      src={Logo}
-      className="w-96 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-    />
-    <div className="bg-slate-700 bg-opacity-80 px-5 space-y-3 rounded-lg absolute left-0 top-0 w-full h-full flex items-center justify-center flex-col">
-      <i className="fa-solid fa-lock-keyhole text-3xl text-white md:text-lg lg:text-3xl "></i>
-      <Text color="white" size="sm">
-      برای مشاهده این جدول باید اشتراک مناسب را تهیه کنید
-      </Text>
-      <Link to="/subscription">
-        <Button color="blue" sx={{ fontWeight: 'normal' }}>
-          خرید
-        </Button>
-      </Link>
+    <div className="relative w-full h-full flex items-center justify-center flex-col">
+      <img
+        src={Logo}
+        className="w-80 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+        alt="logo"
+      />
+      <div className="bg-slate-700 bg-opacity-80 z-20 rounded-lg absolute left-0 top-0 w-full h-full" />
+      <div className="space-y-3 flex flex-col z-20 text-center">
+        <Text color="white" size="sm" className="z-20">
+          برای مشاهده این جدول باید اشتراک مناسب را تهیه کنید
+        </Text>
+        <Link to="/subscription" className="z-20">
+          <Button color="blue" sx={{ fontWeight: 'normal' }}>
+            خرید
+          </Button>
+        </Link>
+      </div>
     </div>
-  </div>
-  )
+  );
 };
 
-export{ChartData};
+export { ChartData };
 export default Index;

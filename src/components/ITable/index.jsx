@@ -38,6 +38,8 @@ const ITable = ({
   let paginationComponentOptions = {
     rowsPerPageText: 'تعداد نمایش',
     rangeSeparatorText: 'از',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'همه',
   };
   function Worker() {
     if (isLoading === null || isLoading === undefined) return <></>;

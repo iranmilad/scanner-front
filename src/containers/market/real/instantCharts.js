@@ -9,239 +9,6 @@ import { Select } from '@mantine/core';
 import { useConfig, useData } from '../../../helper';
 import { useParams } from 'react-router';
 
-// class InstantCharts extends Component {
-//   state = {
-//     MoneyflowTotalEnterManyBuyerIHistoryData: [],
-//     MoneyflowTotalChangeBuySellHeadsHistoryData: [],
-//     symbolTradeLastDayHistoryData: [],
-//     symbolTradeValueHistoryData: [],
-//     symbolCounterBuyerSellerHistoryData: [],
-//     symbolTradeTimeValueHistoryData: [],
-//     id: this.props.stockId,
-//     withDate: false
-//   };
-
-//   getMoneyflowTotalEnterManyBuyerIHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find(
-//       (item) => item.key === 'symbolMoneyflowTotalEnterManyBuyerIHistory'
-//     );
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           MoneyflowTotalEnterManyBuyerIHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.MoneyflowTotalEnterManyBuyerIHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             MoneyflowTotalEnterManyBuyerIHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   getMoneyflowTotalChangeBuySellHeadsHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find(
-//       (item) => item.key === 'symbolMoneyflowTotalChangeBuySellHeadsHistory'
-//     );
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           MoneyflowTotalChangeBuySellHeadsHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.MoneyflowTotalChangeBuySellHeadsHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             MoneyflowTotalChangeBuySellHeadsHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   getTradeLastDayHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find(
-//       (item) => item.key === 'symbolTradeLastDayHistory'
-//     );
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           symbolTradeLastDayHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.symbolTradeLastDayHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             symbolTradeLastDayHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   getTradeValueHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find((item) => item.key === 'symbolTradeValueHistory');
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           symbolTradeValueHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.symbolTradeValueHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             symbolTradeValueHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   getCounterBuyerSellerHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find(
-//       (item) => item.key === 'symbolCounterBuyerSellerHistory'
-//     );
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           symbolCounterBuyerSellerHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.symbolCounterBuyerSellerHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             symbolCounterBuyerSellerHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   getTradeTimeValueHistoryData() {
-//     let thatItem = this.props.chartAndtables;
-//     thatItem = thatItem.find(
-//       (item) => item.key === 'symbolTradeTimeValueHistory'
-//     );
-//     getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//       (res) => {
-//         this.setState({
-//           symbolTradeTimeValueHistoryData: res.data.data.series,
-//         });
-//       }
-//     );
-//     this.symbolTradeTimeValueHistoryInterval = setInterval(() => {
-//       getEveryFeeder(`${thatItem.feeder_url}/${this.props.stockId}`).then(
-//         (res) => {
-//           this.setState({
-//             symbolTradeTimeValueHistoryData: res.data.data.series,
-//           });
-//         }
-//       );
-//     }, thatItem.refresh_time * 1000);
-//   }
-
-//   componentDidMount() {
-//     this.getMoneyflowTotalEnterManyBuyerIHistoryData();
-//     this.getMoneyflowTotalChangeBuySellHeadsHistoryData();
-//     this.getTradeLastDayHistoryData();
-//     this.getTradeValueHistoryData();
-//     this.getCounterBuyerSellerHistoryData();
-//     this.getTradeTimeValueHistoryData();
-//   }
-//   componentWillUnmount() {
-//     clearInterval(this.MoneyflowTotalEnterManyBuyerIHistoryInterval);
-//     clearInterval(this.MoneyflowTotalChangeBuySellHeadsHistoryInterval);
-//     clearInterval(this.symbolTradeLastDayHistoryInterval);
-//     clearInterval(this.symbolTradeValueHistoryInterval);
-//     clearInterval(this.symbolCounterBuyerSellerHistoryInterval);
-//     clearInterval(this.symbolTradeTimeValueHistoryInterval);
-//   }
-//   render() {
-//     return (
-//       <>
-//         <Grid mt="md">
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX1"
-//               data={this.state.MoneyflowTotalEnterManyBuyerIHistoryData}
-//               title="تغییرات ورود پول اشخاص حقیقی"
-//               type="area"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX2"
-//               data={this.state.MoneyflowTotalChangeBuySellHeadsHistoryData}
-//               title="تغییرات سرانه های خرید و فروش"
-//               type="line"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX3"
-//               data={this.state.symbolTradeLastDayHistoryData}
-//               title="نمودار تغییرات قیمت"
-//               type="area"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX4"
-//               data={this.state.symbolTradeValueHistoryData}
-//               title="تغییرات ارزش معاملات"
-//               type="area"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX5"
-//               data={this.state.symbolCounterBuyerSellerHistoryData}
-//               title="تغییرات تعداد کدهای خریدار و فروشنده"
-//               type="line"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//           <Grid.Col sm={6} md={4}>
-//             <Chart
-//               special="FX6"
-//               data={this.state.symbolTradeValueHistoryData}
-//               title="ارزش لحظه ای معاملات"
-//               type="bar"
-//               width={350}
-//               height={300}
-//             />
-//           </Grid.Col>
-//         </Grid>
-//       </>
-//     );
-//   }
-// }
 
 const InstantCharts = (props) => {
   let { id } = useParams();
@@ -301,69 +68,88 @@ const InstantCharts = (props) => {
   );
 
   return (
-    <Grid mt="md">
+    <Grid mt="md" grow>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX1"
-          data={
-            symbolMoneyflowTotalEnterManyBuyerIHistory_query.data?.data?.series
-          }
+          className="min-h-[300px]"
+          special={symbolMoneyflowTotalEnterManyBuyerIHistory.key}
+          data={symbolMoneyflowTotalEnterManyBuyerIHistory_query.data?.data?.series}
           title={symbolMoneyflowTotalEnterManyBuyerIHistory.title}
+          isLoading={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isLoading}
+          isFetching={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isFetching}
+          error={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isError ? symbolMoneyflowTotalEnterManyBuyerIHistory_query.error : null}
+          allow={symbolMoneyflowTotalEnterManyBuyerIHistory?.allow}
           type="area"
-          width={350}
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX2"
-          data={
-            symbolMoneyflowTotalChangeBuySellHeadsHistory_query.data?.data
-              ?.series
-          }
+          className="min-h-[300px]"
+          special={symbolMoneyflowTotalChangeBuySellHeadsHistory.key}
+          data={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.data?.data?.series}
           title={symbolMoneyflowTotalChangeBuySellHeadsHistory.title}
+          isLoading={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isLoading}
+          isFetching={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isFetching}
+          error={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isError ? symbolMoneyflowTotalChangeBuySellHeadsHistory_query.error : null}
+          allow={symbolMoneyflowTotalChangeBuySellHeadsHistory?.allow}
           type="line"
-          width={350}
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX3"
-          data={symbolTradeValueHistory_query.data?.data?.series}
-          title={symbolTradeLastDayHistory.title}
-          type="area"
-          width={350}
-          height={300}
-        />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
-        <Chart
-          special="FX4"
+          className="min-h-[300px]"
+          special={symbolTradeLastDayHistory.key}
           data={symbolTradeLastDayHistory_query.data?.data?.series}
           title={symbolTradeLastDayHistory.title}
+          isLoading={symbolTradeLastDayHistory_query.isLoading}
+          isFetching={symbolTradeLastDayHistory_query.isFetching}
+          error={symbolTradeLastDayHistory_query.isError ? symbolTradeLastDayHistory_query.error : null}
+          allow={symbolTradeLastDayHistory?.allow}
           type="area"
-          width={350}
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX5"
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
+          data={symbolTradeValueHistory_query.data?.data?.series}
+          title={symbolTradeValueHistory.title}
+          isLoading={symbolTradeValueHistory_query.isLoading}
+          isFetching={symbolTradeValueHistory_query.isFetching}
+          error={symbolTradeValueHistory_query.isError ? symbolTradeValueHistory_query.error : null}
+          allow={symbolTradeValueHistory?.allow}
+          type="area"
+          height={300}
+        />
+      </Grid.Col>
+      <Grid.Col sm={6} md={4}>
+        <Chart
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
           data={symbolCounterBuyerSellerHistory_query.data?.data?.series}
           title={symbolCounterBuyerSellerHistory.title}
           type="line"
-          width={350}
+          isLoading={symbolCounterBuyerSellerHistory_query.isLoading}
+          isFetching={symbolCounterBuyerSellerHistory_query.isFetching}
+          error={symbolCounterBuyerSellerHistory_query.isError ? symbolCounterBuyerSellerHistory_query.error : null}
+          allow={symbolCounterBuyerSellerHistory?.allow}
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX6"
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
           data={symbolTradeTimeValueHistory_query.data?.data?.series}
           title={symbolTradeTimeValueHistory.title}
+          isLoading={symbolTradeTimeValueHistory_query.isLoading}
+          isFetching={symbolTradeTimeValueHistory_query.isFetching}
+          error={symbolTradeTimeValueHistory_query.isError ? symbolTradeTimeValueHistory_query.error : null}
+          allow={symbolTradeTimeValueHistory?.allow}
           type="bar"
-          width={350}
           height={300}
         />
       </Grid.Col>

@@ -35,6 +35,7 @@ const store = configureStore();
 const client = new QueryClient();
 
 ReactDOM.render(
+  <React.StrictMode>
   <QueryClientProvider client={client}>
     <Provider store={store}>
       <MantineProvider
@@ -47,7 +48,8 @@ ReactDOM.render(
       </MantineProvider>
     </Provider>
     <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>,
+  </QueryClientProvider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

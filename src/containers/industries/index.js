@@ -1,366 +1,170 @@
 import {
-  Text,
-  Select,
-  Group,
-  Paper,
-  Center,
-  Loader,
+  Center, Grid, Group, Loader, Paper, Select, Text
 } from '@mantine/core';
-import React, { Component } from 'react';
+import React,{useState} from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { useParams, withRouter } from 'react-router-dom';
+import Chart from '../../components/Chart';
 import ITable from '../../components/ITable';
+import { useConfig, useData } from '../../helper';
 import {
   industries_table1,
   industries_table2,
   industries_table3_type1,
-  industries_table3_type2,
+  industries_table3_type2
 } from '../../helper/statics';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import _ from 'lodash';
-import { getEveryFeeder } from '../../apis/main';
-import Chart from '../../components/Chart';
-import { withRouter } from 'react-router-dom';
 
-class Index extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      industries: [],
-      error: false,
-      table1: [],
-      table2: [],
-      table3: [],
-      chart1: [],
-      chart2: [],
-      chart3: [],
-      chart4: [],
-      chart5: [],
-      industryLists: [],
-      id: props.route.match.params.id,
-    };
-  }
 
-  table1(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'totalIndustriesActivity');
-    this.setState({ loading: true });
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ table1: res.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+const Index = (props) => {
+  let {id} = useParams();
 
-    this.table1Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ table1: res.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  const [param, setParam] = useState(id);
 
-  table2(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'totalIndustriesStockLOrN');
-    this.setState({ loading: true });
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ table2: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  // TABLE
+  let totalIndustriesActivity = useConfig(props.chartAndtables,'totalIndustriesActivity');
+  let totalIndustriesActivity_query = useData(totalIndustriesActivity, `/${param}`);
 
-    this.table2Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ table2: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  let totalIndustriesStockLOrN = useConfig(props.chartAndtables,'totalIndustriesStockLOrN');
+  let totalIndustriesStockLOrN_query = useData(totalIndustriesStockLOrN, `/${param}`);
 
-  table3(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find((item) => item.key === 'totalIndustrialsStocks');
-    this.setState({ loading: true });
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ table3: res.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  let totalIndustrialsStocks = useConfig(props.chartAndtables,'totalIndustrialsStocks');
+  let totalIndustrialsStocks_query = useData(totalIndustrialsStocks, `/${param}`);
+  // TABLE
 
-    this.table3Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ table3: res.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  // CHART
+  let totalIndustriesStockPresent = useConfig(props.chartAndtables,'totalIndustriesStockPresent');
+  let totalIndustriesStockPresent_query = useData(totalIndustriesStockPresent, `/${param}`);
 
-  chart1(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'totalIndustriesStockPresent'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ chart1: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  let totalIndustriesStockValueQueue = useConfig(props.chartAndtables,'totalIndustriesStockValueQueue');
+  let totalIndustriesStockValueQueue_query = useData(totalIndustriesStockValueQueue, `/${param}`);
 
-    this.chart1Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ chart1: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  let totalIndustriesChangeBuySellHeadsHistory = useConfig(props.chartAndtables,'totalIndustriesChangeBuySellHeadsHistory');
+  let totalIndustriesChangeBuySellHeadsHistory_query = useData(totalIndustriesChangeBuySellHeadsHistory, `/${param}`);
 
-  chart2(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'totalIndustriesStockValueQueue'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ chart2: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  let totalIndustriesEnterManyBuyerIHistory = useConfig(props.chartAndtables,'totalIndustriesEnterManyBuyerIHistory');
+  let totalIndustriesEnterManyBuyerIHistory_query = useData(totalIndustriesEnterManyBuyerIHistory, `/${param}`);
 
-    this.chart2Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ chart2: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  let totalIndustriesMarketOrderValueHistory = useConfig(props.chartAndtables,'totalIndustriesMarketOrderValueHistory');
+  let totalIndustriesMarketOrderValueHistory_query = useData(totalIndustriesMarketOrderValueHistory, `/${param}`);
+  // CHART
 
-  chart3(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'totalIndustriesChangeBuySellHeadsHistory'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ chart3: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
 
-    this.chart3Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ chart3: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
+  let totalIndustriesGroup = useConfig(props.chartAndtables,'totalIndustriesGroup');
+  let totalIndustriesGroup_query = useData(totalIndustriesGroup);
 
-  chart4(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'totalIndustriesEnterManyBuyerIHistory'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ chart4: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
+  const label = totalIndustriesGroup_query.data?.data.find(
+    (item) => item.value === param
+  )?.label;
 
-    this.chart4Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ chart4: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
-
-  chart5(id = this.state.id) {
-    let thatItem = this.props.chartAndtables;
-    thatItem = thatItem.find(
-      (item) => item.key === 'totalIndustriesMarketOrderValueHistory'
-    );
-    getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-      .then((res) => {
-        this.setState({ chart5: res.data.data, loading: false });
-      })
-      .catch((err) => this.setState({ error: true, loading: false }));
-
-    this.chart5Interval = setInterval(() => {
-      getEveryFeeder(`${thatItem.feeder_url}/${id}`)
-        .then((res) => {
-          this.setState({ chart5: res.data.data, loading: false });
-        })
-        .catch((err) => this.setState({ error: true, loading: false }));
-    }, thatItem.refresh_time * 1000);
-  }
-
-  getIndustryList = (id = this.state.id) => {
-    if (_.isEmpty(this.state.industryLists)) {
-      let thatItem = this.props.chartAndtables;
-      thatItem = thatItem.find((item) => item.key === 'totalIndustriesGroup');
-      getEveryFeeder(thatItem.feeder_url)
-        .then((res) => {
-          this.setState({ industryLists: res.data.data });
-        })
-        .catch((err) => {
-          this.setState({ error: true });
-        });
-    }
-  };
-
-  industry_history(id) {
-    this.props.history.push(`/industries/${id}`);
-  }
-
-  componentDidMount() {
-    this.setState({ loading: true });
-    this.table1();
-    this.table2();
-    this.table3();
-    this.chart1();
-    this.chart2();
-    this.chart3();
-    this.chart4();
-    this.chart5();
-
-    this.props.route.history.listen((location) => {
-      let { pathname } = location;
-      let id = pathname.split('/')[2];
-      this.setState({ id, loading: false });
-      this.table1(id);
-      this.table2(id);
-      this.table3(id);
-      this.chart1(id);
-      this.chart2(id);
-      this.chart3(id);
-      this.chart4(id);
-      this.chart5(id);
-    });
-  }
-
-  componentWillUnmount() {
-    this.clearInterval();
-  }
-
-  render() {
-    return (
-      <>
-        <Helmet>
-          <title>دیده بان گروه</title>
-        </Helmet>
-        {/* {this.state.error === false && this.state.loading === false ? (
-          
-        ) : (
-          <Paper padding="xl" radius="md" shadow="xs" mt="xl">
-            <Center>
-              <Text size="sm">
-                موردی یافت نشد ( از این لیست گروه صنایع مد نظر خود را انتخاب
-                کنید)
-              </Text>
-            </Center>
-            <Center mt="lg">
-              <Select
-                placeholder="انتخاب کنید"
-                dropdownComponent="div"
-                onChange={(e) => console.log(e)}
-                data={this.state.industries}
-              />
-            </Center>
-          </Paper>
-        )} */}
-        <Group position="apart" mt="my">
-          <Text size="md">{`گروه ${this.state.table1.title || ''}`}</Text>
-          <Select
-            searchable
-            onChange={(value) => this.industry_history(value)}
-            placeholder="انتخاب صنعت"
-            onMouseOver={() => this.getIndustryList()}
-            data={this.state.industryLists || []}
-          />
-        </Group>
-        {this.state.loading ? (
-          <Paper shadow="xs" p="lg" radius="md" mt="md">
-            <Center>
-              <Loader variant="dots" />
-            </Center>
-          </Paper>
-        ) : (
-          <>
-            <ITable
-              title={this.state.table1.title}
-              data={this.state.table1.data}
-              column={industries_table1.header}
+  return (
+    <>
+    <Helmet>
+      <title>گروه {label || ''}</title>
+    </Helmet>
+    <Group position="apart" mt="my">
+      <Text size="md">گروه {label || ''}</Text>
+      <Select
+        disabled={totalIndustriesGroup_query.isLoading}
+        defaultValue={`${param}`}
+        searchable
+        onChange={setParam}
+        placeholder="انتخاب صنعت"
+        data={totalIndustriesGroup_query.isLoading ? [] : totalIndustriesGroup_query.data?.data}
+      />
+    </Group>
+    <ITable
+          title={totalIndustriesActivity.title}
+          data={totalIndustriesActivity_query.data?.data}
+          column={industries_table1.header}
+          isLoading={totalIndustriesActivity_query.isLoading}
+          isFetching={totalIndustriesActivity_query.isFetching}
+          allow={totalIndustriesActivity?.allow}
+          error={totalIndustriesActivity_query.isError ? totalIndustriesActivity_query.error : null}
+        />
+        <ITable
+          title={totalIndustriesStockLOrN.title}
+          data={totalIndustriesStockLOrN_query.data?.data}
+          column={industries_table2.header}
+          isLoading={totalIndustriesStockLOrN_query.isLoading}
+          isFetching={totalIndustriesStockLOrN_query.isFetching}
+          allow={totalIndustriesStockLOrN?.allow}
+          error={totalIndustriesStockLOrN_query.isError ? totalIndustriesStockLOrN_query.error : null}
+        />
+        <Grid mt="md">
+          <Grid.Col span={12} md={6}>
+            <Chart
+              data={totalIndustriesStockPresent_query.data?.data?.series}
+              special={totalIndustriesStockPresent_query.data?.data?.special}
+              title={totalIndustriesStockPresent.title}
+              isLoading={totalIndustriesStockPresent_query.isLoading}
+              isFetching={totalIndustriesStockPresent_query.isFetching}
+              allow={totalIndustriesStockPresent?.allow}
+              error={totalIndustriesStockPresent_query.isError ? totalIndustriesStockPresent_query.error : null}
             />
-            <ITable
-              title="جدول حقیقی حقوقی"
-              data={this.state.table2}
-              column={industries_table2.header}
+          </Grid.Col>
+          <Grid.Col span={12} md={6}>
+            <Chart
+              data={totalIndustriesStockValueQueue_query.data?.data?.series}
+              special={totalIndustriesStockValueQueue_query.data?.data?.special}
+              title={totalIndustriesStockValueQueue.title}
+              isLoading={totalIndustriesStockValueQueue_query.isLoading}
+              isFetching={totalIndustriesStockValueQueue_query.isFetching}
+              allow={totalIndustriesStockValueQueue?.allow}
+              error={totalIndustriesStockValueQueue_query.isError ? totalIndustriesStockValueQueue_query.error : null}
             />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-5">
-              <div>
-                <Chart
-                  data={this.state.chart1.series}
-                  special={this.state.chart1.special}
-                  title="محدوده قیمتی آخرین معامله نماد"
-                />
-              </div>
-              <div>
-                <Chart
-                  data={this.state.chart2.series}
-                  special={this.state.chart2.special}
-                  title="ارزش کل سفارش های روی تابلو گروه به میلیارد تومان"
-                />
-              </div>
-              <div>
-                <Chart
-                  data={this.state.chart3.series}
-                  special={this.state.chart3.special}
-                  title="تغیرات سرانه های خرید و فروش گروه به میلیون تومان"
-                />
-              </div>
-              <div>
-                <Chart
-                  data={this.state.chart4.series}
-                  special={this.state.chart4.special}
-                  title="تغییرات ورود پول اشخاص حقیقی به میلیارد تومان"
-                />
-              </div>
-              <div className='col-span-1 lg:col-span-2'>
-                <Chart
-                  data={this.state.chart5.series}
-                  special={this.state.chart5.special}
-                  title="تغییرات ارزش کل سفارش ها به میلیارد تومان"
-                />
-              </div>
-            </div>
+          </Grid.Col>
+          <Grid.Col span={12} md={6}>
+            <Chart
+              data={totalIndustriesChangeBuySellHeadsHistory_query.data?.data?.series}
+              special={totalIndustriesChangeBuySellHeadsHistory_query.data?.data?.special}
+              title={totalIndustriesChangeBuySellHeadsHistory.title}
+              isLoading={totalIndustriesChangeBuySellHeadsHistory_query.isLoading}
+              isFetching={totalIndustriesChangeBuySellHeadsHistory_query.isFetching}
+              allow={totalIndustriesChangeBuySellHeadsHistory?.allow}
+              error={totalIndustriesChangeBuySellHeadsHistory_query.isError ? totalIndustriesChangeBuySellHeadsHistory_query.error : null}
+            />
+          </Grid.Col>
+          <Grid.Col span={12} md={6}>
+            <Chart
+              data={totalIndustriesEnterManyBuyerIHistory_query.data?.data?.series}
+              special={totalIndustriesEnterManyBuyerIHistory_query.data?.data?.special}
+              title={totalIndustriesEnterManyBuyerIHistory.title}
+              isLoading={totalIndustriesEnterManyBuyerIHistory_query.isLoading}
+              isFetching={totalIndustriesEnterManyBuyerIHistory_query.isFetching}
+              allow={totalIndustriesEnterManyBuyerIHistory?.allow}
+              error={totalIndustriesEnterManyBuyerIHistory_query.isError ? totalIndustriesEnterManyBuyerIHistory_query.error : null}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Chart
+              data={totalIndustriesMarketOrderValueHistory_query.data?.data?.series}
+              special={totalIndustriesMarketOrderValueHistory_query.data?.data?.special}
+              title={totalIndustriesMarketOrderValueHistory.title}
+              isLoading={totalIndustriesMarketOrderValueHistory_query.isLoading}
+              isFetching={totalIndustriesMarketOrderValueHistory_query.isFetching}
+              allow={totalIndustriesMarketOrderValueHistory?.allow}
+              error={totalIndustriesMarketOrderValueHistory_query.isError ? totalIndustriesMarketOrderValueHistory_query.error : null}
+            />
+          </Grid.Col>
+        </Grid>
+        <ITable
+          title={totalIndustrialsStocks.title}
+          data={totalIndustrialsStocks_query.data?.data}  
+          column={totalIndustrialsStocks_query.data?.type == 1 ? industries_table3_type1.header : industries_table3_type2.header}
+          isLoading={totalIndustrialsStocks_query.isLoading}
+          isFetching={totalIndustrialsStocks_query.isFetching}
+          allow={totalIndustrialsStocks?.allow}
+          error={totalIndustrialsStocks_query.isError ? totalIndustrialsStocks_query.error : null}
+        />
+        
+  </>
 
-            {'type' in this.state.table3 ? (
-              <ITable
-                title={this.state.table3.title}
-                data={this.state.table3.data}
-                column={
-                  this.state.table3.type == 1
-                    ? industries_table3_type1.header
-                    : industries_table3_type2.header
-                }
-              />
-            ) : (
-              <ITable />
-            )}
-          </>
-        )}
-      </>
-    );
-  }
+  )
 }
 
 const mapStateToProps = (state) => ({
-  industryGroups: state.config.industriesGroups,
-  chartAndtables: state.config.needs.chartAndtables,
+  chartAndtables: state.config.needs.chartAndtables
 });
 
-export default withRouter(connect(mapStateToProps)(Index));
+export default connect(mapStateToProps)(Index);

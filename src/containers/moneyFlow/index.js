@@ -1,468 +1,99 @@
 import {
-  Button, Checkbox, Group, Modal, ScrollArea, Stack, Text
+  Button,
+  Checkbox,
+  Group,
+  Modal,
+  ScrollArea,
+  Stack,
+  Text,
 } from '@mantine/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { XChart } from '../home';
 import { useConfig } from '../../helper';
-import { useEffect } from 'react';
-
-// class MoneyFlow extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.oneCol = React.createRef();
-//   }
-//   state = {
-//     modalOpen: false,
-//     list: [
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش',
-//         checked: 1,
-//         id: '1',
-//       },
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش سهام حق تقدم و ص.سهامی',
-//         checked: 0,
-//         id: '2',
-//       },
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش صندوق های درآمد ثابت',
-//         checked: 0,
-//         id: '3',
-//       },
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش پنجاه سهم بزرگ',
-//         checked: 0,
-//         id: '4',
-//       },
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش سهام و حق تقدم ها',
-//         checked: 0,
-//         id: '5',
-//       },
-//       {
-//         label: 'تغییرات سرانه های خرید و فروش صندوق های سهامی',
-//         checked: 0,
-//         id: '6',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های بازار',
-//         checked: 1,
-//         id: '7',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های سهام و حق تقدم و ص.سهامی',
-//         checked: 0,
-//         id: '8',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های صندوق های درآمد ثابت',
-//         checked: 0,
-//         id: '9',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های پنجاه سهم بزرگ',
-//         checked: 0,
-//         id: '10',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های سهام و حق تقدم ها',
-//         checked: 0,
-//         id: '11',
-//       },
-//       {
-//         label: 'تغییرات ارزش کل سفارش های صندوق سهامی',
-//         checked: 0,
-//         id: '12',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاص حقیقی به بازار',
-//         checked: 1,
-//         id: '13',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاص حقیقی به سهام و حق تقدم و ص.سهامی',
-//         checked: 0,
-//         id: '14',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاص حقیقی به صندوق های درآمد ثابت',
-//         checked: 0,
-//         id: '15',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاص حقیقی به پنجاه سهم بزرگ',
-//         checked: 0,
-//         id: '16',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاص حقیقی به سهام و حق تقدم ها',
-//         checked: 0,
-//         id: '17',
-//       },
-//       {
-//         label: 'تغییرات ورود پول اشخاصی حقیقی به صندوق های سهامی',
-//         checked: 0,
-//         id: '18',
-//       },
-//     ],
-//     selectedList: [],
-//     chart1: {
-//       title: 'تغییرات سرانه های خرید و فروش بازار',
-//       data: {},
-//     },
-//     chart2: {
-//       title: 'تغییرات سرانه های خرید و فروش سهام حق تقدم و ص.سهامی',
-//       data: {},
-//     },
-//     chart3: {
-//       title: 'تغییرات سرانه های خرید و فروش صندوق های درآمد ثابت',
-//       data: {},
-//     },
-//     chart4: {
-//       title: 'تغییرات سرانه های خرید و فروش پنجاه سهم بزرگ',
-//       data: {},
-//     },
-//     chart5: {
-//       title: 'تغییرات سرانه های خرید و فروش سهام و حق تقدم ها',
-//       data: {},
-//     },
-//     chart6: {
-//       title: 'تغییرات سرانه های خرید و فروش صندوق های سهامی',
-//       data: {},
-//     },
-//     chart7: {
-//       title: 'تغییرات ارزش کل سفارش های بازار',
-//       data: {},
-//     },
-//     chart8: {
-//       title: 'تغییرات ارزش کل سفارش های سهام و حق تقدم و ص.سهامی',
-//       data: {},
-//     },
-//     chart9: {
-//       title: 'تغییرات ارزش کل سفارش های صندوق های',
-//       data: {},
-//     },
-//     chart10: {
-//       title: 'تغییرات ارزش کل سفارش های پنجاه سهم بزرگ',
-//       data: {},
-//     },
-//     chart11: {
-//       title: 'تغییرات ارزش کل سفارش های سهام و حق تقدم ها',
-//       data: {},
-//     },
-//     chart12: {
-//       title: 'تغییرات ارزش کل سفارش های صندوق سهامی',
-//       data: {},
-//     },
-//     chart13: {
-//       title: 'تغییرات ورود پول اشخاص حقیقی به بازار',
-//       data: {},
-//     },
-//     chart14: {
-//       title: 'تغییرات ورود پول اشخاص حقیقی به سهام و حق تقدم و ص.سهامی',
-//       data: {},
-//     },
-//     chart15: {
-//       title: 'تغییرات ورود پول اشخاصی حقیقی به صندوق های درآمد ثابت',
-//       data: {},
-//     },
-//     chart16: {
-//       title: 'تغییرات ورود پول اشخاصی حقیقی به پنجاه سهم بزرگ',
-//       data: {},
-//     },
-//     chart17: {
-//       title: 'تغییرات ورود پول اشخاصی حقیقی به سهام و حق تقدم ها',
-//       data: {},
-//     },
-//     chart18: {
-//       title: 'تغییرات ورود پول اشخاصی حقیقی به صندوق های سهامی',
-//       data: {},
-//     },
-//   };
-
-//   async chart1() {
-//     // find an object that it has a key named ChangeBuySellHeadsHistory
-//     const findedIt = this.props.chartAndtables.find(
-//       (item) => item.key === 'MF1'
-//     );
-//     try {
-//       let response = await getEveryFeeder(findedIt.feeder_url);
-//       // update that chart in the state chart it has 1 id
-//       this.setState({
-//         chart1: { ...this.state.chart1, data: response.data.data },
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-
-//   checkBoxesWorker = (e) => {
-//     // find that item
-//     const findedIt = this.state.list.find((item) => item.id === e.target.id);
-//     findedIt.checked = e.target.checked;
-//     // update the state
-//     this.setState({ list: Object.assign([], this.state.list, findedIt) });
-//   };
-//   getAllCharts = () => {
-//     // get all charts feed
-//     let config = this.props.chartAndtables;
-//     let findKeys = config.filter((item) => item.key.match(/MF[0-9]/g));
-//     findKeys.map(async (item) => {
-//       try {
-//         let response = await getEveryFeeder(item.feeder_url);
-//         let removeLettersFromKey = item.key.replace('MF', '');
-//         this.setState({
-//           [`chart${removeLettersFromKey}`]: {
-//             ...this.state[`chart${removeLettersFromKey}`],
-//             data: response.data.data,
-//           },
-//         });
-//       } catch (error) {
-//         console.log(error);
-//       }
-//       this[`${item.key}Interval`] = setInterval(async () => {
-//         try {
-//           let response = await getEveryFeeder(item.feeder_url);
-//           let removeLettersFromKey = item.key.replace('MF', '');
-//           this.setState({
-//             [`chart${removeLettersFromKey}`]: {
-//               ...this.state[`chart${removeLettersFromKey}`],
-//               data: response.data.data,
-//             },
-//           });
-//         } catch (error) {
-//           console.log(error);
-//         }
-//       }, item.refresh_time * 1000);
-//     });
-//   };
-//   componentDidMount() {
-//     this.getAllCharts();
-//   }
-
-//   componentWillUnmount() {
-//     this.clearInterval();
-//   }
-//   render() {
-//     return (
-//       <>
-//         <Helmet>
-//           <title>نمودار های جریانات نقدینگی لحظه ای</title>
-//         </Helmet>
-//         <Group position="apart">
-//           <Text size="sm">نمودار های جریانات نقدینگی لحظه ای</Text>
-//           <Button size="sm" onClick={() => this.setState({ modalOpen: true })}>
-//             تنظیمات نمایش چارت ها
-//           </Button>
-//         </Group>
-//         <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-//           <div>
-//             {[0, 1, 2, 3, 4, 5].map((item, id) => (
-//               <div className="my-2">
-//                 {this.state.list[item].checked == true && (
-//                   <Chart
-//                     key={id}
-//                     title={this.state[`chart${item + 1}`].title}
-//                     data={this.state[`chart${item + 1}`].data.series}
-//                     type="line"
-//                     special="MF1"
-//                     options={ChartData['MF1'].options}
-//                     height={300}
-//                   />
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//           <div>
-//             {[6, 7, 8, 9, 10, 11].map((item, id) => (
-//               <div className="my-2">
-//                 {this.state.list[item].checked == true && (
-//                   <Chart
-//                     key={id}
-//                     title={this.state[`chart${item + 1}`].title}
-//                     data={this.state[`chart${item + 1}`].data.series}
-//                     type="line"
-//                     special="MF7"
-//                     options={ChartData['MF7'].options}
-//                     height={300}
-//                   />
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//           <div>
-//             {[12, 13, 14, 15, 16, 17].map((item, id) => (
-//               <div className="my-2">
-//                 {this.state.list[item].checked == true && (
-//                   <Chart
-//                     key={id}
-//                     title={this.state[`chart${item + 1}`].title}
-//                     data={this.state[`chart${item + 1}`].data.series}
-//                     type="area"
-//                     special="MF13"
-//                     options={ChartData['MF13'].options}
-//                     width={350}
-//                     height={300}
-//                   />
-//                 )}
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//         <Modal
-//           opened={this.state.modalOpen}
-//           onClose={() => this.setState({ modalOpen: false })}
-//           title="نمایش چارت ها"
-//           zIndex={99999999999999}
-//           dir="rtl"
-//         >
-//           <ScrollArea sx={{ height: 300 }} dir="rtl" type="always">
-//             <Stack>
-//               {this.state.list.map((item, index) => (
-//                 <Checkbox
-//                   key={index}
-//                   onChange={(e) => this.checkBoxesWorker(e)}
-//                   {...item}
-//                 />
-//               ))}
-//             </Stack>
-//           </ScrollArea>
-//         </Modal>
-//       </>
-//     );
-//   }
-// }
+import { XChart } from '../home';
 
 const MoneyFlow = (props) => {
-  const [modal,setModal] = useState(false);
-  // find a good way to write MF1 to MF18 and get their config with useConfig
-  // dont forget you can not use useConfig in lower level in react functional component
-  // put all of them in a list and i need a setList function to change them
-  // just 1 and 6 and 18 are check
-  const [list,setList] = useState([
-    {key:'MF1',checked:true},
-    {key:'MF2',checked:false},
-    {key:'MF3',checked:false},
-    {key:'MF4',checked:false},
-    {key:'MF5',checked:false},
-    {key:'MF6',checked:true},
-    {key:'MF7',checked:false},
-    {key:'MF8',checked:false},
-    {key:'MF9',checked:false},
-    {key:'MF10',checked:false},
-    {key:'MF11',checked:false},
-    {key:'MF12',checked:false},
-    {key:'MF13',checked:false},
-    {key:'MF14',checked:false},
-    {key:'MF15',checked:false},
-    {key:'MF16',checked:false},
-    {key:'MF17',checked:false},
-    {key:'MF18',checked:true},
-  ]);
-  
-  // put other things in that list , it means you should get all configs from useConfig
-  // use useEffect
-  
+  const [modal, setModal] = useState(false);
 
-  useEffect(() => {
-    // get their configs from useConfig nad reput
-  
-  })
+  const prevList = useConfig(null, null, (checker) => {
+    let items = [];
+    // find items with regex from MF1 to MF18 and push to items and check 1 and 7 and 13
+    for (let i = 1; i <= 18; i++) {
+      let item = props.chartAndtables.find((item) => item.key === `MF${i}`);
+      if (item) {
+        let completeItem = checker(item);
+        items.push({ ...completeItem, checked: i === 1 || i === 7 || i === 13 });
+      }
+    }
+    return items;
+  });
 
+  const [list, setList] = useState([...prevList]);
 
   return (
     <>
-    <Helmet>
-      <title>نمودار های جریانات نقدینگی لحظه ای</title>
-    </Helmet>
-    <Group position="apart">
-      <Text size="sm">نمودار های جریانات نقدینگی لحظه ای</Text>
-      <Button size="sm" onClick={setModal}>
-        تنظیمات نمایش چارت ها
-      </Button>
-    </Group>
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-      <div>
-        {[0, 1, 2, 3, 4, 5].map((item, id) => (
-          <div className="my-2">
-            {list[item].checked == true && (
-              <XChart item={list[item.key]} />
-              // <Chart
-              //   key={id}
-              //   title={this.state[`chart${item + 1}`].title}
-              //   data={this.state[`chart${item + 1}`].data.series}
-              //   type="line"
-              //   special="MF1"
-              //   options={ChartData['MF1'].options}
-              //   height={300}
-              // />
-            )}
-          </div>
-        ))}
-      </div>
-      <div>
-        {[6, 7, 8, 9, 10, 11].map((item, id) => (
-          <div className="my-2">
-            {/* {this.state.list[item].checked == true && (
-              <Chart
-                key={id}
-                title={this.state[`chart${item + 1}`].title}
-                data={this.state[`chart${item + 1}`].data.series}
-                type="line"
-                special="MF7"
-                options={ChartData['MF7'].options}
-                height={300}
-              />
-            )} */}
-          </div>
-        ))}
-      </div>
-      <div>
-        {[12, 13, 14, 15, 16, 17].map((item, id) => (
-          <div className="my-2">
-            {/* {this.state.list[item].checked == true && (
-              <Chart
-                key={id}
-                title={this.state[`chart${item + 1}`].title}
-                data={this.state[`chart${item + 1}`].data.series}
-                type="area"
-                special="MF13"
-                options={ChartData['MF13'].options}
-                width={350}
-                height={300}
-              />
-            )} */}
-          </div>
-        ))}
-      </div>
-    </div>
-    <Modal
-      opened={modal}
-      onClose={setModal}
-      title="نمایش چارت ها"
-      zIndex={99999999999999}
-      dir="rtl"
-    >
-      <ScrollArea sx={{ height: 300 }} dir="rtl" type="always">
-        <Stack>
-          {list.map((item, index) => (
-            <Checkbox
-              onChange={(e) => setList(item => {
-                item[index].checked = e.target.checked;
-                return item;
-              })}
-              {...item}
-            />
+      <Helmet>
+        <title>نمودار های جریانات نقدینگی لحظه ای</title>
+      </Helmet>
+      <Group position="apart">
+        <Text size="sm">نمودار های جریانات نقدینگی لحظه ای</Text>
+        <Button size="sm" onClick={setModal}>
+          تنظیمات نمایش چارت ها
+        </Button>
+      </Group>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+        <div className='min-h-[300px]'>
+          {list.slice(0, 6).map((item, id) => (
+            <div className="my-2" key={id}>
+              {item.checked === true && <XChart item={item} />}
+            </div>
           ))}
-        </Stack>
-      </ScrollArea>
-    </Modal>
-  </>
-  )
-}
-
+        </div>
+        <div className='min-h-[300px]'>
+          {list.slice(6, 12).map((item, id) => (
+            <div className="my-2" key={id}>
+              {item.checked === true && <XChart item={item} />}
+            </div>
+          ))}
+        </div>
+        <div className='min-h-[300px]'>
+          {list.slice(12, 18).map((item, id) => (
+            <div className="my-2" key={id}>
+              {item.checked === true && <XChart item={item} />}
+            </div>
+          ))}
+        </div>
+      </div>
+      <Modal
+        opened={modal}
+        onClose={setModal}
+        title="نمایش چارت ها"
+        zIndex={99999999999999}
+        dir="rtl"
+      >
+        <ScrollArea sx={{ height: 300 }} dir="rtl" type="always">
+          <Stack>
+            {list.map((item, index) => (
+              <Checkbox
+                key={index}
+                onChange={(e) =>
+                  setList((item) => {
+                    let newList = [...item];
+                    newList[index].checked = e.target.checked;
+                    return [...newList];
+                  })
+                }
+                label={item.title}
+                {...item}
+              />
+            ))}
+          </Stack>
+        </ScrollArea>
+      </Modal>
+    </>
+  );
+};
 
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,

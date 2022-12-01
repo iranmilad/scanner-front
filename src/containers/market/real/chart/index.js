@@ -2207,11 +2207,6 @@ class Market extends Component {
         </Helmet>
         <Group position="apart">
           <Text>{this.state.title}</Text>
-          <Select
-            onChange={(e) => this.changeGroup(e)}
-            placeholder="انتخاب کنید"
-            data={this.state.industrieLists}
-          />
         </Group>
         <Paper p="lg" shadow="xs" radius="md" mt="lg">
           <Chips

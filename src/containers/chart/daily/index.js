@@ -176,7 +176,7 @@ const Daily = (props) => {
           searchable
           onChange={setParam}
           placeholder="انتخاب صنعت"
-          defaultValue={dailyCashFlowIndustriesGroup_query.data?.data[0]?.value}
+          defaultValue={`${dailyCashFlowIndustriesGroup_query.data?.data[0]?.value}`}
           data={dailyCashFlowIndustriesGroup_query.isLoading ? [] : dailyCashFlowIndustriesGroup_query.data?.data}
         />
       </Group>

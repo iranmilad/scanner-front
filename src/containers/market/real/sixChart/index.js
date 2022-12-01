@@ -346,22 +346,22 @@ const SixChart = (props) => {
   const [date,setDate] = useState(symbolHistoryDate_query.data?.data[0].value);
 
   let symbolMoneyflowTotalEnterManyBuyerIHistory = useConfig(props.chartAndtables,'symbolMoneyflowTotalEnterManyBuyerIHistory');
-  let symbolMoneyflowTotalEnterManyBuyerIHistory_query = useData(symbolMoneyflowTotalEnterManyBuyerIHistory,`/${id}`);
+  let symbolMoneyflowTotalEnterManyBuyerIHistory_query = useData(symbolMoneyflowTotalEnterManyBuyerIHistory,`/${id}${date !== undefined ? `/${date}` : ''}`);
 
   let symbolMoneyflowTotalChangeBuySellHeadsHistory = useConfig(props.chartAndtables,'symbolMoneyflowTotalChangeBuySellHeadsHistory');
-  let symbolMoneyflowTotalChangeBuySellHeadsHistory_query = useData(symbolMoneyflowTotalChangeBuySellHeadsHistory,`/${id}`);
+  let symbolMoneyflowTotalChangeBuySellHeadsHistory_query = useData(symbolMoneyflowTotalChangeBuySellHeadsHistory,`/${id}${date !== undefined ? `/${date}` : ''}`);
 
   let symbolTradeLastDayHistory = useConfig(props.chartAndtables,"symbolTradeLastDayHistory");
-  let symbolTradeLastDayHistory_query = useData(symbolTradeLastDayHistory,`/${id}`)
+  let symbolTradeLastDayHistory_query = useData(symbolTradeLastDayHistory,`/${id}${date !== undefined ? `/${date}` : ''}`)
 
   let symbolTradeValueHistory = useConfig(props.chartAndtables,"symbolTradeValueHistory");
-  let symbolTradeValueHistory_query = useData(symbolTradeValueHistory,`/${id}`);
+  let symbolTradeValueHistory_query = useData(symbolTradeValueHistory,`/${id}${date !== undefined ? `/${date}` : ''}`);
 
   let symbolCounterBuyerSellerHistory = useConfig(props.chartAndtables,"symbolCounterBuyerSellerHistory");
-  let symbolCounterBuyerSellerHistory_query = useData(symbolCounterBuyerSellerHistory,`/${id}`);
+  let symbolCounterBuyerSellerHistory_query = useData(symbolCounterBuyerSellerHistory,`/${id}${date !== undefined ? `/${date}` : ''}`);
 
   let symbolTradeTimeValueHistory = useConfig(props.chartAndtables,"symbolTradeTimeValueHistory");
-  let symbolTradeTimeValueHistory_query = useData(symbolTradeTimeValueHistory,`/${id}`);
+  let symbolTradeTimeValueHistory_query = useData(symbolTradeTimeValueHistory,`/${id}${date !== undefined ? `/${date}` : ''}`);
 
   return (
     <>
@@ -375,58 +375,87 @@ const SixChart = (props) => {
           disabled={symbolHistoryDate_query.isLoading}
         />
     </Group>
-    <Grid mt="md">
+    <Grid mt="md" grow>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX1"
+          className="min-h-[300px]"
+          special={symbolMoneyflowTotalEnterManyBuyerIHistory.key}
           data={symbolMoneyflowTotalEnterManyBuyerIHistory_query.data?.data?.series}
           title={symbolMoneyflowTotalEnterManyBuyerIHistory.title}
+          isLoading={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isLoading}
+          isFetching={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isFetching}
+          error={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isError ? symbolMoneyflowTotalEnterManyBuyerIHistory_query.error : null}
+          allow={symbolMoneyflowTotalEnterManyBuyerIHistory?.allow}
           type="area"
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX2"
+          className="min-h-[300px]"
+          special={symbolMoneyflowTotalChangeBuySellHeadsHistory.key}
           data={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.data?.data?.series}
           title={symbolMoneyflowTotalChangeBuySellHeadsHistory.title}
+          isLoading={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isLoading}
+          isFetching={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isFetching}
+          error={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isError ? symbolMoneyflowTotalChangeBuySellHeadsHistory_query.error : null}
+          allow={symbolMoneyflowTotalChangeBuySellHeadsHistory?.allow}
           type="line"
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX3"
+          className="min-h-[300px]"
+          special={symbolTradeLastDayHistory.key}
           data={symbolTradeLastDayHistory_query.data?.data?.series}
           title={symbolTradeLastDayHistory.title}
+          isLoading={symbolTradeLastDayHistory_query.isLoading}
+          isFetching={symbolTradeLastDayHistory_query.isFetching}
+          error={symbolTradeLastDayHistory_query.isError ? symbolTradeLastDayHistory_query.error : null}
+          allow={symbolTradeLastDayHistory?.allow}
           type="area"
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX4"
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
           data={symbolTradeValueHistory_query.data?.data?.series}
           title={symbolTradeValueHistory.title}
+          isLoading={symbolTradeValueHistory_query.isLoading}
+          isFetching={symbolTradeValueHistory_query.isFetching}
+          error={symbolTradeValueHistory_query.isError ? symbolTradeValueHistory_query.error : null}
+          allow={symbolTradeValueHistory?.allow}
           type="area"
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX5"
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
           data={symbolCounterBuyerSellerHistory_query.data?.data?.series}
           title={symbolCounterBuyerSellerHistory.title}
           type="line"
-
+          isLoading={symbolCounterBuyerSellerHistory_query.isLoading}
+          isFetching={symbolCounterBuyerSellerHistory_query.isFetching}
+          error={symbolCounterBuyerSellerHistory_query.isError ? symbolCounterBuyerSellerHistory_query.error : null}
+          allow={symbolCounterBuyerSellerHistory?.allow}
           height={300}
         />
       </Grid.Col>
       <Grid.Col sm={6} md={4}>
         <Chart
-          special="FX6"
+          className="min-h-[300px]"
+          special={symbolTradeTimeValueHistory.key}
           data={symbolTradeTimeValueHistory_query.data?.data?.series}
           title={symbolTradeTimeValueHistory.title}
+          isLoading={symbolTradeTimeValueHistory_query.isLoading}
+          isFetching={symbolTradeTimeValueHistory_query.isFetching}
+          error={symbolTradeTimeValueHistory_query.isError ? symbolTradeTimeValueHistory_query.error : null}
+          allow={symbolTradeTimeValueHistory?.allow}
           type="bar"
           height={300}
         />

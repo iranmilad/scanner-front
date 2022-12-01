@@ -1,27 +1,41 @@
 import {
-  ActionIcon, Box, Button, Center, Grid, Group, Loader, LoadingOverlay, Paper, Text, Tooltip
+  ActionIcon,
+  Box,
+  Button,
+  Center,
+  Grid,
+  Group,
+  Loader,
+  LoadingOverlay,
+  Paper,
+  Text,
+  Tooltip,
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import lodash from 'lodash';
-import { useEffect, useState } from 'react';
-import { withCookies } from 'react-cookie';
+import { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { useParams, withRouter } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import colors from 'tailwindcss/colors';
 import { getEveryUser } from '../../../apis/main';
 import ITable from '../../../components/ITable';
+import StockHighOrder from '../../../components/StockHighOrder';
 import { useConfig, useData } from '../../../helper';
 import { header as clientSummaryHeader } from './clientSummary/header';
 import {
-  bookMarkSummary, changePerfomance,
-  combinationAssets, statementPerdiod, totalClientSummary, totlaBookMarkSummary
+  bookMarkSummary,
+  changePerfomance,
+  combinationAssets,
+  statementPerdiod,
+  totalClientSummary,
+  totlaBookMarkSummary,
 } from './headers';
 import InstantCharts from './instantCharts';
 import LightChart from './lightChart';
 import StockInformation from './stockInformation';
 import { header as traderSummaryHeader } from './traderSummary/header';
-import StockHighOrder from "../../../components/StockHighOrder"
+import memberNotification from '../../../assets/images/memberNotification.svg';
 
 /**
  * @description Real Market means Sahm - صفحه سهم
@@ -389,14 +403,7 @@ const RealMarket = (props) => {
   );
   let symbolStatmentPeriod_query = useData(symbolStatmentPeriod, `/${id}`);
 
-  let symbolSupportResistance = useConfig(
-    props.chartAndtables,
-    'symbolSupportResistance'
-  );
-  let symbolSupportResistance_query = useData(
-    symbolSupportResistance,
-    `/${id}`
-  );
+
 
   let symbolTechnicalValue = useConfig(
     props.chartAndtables,
@@ -408,8 +415,8 @@ const RealMarket = (props) => {
     props.chartAndtables,
     'symbolChangePerfomance'
   );
-  let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`,{
-    enabled: props?.symbol?.fund === true ? true : false
+  let symbolChangePerfomance_query = useData(symbolChangePerfomance, `/${id}`, {
+    enabled: props?.symbol?.fund === true ? true : false,
   });
 
   let symbolCombinationAssets = useConfig(
@@ -422,103 +429,6 @@ const RealMarket = (props) => {
   );
 
 
-  function createNotification(id, setLoading) {
-    if (!id) return null;
-    setLoading(true);
-
-    getEveryUser('/user/member-lists/create', {
-      token: true,
-      method: 'post',
-      data: {
-        member_list_id: id,
-      },
-    })
-      .then((res) => {
-        setLoading();
-      })
-      .catch((err) => {
-        setLoading();
-      });
-  }
-
-  function removeNotification(id, loadingWorker, setLoading) {
-    if (!id) return null;
-    setLoading();
-    getEveryUser('/user/member-lists/delete', {
-      token: true,
-      method: 'post',
-      data: {
-        member_list_id: id,
-      },
-    })
-      .then((res) => {
-        loadingWorker();
-      })
-      .catch((err) => {
-        loadingWorker();
-      });
-  }
-
-  const [allowMemberList, setAllowMemberList] = useState(false);
-  let member_lists_query = useQuery({
-    queryKey: ['member-lists', id],
-    queryFn: async () => {
-      let response = await getEveryUser('/member-lists', {
-        token: true,
-      });
-      return response.data;
-    },
-    staleTime: 90 * 1000,
-    retry: 2,
-    retryOnMount: false,
-    refetchOnWindowFocus: false,
-    onSuccess: (e) => {
-      setAllowMemberList(true);
-    },
-    onError: () => {
-      setAllowMemberList(false);
-    },
-  });
-
-  let user_member_lists = useQuery({
-    queryKey: ['user_member_lists'],
-    queryFn: async () => {
-      let response = await getEveryUser('/user/member-lists', {
-        token: true,
-      });
-      return response.data;
-    },
-  });
-
-  /**
-   *
-   * @param {string} title
-   * @param {string} description
-   * @returns
-   */
-  function CheckMemberListExist(title, description) {
-    if (!description) return null;
-    if (lodash.isEmpty(member_lists_query.data?.data)) return null;
-    let item = member_lists_query.data?.data.find(
-      (item) => item.title === title && item.description === description
-    );
-    if (lodash.isEmpty(item)) return null;
-
-    if (item.active === false) {
-      return { id: item.id, type: 'DISABLE' };
-    }
-    if (lodash.isEmpty(user_member_lists.data?.data)) {
-      return { id: item.id, type: 'ADD' };
-    }
-    let existItemInUserMemberList = user_member_lists.data?.data.find(
-      (item) => item.title === title && item.description === description
-    );
-    if (existItemInUserMemberList)
-      return { id: existItemInUserMemberList.member_list_id, type: 'REMOVE' };
-
-    return { id: item.id, type: 'ADD' };
-  }
-
   return (
     <>
       <Helmet>
@@ -526,7 +436,13 @@ const RealMarket = (props) => {
       </Helmet>
       <Group position="apart">
         <Text>{props?.symbol?.name || ''}</Text>
-        <Button disabled={props.symbol ? false : true} loading={props.symbol ? false : true} onClick={() => setModal(!modal)}>اطلاعات نماد</Button>
+        <Button
+          disabled={props.symbol ? false : true}
+          loading={props.symbol ? false : true}
+          onClick={() => setModal(!modal)}
+        >
+          اطلاعات نماد
+        </Button>
       </Group>
       <StockInformation
         opended={modal}
@@ -539,7 +455,11 @@ const RealMarket = (props) => {
         isLoading={symbolTradeSummery_query.isLoading}
         isFetching={symbolTradeSummery_query.isFetching}
         allow={symbolTradeSummery?.allow}
-        error={symbolTradeSummery_query.isError ? symbolTradeSummery_query.error : null}
+        error={
+          symbolTradeSummery_query.isError
+            ? symbolTradeSummery_query.error
+            : null
+        }
         column={traderSummaryHeader}
         title={symbolTradeSummery.title}
       />
@@ -548,7 +468,11 @@ const RealMarket = (props) => {
         isLoading={symbolClientSummery_query.isLoading}
         isFetching={symbolClientSummery_query.isFetching}
         allow={symbolClientSummery?.allow}
-        error={symbolClientSummery_query.isError ? symbolClientSummery_query.error : null}
+        error={
+          symbolClientSummery_query.isError
+            ? symbolClientSummery_query.error
+            : null
+        }
         column={clientSummaryHeader}
         title={symbolClientSummery.title}
       />
@@ -557,7 +481,11 @@ const RealMarket = (props) => {
         isLoading={symbolBookMarkSummery_query.isLoading}
         isFetching={symbolBookMarkSummery_query.isFetching}
         allow={symbolBookMarkSummery?.allow}
-        error={symbolBookMarkSummery_query.isError ? symbolBookMarkSummery_query.error : null}
+        error={
+          symbolBookMarkSummery_query.isError
+            ? symbolBookMarkSummery_query.error
+            : null
+        }
         column={bookMarkSummary}
         title={symbolBookMarkSummery.title}
       />
@@ -566,7 +494,11 @@ const RealMarket = (props) => {
         isLoading={symboltotalBookMarkSummery_query.isLoading}
         isFetching={symboltotalBookMarkSummery_query.isFetching}
         allow={symboltotalBookMarkSummery?.allow}
-        error={symboltotalBookMarkSummery_query.isError ? symboltotalBookMarkSummery_query.error : null}
+        error={
+          symboltotalBookMarkSummery_query.isError
+            ? symboltotalBookMarkSummery_query.error
+            : null
+        }
         column={totlaBookMarkSummary}
         title={symboltotalBookMarkSummery.title}
       />
@@ -575,7 +507,11 @@ const RealMarket = (props) => {
         isLoading={symbolTotalClientSummery_query.isLoading}
         isFetching={symbolTotalClientSummery_query.isFetching}
         allow={symbolTotalClientSummery?.allow}
-        error={symbolTotalClientSummery_query.isError ? symbolTotalClientSummery_query.error : null}
+        error={
+          symbolTotalClientSummery_query.isError
+            ? symbolTotalClientSummery_query.error
+            : null
+        }
         column={totalClientSummary}
         title={symbolTotalClientSummery.title}
       />
@@ -584,105 +520,50 @@ const RealMarket = (props) => {
         isLoading={symbolStatmentPeriod_query.isLoading}
         isFetching={symbolStatmentPeriod_query.isFetching}
         allow={symbolStatmentPeriod?.allow}
-        error={symbolStatmentPeriod_query.isError ? symbolStatmentPeriod_query.error : null}
+        error={
+          symbolStatmentPeriod_query.isError
+            ? symbolStatmentPeriod_query.error
+            : null
+        }
         column={statementPerdiod}
-        title={`${symbolStatmentPeriod.title} ${symbolInfo_query.data?.name || ''}`}
+        title={`${symbolStatmentPeriod.title} ${
+          symbolInfo_query.data?.name || ''
+        }`}
       />
-        <ITable
-          className={props?.symbol?.fund === true ? 'block' : 'hidden'}
-          data={symbolChangePerfomance_query?.data?.data}
-          isLoading={symbolChangePerfomance_query.isLoading}
-          isFetching={symbolChangePerfomance_query.isFetching}
-          allow={symbolChangePerfomance?.allow}
-          error={symbolChangePerfomance_query.isError ? symbolChangePerfomance_query.error : null}
-          column={changePerfomance}
-          title={`${symbolChangePerfomance.title} ${
-            props?.symbol?.name || ''
-          }`}
-        />
+      <ITable
+        className={props?.symbol?.fund === true ? 'block' : 'hidden'}
+        data={symbolChangePerfomance_query?.data?.data}
+        isLoading={symbolChangePerfomance_query.isLoading}
+        isFetching={symbolChangePerfomance_query.isFetching}
+        allow={symbolChangePerfomance?.allow}
+        error={
+          symbolChangePerfomance_query.isError
+            ? symbolChangePerfomance_query.error
+            : null
+        }
+        column={changePerfomance}
+        title={`${symbolChangePerfomance.title} ${props?.symbol?.name || ''}`}
+      />
       <ITable
         data={symbolCombinationAssets_query?.data?.data}
         isLoading={symbolCombinationAssets_query.isLoading}
         isFetching={symbolCombinationAssets_query.isFetching}
         allow={symbolCombinationAssets?.allow}
-        error={symbolCombinationAssets_query.isError ? symbolCombinationAssets_query.error : null}
+        error={
+          symbolCombinationAssets_query.isError
+            ? symbolCombinationAssets_query.error
+            : null
+        }
         column={combinationAssets}
         title={`${symbolCombinationAssets.title} ${props?.symbol?.name || ''}`}
       />
       <LightChart stockId={id} />
-     <InstantCharts stockId={id} />
-      <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
-        <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
-        <Text size="sm">
-          حمایت ها و مقاومت های پیش روی {symbolInfo_query.data?.name || ''}
-        </Text>
-        {symbolSupportResistance_query.isLoading ? (
-          <Center>
-            <Loader variant="dots" />
-          </Center>
-        ) : (
-          <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Right Section */}
-            <div className="w-full space-y-3">
-              {'data' in symbolSupportResistance_query.data
-                ? symbolSupportResistance_query?.data?.data.n0.map(
-                    (item, index) => {
-                      return (
-                        <div className="w-full h-12">
-                          <SupportBox
-                            allow={
-                              // this.state.allMembmerList.length > 0
-                              //   ? true
-                              //   : false
-                              true
-                            }
-                            CheckMemberListExist={CheckMemberListExist}
-                            id={id}
-                            key={index}
-                            add={createNotification}
-                            remove={removeNotification}
-                            item={item}
-                            bg={colors.sky[500]}
-                          />
-                        </div>
-                      );
-                    }
-                  )
-                : null}
-            </div>
-            {/* Left section */}
-            <div className="w-full space-y-3">
-              {'data' in symbolSupportResistance_query.data
-                ? symbolSupportResistance_query?.data?.data?.n1.map(
-                    (item, index) => {
-                      return (
-                        <div className="w-full h-12">
-                          <SupportBox
-                            item={item}
-                            allow={
-                              // this.state.allMembmerList.length > 0 ? true : false
-                              true
-                            }
-                            CheckMemberListExist={CheckMemberListExist}
-                            id={id}
-                            key={index}
-                            add={createNotification}
-                            remove={removeNotification}
-                            bg={colors.indigo[500]}
-                          />
-                        </div>
-                      );
-                    }
-                  )
-                : null}
-            </div>
-          </div>
-        )}
-      </Paper>
+      <InstantCharts stockId={id} />
+      <SupportResistanceBox chartAndtables={props.chartAndtables} id={id} symbol={props.symbol} />
 
       <Paper p="xl" radius="md" shadow="xs" mt="xl">
         <Text size="sm">
-          اندیکاتور های نماد {symbolInfo_query.data?.name || ''}
+          {symbolTechnicalValue.title} {props.symbol?.name || ''}
         </Text>
         <Grid mt="md">
           {symbolTechnicalValue_query.isLoading ? (
@@ -751,122 +632,240 @@ const RealMarket = (props) => {
   );
 };
 
-const SupportBox = ({
-  item,
-  bg,
-  add,
-  remove,
-  allow,
-  CheckMemberListExist,
-  id,
-}) => {
-  const [loading, setLoading] = useState(true);
-  const [state, setState] = useState(null);
 
-  function loadingWorker(status) {
-    if (state.type === 'ADD') setState((prev) => ({ ...prev, type: 'REMOVE' }));
-    else if (state.type === 'REMOVE')
-      setState((prev) => ({ ...prev, type: 'ADD' }));
-    else setState((prev) => ({ ...prev, type: 'DISABLE' }));
+const SupportResistanceBox = ({chartAndtables,id,symbol}) => {
+
+  let symbolSupportResistance = useConfig(
+    chartAndtables,
+    'symbolSupportResistance'
+  );
+  let symbolSupportResistance_query = useData(
+    symbolSupportResistance,
+    `/${id}`
+  );
+
+  let [memberList,setMemberList] = useState([]);
+  let member_lists_query = useQuery({
+    queryKey: ['member-lists', id],
+    queryFn: async () => {
+      let response = await getEveryUser('/member-lists', {
+        token: true,
+      });
+      return response.data;
+    },
+    staleTime: 90 * 1000,
+    retry: 2,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setMemberList(data.message);
+    }
+  });
+
+  let [userMemberList, setUserMemberList] = useState([]);
+  let user_member_lists = useQuery({
+    queryKey: ['user_member_lists'],
+    queryFn: async () => {
+      let response = await getEveryUser('/user/member-lists', {
+        token: true,
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setUserMemberList(data);
+    }
+  });
+
+  // console.log(memberList)
+
+  function CheckMemberListExist(title,description){
+    if(! title) return false;
+    if(! description) return false;
+    if(lodash.isEmpty(memberList)) return false;
+    // find that item in user memeber list
+    console.log(userMemberList)
+    let that = userMemberList.find(item => item.title === title && item.description === description);
+
+    
+    if(lodash.isEmpty(that)){
+      let item = memberList.filter(item => item.title === title && item.description === description);
+      if(lodash.isEmpty(item)) return false;
+      return {id:item.id,type: "ADD"}
+    }
+    else{
+      if(that.active === false) return {id:that.id, type:'DISABLE'};
+      return {id:that.id, type: "REMOVE"};
+    }
+
+
   }
 
-  useEffect(() => {
-    setState(CheckMemberListExist(id, item.id));
+  useEffect(()=>{
+    setMemberList(member_lists_query.data?.message);
+  },[member_lists_query.isLoading])
+
+  useEffect(()=>{
+    setUserMemberList(user_member_lists.data?.data);
+  },[user_member_lists.isLoading])
+
+
+  return (
+    <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
+    <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
+    <Text size="sm" mb="md">
+      {symbolSupportResistance.title} {symbol?.name || ''}
+    </Text>
+    {symbolSupportResistance_query.isLoading && member_lists_query.isLoading && user_member_lists.isLoading ? (
+      <Center>
+        <Loader variant="dots" />
+      </Center>
+    ) : (
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Right Section */}
+        {/* <div className="w-full space-y-3">
+          {'data' in symbolSupportResistance_query.data
+            ? symbolSupportResistance_query?.data?.data.n0.map(
+                (item, index) => {
+                  return (
+                    <div className="">
+                      <NotificationBox
+                        item={item}
+                        id={id}
+                        bg={colors.sky[500]}
+                        CheckMemberListExist={CheckMemberListExist}
+                      />
+                    </div>
+                  );
+                }
+              )
+            : null}
+        </div> */}
+        {/* Left section */}
+        <div className="w-full space-y-3">
+          {'data' in symbolSupportResistance_query.data
+            ? symbolSupportResistance_query?.data?.data?.n1.map(
+                (item, index) => {
+                  return (
+                    <div className="" key={index}>
+                      <NotificationBox
+                        item={item}
+                        id={id}
+                        bg={colors.indigo[500]}
+                        CheckMemberListExist={CheckMemberListExist}
+                      />
+                    </div>
+                  );
+                }
+              )
+            : null}
+        </div>
+      </div>
+    )}
+  </Paper>
+  )
+}
+
+
+
+const NotificationBox = ({ item, id, bg, CheckMemberListExist ,allow}) => {
+  const [state, setState] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  CheckMemberListExist(id,item.id)
+
+
+  const loadingWorker = useCallback(() => {
     setLoading(!loading);
   }, []);
 
+  function createNotification() {
+    getEveryUser('/user/member-lists/create', {
+      token: true,
+      method: 'post',
+      data: {
+        member_list_id: id,
+      },
+    })
+      .then((res) => {
+        setState('remove');
+        loadingWorker();
+      })
+      .catch((err) => {
+        console.log(err);
+        loadingWorker();
+      });
+  }
+
+  function removeNotification() {
+    getEveryUser('/user/member-lists/delete', {
+      token: true,
+      method: 'post',
+      data: {
+        member_list_id: id,
+      },
+    })
+      .then((res) => {
+        setState('add');
+        loadingWorker();
+      })
+      .catch((err) => {
+        console.log(err);
+        loadingWorker();
+      });
+  }
+
+
   return (
     <Box
-      className="rounded-sm"
+      sx={{ background: bg }}
       p="md"
-      style={{ background: bg, height: '100%' }}
+      borderRadius="md"
+      boxShadow="md"
+      // className="flex flex-col justify-between"
     >
       <Group position="apart">
         <Text size="sm" color="white">
           {item.label}
         </Text>
-
-        {allow ? (
-          <>
-            {state !== null
-              ? state.type === 'ADD' && (
-                  <Tooltip
-                    withArrow
-                    color="teal"
-                    label="فعال کردن اعلان"
-                    openDelay={500}
-                  >
-                    <ActionIcon
-                      variant="filled"
-                      color="teal"
-                      loading={loading}
-                      onClick={() =>
-                        add(
-                          CheckMemberListExist(id, item.id).id,
-                          loadingWorker,
-                          () => setLoading(!loading)
-                        )
-                      }
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512"
-                        className="fill-white w-4 h-4"
-                      >
-                        <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
-                      </svg>
-                    </ActionIcon>
-                  </Tooltip>
-                )
-              : ''}
-
-            {state !== null
-              ? state.type === 'REMOVE' && (
-                  <Tooltip
-                    withArrow
-                    color="red"
-                    label="غیر فعال کردن اعلان"
-                    openDelay={500}
-                  >
-                    <ActionIcon
-                      variant="filled"
-                      color="red"
-                      loading={loading}
-                      onClick={() =>
-                        remove(
-                          CheckMemberListExist(id, item.id).id,
-                          loadingWorker,
-                          setLoading
-                        )
-                      }
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512"
-                        className="fill-white w-4 h-4"
-                      >
-                        <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
-                      </svg>
-                    </ActionIcon>
-                  </Tooltip>
-                )
-              : ''}
-            {state !== null
-              ? state.type === 'DISABLE' && (
-                  <Tooltip
-                    withArrow
-                    color="gray"
-                    label="اعلان در دسترس نیست"
-                    openDelay={500}
-                  >
-                    <ActionIcon variant="filled" color="red" disabled>
-                      #
-                    </ActionIcon>
-                  </Tooltip>
-                )
-              : ''}
-          </>
-        ) : null}
+        {/* make this button with tooltip and action button and we have 3 color (gray,green,red) */}
+        {/* if state null dont show otherwise show */}
+        {state === false ? null : (
+        <Tooltip
+          content={
+            state.type === 'ADD'
+              ? 'فعال کردن اعلان'
+              : state.type === 'REMOVE'
+              ? 'غیر فعال کردن اعلان'
+              : 'اعلان در دسترس نیست'
+          }
+          placement="top"
+        >
+          <ActionIcon
+            variant="filled"
+            disabled={state.type === 'DISABLE' ? true : false}
+            loading={loading}
+            color={
+              state.type === 'ADD' ? 'teal' : state.type === 'REMOVE' ? 'red' : 'gray'
+            }
+            onClick={() => {
+              loadingWorker();
+              if (state.type === 'ADD') {
+                createNotification(id, item.id, loadingWorker);
+              } else {
+                removeNotification(id, item.id, loadingWorker);
+              }
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 448 512"
+              className="fill-white w-4 h-4"
+            >
+              <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
+            </svg>
+          </ActionIcon>
+        </Tooltip>
+        )}
       </Group>
     </Box>
   );

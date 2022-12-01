@@ -165,15 +165,18 @@ const minAndMax = (arr, min, max) =>
 export function useConfig(array, key,callback) {
   const [cookies] = useCookies(['token']);
   let item = array;
-  if(callback) return callback();
-  item = item.find((item) => item.key === key);
-  if (cookies.token && cookies.token !== '') {
-    if (item.active) return item;
-    else return { ...item, allow: 'sub' };
-  } else {
-    if (item.active) return item;
-    else return { ...item, allow: 'login' };
+  function checker(item){
+    if (cookies.token && cookies.token !== '') {
+      if (item.active) return item;
+      else return { ...item, allow: 'sub' };
+    } else {
+      if (item.active) return item;
+      else return { ...item, allow: 'login' };
+    }
   }
+  if(callback) return callback(checker);
+  item = item.find((item) => item.key === key);
+  return checker(item)
 }
 
 export function useData(item, params, ...other) {

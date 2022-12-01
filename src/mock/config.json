@@ -175,7 +175,7 @@
             "key": "MF1",
             "refresh_time": "60",
             "feeder_url": "/api/moneyflow/moneyflowTotalChangeBuySellHeadsHistory",
-            "active": true
+            "active": false
         },
         {
             "id": 27,
@@ -862,13 +862,5 @@
             "payment_link": "https://payment.tseshow.com/123"
         }
     ],
-    "profile": {
-        "id": 8,
-        "first_name": "",
-        "last_name": "فرهاد باقری",
-        "mobile": "09374039436",
-        "active": "1",
-        "special": false,
-        "created_at": "1401/06/20"
-    }
+    "profile": null
 }

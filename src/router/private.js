@@ -7,7 +7,7 @@ const Order_Watch = React.lazy(()=> import("../containers/extra/orderWatch"));
 const Tops = React.lazy(()=> import("../containers/tops"));
 const Market_Chart = React.lazy(()=> import("../containers/market/chart"));
 const TechnoWatch = React.lazy(()=> import("../containers/extra/technoWatch"));
-const LongMoneyFlow = React.lazy(()=> import("../containers/extra/flowFilters"));
+const LongMoneyFlow = React.lazy(()=> import("../containers/extra/moneyFlow"));
 const Dashboard = React.lazy(()=> import("../containers/dashboard/main"));
 const MoneyFlow = React.lazy(()=> import("../containers/moneyFlow"));
 const StockMarket_Chart = React.lazy(()=> import("../containers/market/real/chart"));

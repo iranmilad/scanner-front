@@ -35,7 +35,6 @@ const Index = (props) => {
   let conf = useConfig;
   for (let i = 0; i < charts.length; i++) {
     let item = conf(config, charts[i].key);
-    console.log(item)
     if (item) newChart.push(item);
   }
 
@@ -168,7 +167,7 @@ const Index = (props) => {
                 : 'md:col-span-3'
               : ''} h-full relative`}
           >
-            <XChart className="h-full relative" item={item} key={item.key} />
+            <XChart className="min-h-[300px]" item={item} key={item.key} />
           </div>
         ))}
       </div>

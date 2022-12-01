@@ -9,7 +9,6 @@ function StockHighOrder(WrappedComponent,id){
   class Index extends Component{
     constructor(props){
       super(props);
-      console.log(this.props.symbol)
       this.state = {
         symbol: this.props.symbol
       }
