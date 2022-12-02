@@ -38,7 +38,7 @@ export default ({ Component, route }) => {
       <Sidebar open={open} setOpen={closeMenu} />
 
       <div className="pt-16 lg:pt-[7rem] bg-gray-100 pb-20 min-h-screen">
-        <div className='container mt-16'>
+        <div className='container mt-16 max-w-screen-xl'>
           <Suspense fallback={<BigLoading />}>
             <Component route={route} />
           </Suspense>

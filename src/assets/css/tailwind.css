@@ -613,11 +613,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.col-span-1 {
-  grid-column: span 1 / span 1;
-}
-
-
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -916,6 +911,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[70\%\] {
   width: 70%;
+}
+
+
+.max-w-screen-xl {
+  max-width: 1400px;
 }
 
 
@@ -1922,11 +1922,6 @@ body{
 @media (min-width: 1200px) {
 
 
-  .lg\:col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-
-
   .lg\:block {
     display: block;
   }
@@ -1949,11 +1944,6 @@ body{
 
   .lg\:w-96 {
     width: 24rem;
-  }
-
-
-  .lg\:grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
 

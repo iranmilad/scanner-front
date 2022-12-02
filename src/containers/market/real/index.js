@@ -403,8 +403,6 @@ const RealMarket = (props) => {
   );
   let symbolStatmentPeriod_query = useData(symbolStatmentPeriod, `/${id}`);
 
-
-
   let symbolTechnicalValue = useConfig(
     props.chartAndtables,
     'symbolTechnicalValue'
@@ -427,7 +425,6 @@ const RealMarket = (props) => {
     symbolCombinationAssets,
     `/${id}`
   );
-
 
   return (
     <>
@@ -559,7 +556,11 @@ const RealMarket = (props) => {
       />
       <LightChart stockId={id} />
       <InstantCharts stockId={id} />
-      <SupportResistanceBox chartAndtables={props.chartAndtables} id={id} symbol={props.symbol} />
+      <SupportResistanceBox
+        chartAndtables={props.chartAndtables}
+        id={id}
+        symbol={props.symbol}
+      />
 
       <Paper p="xl" radius="md" shadow="xs" mt="xl">
         <Text size="sm">
@@ -632,9 +633,7 @@ const RealMarket = (props) => {
   );
 };
 
-
-const SupportResistanceBox = ({chartAndtables,id,symbol}) => {
-
+const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
   let symbolSupportResistance = useConfig(
     chartAndtables,
     'symbolSupportResistance'
@@ -644,7 +643,7 @@ const SupportResistanceBox = ({chartAndtables,id,symbol}) => {
     `/${id}`
   );
 
-  let [memberList,setMemberList] = useState([]);
+  let [memberList, setMemberList] = useState([]);
   let member_lists_query = useQuery({
     queryKey: ['member-lists', id],
     queryFn: async () => {
@@ -657,9 +656,6 @@ const SupportResistanceBox = ({chartAndtables,id,symbol}) => {
     retry: 2,
     retryOnMount: false,
     refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setMemberList(data.message);
-    }
   });
 
   let [userMemberList, setUserMemberList] = useState([]);
@@ -673,106 +669,101 @@ const SupportResistanceBox = ({chartAndtables,id,symbol}) => {
     },
     onSuccess: (data) => {
       setUserMemberList(data);
-    }
+    },
   });
 
   // console.log(memberList)
 
-  function CheckMemberListExist(title,description){
-    if(! title) return false;
-    if(! description) return false;
-    if(lodash.isEmpty(memberList)) return false;
+  function CheckMemberListExist(title, description) {
+    if (!title) return false;
+    if (!description) return false;
+    if (lodash.isEmpty(member_lists_query.data?.message)) return false;
     // find that item in user memeber list
-    console.log(userMemberList)
-    let that = userMemberList.find(item => item.title === title && item.description === description);
+    let that = user_member_lists.data?.data.find(
+      (item) => item.title === title && item.description === description
+    );
 
-    
-    if(lodash.isEmpty(that)){
-      let item = memberList.filter(item => item.title === title && item.description === description);
-      if(lodash.isEmpty(item)) return false;
-      return {id:item.id,type: "ADD"}
+    if (lodash.isEmpty(that)) {
+      let item = memberList.find(
+        (item) => item.title === title && item.description === description
+      );
+      if (lodash.isEmpty(item)) return false;
+      return { id: item.id, type: 'ADD' };
+    } else {
+      if (that.active === false) return { id: that.id, type: 'DISABLE' };
+      return { id: that.id, type: 'REMOVE' };
     }
-    else{
-      if(that.active === false) return {id:that.id, type:'DISABLE'};
-      return {id:that.id, type: "REMOVE"};
-    }
-
-
   }
 
-  useEffect(()=>{
-    setMemberList(member_lists_query.data?.message);
-  },[member_lists_query.isLoading])
-
-  useEffect(()=>{
-    setUserMemberList(user_member_lists.data?.data);
-  },[user_member_lists.isLoading])
-
+  console.log(
+    symbolSupportResistance_query.isLoading,
+    member_lists_query.isLoading,
+    user_member_lists.isLoading
+  );
 
   return (
     <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
-    <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
-    <Text size="sm" mb="md">
-      {symbolSupportResistance.title} {symbol?.name || ''}
-    </Text>
-    {symbolSupportResistance_query.isLoading && member_lists_query.isLoading && user_member_lists.isLoading ? (
-      <Center>
-        <Loader variant="dots" />
-      </Center>
-    ) : (
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {/* Right Section */}
-        {/* <div className="w-full space-y-3">
-          {'data' in symbolSupportResistance_query.data
-            ? symbolSupportResistance_query?.data?.data.n0.map(
-                (item, index) => {
-                  return (
-                    <div className="">
-                      <NotificationBox
-                        item={item}
-                        id={id}
-                        bg={colors.sky[500]}
-                        CheckMemberListExist={CheckMemberListExist}
-                      />
-                    </div>
-                  );
-                }
-              )
-            : null}
-        </div> */}
-        {/* Left section */}
-        <div className="w-full space-y-3">
-          {'data' in symbolSupportResistance_query.data
-            ? symbolSupportResistance_query?.data?.data?.n1.map(
-                (item, index) => {
-                  return (
-                    <div className="" key={index}>
-                      <NotificationBox
-                        item={item}
-                        id={id}
-                        bg={colors.indigo[500]}
-                        CheckMemberListExist={CheckMemberListExist}
-                      />
-                    </div>
-                  );
-                }
-              )
-            : null}
+      <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
+      <Text size="sm" mb="md">
+        {symbolSupportResistance.title} {symbol?.name || ''}
+      </Text>
+      {symbolSupportResistance_query.isLoading ||
+      member_lists_query.isLoading ||
+      user_member_lists.isLoading ? (
+        <Center>
+          <Loader variant="dots" />
+        </Center>
+      ) : (
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Right Section */}
+          {/* <div className="w-full space-y-3">
+  {'data' in symbolSupportResistance_query.data
+    ? symbolSupportResistance_query?.data?.data.n0.map(
+        (item, index) => {
+          return (
+            <div className="">
+              <NotificationBox
+                item={item}
+                id={id}
+                bg={colors.sky[500]}
+                CheckMemberListExist={CheckMemberListExist}
+              />
+            </div>
+          );
+        }
+      )
+    : null}
+</div> */}
+          {/* Left section */}
+          <div className="w-full space-y-3">
+            {'data' in symbolSupportResistance_query.data
+              ? symbolSupportResistance_query?.data?.data?.n1.map(
+                  (item, index) => {
+                    return (
+                      <div className="" key={index}>
+                        <NotificationBox
+                          item={item}
+                          id={id}
+                          bg={colors.indigo[500]}
+                          CheckMemberListExist={CheckMemberListExist}
+                        />
+                      </div>
+                    );
+                  }
+                )
+              : null}
+          </div>
         </div>
-      </div>
-    )}
-  </Paper>
-  )
-}
+      )}
+    </Paper>
+  );
+};
 
-
-
-const NotificationBox = ({ item, id, bg, CheckMemberListExist ,allow}) => {
+const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  CheckMemberListExist(id,item.id)
-
+  CheckMemberListExist(id, item.id);
 
   const loadingWorker = useCallback(() => {
     setLoading(!loading);
@@ -814,7 +805,6 @@ const NotificationBox = ({ item, id, bg, CheckMemberListExist ,allow}) => {
       });
   }
 
-
   return (
     <Box
       sx={{ background: bg }}
@@ -830,41 +820,45 @@ const NotificationBox = ({ item, id, bg, CheckMemberListExist ,allow}) => {
         {/* make this button with tooltip and action button and we have 3 color (gray,green,red) */}
         {/* if state null dont show otherwise show */}
         {state === false ? null : (
-        <Tooltip
-          content={
-            state.type === 'ADD'
-              ? 'فعال کردن اعلان'
-              : state.type === 'REMOVE'
-              ? 'غیر فعال کردن اعلان'
-              : 'اعلان در دسترس نیست'
-          }
-          placement="top"
-        >
-          <ActionIcon
-            variant="filled"
-            disabled={state.type === 'DISABLE' ? true : false}
-            loading={loading}
-            color={
-              state.type === 'ADD' ? 'teal' : state.type === 'REMOVE' ? 'red' : 'gray'
+          <Tooltip
+            content={
+              state.type === 'ADD'
+                ? 'فعال کردن اعلان'
+                : state.type === 'REMOVE'
+                ? 'غیر فعال کردن اعلان'
+                : 'اعلان در دسترس نیست'
             }
-            onClick={() => {
-              loadingWorker();
-              if (state.type === 'ADD') {
-                createNotification(id, item.id, loadingWorker);
-              } else {
-                removeNotification(id, item.id, loadingWorker);
-              }
-            }}
+            placement="top"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 448 512"
-              className="fill-white w-4 h-4"
+            <ActionIcon
+              variant="filled"
+              disabled={state.type === 'DISABLE' ? true : false}
+              loading={loading}
+              color={
+                state.type === 'ADD'
+                  ? 'teal'
+                  : state.type === 'REMOVE'
+                  ? 'red'
+                  : 'gray'
+              }
+              onClick={() => {
+                loadingWorker();
+                if (state.type === 'ADD') {
+                  createNotification(id, item.id, loadingWorker);
+                } else {
+                  removeNotification(id, item.id, loadingWorker);
+                }
+              }}
             >
-              <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
-            </svg>
-          </ActionIcon>
-        </Tooltip>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"
+                className="fill-white w-4 h-4"
+              >
+                <path d="M256 32V51.2C329 66.03 384 130.6 384 208V226.8C384 273.9 401.3 319.2 432.5 354.4L439.9 362.7C448.3 372.2 450.4 385.6 445.2 397.1C440 408.6 428.6 416 416 416H32C19.4 416 7.971 408.6 2.809 397.1C-2.353 385.6-.2883 372.2 8.084 362.7L15.5 354.4C46.74 319.2 64 273.9 64 226.8V208C64 130.6 118.1 66.03 192 51.2V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32H256zM224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512z" />
+              </svg>
+            </ActionIcon>
+          </Tooltip>
         )}
       </Group>
     </Box>
