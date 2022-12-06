@@ -1,5 +1,6 @@
-import { clockTime } from '../../helper';
+import fa from "apexcharts/dist/locales/fa.json";
 import colors from 'tailwindcss/colors';
+import { clockTime } from '../../helper';
 
 const ChartData = {
   A1: {
@@ -17,6 +18,8 @@ const ChartData = {
         show: false,
       },
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -105,6 +108,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -124,6 +129,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -164,6 +171,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -212,6 +221,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -246,6 +257,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -280,6 +293,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -313,6 +328,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -347,6 +364,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -392,12 +411,17 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
         group: "AGroup",
         id: "A10",
         fontFamily: 'Iran-sans',
+      },
+      dataLabels:{
+        enabled: false
       },
       xaxis: {
         category: clockTime(),
@@ -437,6 +461,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -482,6 +508,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -530,6 +558,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -606,6 +636,8 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -649,6 +681,8 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -699,6 +733,8 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -763,6 +799,8 @@ const ChartData = {
     auth: true,
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -782,7 +820,8 @@ const ChartData = {
     type: 'area',
     auth: true,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -827,7 +866,8 @@ const ChartData = {
           distributed: true,
         },
       },
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         width:"100%",
         animations: {
           enabled: false,
@@ -895,6 +935,10 @@ const ChartData = {
     type: 'bar',
     auth: false,
     options: {
+      chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
+      },
       plotOptions: {
         bar: {
           distributed: true,
@@ -934,7 +978,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         width: "100%",
         animations: {
           enabled: false,
@@ -966,7 +1011,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         width: "100%",
         animations: {
           enabled: false,
@@ -994,7 +1040,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         width: "100%",
         animations: {
           enabled: false,
@@ -1025,7 +1072,8 @@ const ChartData = {
     title: 'تغییرات سرانه های خرید و فروش گروه به میلیون تومان',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         height: 350,
         type: 'line',
         fontFamily: 'Iran-sans',
@@ -1033,6 +1081,13 @@ const ChartData = {
         animations: {
           enabled: false,
         },
+      },
+      noData:{
+        text: "دیتایی موجود نمیباشد",
+        align: "center"
+      },
+      dataLabels:{
+        enabled:false
       },
       legend: {
         show: false,
@@ -1044,8 +1099,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          offsetX: -15,
-          offsetY: 50,
+          show:true,
         },
       },
       yaxis: {
@@ -1068,8 +1122,9 @@ const ChartData = {
   },
   dailyEntryMany: {
     options: {
-      chart: {
-        type: 'bar',
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
+        type: 'column',
         height: 350,
         fontFamily: 'Iran-sans',
         animations: {
@@ -1117,15 +1172,15 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          offsetX: -15,
-          offsetY: 50,
+          show: true,
         },
       },
     },
   },
   dailyPowerBuyer: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         type: 'bar',
         height: 350,
         fontFamily: 'Iran-sans',
@@ -1158,8 +1213,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          offsetX: -15,
-          offsetY: 50,
+          show: true,
         },
       },
     },
@@ -1168,7 +1222,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1226,7 +1281,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1284,7 +1340,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1342,7 +1399,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1400,7 +1458,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1458,7 +1517,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1516,7 +1576,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1574,7 +1635,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1632,7 +1694,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1690,7 +1753,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1748,7 +1812,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1806,7 +1871,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1864,7 +1930,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1925,7 +1992,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -1986,7 +2054,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2047,7 +2116,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2108,7 +2178,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2169,7 +2240,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2228,7 +2300,8 @@ const ChartData = {
   },
   symbolMoneyflowTotalEnterManyBuyerIHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2268,7 +2341,8 @@ const ChartData = {
   },
   symbolMoneyflowTotalChangeBuySellHeadsHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2313,7 +2387,8 @@ const ChartData = {
   },
   symbolTradeLastDayHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2356,7 +2431,8 @@ const ChartData = {
   },
   symbolTradeValueHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2396,7 +2472,8 @@ const ChartData = {
   },
   symbolCounterBuyerSellerHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2441,7 +2518,8 @@ const ChartData = {
   },
   symbolTradeTimeValueHistory: {
     options: {
-      chart: {
+      chart: {        locales: [fa],
+        defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
@@ -2481,6 +2559,8 @@ const ChartData = {
   sellPerfomance: {
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         height: 350,
         width: '100%',
         type: 'line',
@@ -2500,8 +2580,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          offsetX: -15,
-          offsetY: 50,
+          show: true
         },
       },
       yaxis: {
@@ -2525,6 +2604,8 @@ const ChartData = {
   perfomanceValue: {
     options: {
       chart: {
+        locales: [fa],
+        defaultLocale: 'fa',
         height: 350,
         width: '100%',
         type: 'line',
@@ -2544,8 +2625,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          offsetX: -15,
-          offsetY: 50,
+          show: true,
         },
       },
       yaxis: {
