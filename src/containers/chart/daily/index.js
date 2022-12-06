@@ -1,14 +1,12 @@
-import React, { Component ,useState} from 'react';
-import Chart from '../../../components/Chart';
-import { getEveryUser } from '../../../apis/main';
-import { Group, Text, Select, Stack } from '@mantine/core';
-import ChartData from '../../../components/Chart/chartData';
-import { connect } from 'react-redux';
-import { setDailyList } from '../../../redux/reducers/config';
-import { useParams, withRouter } from 'react-router-dom';
+import { Group, Select, Stack, Text } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useData,useConfig } from '../../../helper';
-import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { useParams, withRouter } from 'react-router-dom';
+import Chart from '../../../components/Chart';
+import ChartData from '../../../components/Chart/chartData';
+import { useConfig, useData } from '../../../helper';
+import { setDailyList } from '../../../redux/reducers/config';
 
 // class Daily extends Component {
 //   constructor(props) {
@@ -146,22 +144,27 @@ const Daily = (props) => {
 
   let dailyTradeValue = useConfig(props.chartAndtables, "dailyTradeValue");
   let dailyTradeValue_query = useData(dailyTradeValue,`/${param}`);
+  let [dailyTradeValue_labels, setDailyTradeValue_label] = useState(ChartData.dailyTradeValue.options?.labels || []);
 
   let dailyEntryMany = useConfig(props.chartAndtables, "dailyEntryMany");
   let dailyEntryMany_query = useData(dailyEntryMany,`/${param}`);
+  let [dailyEntryMany_labels, setDailyEntryMany_label] = useState(ChartData.dailyEntryMany.options?.labels || []);
 
   let dailyPowerBuyer = useConfig(props.chartAndtables, "dailyPowerBuyer");
   let dailyPowerBuyer_query = useData(dailyPowerBuyer,`/${param}`);
+  let [dailyPowerBuyer_labels, setDailyPowerBuyer_label] = useState(ChartData.dailyPowerBuyer.options?.labels || []);
+
 
   const label = dailyCashFlowIndustriesGroup_query.data?.data.find(
     (item) => item.value === param
   )?.label;
 
-  useEffect(()=>{
-    ChartData.dailyTradeValue.options.labels = dailyTradeValue_query.data?.data.date;
-    ChartData.dailyEntryMany.options.labels = dailyEntryMany_query.data?.data.date;
-    ChartData.dailyPowerBuyer.options.labels = dailyPowerBuyer_query.data?.data.date;
-  } , [dailyTradeValue_query.data?.data, dailyEntryMany_query.data?.data, dailyPowerBuyer_query.data?.data])
+    useEffect(()=>{
+      setDailyTradeValue_label(dailyTradeValue_query.data?.data?.date || []);
+      setDailyEntryMany_label(dailyEntryMany_query.data?.data?.date || []);
+      setDailyPowerBuyer_label(dailyPowerBuyer_query.data?.data?.date || []);
+    },[dailyTradeValue_query.data, dailyEntryMany_query.data, dailyPowerBuyer_query.data])
+
 
   return (
     <>
@@ -172,7 +175,7 @@ const Daily = (props) => {
       <Group position="apart">
         <Text size="md">{label}</Text>
         <Select
-        disabled={dailyCashFlowIndustriesGroup_query.isLoading || dailyCashFlowIndustriesGroup_query.isError}
+        disabled={dailyCashFlowIndustriesGroup_query.isLoading || dailyTradeValue_query.isLoading || dailyEntryMany_query.isLoading || dailyPowerBuyer_query.isLoading}
           searchable
           onChange={setParam}
           placeholder="انتخاب صنعت"
@@ -187,6 +190,7 @@ const Daily = (props) => {
         error={dailyTradeValue_query.isError ? dailyTradeValue_query.error : null}
         allow={dailyTradeValue?.allow}
         special={dailyTradeValue?.key}
+        options={{ options: { ...ChartData.dailyTradeValue.options, labels: dailyTradeValue_labels } }}
         type={ChartData[dailyTradeValue.key].type}
         width="100%"
         height={300}
@@ -200,6 +204,7 @@ const Daily = (props) => {
         error={dailyEntryMany_query.isError ? dailyEntryMany_query.error : null}
         allow={dailyEntryMany?.allow}
         special={dailyEntryMany?.key}
+        options={{ options: { ...ChartData.dailyEntryMany.options, labels: dailyEntryMany_labels } }}
         type={ChartData[dailyEntryMany.key].type}
         width="100%"
         height={300}
@@ -213,6 +218,7 @@ const Daily = (props) => {
         error={dailyPowerBuyer_query.isError ? dailyPowerBuyer_query.error : null}
         allow={dailyPowerBuyer?.allow}
         special={dailyPowerBuyer?.key}
+        options={{ options: { ...ChartData.dailyPowerBuyer.options, labels: dailyPowerBuyer_labels } }}
         type={ChartData[dailyPowerBuyer.key].type}
         width="100%"
         height={300}

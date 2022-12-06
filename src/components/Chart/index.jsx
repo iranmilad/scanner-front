@@ -1,10 +1,13 @@
 import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
 import React from 'react';
+import { useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/header.svg';
 import { ShowErrors } from '../../helper';
 import ChartData from './chartData';
+import {setChart,setModal} from "../../redux/reducers/chartable/chart"
+import { connect } from 'react-redux';
 
 const Index = ({
   data,
@@ -17,6 +20,8 @@ const Index = ({
   error,
   allow,
   className,
+  setModal,
+  setChart,
   ...other
 }) => {
   function Worker() {
@@ -47,6 +52,13 @@ const Index = ({
       />
     );
   }
+
+  useEffect(() => {
+    window['chartable'] = {
+      setModal: setModal,
+      setChart: setChart,
+    };
+  },[])
 
   return (
     <div className={`h-full ${className}`}>
@@ -113,5 +125,10 @@ const NeedSubscription = () => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  setModal: (data) => dispatch(setModal(data)),
+  setChart: (data) => dispatch(setChart(data)),
+});
+
 export { ChartData };
-export default Index;
+export default connect(null,mapDispatchToProps)(Index);

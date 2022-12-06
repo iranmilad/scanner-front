@@ -36,6 +36,7 @@ import LightChart from './lightChart';
 import StockInformation from './stockInformation';
 import { header as traderSummaryHeader } from './traderSummary/header';
 import memberNotification from '../../../assets/images/memberNotification.svg';
+import { useCookies } from 'react-cookie';
 
 /**
  * @description Real Market means Sahm - صفحه سهم
@@ -634,6 +635,8 @@ const RealMarket = (props) => {
 };
 
 const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
+  const [cookies] = useCookies(['token']);
+
   let symbolSupportResistance = useConfig(
     chartAndtables,
     'symbolSupportResistance'
@@ -645,6 +648,7 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
 
   let [memberList, setMemberList] = useState([]);
   let member_lists_query = useQuery({
+    enabled: cookies.token !== undefined ? true : false,
     queryKey: ['member-lists', id],
     queryFn: async () => {
       let response = await getEveryUser('/member-lists', {
@@ -660,6 +664,7 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
 
   let [userMemberList, setUserMemberList] = useState([]);
   let user_member_lists = useQuery({
+    enabled: cookies.token !== undefined ? true : false,
     queryKey: ['user_member_lists'],
     queryFn: async () => {
       let response = await getEveryUser('/user/member-lists', {
@@ -695,11 +700,6 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
     }
   }
 
-  console.log(
-    symbolSupportResistance_query.isLoading,
-    member_lists_query.isLoading,
-    user_member_lists.isLoading
-  );
 
   return (
     <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
@@ -707,33 +707,31 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
       <Text size="sm" mb="md">
         {symbolSupportResistance.title} {symbol?.name || ''}
       </Text>
-      {symbolSupportResistance_query.isLoading ||
-      member_lists_query.isLoading ||
-      user_member_lists.isLoading ? (
+      {symbolSupportResistance_query.isLoading ? (
         <Center>
           <Loader variant="dots" />
         </Center>
       ) : (
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Right Section */}
-          {/* <div className="w-full space-y-3">
-  {'data' in symbolSupportResistance_query.data
-    ? symbolSupportResistance_query?.data?.data.n0.map(
-        (item, index) => {
-          return (
-            <div className="">
-              <NotificationBox
-                item={item}
-                id={id}
-                bg={colors.sky[500]}
-                CheckMemberListExist={CheckMemberListExist}
-              />
-            </div>
-          );
-        }
-      )
-    : null}
-</div> */}
+          <div className="w-full space-y-3">
+            {'data' in symbolSupportResistance_query.data
+              ? symbolSupportResistance_query?.data?.data.n0.map(
+                  (item, index) => {
+                    return (
+                      <div className="">
+                        <NotificationBox
+                          item={item}
+                          id={id}
+                          bg={colors.sky[500]}
+                          CheckMemberListExist={CheckMemberListExist}
+                        />
+                      </div>
+                    );
+                  }
+                )
+              : null}
+          </div>
           {/* Left section */}
           <div className="w-full space-y-3">
             {'data' in symbolSupportResistance_query.data
@@ -762,6 +760,7 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
 const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
   const [state, setState] = useState(false);
   const [loading, setLoading] = useState(false);
+
 
   CheckMemberListExist(id, item.id);
 

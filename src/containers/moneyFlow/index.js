@@ -46,7 +46,7 @@ const MoneyFlow = (props) => {
         <div className='min-h-[300px]'>
           {list.slice(0, 6).map((item, id) => (
             <div className="my-2" key={id}>
-              {item.checked === true && <XChart item={item} />}
+              {item.checked === true && <XChart className="min-h-[300px]" item={item} />}
             </div>
           ))}
         </div>

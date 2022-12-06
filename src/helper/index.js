@@ -188,9 +188,9 @@ export function useData(item, params, ...other) {
       try {
         let { data, status } = await getEveryFeeder(
           `${item.feeder_url}${params ? params : ''}`
-        );
+          );
         if (status === 204)
-          return Promise.reject({ response: { status: 204 } });
+        return Promise.reject({ response: { status: 204 } });
         return data;
       } catch (error) {
         let {

@@ -8,9 +8,11 @@ import ModalFilter from '../../../components/modalFilter';
 import { useConfig, useData , modalOnSubmit,mainFilterOfModal} from '../../../helper';
 import { header } from './header';
 import {registerModal} from "../../../redux/reducers/filterModal"
+import { useParams } from 'react-router-dom';
 
 
 const MarketWatch = (props) => {
+  let {date} = useParams();
   // get MW with findModal and useSelector redux
   let MW = useSelector((state) => state.filterModal['mw'] || []);
   let [oragh, setOragh] = useState('M00');
@@ -20,7 +22,7 @@ const MarketWatch = (props) => {
   let [filters, setFilters] = useState(MW);
 
   const marketWatch = useConfig(props.chartAndtables, 'MarketWatch');
-  const marketWatch_query = useData(marketWatch, `/${oragh}/${filter}`,{
+  const marketWatch_query = useData(marketWatch, `/${oragh}/${filter}${date ? `/${date}` : ''}`,{
     staleTime: false,
     refetchInterval:false
   });
@@ -77,14 +79,14 @@ const MarketWatch = (props) => {
             disabled={marketWatch_query.isLoading || marketWatch_query.isError}
           />
           <Select
-            disabled={marketWatchGroup_query.loading}
+            disabled={marketWatchGroup_query.loading || marketWatch_query.isLoading}
             onChange={(value) => setOragh(value)}
             placeholder="نوع اوراق"
             data={marketWatchGroup_query.data?.data || []}
             defaultValue={marketWatchGroup_query.data?.data[0]?.value || ''}
           />
           <Select
-            disabled={marketWatchFilter_query.loading}
+            disabled={marketWatchFilter_query.loading || marketWatch_query.isLoading}
             onChange={(value) => setFilter(value)}
             placeholder="فیلتر جدول"
             data={marketWatchFilter_query.data?.data || []}

@@ -1,4 +1,4 @@
-import { Group, Input, Text } from '@mantine/core';
+import { Group, Input, Text ,Select} from '@mantine/core';
 import { matchSorter } from 'match-sorter';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
@@ -7,20 +7,25 @@ import ITable from '../../../components/ITable';
 import { useConfig, useData } from '../../../helper';
 import { header } from './headers';
 
-
 const OrderWatch = (props) => {
   let [filteredData, setFilteredData] = useState([]);
+  let [selected, setSelected] = useState('0');
 
   const TotalOrders = useConfig(props.chartAndtables, 'getTotalOrders');
-  const TotalOrders_query = useData(TotalOrders, undefined,{
+  const TotalOrders_query = useData(TotalOrders, `/${selected}`, {
     staleTime: false,
-    refetchInterval:false
+    refetchInterval: false,
   });
 
+  const totalOrdersWatchState = useConfig(
+    props.chartAndtables,
+    'totalOrdersWatchState'
+  );
+  const totalOrdersWatchState_query = useData(totalOrdersWatchState);
 
   function FilterDataByName(value) {
     let newData = TotalOrders_query.data?.data;
-    if (value.length === 0){
+    if (value.length === 0) {
       return setFilteredData(newData);
     }
 
@@ -29,7 +34,6 @@ const OrderWatch = (props) => {
     });
     setFilteredData(filter);
   }
-
 
   useEffect(() => {
     if (TotalOrders_query.data?.data) {
@@ -44,14 +48,19 @@ const OrderWatch = (props) => {
       </Helmet>
       <Text size="sm">{TotalOrders.title}</Text>
       <Group position="apart" mt="md">
-        <>
-          <Input
-            type="text"
-            placeholder="جستجو در نماد ها"
-            onChange={(e) => FilterDataByName(e.target.value)}
-            disabled={TotalOrders_query.isLoading || TotalOrders_query.isError}
-          />
-        </>
+        <Input
+          type="text"
+          placeholder="جستجو در نماد ها"
+          onChange={(e) => FilterDataByName(e.target.value)}
+          disabled={TotalOrders_query.isLoading || TotalOrders_query.isError}
+        />
+        <Select
+          disabled={TotalOrders_query.isLoading}
+          onChange={setSelected}
+          placeholder="نوع اوراق"
+          data={totalOrdersWatchState_query.data?.data || []}
+          defaultValue={totalOrdersWatchState_query.data?.data[0]?.value || ''}
+        />
       </Group>
       <ITable
         pagination
@@ -68,8 +77,8 @@ const OrderWatch = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
-  chartAndtables: state.config.needs.chartAndtables
-})
+const mapStateToProps = (state) => ({
+  chartAndtables: state.config.needs.chartAndtables,
+});
 
 export default connect(mapStateToProps)(OrderWatch);

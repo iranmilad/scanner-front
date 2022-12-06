@@ -46,7 +46,7 @@ class ChangePassword extends Component {
       newPassword: '',
     };
     return (
-      <>
+      <div className='flex h-full w-full flex-col'>
         <Text size="lg" weight="bold" mb="lg">
           تغییر گذرواژه
         </Text>
@@ -55,8 +55,8 @@ class ChangePassword extends Component {
           validationSchema={schema}
           onSubmit={(values) => this.changePassowrd(values)}
         >
-          <Form>
-            <Stack>
+          <Form className='h-full'>
+            <div className='flex flex-col justify-between h-full'>
               <TextField
                 name="oldPassword"
                 label={<Text size="sm">گذرواژه قبلی</Text>}
@@ -78,10 +78,10 @@ class ChangePassword extends Component {
               <Button type="submit" mt="lg" loading={this.state.loading}>
                 تغییر گذرواژه
               </Button>
-            </Stack>
+            </div>
           </Form>
         </Formik>
-      </>
+      </div>
     );
   }
 }

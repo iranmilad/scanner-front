@@ -1,4 +1,5 @@
 import { Group, Stack, Text } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -178,17 +179,20 @@ const Index = (props) => {
   let stockSellPerfomanceValue_query = useData(stockSellPerfomanceValue,`/${id}`,{
     enabled: props?.symbol?.fund === true ? true : false
   });
+  let [sellPerfomance,setSellPerfomance] = useState(ChartData.sellPerfomance.options?.labels || []);
 
-  ChartData.sellPerfomance.options.labels = stockSellPerfomanceValue_query.data?.data?.date;
 
   let stockPerfomanceValue = useConfig(props.chartAndtables,'stockPerfomanceValue');
   let stockPerfomanceValue_query = useData(stockPerfomanceValue,`/${id}`, {
     enabled: props?.symbol?.fund === false ? true : false
   });
+  let [performanceValue,setPerformanceValue] = useState(ChartData.perfomanceValue.options?.labels || []);
 
-  let stockPerfomanceValue_options = ChartData.sellPerfomance.options.labels
 
-  ChartData.sellPerfomance.options.labels = stockPerfomanceValue_query.data?.data?.date;
+  useEffect(()=>{
+    setSellPerfomance(stockSellPerfomanceValue_query.data?.data?.date || []);
+    setPerformanceValue(stockPerfomanceValue_query.data?.data?.date || []);
+  },[stockSellPerfomanceValue_query.data,stockPerfomanceValue_query.data])
 
 
 
@@ -210,7 +214,7 @@ const Index = (props) => {
       data={stockSellPerfomanceValue_query.data?.data?.series}
       title={`${stockSellPerfomanceValue.title} ${props?.symbol?.symbol || ''}`}
       type="line"
-      options={{ options: { ...ChartData.sellPerfomance.options } }}
+      options={{ options: { ...ChartData.sellPerfomance.options, labels: sellPerfomance } }}
     />
       <Chart
       className={`${props?.symbol?.fund === false ? 'block' : 'hidden'}`}
@@ -221,7 +225,7 @@ const Index = (props) => {
       data={stockPerfomanceValue_query.data?.data.series}
       title={`${stockPerfomanceValue.title} ${props?.symbol?.symbol || ''}`}
       type="line"
-      options={{options: {...ChartData.perfomanceValue.options}}}
+      options={{options: {...ChartData.perfomanceValue.options, labels: performanceValue}}}
       />
     </Stack>
   </>

@@ -40,11 +40,12 @@ const FlowFilters = (props) => {
       <Group position="apart" mt="md">
         <Input
           type="text"
-          disabled={LongMoneFlow_query.isLoading || LongMoneFlow_query.isError}
+          disabled={LongMoneFlow_query.isLoading}
           placeholder="جستجو در جدول"
           onChange={(e) => FilterDataByName(e.target.value)}
         />
         <Select
+          disabled={LongMoneFlow_query.isLoading || LongMoneFlow_query.isError}
           defaultValue={`${select}`}
           onChange={setSelect}
           data={[

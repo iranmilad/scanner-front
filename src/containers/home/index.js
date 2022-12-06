@@ -1,4 +1,5 @@
 import { Text, Group, MediaQuery, Tabs } from '@mantine/core';
+import {} from "@mantine/hooks"
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import Chart, { ChartData } from '../../components/Chart';
@@ -11,6 +12,7 @@ import {
   totalSummeryIndustrials,
 } from '../../helper/statics';
 import NewsTable from './news';
+import ExtractCharTable from './ExtractCharTable';
 
 const Index = (props) => {
   let [gridSystem, setGridSystem] = useState(
@@ -182,6 +184,7 @@ const Index = (props) => {
         fixedHeader
         fixedHeaderScrollHeight="80vh"
       />
+      <ExtractCharTable />
     </>
   );
 };
