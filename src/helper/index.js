@@ -58,7 +58,7 @@ export function ColorizeTag({ row, style, ...other }) {
   }
   return (
     <span
-      className="bg-slate-700 rounded-sm text-white px-1"
+      className="rounded-sm px-1"
       dir="ltr"
       style={style}
       {...other}

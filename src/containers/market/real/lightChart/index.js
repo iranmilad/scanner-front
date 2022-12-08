@@ -1,10 +1,7 @@
-import React, { Component, createRef } from 'react';
+import { Button, Group, Paper } from '@mantine/core';
+import { createChart, PriceScaleMode } from 'lightweight-charts';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createChart, CrosshairMode, PriceScaleMode } from 'lightweight-charts';
-import { Paper } from '@mantine/core';
-import { Group } from '@mantine/core';
-import { Button } from '@mantine/core';
-import { useToggle } from '@mantine/hooks';
 import colors from 'tailwindcss/colors';
 import { getEveryFeeder } from '../../../../apis/main';
 
@@ -303,122 +300,6 @@ class LightChart extends Component {
   }
 }
 
-// const LightChart = (props) => {
-//   let chartRef = useRef();
-//   let chart = createChart(chartRef.current, {
-//     width: chartRef.current.offsetWidth,
-//     height: chartRef.current.offsetHeight,
-//     crosshair: {
-//       horzLine: {
-//         visible: false,
-//       },
-//       vertLine: {
-//         visible: false,
-//       },
-//     },
-//     priceScale: {
-//       scaleMargins: {
-//         top: 0.05,
-//         bottom: 0.55,
-//       },
-//       borderVisible: false,
-//     },
-//   });
-//   let volumChart =
-//   candleStickChart =
-//   symbolChartIndex =
-//   equalWeightIndex =
-//   linearGraph =
-//   ChartNav =
-//     null;
-
-//   const [percentageBtn,setPercentageBtnState] = useState(false);
-//   function setPercentageBtn (){
-//     setPercentageBtnState(!percentageBtn);
-//     if (!percentageBtn) {
-//       chart.applyOptions({
-//         rightPriceScale: { mode: PriceScaleMode.Percentage },
-//       });
-//       chart.applyOptions({
-//         overlayPriceScales: { mode: PriceScaleMode.Percentage },
-//       });
-//     } else {
-//       chart.applyOptions({
-//         rightPriceScale: { mode: PriceScaleMode.Normal },
-//       });
-//       chart.applyOptions({
-//         overlayPriceScales: { mode: PriceScaleMode.Normal },
-//       });
-//     }
-//   };
-
-//   const [chartFullIndex,setChartFullIndexState] = useState(false);
-//   const setChartFullIndex = () => {
-//     setChartFullIndexState( !chartFullIndex);
-//     if (chartFullIndex) {
-//       symbolChartIndex.applyOptions({ visible: false });
-//     } else {
-//       symbolChartIndex.applyOptions({ visible: true });
-//     }
-//   };
-
-//   const [equalWeightIndex,setEqualWeightIndexState] = useState(false);
-//   const setEqualWeightIndex = () => {
-//     this.setState({
-//       equalWeightIndex: !this.state.equalWeightIndex,
-//     });
-//     if (equalWeightIndex) {
-//       this.equalWeightIndex.applyOptions({ visible: false });
-//     } else {
-//       this.equalWeightIndex.applyOptions({ visible: true });
-//     }
-//   };
-
-//   return (
-//     <Paper p="xl" radius="md" shadow="xs" mt="xl">
-//         <Group position="apart">
-//           <div>
-//             <Button
-//               color={this.state.chartFullIndex ? 'pink' : 'blue'}
-//               onClick={() => setChartFullIndex()}
-//             >
-//               شاخص کل
-//             </Button>
-//             <Button
-//               ml="sm"
-//               color={this.state.equalWeightIndex ? 'yellow' : 'blue'}
-//               onClick={() => this.setEqualWeightIndex()}
-//             >
-//               شاخص هم وزن
-//             </Button>
-//             <Button
-//               ml="sm"
-//               color={this.state.linearGraph ? 'green' : 'blue'}
-//               onClick={() => this.setLinearGraph()}
-//             >
-//               نمودار خطی
-//             </Button>
-//             {this.state.navExist && (
-//               <Button
-//                 ml="sm"
-//                 color={this.state.navChart ? 'pink' : 'blue'}
-//                 onClick={() => this.setNavChart()}
-//               >
-//                 NAV
-//               </Button>
-//             )}
-//           </div>
-//           <Button
-//             color={percentageBtn ? 'orange' : 'blue'}
-//             onClick={() => setPercentageBtn()}
-//           >
-//             مقیاس درصدی
-//           </Button>
-//         </Group>
-//         <div ref={chartRef} className="mt-10 w-full h-96" />
-//       </Paper>
-//   )
-// }
 
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
