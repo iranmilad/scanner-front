@@ -223,12 +223,17 @@ export function ShowErrors({ status }) {
   }
 }
 
+function containsNumbers(str) {
+  return /\d/.test(str);
+}
+
 /**
  *
  * @param {*} number  number to be formatted
  * @returns
  */
 export function convertNumber(number) {
+  if(containsNumbers(number) === false) return number;
   let convertedNumber = number;
   if (/M/g.test(number))
     convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
@@ -293,4 +298,29 @@ export function mainFilterOfModal({array,data}){
     );
   });
   return data;
+}
+
+
+/**
+ * custom sort
+ * it will use convert number function to convert numbers with M,B,K to real number
+ * also it can sort string
+ * @param {array} rows array of objects
+ * @param {any} selector
+ * @param {string} direction
+ */
+
+export function customSort(rows, selector, direction) {
+  const sortedRows = [...rows];
+  sortedRows.sort((a, b) => {
+    const aVal = convertNumber(selector(a));
+    const bVal = convertNumber(selector(b));
+
+    let compare = 0;
+
+    if (aVal < bVal) compare = -1;
+    if (aVal > bVal) compare = 1;
+    return direction === 'desc' ? compare * -1 : compare;
+  });
+  return sortedRows;
 }

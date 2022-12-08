@@ -1,4 +1,4 @@
-import fa from "apexcharts/dist/locales/fa.json";
+import fa from 'apexcharts/dist/locales/fa.json';
 import colors from 'tailwindcss/colors';
 import { clockTime } from '../../helper';
 
@@ -23,7 +23,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        toolbar:{
+        toolbar: {
           show: true,
         },
         id: 'A1',
@@ -41,7 +41,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -113,7 +117,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A1",
+        id: 'A1',
         fontFamily: 'Iran-sans',
       },
       legend: {
@@ -134,8 +138,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A3",
+        group: 'AGroup',
+        id: 'A3',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -176,7 +180,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A4",
+        id: 'A4',
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -226,8 +230,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A5",
+        group: 'AGroup',
+        id: 'A5',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -262,8 +266,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A6",
+        group: 'AGroup',
+        id: 'A6',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -298,7 +302,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A7",
+        id: 'A7',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -333,8 +337,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A8",
+        group: 'AGroup',
+        id: 'A8',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -369,8 +373,8 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A9",
+        group: 'AGroup',
+        id: 'A9',
         fontFamily: 'Iran-sans',
       },
       xaxis: {
@@ -416,12 +420,12 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        group: "AGroup",
-        id: "A10",
+        group: 'AGroup',
+        id: 'A10',
         fontFamily: 'Iran-sans',
       },
-      dataLabels:{
-        enabled: false
+      dataLabels: {
+        enabled: false,
       },
       xaxis: {
         category: clockTime(),
@@ -466,7 +470,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A11",
+        id: 'A11',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -481,7 +485,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -513,7 +521,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A12",
+        id: 'A12',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -528,7 +536,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -563,7 +575,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A13",
+        id: 'A13',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -578,7 +590,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -641,7 +657,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A14",
+        id: 'A14',
         fontFamily: 'Iran-sans',
       },
       plotOptions: {
@@ -686,7 +702,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A15",
+        id: 'A15',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -701,7 +717,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -738,7 +758,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A16",
+        id: 'A16',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -753,7 +773,11 @@ const ChartData = {
             } = chartContext;
             let label = globals.labels[dataPointIndex];
             let id = globals['chartID'];
-            window.chartable.setChart({ label, id ,pointIndex:dataPointIndex});
+            window.chartable.setChart({
+              label,
+              id,
+              pointIndex: dataPointIndex,
+            });
             window.chartable.setModal();
           },
         },
@@ -804,11 +828,11 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: "A17",
+        id: 'A17',
         fontFamily: 'Iran-sans',
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       xaxis: {
         categories: clockTime(),
@@ -820,12 +844,13 @@ const ChartData = {
     type: 'area',
     auth: true,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
-        id: "A18",
+        id: 'A18',
         fontFamily: 'Iran-sans',
       },
       dataLabels: {
@@ -866,9 +891,10 @@ const ChartData = {
           distributed: true,
         },
       },
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
-        width:"100%",
+        width: '100%',
         animations: {
           enabled: false,
         },
@@ -946,7 +972,7 @@ const ChartData = {
           horizontal: true,
         },
         chart: {
-          width: "100%",
+          width: '100%',
           animations: {
             enabled: false,
           },
@@ -978,9 +1004,10 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
-        width: "100%",
+        width: '100%',
         animations: {
           enabled: false,
         },
@@ -1011,9 +1038,10 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
-        width: "100%",
+        width: '100%',
         animations: {
           enabled: false,
         },
@@ -1040,9 +1068,10 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
-        width: "100%",
+        width: '100%',
         animations: {
           enabled: false,
         },
@@ -1072,7 +1101,8 @@ const ChartData = {
     title: 'تغییرات سرانه های خرید و فروش گروه به میلیون تومان',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         height: 350,
         type: 'line',
@@ -1082,12 +1112,12 @@ const ChartData = {
           enabled: false,
         },
       },
-      noData:{
-        text: "دیتایی موجود نمیباشد",
-        align: "center"
+      noData: {
+        text: 'دیتایی موجود نمیباشد',
+        align: 'center',
       },
-      dataLabels:{
-        enabled:false
+      dataLabels: {
+        enabled: false,
       },
       legend: {
         show: false,
@@ -1099,7 +1129,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          show:true,
+          show: true,
         },
       },
       yaxis: {
@@ -1122,7 +1152,8 @@ const ChartData = {
   },
   dailyEntryMany: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         type: 'column',
         height: 350,
@@ -1179,7 +1210,8 @@ const ChartData = {
   },
   dailyPowerBuyer: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         type: 'bar',
         height: 350,
@@ -1222,7 +1254,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1249,12 +1282,11 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
       },
-
       yaxis: {
         show: true,
         labels: {
@@ -1281,13 +1313,15 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
         fontFamily: 'Iran-sans',
         type: 'line',
+        height: "200px",
         width: '100%',
         grid: {
           show: false,
@@ -1308,7 +1342,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1340,7 +1374,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1367,7 +1402,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1399,7 +1434,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1426,7 +1462,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1458,7 +1494,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1485,7 +1522,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1517,7 +1554,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1544,7 +1582,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1576,7 +1614,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1603,7 +1642,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1635,7 +1674,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1662,7 +1702,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1694,7 +1734,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1721,7 +1762,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1753,7 +1794,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1780,7 +1822,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1812,7 +1854,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1839,7 +1882,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1871,7 +1914,8 @@ const ChartData = {
     type: 'line',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1898,7 +1942,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -1930,7 +1974,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1952,15 +1997,41 @@ const ChartData = {
         enabled: false,
       },
       xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        type: 'datetime',
+        // tickPlacement: 'on',
+        categories: [
+          1578265200000,
+          1578272400000,
+          1578279600000,
+          1578286800000,
+          1578294000000,
+          1578301200000,
+          1578308400000,
+          1578315600000,
+          1578322800000,
+          1578330000000,
+          1578337200000,
+          1578344400000,
+          1578351600000,
+          1578351600000,
+          1578351600000,
+        ],
         labels: {
-          offsetX: -10,
+          datetimeUTC: false,
+          format: "HH:mm"
         },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        offsetY: 30,
+        subtitle:{
+          text:"ساعت",
+        },
+        tooltip: {
+          x: {
+            show: false,
+            format: 'dd MMM',
+          },
+          y:{
+            show:false
+          }
+        },
         axisBorder: {
           show: false,
         },
@@ -1992,7 +2063,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2022,7 +2094,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -2054,7 +2126,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2084,7 +2157,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -2116,7 +2189,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2146,7 +2220,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -2178,7 +2252,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2208,7 +2283,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -2240,7 +2315,8 @@ const ChartData = {
     type: 'area',
     auth: false,
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2270,7 +2346,7 @@ const ChartData = {
         },
         rotateAlways: false,
         hideOverlappingLabels: true,
-        offsetY: 30,
+        
         axisBorder: {
           show: false,
         },
@@ -2300,7 +2376,8 @@ const ChartData = {
   },
   symbolMoneyflowTotalEnterManyBuyerIHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2341,7 +2418,8 @@ const ChartData = {
   },
   symbolMoneyflowTotalChangeBuySellHeadsHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2387,7 +2465,8 @@ const ChartData = {
   },
   symbolTradeLastDayHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2431,7 +2510,8 @@ const ChartData = {
   },
   symbolTradeValueHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2472,7 +2552,8 @@ const ChartData = {
   },
   symbolCounterBuyerSellerHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2518,7 +2599,8 @@ const ChartData = {
   },
   symbolTradeTimeValueHistory: {
     options: {
-      chart: {        locales: [fa],
+      chart: {
+        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2580,7 +2662,7 @@ const ChartData = {
       xaxis: {
         type: 'string',
         labels: {
-          show: true
+          show: true,
         },
       },
       yaxis: {

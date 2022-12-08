@@ -189,7 +189,7 @@ const Index = (props) => {
   );
 };
 
-export const XChart = ({ item,className }) => {
+export const XChart = ({ item,className,...other }) => {
   let query = useData(item);
   return (
     <Chart
@@ -202,6 +202,7 @@ export const XChart = ({ item,className }) => {
       special={item.key}
       title={item.title}
       className={className}
+      {...other}
     />
   );
 };

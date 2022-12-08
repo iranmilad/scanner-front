@@ -38,36 +38,30 @@ const MoneyFlow = (props) => {
       </Helmet>
       <Group position="apart">
         <Text size="sm">نمودار های جریانات نقدینگی لحظه ای</Text>
-        <Button size="sm" onClick={setModal}>
+        <Button size="sm" onClick={() => setModal(prev => !prev)}>
           تنظیمات نمایش چارت ها
         </Button>
       </Group>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-        <div className='min-h-[300px]'>
-          {list.slice(0, 6).map((item, id) => (
-            <div className="my-2" key={id}>
-              {item.checked === true && <XChart className="min-h-[300px]" item={item} />}
-            </div>
+      <div className='grid gap-4 grid-cols-1 lg:grid-cols-3 mt-4'>
+        <div className='space-y-4'>
+        {list.slice(0, 6).map((item, id) => (
+            item.checked === true && <XChart className="h-[400px]" height={300} item={item} />
           ))}
         </div>
-        <div className='min-h-[300px]'>
-          {list.slice(6, 12).map((item, id) => (
-            <div className="my-2" key={id}>
-              {item.checked === true && <XChart item={item} />}
-            </div>
+        <div className='space-y-4'>
+        {list.slice(6, 12).map((item, id) => (
+            item.checked === true && <XChart className="h-[400px]" height={300} item={item} />
           ))}
         </div>
-        <div className='min-h-[300px]'>
-          {list.slice(12, 18).map((item, id) => (
-            <div className="my-2" key={id}>
-              {item.checked === true && <XChart item={item} />}
-            </div>
+        <div className='space-y-4'>
+        {list.slice(12, 18).map((item, id) => (
+            item.checked === true && <XChart className="h-[400px]" height={300} item={item} />
           ))}
         </div>
       </div>
       <Modal
         opened={modal}
-        onClose={setModal}
+        onClose={() => setModal(prev => !prev)}
         title="نمایش چارت ها"
         zIndex={99999999999999}
         dir="rtl"
