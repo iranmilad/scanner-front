@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { Link } from 'react-router-dom';
-import { ShowErrors } from '../../helper';
+import { ShowErrors,customSort } from '../../helper';
 import { TableDesign } from '../../helper/theme';
 
 /**
@@ -86,6 +86,7 @@ const ITable = ({
         noDataComponent="داده ای برای نمایش وجود ندارد"
         customStyles={customStyles ? customStyles : TableDesign}
         paginationComponentOptions={paginationComponentOptions}
+        sortFunction={customSort}
         {...other}
       />
       {children}</>

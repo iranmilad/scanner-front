@@ -44,7 +44,6 @@ const Index = ({
       );
     return (
       <Chart
-        height={350}
         options={options ? options.options : ChartData[special].options }
         series={data}
         type={type ? type : ChartData[special].type}

@@ -39,45 +39,6 @@ const SHistory = (props) => {
   )
 }
 
-// const SHistory = (props) => {
-//   let { id } = useParams();
-
-
-//   let symbolHistory = useConfig(
-//     props.chartAndtables,
-//     'symbolHistory'
-//   );
-//   let symbolHistory_query = useData(
-//     symbolHistory,
-//     `${id}`,
-//   );
-
-
-//   return (
-//     <>
-//       <Helmet>
-//         <title>{'' || 'Tseshow'}</title>
-//       </Helmet>
-//       <Group position="apart">
-//         <Text size="md">{`سوابق ${label || ''}`}</Text>
-//       </Group>
-//       <ITable
-//         className="narrow-md"
-//         title=""
-//         data={symbolHistory_query.data?.data}
-//         isLoading={symbolHistory_query.isLoading}
-//         isFetching={symbolHistory_query.isFetching}
-//         allow={symbolHistory?.allow}
-//         error={symbolHistory_query.error?.message}
-//         column={header}
-//         fixedHeader
-//         fixedHeaderScrollHeight="70vh"
-//         pagination
-//       />
-//     </>
-//   );
-// };
-
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,
 })
