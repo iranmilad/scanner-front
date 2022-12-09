@@ -3,6 +3,7 @@ import { Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { getEveryFeeder } from '../apis/main';
 import { useCookies } from 'react-cookie';
+import moment from 'moment';
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -13,13 +14,19 @@ export function randomNumber() {
   return arr;
 }
 // a function for generate clock time from 9:00 to 13:00 with every 15 minutes
-export function clockTime() {
+export function clockTime(start, end, step) {
+  let begin = moment().startOf('day').add(start, 'hours');
+
   let arr = [];
-  for (let i = 9; i < 14; i++) {
-    for (let j = 0; j < 4; j++) {
-      arr.push(i + ':' + j * 15);
-    }
+  for (
+    let i = 1, x = begin;
+    x.diff(moment().startOf('day').add(end), 'minutes') <= 0;
+    i++
+  ) {
+    arr.push(x.format('HH:mm'));
+    x.add(step, 'minutes');
   }
+
   return arr;
 }
 
@@ -162,10 +169,10 @@ const minAndMax = (arr, min, max) =>
     ),
   }));
 
-export function useConfig(array, key,callback) {
+export function useConfig(array, key, callback) {
   const [cookies] = useCookies(['token']);
   let item = array;
-  function checker(item){
+  function checker(item) {
     if (cookies.token && cookies.token !== '') {
       if (item.active) return item;
       else return { ...item, allow: 'sub' };
@@ -174,9 +181,9 @@ export function useConfig(array, key,callback) {
       else return { ...item, allow: 'login' };
     }
   }
-  if(callback) return callback(checker);
+  if (callback) return callback(checker);
   item = item.find((item) => item.key === key);
-  return checker(item)
+  return checker(item);
 }
 
 export function useData(item, params, ...other) {
@@ -188,9 +195,8 @@ export function useData(item, params, ...other) {
       try {
         let { data, status } = await getEveryFeeder(
           `${item.feeder_url}${params ? params : ''}`
-          );
-        if (status === 204)
-        return Promise.reject({ response: { status: 204 } });
+        );
+        if (status === 204) throw { response: { status: 204 } };
         return data;
       } catch (error) {
         let {
@@ -212,8 +218,7 @@ export function useData(item, params, ...other) {
 }
 
 export function ShowErrors({ status }) {
-  console.log(status)
-  switch (status) {
+  switch (status.message) {
     case '404':
       return <Text>آدرس درخواستی اشتباه است</Text>;
     case '204':
@@ -233,7 +238,7 @@ function containsNumbers(str) {
  * @returns
  */
 export function convertNumber(number) {
-  if(containsNumbers(number) === false) return number;
+  if (containsNumbers(number) === false) return number;
   let convertedNumber = number;
   if (/M/g.test(number))
     convertedNumber = +number.replace(/[% a-zA-Z]/g, '') * 1000000;
@@ -260,7 +265,15 @@ export function filterWithMinAndMax(arr, min, max, row) {
   );
 }
 
-export function modalOnSubmit({ filters, setFilters, setModal, setFilteredData ,fullData,id,setModalFilter}) {
+export function modalOnSubmit({
+  filters,
+  setFilters,
+  setModal,
+  setFilteredData,
+  fullData,
+  id,
+  setModalFilter,
+}) {
   // this.setState({filters});
   /**
    * filter each row depends row
@@ -277,18 +290,18 @@ export function modalOnSubmit({ filters, setFilters, setModal, setFilteredData ,
     return;
   }
 
-  let data ;
-  setFilteredData(prev => {
+  let data;
+  setFilteredData((prev) => {
     data = prev;
     return data;
-  })
-  data = mainFilterOfModal({array:filters,data});
+  });
+  data = mainFilterOfModal({ array: filters, data });
   setFilters(filters);
   setFilteredData(data);
-  setModalFilter({id,filters});
+  setModalFilter({ id, filters });
 }
 
-export function mainFilterOfModal({array,data}){
+export function mainFilterOfModal({ array, data }) {
   array.map((item) => {
     data = filterWithMinAndMax(
       data,
@@ -299,7 +312,6 @@ export function mainFilterOfModal({array,data}){
   });
   return data;
 }
-
 
 /**
  * custom sort
