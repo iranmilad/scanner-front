@@ -1,5 +1,4 @@
 import fa from 'apexcharts/dist/locales/fa.json';
-import moment from 'moment';
 import colors from 'tailwindcss/colors';
 import { clockTime } from '../../helper';
 
@@ -133,13 +132,12 @@ const ChartData = {
   },
   A3: {
     title: 'روند تغییرات آخرین قیمت سهام حق تقدم، ص.سهامی',
-    type: 'area',
+    type: 'line',
     auth: false,
     options: {
       chart: {
-        parentHeightOffset: 0,
-        height:"100%",
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -147,19 +145,88 @@ const ChartData = {
         group: 'AGroup',
         id: 'A3',
         fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
       },
-      xaxis: {
-        categories: clockTime(),
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
       },
       dataLabels: {
         enabled: false,
       },
-      legend: {
-        show: false,
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-      colors: ['#E91E63', '#66DA26'],
-      tooltip: {
-        y: {
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -173,6 +240,10 @@ const ChartData = {
           },
         },
       },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
     },
   },
   A4: {
@@ -183,6 +254,7 @@ const ChartData = {
       chart: {
         locales: [fa],
         defaultLocale: 'fa',
+        parentHeightOffset: 0,
         animations: {
           enabled: false,
         },
@@ -194,6 +266,27 @@ const ChartData = {
           distributed: true,
           borderRadius: 4,
           horizontal: true,
+        },
+      },
+      legend:{
+        show: false,
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 40
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       colors: ['#E91E63', '#66DA26'],
@@ -232,20 +325,96 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
         group: 'AGroup',
         id: 'A5',
         fontFamily: 'Iran-sans',
+        animations: {
+          enabled: false,
+        },
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 5,
+          right: -5,
+          bottom: 30
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
-        categories: clockTime(),
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -258,6 +427,9 @@ const ChartData = {
             return value;
           },
         },
+      },
+      legend: {
+        show: false,
       },
     },
   },
@@ -268,6 +440,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -275,13 +448,88 @@ const ChartData = {
         group: 'AGroup',
         id: 'A6',
         fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom:12
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
-        categories: clockTime(),
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -294,29 +542,109 @@ const ChartData = {
             return value;
           },
         },
+      },
+      legend: {
+        show: false,
       },
     },
   },
   A7: {
     title: 'تغییرات درصد خرید و فروش اشخاص حقیقی',
-    type: 'line',
+    type: 'area',
     auth: false,
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
+        group: 'AGroup',
         id: 'A7',
         fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom:12
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
-        categories: clockTime(),
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -330,6 +658,10 @@ const ChartData = {
           },
         },
       },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
     },
   },
   A8: {
@@ -339,6 +671,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -346,13 +679,87 @@ const ChartData = {
         group: 'AGroup',
         id: 'A8',
         fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
-        categories: clockTime(),
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -366,6 +773,10 @@ const ChartData = {
           },
         },
       },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
     },
   },
   A9: {
@@ -375,73 +786,96 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
         group: 'AGroup',
         id: 'A9',
-        fontFamily: 'Iran-sans',
+        toolbar: {
+          show: true,
+        },
       },
-      xaxis: {
-        categories: clockTime(),
-      },
-      yaxis: {
+      grid: {
         show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
+        padding: {
+          left: 0,
+          right: -5,
+          bottom:12
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
           },
         },
       },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-      tooltip: {
-        y: {
-          formatter: (value) => {
-            return value;
-          },
-        },
-      },
-    },
-  },
-  A10: {
-    title: 'تغیرات سرانه های خرید و فروش بازار',
-    type: 'area',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        group: 'AGroup',
-        id: 'A10',
-        fontFamily: 'Iran-sans',
+      stroke: {
+        curve: 'smooth',
       },
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
-        category: clockTime(),
-      },
-      legend: {
-        show: false,
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -455,14 +889,126 @@ const ChartData = {
           },
         },
       },
-      colors: ['#E91E63', '#66DA26'],
-      tooltip: {
-        y: {
-          formatter: (value) => {
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  A10: {
+    title: 'تغیرات سرانه های خرید و فروش بازار',
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        group: 'AGroup',
+        id: 'A10',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
             return value;
           },
         },
       },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
     },
   },
   A11: {
@@ -841,7 +1387,7 @@ const ChartData = {
         enabled: false,
       },
       xaxis: {
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
     },
   },
@@ -866,7 +1412,7 @@ const ChartData = {
         labels: {
           show: true,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -1024,7 +1570,7 @@ const ChartData = {
         curve: 'smooth',
       },
       xaxis: {
-        category: clockTime(),
+        category: clockTime("09:00","12:30",15),
       },
       legend: {
         show: false,
@@ -1054,7 +1600,7 @@ const ChartData = {
         fontFamily: 'Iran-sans',
       },
       xaxis: {
-        category: clockTime(),
+        category: clockTime("09:00","12:30",15),
       },
       legend: {
         show: false,
@@ -1088,7 +1634,7 @@ const ChartData = {
         curve: 'smooth',
       },
       xaxis: {
-        category: clockTime(),
+        category: clockTime("09:00","12:30",15),
       },
       legend: {
         show: false,
@@ -1262,6 +1808,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1269,33 +1816,85 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1321,42 +1920,93 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
         fontFamily: 'Iran-sans',
         type: 'line',
-        height: "200px",
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1382,6 +2032,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1389,34 +2040,85 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1442,6 +2144,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1449,34 +2152,85 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1502,6 +2256,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1509,34 +2264,85 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1562,6 +2368,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1569,34 +2376,85 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
         curve: 'smooth',
       },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1619,74 +2477,10 @@ const ChartData = {
   MF7: {
     type: 'line',
     auth: false,
-    options:  {
+    options: {
       chart: {
-        type: 'line',
+        locales: [fa],
         parentHeightOffset: 0,
-      },
-      stroke: {
-        curve: 'smooth',
-        lineCap: 'round',
-      },
-      markers: {
-        size: 5,
-      },
-      grid: {
-        show: true,
-        padding: {
-          left: 0,
-          right: 5,
-        },
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-        yaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#10b981', '#ef4444'],
-      tooltip: {
-        x: {
-          format: "HH:mm"
-        }
-      },
-      xaxis: {
-        // categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        formatter: function(value, timestamp, opts){
-          console.log(value, timestamp, opts)
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-      yaxis: {
-        labels: {
-          offsetX: {
-            left: 20,
-          },
-        },
-      },
-    },
-  },
-  MF8: {
-    type: 'line',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -1694,317 +2488,15 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'line',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-
-      yaxis: {
-        show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-    },
-  },
-  MF9: {
-    type: 'line',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        fontFamily: 'Iran-sans',
-        type: 'line',
-        width: '100%',
-        grid: {
-          show: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-
-      yaxis: {
-        show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-    },
-  },
-  MF10: {
-    type: 'line',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        fontFamily: 'Iran-sans',
-        type: 'line',
-        width: '100%',
-        grid: {
-          show: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-
-      yaxis: {
-        show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-    },
-  },
-  MF11: {
-    type: 'line',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        fontFamily: 'Iran-sans',
-        type: 'line',
-        width: '100%',
-        grid: {
-          show: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-
-      yaxis: {
-        show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-    },
-  },
-  MF12: {
-    type: 'line',
-    auth: false,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        fontFamily: 'Iran-sans',
-        type: 'line',
-        width: '100%',
-        grid: {
-          show: false,
-        },
-        toolbar: {
-          show: false,
-        },
-      },
-      stroke: {
-        curve: 'smooth',
-      },
-      xaxis: {
-        type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
-        labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
-      },
-
-      yaxis: {
-        show: true,
-        labels: {
-          formatter: function (val) {
-            let value = val;
-            if (val > 1000000000 || val < -1000000000) {
-              value = `${Math.floor(val / 1000000000)} B`;
-            } else if (val > 1000000 || val < -1000000) {
-              value = `${Math.floor(val / 1000000)} M`;
-            } else if (val > 1000 || val < -1000) {
-              value = `${Math.floor(val / 1000)} K`;
-            }
-            return value;
-          },
-        },
-      },
-      legend: {
-        show: false,
-      },
-      colors: ['#E91E63', '#66DA26'],
-    },
-  },
-  MF13: {
-    type: 'area',
-    auth: false,
-    options: {
-      chart: {
-        parentHeightOffset: 0,
-        id: 'MF13',
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        fontFamily: 'Iran-sans',
-        type: 'area',
-        width: '100%',
-        toolbar: {
-          show:true,
+          show: true,
         },
       },
       grid: {
         show: true,
         padding: {
           left: 0,
-          right: -10,
+          right: -5,
         },
         xaxis: {
           lines: {
@@ -2023,27 +2515,57 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
-      tooltip: {
-        x: {
-          format: "HH:mm"
-        }
-      },
-      xaxis: {
-        // start min from 9 am and max is 2 pm and range should be every 15 minutes
-        tickAmount: 4,
-        type: 'category',
-        labels: {
-          datetimeUTC: false,
-          format: "HH:mm"
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
         },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
       yaxis: {
         show: true,
         labels: {
-          labels: {
-            offsetX: {
-              left: 20,
-            },
+          offsetX: {
+            left: 20,
           },
           formatter: function (val) {
             let value = val;
@@ -2061,17 +2583,576 @@ const ChartData = {
       legend: {
         show: false,
       },
-      colors: ['#E91E63', '#66DA26'],
+      colors: ['#10b981', '#ef4444'],
     },
   },
-  MF14: {
+  MF8: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  MF9: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  MF10: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  MF11: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  MF12: {
+    type: 'line',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#10b981', '#ef4444'],
+    },
+  },
+  MF13: {
     type: 'area',
     auth: false,
     options: {
       chart: {
         locales: [fa],
         parentHeightOffset: 0,
-
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2146,7 +3227,119 @@ const ChartData = {
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12.30","15"),
+        categories: clockTime("09:00","12:30",15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        }
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
+      colors: ['#E91E63'],
+    },
+  },
+  MF14: {
+    type: 'area',
+    auth: false,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'area',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
@@ -2183,6 +3376,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2190,11 +3384,25 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'area',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
@@ -2203,24 +3411,58 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -2237,7 +3479,7 @@ const ChartData = {
       legend: {
         show: false,
       },
-      colors: ['#E91E63', '#66DA26'],
+      colors: ['#E91E63'],
     },
   },
   MF16: {
@@ -2246,6 +3488,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2253,11 +3496,25 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'area',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
@@ -2266,24 +3523,58 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -2300,7 +3591,7 @@ const ChartData = {
       legend: {
         show: false,
       },
-      colors: ['#E91E63', '#66DA26'],
+      colors: ['#E91E63'],
     },
   },
   MF17: {
@@ -2309,6 +3600,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2316,11 +3608,25 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'area',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
@@ -2329,24 +3635,58 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -2363,7 +3703,7 @@ const ChartData = {
       legend: {
         show: false,
       },
-      colors: ['#E91E63', '#66DA26'],
+      colors: ['#E91E63'],
     },
   },
   MF18: {
@@ -2372,6 +3712,7 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
@@ -2379,11 +3720,25 @@ const ChartData = {
         fontFamily: 'Iran-sans',
         type: 'area',
         width: '100%',
-        grid: {
-          show: false,
-        },
         toolbar: {
-          show: false,
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       stroke: {
@@ -2392,24 +3747,58 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options:{
+            xaxis:{
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 1200,
+          options:{
+            xaxis:{
+              tickAmount: 7,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        },
+        {
+          breakpoint: 2428,
+          options:{
+            xaxis:{
+              tickAmount: 6,
+              labels:{
+                rotateAlways: false,
+                rotate: 0,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         type: 'category',
-        tickPlacement: 'on',
-        categories: clockTime(),
+        // tickAmount: 6,
+        categories: clockTime("09:00","12:30",15),
         labels: {
-          offsetX: -10,
-        },
-        rotateAlways: false,
-        hideOverlappingLabels: true,
-        
-        axisBorder: {
-          show: false,
-        },
+          rotateAlways: false,
+          offsetX: -2,
+        }
       },
-
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -2426,7 +3815,7 @@ const ChartData = {
       legend: {
         show: false,
       },
-      colors: ['#E91E63', '#66DA26'],
+      colors: ['#E91E63'],
     },
   },
   symbolMoneyflowTotalEnterManyBuyerIHistory: {
@@ -2451,7 +3840,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -2498,7 +3887,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -2543,7 +3932,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -2585,7 +3974,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -2632,7 +4021,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,
@@ -2673,7 +4062,7 @@ const ChartData = {
           show: true,
           offsetY: 20,
         },
-        categories: clockTime(),
+        categories: clockTime("09:00","12:30",15),
       },
       yaxis: {
         show: true,

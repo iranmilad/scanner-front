@@ -794,6 +794,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.h-\[350px\] {
+  height: 350px;
+}
+
+
 .h-\[400px\] {
   height: 400px;
 }
@@ -844,13 +849,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.min-h-\[300px\] {
-  min-height: 300px;
+.min-h-screen {
+  min-height: 100vh;
 }
 
 
-.min-h-screen {
-  min-height: 100vh;
+.min-h-\[300px\] {
+  min-height: 300px;
 }
 
 
@@ -922,11 +927,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-\[70\%\] {
   width: 70%;
-}
-
-
-.w-auto {
-  width: auto;
 }
 
 
@@ -1891,27 +1891,6 @@ body{
 @media (min-width: 768px) {
 
 
-  .sm\:float-right {
-    float: right;
-  }
-
-
-  .sm\:mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-
-  .sm\:ml-auto {
-    margin-left: auto;
-  }
-
-
-  .sm\:inline-block {
-    display: inline-block;
-  }
-
-
   .sm\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -1933,27 +1912,7 @@ body{
   }
 
 
-  .sm\:w-60 {
-    width: 15rem;
-  }
-
-
   .sm\:w-1\/2 {
-    width: 50%;
-  }
-
-
-  .sm\:w-1\/3 {
-    width: 33.333333%;
-  }
-
-
-  .sm\:w-2\/3 {
-    width: 66.666667%;
-  }
-
-
-  .sm\:w-2\/4 {
     width: 50%;
   }
 
@@ -1963,8 +1922,13 @@ body{
   }
 
 
-  .sm\:w-1\/4 {
-    width: 25%;
+  .sm\:w-2\/4 {
+    width: 50%;
+  }
+
+
+  .sm\:w-60 {
+    width: 15rem;
   }
 
 
@@ -1993,43 +1957,18 @@ body{
   }
 
 
-  .md\:m-auto {
-    margin: auto;
-  }
-
-
-  .md\:ml-0 {
-    margin-left: 0px;
-  }
-
-
   .md\:flex {
     display: flex;
   }
 
 
-  .md\:w-80 {
-    width: 20rem;
-  }
-
-
-  .md\:w-2\/4 {
-    width: 50%;
-  }
-
-
-  .md\:w-1\/2 {
-    width: 50%;
-  }
-
-
-  .md\:w-1\/3 {
-    width: 33.333333%;
-  }
-
-
   .md\:w-1\/4 {
     width: 25%;
+  }
+
+
+  .md\:w-80 {
+    width: 20rem;
   }
 
 
@@ -2073,13 +2012,13 @@ body{
   }
 
 
-  .lg\:w-96 {
-    width: 24rem;
+  .lg\:w-auto {
+    width: auto;
   }
 
 
-  .lg\:w-auto {
-    width: auto;
+  .lg\:w-96 {
+    width: 24rem;
   }
 
 

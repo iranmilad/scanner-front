@@ -673,11 +673,8 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     },
   });
 
-<<<<<<< HEAD
-=======
   // console.log(memberList)
   let num = 0
->>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   function CheckMemberListExist(title, description) {
     console.log(member_lists_query.data);
     num++;
@@ -690,19 +687,6 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     //   (item) => item.title === title && item.description === description
     // );
 
-<<<<<<< HEAD
-
-    if (lodash.isEmpty(that)) {
-      let item = user_member_lists.data?.data.find(
-        (item) => item.title === title && item.description === description
-      );
-      if (lodash.isEmpty(item)) return false;
-      return { id: item.id, type: 'ADD' };
-    } else {
-      if (that.active === false) return { id: that.id, type: 'DISABLE' };
-      return { id: that.id, type: 'REMOVE' };
-    }
-=======
     // if (lodash.isEmpty(that)) {
     //   let item = memberList.find(
     //     (item) => item.title === title && item.description === description
@@ -713,7 +697,6 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     //   if (that.active === false) return { id: that.id, type: 'DISABLE' };
     //   return { id: that.id, type: 'REMOVE' };
     // }
->>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   }
 
   function checkItems(item) {
@@ -779,7 +762,6 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     </Paper>
   );
 
-<<<<<<< HEAD
 });
 
 
@@ -789,12 +771,6 @@ const NotificationBox = ({ item,bg,id,label}) => {
   const [loading, setLoading] = useState(false);
 
 
-=======
-const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
-  let [state,setState] = useState(CheckMemberListExist(id,item.id));
-  const [loading, setLoading] = useState(false);
-
->>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   const loadingWorker = useCallback(() => {
     setLoading(!loading);
   }, []);
