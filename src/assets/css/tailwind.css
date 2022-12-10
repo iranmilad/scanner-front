@@ -637,6 +637,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
@@ -703,13 +709,13 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
-.ml-2 {
-  margin-left: 0.5rem;
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 
-.mt-2 {
-  margin-top: 0.5rem;
+.ml-2 {
+  margin-left: 0.5rem;
 }
 
 
@@ -1003,6 +1009,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .flex-col {
   flex-direction: column;
+}
+
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 
@@ -1814,6 +1825,24 @@ body{
 }
 
 
+.original-chart {
+  margin: 0px !important;
+  display: flex !important;
+  height: 100% !important;
+  width: 100% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  --tw-bg-opacity: 0.3 !important;
+  padding: 0px !important;
+}
+
+
+#A3 {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+
 .hover\:mr-1:hover {
   margin-right: 0.25rem;
 }
@@ -1855,6 +1884,17 @@ body{
 
 
 @media (min-width: 768px) {
+
+
+  .sm\:mx-0 {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+
+  .sm\:mt-0 {
+    margin-top: 0px;
+  }
 
 
   .sm\:hidden {

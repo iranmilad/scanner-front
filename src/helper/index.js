@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
 import { Text } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
-import { getEveryFeeder } from '../apis/main';
-import { useCookies } from 'react-cookie';
 import moment from 'moment';
+import { useCookies } from 'react-cookie';
+import { Link } from 'react-router-dom';
+import { getEveryFeeder } from '../apis/main';
 
 // a function for generat 360 random number from 400 to 260 with 10 step
 export function randomNumber() {
@@ -160,14 +160,6 @@ export function ColorizeTagArrow({ row, style, ...other }) {
     </span>
   );
 }
-
-const minAndMax = (arr, min, max) =>
-  arr.map((e) => ({
-    ...e,
-    points: e.points.filter(
-      ({ y }) => (min === null || y >= min) && (max === null || y <= max)
-    ),
-  }));
 
 export function useConfig(array, key, callback) {
   const [cookies] = useCookies(['token']);

@@ -60,7 +60,7 @@ const History = (props) => {
         isLoading={marketHistory_query.isLoading}
         isFetching={marketHistory_query.isFetching}
         allow={marketHistory?.allow}
-        error={marketHistory_query.error?.message}
+        error={marketHistory_query.error}
         column={
           marketHistory_query.data?.type == 1
             ? industries_history_type_1.header

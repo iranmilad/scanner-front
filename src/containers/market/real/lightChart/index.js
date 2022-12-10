@@ -258,45 +258,46 @@ class LightChart extends Component {
   render() {
     return (
       <Paper p="xl" radius="md" shadow="xs" mt="xl">
-        <Group position="apart">
-          <div>
-            <Button
-              color={this.state.chartFullIndex ? 'pink' : 'blue'}
-              onClick={() => this.setChartFullIndex()}
-            >
-              شاخص کل
-            </Button>
-            <Button
-              ml="sm"
-              color={this.state.equalWeightIndex ? 'yellow' : 'blue'}
-              onClick={() => this.setEqualWeightIndex()}
-            >
-              شاخص هم وزن
-            </Button>
-            <Button
-              ml="sm"
-              color={this.state.linearGraph ? 'green' : 'blue'}
-              onClick={() => this.setLinearGraph()}
-            >
-              نمودار خطی
-            </Button>
-            {this.state.navExist && (
-              <Button
-                ml="sm"
-                color={this.state.navChart ? 'pink' : 'blue'}
-                onClick={() => this.setNavChart()}
-              >
-                NAV
-              </Button>
-            )}
-          </div>
+        <div className="flex justify-between flex-wrap">
           <Button
+              size="xs"
+            color={this.state.chartFullIndex ? 'pink' : 'blue'}
+            onClick={() => this.setChartFullIndex()}
+          >
+            شاخص کل
+          </Button>
+          <Button
+  size="xs"
+            color={this.state.equalWeightIndex ? 'yellow' : 'blue'}
+            onClick={() => this.setEqualWeightIndex()}
+          >
+            شاخص هم وزن
+          </Button>
+          <Button
+  size="xs"
+            color={this.state.linearGraph ? 'green' : 'blue'}
+            onClick={() => this.setLinearGraph()}
+          >
+            نمودار خطی
+          </Button>
+          {this.state.navExist && (
+            <Button
+            size="xs"
+              color={this.state.navChart ? 'pink' : 'blue'}
+              onClick={() => this.setNavChart()}
+            >
+              NAV
+            </Button>
+          )}
+          <Button
+          size="xs"
             color={this.state.percentageBtn ? 'orange' : 'blue'}
             onClick={() => this.setPercentageBtn()}
+            className="mt-2 mx-auto sm:mx-0 sm:mt-0"
           >
             مقیاس درصدی
           </Button>
-        </Group>
+        </div>
         <div ref={this.chartRef} className="mt-10 w-full h-96" />
       </Paper>
     );

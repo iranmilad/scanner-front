@@ -123,3 +123,11 @@ body{
 .anychart-credits{
   display: none !important;
 }
+
+.original-chart{
+  @apply  bg-opacity-30 w-full h-full p-0 flex items-center justify-center m-0 !important;
+}
+
+#A3{
+  @apply w-full h-full !important;
+}

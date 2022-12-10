@@ -1,4 +1,4 @@
-import { Button, Center, Group, Loader, Paper, Text } from '@mantine/core';
+import { Button, Center, Group, Loader, Box, Text, Paper } from '@mantine/core';
 import React from 'react';
 import { useEffect } from 'react';
 import Chart from 'react-apexcharts';
@@ -44,7 +44,9 @@ const Index = ({
       );
     return (
       <Chart
-        options={options ? options.options : ChartData[special].options }
+        height={"95%"}
+        width="100%"
+        options={options ? {...options.options} : ChartData[special].options }
         series={data}
         type={type ? type : ChartData[special].type}
         {...other}
