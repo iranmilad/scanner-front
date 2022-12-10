@@ -77,6 +77,7 @@ const MarketWatch = (props) => {
             placeholder="جستجو در نماد ها"
             onChange={(e) => FilterDataByName(e.target.value)}
             disabled={marketWatch_query.isLoading || marketWatch_query.isError}
+            className="w-full sm:w-1/2 md:w-1/4 lg:w-auto"
           />
           <Select
             disabled={marketWatchGroup_query.loading || marketWatch_query.isLoading}
@@ -84,6 +85,7 @@ const MarketWatch = (props) => {
             placeholder="نوع اوراق"
             data={marketWatchGroup_query.data?.data || []}
             defaultValue={marketWatchGroup_query.data?.data[0]?.value || ''}
+            className="w-full sm:w-2/5 md:w-1/4 lg:w-auto"
           />
           <Select
             disabled={marketWatchFilter_query.loading || marketWatch_query.isLoading}
@@ -91,8 +93,10 @@ const MarketWatch = (props) => {
             placeholder="فیلتر جدول"
             data={marketWatchFilter_query.data?.data || []}
             defaultValue={marketWatchFilter_query.data?.data[0]?.value || ''}
+            className="w-full sm:w-2/4 md:w-1/4 lg:w-auto"
           />
           <Button
+            className='w-full sm:w-2/5 md:w-1/4 lg:w-auto'
             size="sm"
             onClick={() => setModal((prev) => !prev)}
             disabled={marketWatch_query.loading}

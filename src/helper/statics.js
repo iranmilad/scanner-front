@@ -539,99 +539,100 @@ export const industries_history_type_1 = {
     {
       name: 'ارزش معاملات',
       selector: (row) => row.n2,
-      minWidth: "30px"
+      sortable: true,
     },
     {
       name: 'ارزش به 5 روز',
       selector: (row) => row.n3,
-      minWidth: "10px"
+      sortable: true,
     },
     {
       name: 'ارزش به 20 روز',
       selector: (row) => row.n4,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: 'ارزش خرید حقیقی',
       selector: (row) => row.n5,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: 'ارزش فروش حقیقی',
       selector: (row) => row.n6,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: 'سرانه خرید',
       selector: (row) => row.n7,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: '5 روز',
       selector: (row) => row.n8,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: '20 روز',
       selector: (row) => row.n9,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: 'سرانه فروش',
       selector: (row) => row.n10,
-      minWidth: "60px"
+      sortable: true,
     },
     {
       name: '5 روز',
       selector: (row) => row.n11,
-      minWidth: "50px"
+      sortable: true,
+      
     },
     {
       name: '20 روز',
       selector: (row) => row.n12,
-      minWidth: "50px"
+      sortable: true,
     },
     {
       name: 'قدرت خرید',
       selector: (row) => row.n13,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n13} />,
-      minWidth: "50px"
     },
     {
       name: '5 روز',
       selector: (row) => row.n14,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n14} />,
-      minWidth: "50px"
     },
     {
       name: '20 روز',
       selector: (row) => row.n15,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n15} />,
-      minWidth: "50px"
     },
     {
       name: 'ورود پول',
       selector: (row) => row.n16,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n16} />,
-      minWidth: "50px"
     },
     {
       name: '5 روز',
       selector: (row) => row.n17,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n17} />,
-      minWidth: "50px"
     },
     {
       name: '20 روز',
       selector: (row) => row.n18,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n18} />,
-      minWidth: "50px"
     },
     {
       name: 'شاخص گروه',
       selector: (row) => row.n18,
+      sortable: true,
       cell: (row) => <ColorizeTag row={row.n19} />,
-      minWidth: "50px"
     },
   ],
 };
@@ -660,113 +661,113 @@ export const industries_history_type_2 = {
     {
       name: 'ارزش معاملات',
       selector: (row) => row.n2,
-      minWidth: "30px"
+      sortable:true,
     },
     {
       name: 'ارزش به 5 روز',
       selector: (row) => row.n3,
-      minWidth: "10px"
+      sortable:true,
     },
     {
       name: 'ارزش به 20 روز',
       selector: (row) => row.n4,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'ارزش خرید حقیقی',
       selector: (row) => row.n5,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'ارزش فروش حقیقی',
       selector: (row) => row.n6,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'کد های خریدار',
       selector: (row) => row.n7,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'کد های فروشنده',
       selector: (row) => row.n8,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'سرانه خرید',
       selector: (row) => row.n9,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: '5 روز',
       selector: (row) => row.n10,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: '20 روز',
       selector: (row) => row.n11,
-      minWidth: "60px"
+      sortable:true,
     },
     {
       name: 'سرانه فروش',
       selector: (row) => row.n12,
-      minWidth: "50px"
+      sortable:true,
     },
     {
       name: '5 روز',
       selector: (row) => row.n13,
-      minWidth: "50px"
+      sortable:true,
     },
     {
       name: '20 روز',
       selector: (row) => row.n14,
-      minWidth: "50px"
+      sortable:true,
     },
     {
       name: 'قدرت خرید',
       selector: (row) => row.n15,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n15} />,
-      minWidth: "50px"
     },
     {
       name: '5 روز',
       selector: (row) => row.n16,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n16} />,
-      minWidth: "50px"
     },
     {
       name: '20 روز',
       selector: (row) => row.n17,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n17} />,
-      minWidth: "50px"
     },
     {
       name: 'ورود پول',
       selector: (row) => row.n18,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n18} />,
-      minWidth: "50px"
     },
     {
       name: '5 روز',
       selector: (row) => row.n19,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n19} />,
-      minWidth: "50px"
     },
     {
       name: '20 روز',
       selector: (row) => row.n20,
+      sortable:true,
       cell: (row) => <ColorizeTag row={row.n20} />,
-      minWidth: "50px"
     },
     {
       name: 'شاخص کل',
       selector: (row) => row.n21,
-      minWidth: "50px"
+      sortable:true,
     },
     {
       name: 'شاخص هم وزن',
       selector: (row) => row.n22,
-      minWidth: "50px"
+      sortable:true,
     },
   ],
 };

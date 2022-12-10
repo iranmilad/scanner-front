@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import lodash from 'lodash';
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -635,7 +635,7 @@ const RealMarket = (props) => {
   );
 };
 
-const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
+const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
   const [cookies] = useCookies(['token']);
   let forceUpdate = useForceUpdate();
 
@@ -648,7 +648,6 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
     `/${id}`
   );
 
-  let [memberList, setMemberList] = useState([]);
   let member_lists_query = useQuery({
     enabled: cookies.token !== undefined ? true : false,
     queryKey: ['member-lists', id],
@@ -663,7 +662,6 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
     onSuccess: forceUpdate
   });
 
-  let [userMemberList, setUserMemberList] = useState([]);
   let user_member_lists = useQuery({
     enabled: cookies.token !== undefined ? true : false,
     queryKey: ['user_member_lists'],
@@ -673,13 +671,13 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
       });
       return response.data;
     },
-    onSuccess: (data) => {
-      setUserMemberList(data);
-    },
   });
 
+<<<<<<< HEAD
+=======
   // console.log(memberList)
   let num = 0
+>>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   function CheckMemberListExist(title, description) {
     console.log(member_lists_query.data);
     num++;
@@ -692,6 +690,19 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
     //   (item) => item.title === title && item.description === description
     // );
 
+<<<<<<< HEAD
+
+    if (lodash.isEmpty(that)) {
+      let item = user_member_lists.data?.data.find(
+        (item) => item.title === title && item.description === description
+      );
+      if (lodash.isEmpty(item)) return false;
+      return { id: item.id, type: 'ADD' };
+    } else {
+      if (that.active === false) return { id: that.id, type: 'DISABLE' };
+      return { id: that.id, type: 'REMOVE' };
+    }
+=======
     // if (lodash.isEmpty(that)) {
     //   let item = memberList.find(
     //     (item) => item.title === title && item.description === description
@@ -702,7 +713,15 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
     //   if (that.active === false) return { id: that.id, type: 'DISABLE' };
     //   return { id: that.id, type: 'REMOVE' };
     // }
+>>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   }
+
+  function checkItems(item) {
+    let that = CheckMemberListExist(id, item.id);
+    if (that === false) return false;
+    return that;
+  }
+
 
 
   return (
@@ -723,12 +742,12 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
               ? symbolSupportResistance_query?.data?.data.n0.map(
                   (item, index) => {
                     return (
-                      <div className="">
+                      <div className="" key={index}>
                         <NotificationBox
-                          item={item}
+                          item={checkItems(item)}
                           id={id}
                           bg={colors.sky[500]}
-                          CheckMemberListExist={CheckMemberListExist}
+                          label={item.label}
                         />
                       </div>
                     );
@@ -744,10 +763,10 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
                     return (
                       <div className="" key={index}>
                         <NotificationBox
-                          item={item}
+                          item={checkItems(item)}
                           id={id}
                           bg={colors.indigo[500]}
-                          CheckMemberListExist={CheckMemberListExist}
+                          label={item.label}
                         />
                       </div>
                     );
@@ -759,12 +778,23 @@ const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
       )}
     </Paper>
   );
-};
 
+<<<<<<< HEAD
+});
+
+
+const NotificationBox = ({ item,bg,id,label}) => {
+  console.log(item.type)
+  const [state, setState] = useState(item?.type);
+  const [loading, setLoading] = useState(false);
+
+
+=======
 const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
   let [state,setState] = useState(CheckMemberListExist(id,item.id));
   const [loading, setLoading] = useState(false);
 
+>>>>>>> 9f87a98114787bce3b2c89ac7cb08fc1699877cd
   const loadingWorker = useCallback(() => {
     setLoading(!loading);
   }, []);
@@ -817,16 +847,16 @@ const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
     >
       <Group position="apart">
         <Text size="sm" color="white">
-          {item.label}
+          {label}
         </Text>
         {/* make this button with tooltip and action button and we have 3 color (gray,green,red) */}
         {/* if state null dont show otherwise show */}
-        {state === false ? null : (
+        {state === false || state === undefined ? null : (
           <Tooltip
             content={
-              state.type === 'ADD'
+              state?.type === 'ADD'
                 ? 'فعال کردن اعلان'
-                : state.type === 'REMOVE'
+                : state?.type === 'REMOVE'
                 ? 'غیر فعال کردن اعلان'
                 : 'اعلان در دسترس نیست'
             }
@@ -834,18 +864,18 @@ const NotificationBox = ({ item, id, bg, CheckMemberListExist, allow }) => {
           >
             <ActionIcon
               variant="filled"
-              disabled={state.type === 'DISABLE' ? true : false}
+              disabled={state?.type === 'DISABLE' ? true : false}
               loading={loading}
               color={
-                state.type === 'ADD'
+                state?.type === 'ADD'
                   ? 'teal'
-                  : state.type === 'REMOVE'
+                  : state?.type === 'REMOVE'
                   ? 'red'
                   : 'gray'
               }
               onClick={() => {
                 loadingWorker();
-                if (state.type === 'ADD') {
+                if (state?.type === 'ADD') {
                   createNotification(id, item.id, loadingWorker);
                 } else {
                   removeNotification(id, item.id, loadingWorker);

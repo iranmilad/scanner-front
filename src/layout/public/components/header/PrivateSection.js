@@ -220,7 +220,7 @@ const PrivateSection = (props) => {
                 },
               })}
             >
-              <Avatar radius="xl" src={ProfilePic} />
+              <Avatar radius="xl" />
             </Indicator>
           }
         >

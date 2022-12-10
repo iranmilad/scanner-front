@@ -925,6 +925,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 
+.w-auto {
+  width: auto;
+}
+
+
 .max-w-screen-xl {
   max-width: 1400px;
 }
@@ -1777,7 +1782,7 @@ body{
 
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-    max-width: 75%;
+    max-width: 85%;
   }
 }
 
@@ -1886,6 +1891,27 @@ body{
 @media (min-width: 768px) {
 
 
+  .sm\:float-right {
+    float: right;
+  }
+
+
+  .sm\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  .sm\:ml-auto {
+    margin-left: auto;
+  }
+
+
+  .sm\:inline-block {
+    display: inline-block;
+  }
+
+
   .sm\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
@@ -1909,6 +1935,36 @@ body{
 
   .sm\:w-60 {
     width: 15rem;
+  }
+
+
+  .sm\:w-1\/2 {
+    width: 50%;
+  }
+
+
+  .sm\:w-1\/3 {
+    width: 33.333333%;
+  }
+
+
+  .sm\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+
+  .sm\:w-2\/4 {
+    width: 50%;
+  }
+
+
+  .sm\:w-2\/5 {
+    width: 40%;
+  }
+
+
+  .sm\:w-1\/4 {
+    width: 25%;
   }
 
 
@@ -1937,6 +1993,16 @@ body{
   }
 
 
+  .md\:m-auto {
+    margin: auto;
+  }
+
+
+  .md\:ml-0 {
+    margin-left: 0px;
+  }
+
+
   .md\:flex {
     display: flex;
   }
@@ -1944,6 +2010,26 @@ body{
 
   .md\:w-80 {
     width: 20rem;
+  }
+
+
+  .md\:w-2\/4 {
+    width: 50%;
+  }
+
+
+  .md\:w-1\/2 {
+    width: 50%;
+  }
+
+
+  .md\:w-1\/3 {
+    width: 33.333333%;
+  }
+
+
+  .md\:w-1\/4 {
+    width: 25%;
   }
 
 
@@ -1989,6 +2075,11 @@ body{
 
   .lg\:w-96 {
     width: 24rem;
+  }
+
+
+  .lg\:w-auto {
+    width: auto;
   }
 
 
