@@ -172,8 +172,6 @@ import { useConfig, useData } from "../../../../helper";
 
 const Index = (props) => {
   let {id} = useParams();
-  let symbolInfo = useConfig(props.chartAndtables,'symbolInfo');
-  let symbolInfo_query = useData(symbolInfo,`/${id}`);
 
   let stockSellPerfomanceValue = useConfig(props.chartAndtables,'stockSellPerfomanceValue');
   let stockSellPerfomanceValue_query = useData(stockSellPerfomanceValue,`/${id}`,{

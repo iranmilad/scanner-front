@@ -5,6 +5,7 @@ import TextField from '../../../components/FormsUI/TextField';
 import { registerAPI } from '../../../apis/auth';
 import { verirySchema } from './schema';
 import { History } from '../../../helper/history';
+import { withRouter } from 'react-router-dom';
 
 class VerifyForm extends React.PureComponent {
   state = {
@@ -31,10 +32,11 @@ class VerifyForm extends React.PureComponent {
           this.setState({
             loading: false,
             success: true,
+            time: 3,
           });
           setTimeout(() => {
-            History.push('/login');
-          }, 4000);
+            this.props.history.push('/login');
+          }, 3000);
         })
         .catch((err) => {
           this.setState((prev) => ({
@@ -97,11 +99,15 @@ class VerifyForm extends React.PureComponent {
         {this.state.success ? (
           <>
             <Space h="lg" />
-            <Alert title="ثبت نام با موفقیت انجام شد" color="blue">
-              <Group position="apart">
-                <Text size="sm">به طور خودکار به صفحه ورود هدایت میشود</Text>
-              </Group>
-            </Alert>
+            <Alert mt="lg" title={this.state.loginSuccess} color="green">
+            <Group position="apart">
+              <Text size="sm">به طور خودکار هدایت میشوید</Text>
+              <Text size="sm">{this.state.time > 0 ? this.state.time : ''}</Text>
+            </Group>
+            <Group position='apart' mt="md">
+              <Text size='sm'>اگر به طور خودکار هدایت نشدید روی این <Text onClick={() => this.props.history.push('/login')} className='inline-block cursor-pointer' weight="bold" color="blue" size='sm'>لینک</Text> کلیک کنید</Text>
+            </Group>
+          </Alert>
           </>
         ) : (
           <>
@@ -185,4 +191,4 @@ class VerifyForm extends React.PureComponent {
   }
 }
 
-export default VerifyForm;
+export default withRouter(VerifyForm);

@@ -169,7 +169,7 @@ const Index = (props) => {
                 : 'md:col-span-3'
               : ''} h-full relative`}
           >
-            <XChart className="h-[350px]" item={item} key={item.key} />
+            <XChart className="h-[450px]" item={item} key={item.key} />
           </div>
         ))}
       </div>

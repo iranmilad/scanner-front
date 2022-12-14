@@ -11,9 +11,10 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { useQuery } from '@tanstack/react-query';
 import lodash from 'lodash';
-import React, { useEffect, useState, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -35,9 +36,7 @@ import InstantCharts from './instantCharts';
 import LightChart from './lightChart';
 import StockInformation from './stockInformation';
 import { header as traderSummaryHeader } from './traderSummary/header';
-import memberNotification from '../../../assets/images/memberNotification.svg';
-import { useCookies } from 'react-cookie';
-import { useForceUpdate,randomId, useDidUpdate } from '@mantine/hooks';
+import { useForceUpdate, randomId } from '@mantine/hooks';
 
 /**
  * @description Real Market means Sahm - صفحه سهم
@@ -635,7 +634,7 @@ const RealMarket = (props) => {
   );
 };
 
-const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
+const SupportResistanceBox = ({ chartAndtables, id, symbol }) => {
   const [cookies] = useCookies(['token']);
   let forceUpdate = useForceUpdate();
 
@@ -659,7 +658,7 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     },
     retryOnMount: false,
     refetchOnWindowFocus: false,
-    onSuccess: forceUpdate
+    onSuccess: forceUpdate,
   });
 
   let user_member_lists = useQuery({
@@ -671,32 +670,34 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
       });
       return response.data;
     },
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
+    onSuccess: forceUpdate,
   });
 
-  // console.log(memberList)
-  let num = 0
-  function CheckMemberListExist(title, description) {
-    console.log(member_lists_query.data);
-    num++;
-    return false
-    // if (!title) return false;
-    // if (!description) return false;
-    // if (lodash.isEmpty(member_lists_query.data?.message)) return false;
-    // // find that item in user memeber list
-    // let that = user_member_lists.data?.data.find(
-    //   (item) => item.title === title && item.description === description
-    // );
+  useEffect(() => {
+    forceUpdate();
+  }, [member_lists_query.data]);
 
-    // if (lodash.isEmpty(that)) {
-    //   let item = memberList.find(
-    //     (item) => item.title === title && item.description === description
-    //   );
-    //   if (lodash.isEmpty(item)) return false;
-    //   return { id: item.id, type: 'ADD' };
-    // } else {
-    //   if (that.active === false) return { id: that.id, type: 'DISABLE' };
-    //   return { id: that.id, type: 'REMOVE' };
-    // }
+  function CheckMemberListExist(title, description) {
+    if (lodash.isEmpty(member_lists_query.data?.message)) return false;
+
+    // // find that item in user memeber list
+    let that = user_member_lists.data?.data.find(
+      (item) => item.title === title && item.description === description
+    );
+
+    if (that === undefined) {
+      let item = member_lists_query.data?.message.find(
+        (item) => item.title === title && item.description === description
+      );
+      if (item === undefined) return false;
+      return { id: item.id, type: 'ADD' };
+    } else {
+      if (that.active === false)
+        return { id: that.member_list_id, type: 'DISABLE' };
+      return { id: that.member_list_id, type: 'REMOVE' };
+    }
   }
 
   function checkItems(item) {
@@ -705,34 +706,33 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
     return that;
   }
 
-
-
   return (
     <Paper p="xl" radius="md" shadow="xs" mt="xl" className="relative">
       <LoadingOverlay visible={false} loaderProps={{ variant: 'dots' }} />
       <Text size="sm" mb="md">
         {symbolSupportResistance.title} {symbol?.name || ''}
       </Text>
-      {symbolSupportResistance_query.isLoading ? (
+      {symbolSupportResistance_query.isLoading ||
+      member_lists_query.isFetching ||
+      user_member_lists.isFetching ? (
         <Center>
           <Loader variant="dots" />
         </Center>
       ) : (
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 grid-flow-row">
           {/* Right Section */}
           <div className="w-full space-y-3">
             {'data' in symbolSupportResistance_query.data
               ? symbolSupportResistance_query?.data?.data.n0.map(
                   (item, index) => {
                     return (
-                      <div className="" key={index}>
-                        <NotificationBox
-                          item={checkItems(item)}
-                          id={id}
-                          bg={colors.sky[500]}
-                          label={item.label}
-                        />
-                      </div>
+                      <NotificationBox
+                        key={index}
+                        item={checkItems(item)}
+                        id={id}
+                        bg={colors.sky[500]}
+                        label={item.label}
+                      />
                     );
                   }
                 )
@@ -744,14 +744,13 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
               ? symbolSupportResistance_query?.data?.data?.n1.map(
                   (item, index) => {
                     return (
-                      <div className="" key={index}>
-                        <NotificationBox
-                          item={checkItems(item)}
-                          id={id}
-                          bg={colors.indigo[500]}
-                          label={item.label}
-                        />
-                      </div>
+                      <NotificationBox
+                        key={index}
+                        item={checkItems(item)}
+                        id={id}
+                        bg={colors.indigo[500]}
+                        label={item.label}
+                      />
                     );
                   }
                 )
@@ -761,65 +760,53 @@ const SupportResistanceBox = React.memo(({ chartAndtables, id, symbol }) => {
       )}
     </Paper>
   );
+};
 
-});
-
-
-const NotificationBox = ({ item,bg,id,label}) => {
-  console.log(item.type)
+const NotificationBox = ({ item, bg, id, label }) => {
   const [state, setState] = useState(item?.type);
   const [loading, setLoading] = useState(false);
 
-
-  const loadingWorker = useCallback(() => {
-    setLoading(!loading);
-  }, []);
-
-
-  function createNotification() {
+  function createNotification(id, loadingWorker) {
     getEveryUser('/user/member-lists/create', {
       token: true,
       method: 'post',
       data: {
-        member_list_id: item.id,
+        member_list_id: id,
       },
     })
       .then((res) => {
-        loadingWorker();
+        setLoading((prev) => !prev);
+        setState('REMOVE');
       })
       .catch((err) => {
         console.log(err);
-        loadingWorker();
+        setLoading((prev) => !prev);
       });
   }
 
-  function removeNotification() {
+  function removeNotification(id, loadingWorker) {
     getEveryUser('/user/member-lists/delete', {
       token: true,
-      method: 'post',
+      method: 'POST',
       data: {
-        member_list_id: item.id,
+        member_list_id: id,
       },
     })
       .then((res) => {
-        loadingWorker();
+        setLoading((prev) => !prev);
+        setState('ADD');
       })
       .catch((err) => {
         console.log(err);
-        loadingWorker();
+        setLoading((prev) => !prev);
       });
   }
-
-  console.log(state)
-
 
   return (
     <Box
       sx={{ background: bg }}
       p="md"
-      borderRadius="md"
-      boxShadow="md"
-      // className="flex flex-col justify-between"
+      className="flex flex-col justify-between w-full my-3 max-h-max lg:max-h-12 shadow rounded-md"
     >
       <Group position="apart">
         <Text size="sm" color="white">
@@ -829,32 +816,20 @@ const NotificationBox = ({ item,bg,id,label}) => {
         {/* if state null dont show otherwise show */}
         {state === false || state === undefined ? null : (
           <Tooltip
-            content={
-              state?.type === 'ADD'
-                ? 'فعال کردن اعلان'
-                : state?.type === 'REMOVE'
-                ? 'غیر فعال کردن اعلان'
-                : 'اعلان در دسترس نیست'
-            }
-            placement="top"
+            className='lg:-mt-1'
+            label={state === 'ADD' ? 'فعال کردن اعلان' : 'غیر فعال کردن اعلان'}
           >
             <ActionIcon
               variant="filled"
-              disabled={state?.type === 'DISABLE' ? true : false}
+              disabled={state === 'DISABLE' ? true : false}
               loading={loading}
-              color={
-                state?.type === 'ADD'
-                  ? 'teal'
-                  : state?.type === 'REMOVE'
-                  ? 'red'
-                  : 'gray'
-              }
+              color={state === 'ADD' ? 'green' : 'red'}
               onClick={() => {
-                loadingWorker();
-                if (state?.type === 'ADD') {
-                  createNotification(id, item.id, loadingWorker);
+                setLoading((prev) => !prev);
+                if (state === 'ADD') {
+                  createNotification(item.id);
                 } else {
-                  removeNotification(id, item.id, loadingWorker);
+                  removeNotification(item.id);
                 }
               }}
             >

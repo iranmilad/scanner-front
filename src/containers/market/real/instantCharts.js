@@ -1,14 +1,7 @@
-import { Grid } from '@mantine/core';
-import { Component } from 'react';
 import { connect } from 'react-redux';
-import Chart from '../../../components/Chart';
-import { getEveryFeeder } from '../../../apis/main';
-import { Text } from '@mantine/core';
-import { Group } from '@mantine/core';
-import { Select } from '@mantine/core';
-import { useConfig, useData } from '../../../helper';
 import { useParams } from 'react-router';
-
+import Chart from '../../../components/Chart';
+import { useConfig, useData } from '../../../helper';
 
 const InstantCharts = (props) => {
   let { id } = useParams();
@@ -68,92 +61,121 @@ const InstantCharts = (props) => {
   );
 
   return (
-    <Grid mt="md" grow>
-      <Grid.Col sm={6} md={4}>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+      <div className="">
         <Chart
-          className="min-h-[300px]"
+          className="h-[300px]"
           special={symbolMoneyflowTotalEnterManyBuyerIHistory.key}
-          data={symbolMoneyflowTotalEnterManyBuyerIHistory_query.data?.data?.series}
+          data={
+            symbolMoneyflowTotalEnterManyBuyerIHistory_query.data?.data?.series
+          }
           title={symbolMoneyflowTotalEnterManyBuyerIHistory.title}
           isLoading={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isLoading}
-          isFetching={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isFetching}
-          error={symbolMoneyflowTotalEnterManyBuyerIHistory_query.isError ? symbolMoneyflowTotalEnterManyBuyerIHistory_query.error : null}
+          isFetching={
+            symbolMoneyflowTotalEnterManyBuyerIHistory_query.isFetching
+          }
+          error={
+            symbolMoneyflowTotalEnterManyBuyerIHistory_query.isError
+              ? symbolMoneyflowTotalEnterManyBuyerIHistory_query.error
+              : null
+          }
           allow={symbolMoneyflowTotalEnterManyBuyerIHistory?.allow}
           type="area"
-          height={300}
         />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
+      </div>
+      <div>
         <Chart
-          className="min-h-[300px]"
+          className="h-[300px]"
           special={symbolMoneyflowTotalChangeBuySellHeadsHistory.key}
-          data={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.data?.data?.series}
+          data={
+            symbolMoneyflowTotalChangeBuySellHeadsHistory_query.data?.data
+              ?.series
+          }
           title={symbolMoneyflowTotalChangeBuySellHeadsHistory.title}
-          isLoading={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isLoading}
-          isFetching={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isFetching}
-          error={symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isError ? symbolMoneyflowTotalChangeBuySellHeadsHistory_query.error : null}
+          isLoading={
+            symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isLoading
+          }
+          isFetching={
+            symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isFetching
+          }
+          error={
+            symbolMoneyflowTotalChangeBuySellHeadsHistory_query.isError
+              ? symbolMoneyflowTotalChangeBuySellHeadsHistory_query.error
+              : null
+          }
           allow={symbolMoneyflowTotalChangeBuySellHeadsHistory?.allow}
           type="line"
-          height={300}
         />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
+      </div>
+      <div>
         <Chart
-          className="min-h-[300px]"
+          className="h-[300px]"
           special={symbolTradeLastDayHistory.key}
           data={symbolTradeLastDayHistory_query.data?.data?.series}
           title={symbolTradeLastDayHistory.title}
           isLoading={symbolTradeLastDayHistory_query.isLoading}
           isFetching={symbolTradeLastDayHistory_query.isFetching}
-          error={symbolTradeLastDayHistory_query.isError ? symbolTradeLastDayHistory_query.error : null}
+          error={
+            symbolTradeLastDayHistory_query.isError
+              ? symbolTradeLastDayHistory_query.error
+              : null
+          }
           allow={symbolTradeLastDayHistory?.allow}
           type="area"
-          height={300}
         />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
+      </div>
+      <div>
         <Chart
-          className="min-h-[300px]"
-          special={symbolTradeTimeValueHistory.key}
+          className="h-[300px]"
+          special={symbolTradeValueHistory.key}
           data={symbolTradeValueHistory_query.data?.data?.series}
           title={symbolTradeValueHistory.title}
           isLoading={symbolTradeValueHistory_query.isLoading}
           isFetching={symbolTradeValueHistory_query.isFetching}
-          error={symbolTradeValueHistory_query.isError ? symbolTradeValueHistory_query.error : null}
+          error={
+            symbolTradeValueHistory_query.isError
+              ? symbolTradeValueHistory_query.error
+              : null
+          }
           allow={symbolTradeValueHistory?.allow}
           type="area"
-          height={300}
         />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
+      </div>
+      <div>
         <Chart
-          className="min-h-[300px]"
-          special={symbolTradeTimeValueHistory.key}
+          className="h-[300px]"
+          special={symbolCounterBuyerSellerHistory.key}
           data={symbolCounterBuyerSellerHistory_query.data?.data?.series}
           title={symbolCounterBuyerSellerHistory.title}
           type="line"
           isLoading={symbolCounterBuyerSellerHistory_query.isLoading}
           isFetching={symbolCounterBuyerSellerHistory_query.isFetching}
-          error={symbolCounterBuyerSellerHistory_query.isError ? symbolCounterBuyerSellerHistory_query.error : null}
+          error={
+            symbolCounterBuyerSellerHistory_query.isError
+              ? symbolCounterBuyerSellerHistory_query.error
+              : null
+          }
           allow={symbolCounterBuyerSellerHistory?.allow}
-          height={300}
         />
-      </Grid.Col>
-      <Grid.Col sm={6} md={4}>
+      </div>
+      <div>
         <Chart
-          className="min-h-[300px]"
+          className="h-[300px]"
           special={symbolTradeTimeValueHistory.key}
           data={symbolTradeTimeValueHistory_query.data?.data?.series}
           title={symbolTradeTimeValueHistory.title}
           isLoading={symbolTradeTimeValueHistory_query.isLoading}
           isFetching={symbolTradeTimeValueHistory_query.isFetching}
-          error={symbolTradeTimeValueHistory_query.isError ? symbolTradeTimeValueHistory_query.error : null}
+          error={
+            symbolTradeTimeValueHistory_query.isError
+              ? symbolTradeTimeValueHistory_query.error
+              : null
+          }
           allow={symbolTradeTimeValueHistory?.allow}
           type="bar"
-          height={300}
         />
-      </Grid.Col>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

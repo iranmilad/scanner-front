@@ -2,7 +2,6 @@ import fa from 'apexcharts/dist/locales/fa.json';
 import colors from 'tailwindcss/colors';
 import { clockTime } from '../../helper';
 
-
 const ChartData = {
   A1: {
     title: 'محدوده قیمتی آخرین معاملات سهام حق تقدم و ص.سهامی',
@@ -49,6 +48,24 @@ const ChartData = {
               pointIndex: dataPointIndex,
             });
             window.chartable.setModal();
+          },
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: 0,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
           },
         },
       },
@@ -177,49 +194,68 @@ const ChartData = {
       },
       responsive: [
         {
+          breakpoint: 407,
+          options: {
+            chart:{
+              height: 280
+            },
+            xaxis: {
+              labels: {
+                show:true
+              }
+            },
+            grid: {
+              show:true,
+              padding: {
+                bottom: 12,
+              },
+            },
+          },
+        },
+        {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -268,7 +304,7 @@ const ChartData = {
           horizontal: true,
         },
       },
-      legend:{
+      legend: {
         show: false,
       },
       grid: {
@@ -276,7 +312,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom: 40
+          bottom: 40,
         },
         xaxis: {
           lines: {
@@ -344,7 +380,7 @@ const ChartData = {
         padding: {
           left: 5,
           right: -5,
-          bottom: 30
+          bottom: 30,
         },
         xaxis: {
           lines: {
@@ -366,48 +402,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -459,7 +495,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom:12
+          bottom: 12,
         },
         xaxis: {
           lines: {
@@ -481,48 +517,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -574,7 +610,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom:12
+          bottom: 12,
         },
         xaxis: {
           lines: {
@@ -596,48 +632,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -711,48 +747,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -805,7 +841,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom:12
+          bottom: 12,
         },
         xaxis: {
           lines: {
@@ -827,48 +863,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -921,7 +957,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom: 12
+          bottom: 12,
         },
         xaxis: {
           lines: {
@@ -943,48 +979,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -1046,6 +1082,24 @@ const ChartData = {
           },
         },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
       plotOptions: {
         horizontal: false,
         distributed: true,
@@ -1070,6 +1124,8 @@ const ChartData = {
       chart: {
         locales: [fa],
         defaultLocale: 'fa',
+        parentHeightOffset: 0,
+        width: '100%',
         animations: {
           enabled: false,
         },
@@ -1094,6 +1150,24 @@ const ChartData = {
               pointIndex: dataPointIndex,
             });
             window.chartable.setModal();
+          },
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: 0,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
           },
         },
       },
@@ -1148,6 +1222,24 @@ const ChartData = {
               pointIndex: dataPointIndex,
             });
             window.chartable.setModal();
+          },
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
           },
         },
       },
@@ -1219,6 +1311,27 @@ const ChartData = {
           horizontal: true,
         },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: 10,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      legend: {
+        show: false,
+      },
       colors: ['#E91E63', '#66DA26', colors.blue[500]],
       dataLabels: {
         enabled: true,
@@ -1278,6 +1391,24 @@ const ChartData = {
           },
         },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
       plotOptions: {
         horizontal: false,
         distributed: true,
@@ -1334,6 +1465,24 @@ const ChartData = {
           },
         },
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
       plotOptions: {
         horizontal: false,
         distributed: true,
@@ -1352,11 +1501,24 @@ const ChartData = {
           colors: [colors.slate[700]],
         },
       },
+      responsive:[
+        {
+          breakpoint: 1872,
+          options: {
+            xaxis: {
+              labels: {
+                show: true,
+                // offsetY: 90,
+                offsetX: 10,
+              }
+            }
+          }
+        }
+      ],
       xaxis: {
         labels: {
           show: true,
-          offsetY: 90,
-          offsetX: -25,
+          rotate: 0,
         },
         categories: [
           'صف خرید به فروش',
@@ -1376,47 +1538,94 @@ const ChartData = {
     options: {
       chart: {
         locales: [fa],
+        parentHeightOffset: 0,
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
-        id: 'A17',
         fontFamily: 'Iran-sans',
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        categories: clockTime("09:00","12:30",15),
-      },
-    },
-  },
-  A18: {
-    title: 'تغیرات ارزش معاملات در هر دقیقه',
-    type: 'area',
-    auth: true,
-    options: {
-      chart: {
-        locales: [fa],
-        defaultLocale: 'fa',
-        animations: {
-          enabled: false,
-        },
-        id: 'A18',
-        fontFamily: 'Iran-sans',
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      xaxis: {
-        labels: {
+        type: 'line',
+        width: '100%',
+        toolbar: {
           show: true,
         },
-        categories: clockTime("09:00","12:30",15),
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1429,6 +1638,122 @@ const ChartData = {
             return value;
           },
         },
+      },
+      legend: {
+        show: false,
+      },
+    },
+  },
+  A18: {
+    title: 'تغیرات ارزش معاملات در هر دقیقه',
+    type: 'area',
+    auth: true,
+    options: {
+      chart: {
+        locales: [fa],
+        parentHeightOffset: 0,
+        defaultLocale: 'fa',
+        animations: {
+          enabled: false,
+        },
+        fontFamily: 'Iran-sans',
+        type: 'line',
+        width: '100%',
+        toolbar: {
+          show: true,
+        },
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      stroke: {
+        curve: 'smooth',
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
+        },
+      },
+      legend: {
+        show: false,
       },
     },
   },
@@ -1570,7 +1895,7 @@ const ChartData = {
         curve: 'smooth',
       },
       xaxis: {
-        category: clockTime("09:00","12:30",15),
+        category: clockTime('09:00', '12:30', 15),
       },
       legend: {
         show: false,
@@ -1600,7 +1925,7 @@ const ChartData = {
         fontFamily: 'Iran-sans',
       },
       xaxis: {
-        category: clockTime("09:00","12:30",15),
+        category: clockTime('09:00', '12:30', 15),
       },
       legend: {
         show: false,
@@ -1634,7 +1959,7 @@ const ChartData = {
         curve: 'smooth',
       },
       xaxis: {
-        category: clockTime("09:00","12:30",15),
+        category: clockTime('09:00', '12:30', 15),
       },
       legend: {
         show: false,
@@ -1654,6 +1979,8 @@ const ChartData = {
     auth: false,
     options: {
       chart: {
+        parentHeightOffset: 0,
+        width: '100%',
         locales: [fa],
         defaultLocale: 'fa',
         height: 350,
@@ -1678,15 +2005,73 @@ const ChartData = {
         width: [0, 4],
         curve: 'smooth',
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      responsive:[
+        {
+          breakpoint: 1899,
+          options: {
+            xaxis:{
+              tickAmount: 10,
+            }
+          }
+        },
+        {
+          breakpoint: 1033,
+          options: {
+            xaxis:{
+              tickAmount: 7,
+            }
+          }
+        },
+        {
+          breakpoint: 768,
+          options: {
+            grid:{
+              padding: {
+                bottom:30
+              }
+            },
+            xaxis:{
+              tickAmount: 2,
+              labels:{
+                offsetX: 10,
+              }
+            }}
+        }
+      ],
       xaxis: {
-        type: 'string',
+        type: 'category',
         labels: {
           show: true,
+          rotateAlways: false,
+          rotate: 0,
+          offsetX: 0,
+          offsety: 0,
         },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1705,11 +2090,14 @@ const ChartData = {
   dailyEntryMany: {
     options: {
       chart: {
+        parentHeightOffset: 0,
+        width: '100%',
         locales: [fa],
         defaultLocale: 'fa',
-        type: 'column',
         height: 350,
+        type: 'column',
         fontFamily: 'Iran-sans',
+        stacked: false,
         animations: {
           enabled: false,
         },
@@ -1733,12 +2121,87 @@ const ChartData = {
           columnWidth: '90%',
         },
       },
+      noData: {
+        text: 'دیتایی موجود نمیباشد',
+        align: 'center',
+      },
       dataLabels: {
         enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        width: [0, 4],
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      responsive:[
+        {
+          breakpoint: 1899,
+          options: {
+            xaxis:{
+              tickAmount: 10,
+            }
+          }
+        },
+        {
+          breakpoint: 1033,
+          options: {
+            xaxis:{
+              tickAmount: 7,
+            }
+          }
+        },
+        {
+          breakpoint: 768,
+          options: {
+            grid:{
+              padding: {
+                bottom:30
+              }
+            },
+            xaxis:{
+              tickAmount: 2,
+              labels:{
+                offsetX: 10,
+              }
+            }}
+        }
+      ],
+      xaxis: {
+        type: 'category',
+        labels: {
+          show: true,
+          rotateAlways: false,
+          rotate: 0,
+          offsetX: 0,
+          offsety: 0,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -1752,22 +2215,19 @@ const ChartData = {
           },
         },
       },
-      xaxis: {
-        type: 'string',
-        labels: {
-          show: true,
-        },
-      },
     },
   },
   dailyPowerBuyer: {
     options: {
       chart: {
+        parentHeightOffset: 0,
+        width: '100%',
         locales: [fa],
         defaultLocale: 'fa',
-        type: 'bar',
-        height: 350,
+        height: 400,
+        type: 'column',
         fontFamily: 'Iran-sans',
+        stacked: false,
         animations: {
           enabled: false,
         },
@@ -1791,13 +2251,98 @@ const ChartData = {
           columnWidth: '90%',
         },
       },
+      noData: {
+        text: 'دیتایی موجود نمیباشد',
+        align: 'center',
+      },
       dataLabels: {
         enabled: false,
       },
+      legend: {
+        show: false,
+      },
+      stroke: {
+        width: [0, 4],
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 12,
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      responsive:[
+        {
+          breakpoint: 1899,
+          options: {
+            xaxis:{
+              tickAmount: 10,
+            }
+          }
+        },
+        {
+          breakpoint: 1033,
+          options: {
+            xaxis:{
+              tickAmount: 7,
+            }
+          }
+        },
+        {
+          breakpoint: 768,
+          options: {
+            grid:{
+              padding: {
+                bottom:30
+              }
+            },
+            xaxis:{
+              tickAmount: 2,
+              labels:{
+                offsetX: 10,
+              }
+            }}
+        }
+      ],
       xaxis: {
-        type: 'string',
+        type: 'category',
         labels: {
           show: true,
+          rotateAlways: false,
+          rotate: 0,
+          offsetX: 0,
+          offsety: 0,
+        },
+      },
+      yaxis: {
+        show: true,
+        labels: {
+          offsetX: {
+            left: 20,
+          },
+          formatter: function (val) {
+            let value = val;
+            if (val > 1000000000 || val < -1000000000) {
+              value = `${Math.floor(val / 1000000000)} B`;
+            } else if (val > 1000000 || val < -1000000) {
+              value = `${Math.floor(val / 1000000)} M`;
+            } else if (val > 1000 || val < -1000) {
+              value = `${Math.floor(val / 1000)} K`;
+            }
+            return value;
+          },
         },
       },
     },
@@ -1846,48 +2391,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -1958,48 +2503,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2070,48 +2615,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2182,48 +2727,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2294,48 +2839,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2406,48 +2951,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2518,48 +3063,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2630,48 +3175,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2742,48 +3287,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2854,48 +3399,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -2966,48 +3511,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3078,48 +3623,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3190,48 +3735,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3302,48 +3847,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3414,48 +3959,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3526,48 +4071,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3638,48 +4183,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3750,48 +4295,48 @@ const ChartData = {
       responsive: [
         {
           breakpoint: 2337,
-          options:{
-            xaxis:{
-              labels:{
+          options: {
+            xaxis: {
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 1200,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 7,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         {
           breakpoint: 2428,
-          options:{
-            xaxis:{
+          options: {
+            xaxis: {
               tickAmount: 6,
-              labels:{
+              labels: {
                 rotateAlways: false,
                 rotate: 0,
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime("09:00","12:30",15),
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
-        }
+        },
       },
       yaxis: {
         show: true,
@@ -3821,30 +4366,91 @@ const ChartData = {
   symbolMoneyflowTotalEnterManyBuyerIHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
-        type: 'area',
+        type: 'line',
         fontFamily: 'Iran-sans',
         group: 'symbol',
-        id: 'chartFX1',
+        id: 'symbolMoneyflowTotalEnterManyBuyerIHistory',
       },
       colors: [colors.pink[500]],
       dataLabels: {
         enabled: false,
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
         },
-        categories: clockTime("09:00","12:30",15),
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -3863,6 +4469,7 @@ const ChartData = {
   symbolMoneyflowTotalChangeBuySellHeadsHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
@@ -3871,27 +4478,87 @@ const ChartData = {
         type: 'line',
         fontFamily: 'Iran-sans',
         group: 'symbol',
-        id: 'chartFX2',
+        id: 'symbolMoneyflowTotalChangeBuySellHeadsHistory',
       },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        curve: 'smooth',
-      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
       legend: {
         show: false,
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      stroke: {
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
         },
-        categories: clockTime("09:00","12:30",15),
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -3910,33 +4577,57 @@ const ChartData = {
   symbolTradeLastDayHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
-        type: 'area',
+        type: 'line',
         fontFamily: 'Iran-sans',
         group: 'symbol',
-        id: 'chartFX3',
+        id: 'symbolTradeLastDayHistory',
       },
-      colors: [colors.indigo[500]],
       dataLabels: {
         enabled: false,
       },
       stroke: {
         curve: 'smooth',
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      colors: [colors.indigo[500]],
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
         },
-        categories: clockTime("09:00","12:30",15),
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -3951,10 +4642,48 @@ const ChartData = {
         },
       },
     },
+    responsive: [
+      {
+        breakpoint: 2337,
+        options: {
+          xaxis: {
+            labels: {
+              rotateAlways: false,
+              rotate: 0,
+            },
+          },
+        },
+      },
+      {
+        breakpoint: 1200,
+        options: {
+          xaxis: {
+            tickAmount: 7,
+            labels: {
+              rotateAlways: false,
+              rotate: 0,
+            },
+          },
+        },
+      },
+      {
+        breakpoint: 2428,
+        options: {
+          xaxis: {
+            tickAmount: 6,
+            labels: {
+              rotateAlways: false,
+              rotate: 0,
+            },
+          },
+        },
+      },
+    ],
   },
   symbolTradeValueHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
@@ -3963,22 +4692,85 @@ const ChartData = {
         type: 'area',
         fontFamily: 'Iran-sans',
         group: 'symbol',
-        id: 'chartFX4',
+        id: 'symbolTradeValueHistory',
       },
-      colors: [colors.emerald[500]],
       dataLabels: {
         enabled: false,
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
         },
-        categories: clockTime("09:00","12:30",15),
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
+      colors: [colors.emerald[500]],
+      stroke: {
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -3997,35 +4789,96 @@ const ChartData = {
   symbolCounterBuyerSellerHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
           enabled: false,
         },
-        type: 'line',
+        type: 'area',
         fontFamily: 'Iran-sans',
         group: 'symbol',
-        id: 'chartFX5',
+        id: 'symbolCounterBuyerSellerHistory',
       },
       dataLabels: {
         enabled: false,
       },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
       stroke: {
         curve: 'smooth',
       },
-      legend: {
+      legend:{
         show: false,
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
         },
-        categories: clockTime("09:00","12:30",15),
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -4044,6 +4897,7 @@ const ChartData = {
   symbolTradeTimeValueHistory: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
         animations: {
@@ -4051,22 +4905,83 @@ const ChartData = {
         },
         type: 'bar',
         fontFamily: 'Iran-sans',
-        group: 'symbol',
-        id: 'chartFX6',
       },
       dataLabels: {
         enabled: false,
       },
-      xaxis: {
-        labels: {
-          show: true,
-          offsetY: 20,
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
         },
-        categories: clockTime("09:00","12:30",15),
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
+      stroke: {
+        curve: 'smooth',
+      },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      xaxis: {
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -4,
+        },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -4085,33 +5000,97 @@ const ChartData = {
   sellPerfomance: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
-        height: 350,
-        width: '100%',
-        type: 'line',
-        fontFamily: 'Iran-sans',
-        stacked: false,
         animations: {
           enabled: false,
         },
+        type: 'line',
+        fontFamily: 'Iran-sans',
+        group: 'symbol',
+        stacked: false,
       },
-      legend: {
-        show: false,
+      dataLabels: {
+        enabled: false,
+      },
+      ledgend: {
+        show: true,
       },
       stroke: {
         width: [0, 4],
         curve: 'smooth',
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
       xaxis: {
-        type: 'string',
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
-          show: true,
+          rotateAlways: false,
+          offsetX: -2,
         },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {
@@ -4130,33 +5109,97 @@ const ChartData = {
   perfomanceValue: {
     options: {
       chart: {
+        parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
-        height: 350,
-        width: '100%',
-        type: 'line',
-        fontFamily: 'Iran-sans',
-        stacked: false,
         animations: {
           enabled: false,
         },
+        type: 'line',
+        fontFamily: 'Iran-sans',
+        group: 'symbol',
+        stacked: false,
       },
-      legend: {
-        show: false,
+      dataLabels: {
+        enabled: false,
+      },
+      ledgend: {
+        show: true,
       },
       stroke: {
         width: [0, 4],
         curve: 'smooth',
       },
+      grid: {
+        show: true,
+        padding: {
+          left: 0,
+          right: -5,
+          bottom: 20
+        },
+        xaxis: {
+          lines: {
+            show: false,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
+        },
+      },
+      responsive: [
+        {
+          breakpoint: 2337,
+          options: {
+            xaxis: {
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1200,
+          options: {
+            xaxis: {
+              tickAmount: 7,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 2428,
+          options: {
+            xaxis: {
+              tickAmount: 6,
+              labels: {
+                rotateAlways: false,
+                rotate: 0,
+              },
+            },
+          },
+        },
+      ],
       xaxis: {
-        type: 'string',
+        type: 'category',
+        // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
         labels: {
-          show: true,
+          rotateAlways: false,
+          offsetX: -2,
         },
       },
       yaxis: {
         show: true,
         labels: {
+          offsetX: {
+            left: 20,
+          },
           formatter: function (val) {
             let value = val;
             if (val > 1000000000 || val < -1000000000) {

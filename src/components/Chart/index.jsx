@@ -93,7 +93,7 @@ const NeedAuth = () => {
         <Text color="white" size="sm" className="z-20">
         برای مشاهده جدول به حساب کاربری خود وارد شوید
         </Text>
-        <Link to="/subscription" className="z-20">
+        <Link to="/login" className="z-20">
           <Button color="blue" sx={{ fontWeight: 'normal' }}>
             خرید
           </Button>
