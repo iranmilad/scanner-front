@@ -1,7 +1,4 @@
 import React from 'react';
-
-
-
 const Market_Values = React.lazy(()=>import("../containers/report/marketValues"));
 const Order_Watch = React.lazy(()=> import("../containers/extra/orderWatch"));
 const Tops = React.lazy(()=> import("../containers/tops"));

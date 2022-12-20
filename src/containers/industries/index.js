@@ -101,6 +101,7 @@ const Index = (props) => {
               isFetching={totalIndustriesStockPresent_query.isFetching}
               allow={totalIndustriesStockPresent?.allow}
               error={totalIndustriesStockPresent_query.isError ? totalIndustriesStockPresent_query.error : null}
+              className="h-[450px]"
             />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
@@ -112,6 +113,7 @@ const Index = (props) => {
               isFetching={totalIndustriesStockValueQueue_query.isFetching}
               allow={totalIndustriesStockValueQueue?.allow}
               error={totalIndustriesStockValueQueue_query.isError ? totalIndustriesStockValueQueue_query.error : null}
+              className="h-[450px]"
             />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
@@ -123,6 +125,8 @@ const Index = (props) => {
               isFetching={totalIndustriesChangeBuySellHeadsHistory_query.isFetching}
               allow={totalIndustriesChangeBuySellHeadsHistory?.allow}
               error={totalIndustriesChangeBuySellHeadsHistory_query.isError ? totalIndustriesChangeBuySellHeadsHistory_query.error : null}
+              className="h-[450px]"
+
             />
           </Grid.Col>
           <Grid.Col span={12} md={6}>
@@ -134,6 +138,8 @@ const Index = (props) => {
               isFetching={totalIndustriesEnterManyBuyerIHistory_query.isFetching}
               allow={totalIndustriesEnterManyBuyerIHistory?.allow}
               error={totalIndustriesEnterManyBuyerIHistory_query.isError ? totalIndustriesEnterManyBuyerIHistory_query.error : null}
+              className="h-[450px]"
+
             />
           </Grid.Col>
           <Grid.Col span={12}>
@@ -145,6 +151,7 @@ const Index = (props) => {
               isFetching={totalIndustriesMarketOrderValueHistory_query.isFetching}
               allow={totalIndustriesMarketOrderValueHistory?.allow}
               error={totalIndustriesMarketOrderValueHistory_query.isError ? totalIndustriesMarketOrderValueHistory_query.error : null}
+              className="h-[450px]"
             />
           </Grid.Col>
         </Grid>

@@ -204,7 +204,7 @@ const Index = (props) => {
     </Group>
     <Stack spacing="lg">
     <Chart 
-      className={`${props?.symbol?.fund === true ? 'block' : 'hidden'}`}
+      className={`${props?.symbol?.fund === true ? 'block' : 'hidden'} h-[450px]`}
       isLoading={stockSellPerfomanceValue_query.isLoading}
       isFetching={stockSellPerfomanceValue_query.isFetching}
       error={stockSellPerfomanceValue_query.isError ? stockSellPerfomanceValue_query.error : null}
@@ -215,7 +215,7 @@ const Index = (props) => {
       options={{ options: { ...ChartData.sellPerfomance.options, labels: sellPerfomance } }}
     />
       <Chart
-      className={`${props?.symbol?.fund === false ? 'block' : 'hidden'}`}
+      className={`${props?.symbol?.fund === false ? 'block' : 'hidden'} h-[450px]`}
       isLoading={stockPerfomanceValue_query.isLoading}
       isFetching={stockPerfomanceValue_query.isFetching}
       error={stockPerfomanceValue_query.isError ? stockPerfomanceValue_query.error : null}
