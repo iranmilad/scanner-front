@@ -1441,7 +1441,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: 'A16',
+        id: 'A13',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -1484,50 +1484,49 @@ const ChartData = {
         },
       },
       plotOptions: {
-        horizontal: false,
-        distributed: true,
-      },
-      colors: ['#66DA26', '#ff0'],
-      labels: [
-        'صف خرید به فروش',
-        'مثبت به صف فروش',
-        'صف خرید به منفی',
-        'صف فروش مثبت',
-        'منفی به صف خرید',
-        'صف فروش به صف خرید',
-      ],
-      dataLabels: {
-        style: {
-          colors: [colors.slate[700]],
+        bar: {
+          distributed: true,
+          borderRadius: 4,
+          horizontal: true,
         },
       },
-      responsive:[
-        {
-          breakpoint: 1872,
-          options: {
-            xaxis: {
-              labels: {
-                show: true,
-                // offsetY: 90,
-                offsetX: 10,
-              }
-            }
-          }
-        }
+      legend: {
+        show: false,
+      },
+      colors: [
+        colors.rose[500],
+        colors.pink[500],
+        colors.orange[500],
+        colors.emerald[500],
+        colors.blue[500],
+        colors.purple[500],
       ],
+      dataLabels: {
+        enabled: true,
+        textAnchor: 'end',
+        formatter: function (val, opt) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val;
+        },
+        style: {
+          colors: ['#000'],
+        },
+      },
       xaxis: {
         labels: {
           show: true,
-          rotate: 0,
+          offsetY: 108,
         },
         categories: [
-          'صف خرید به فروش',
+          'صف خرید به صف فروش',
           'مثبت به صف فروش',
           'صف خرید به منفی',
-          'صف فروش مثبت',
+          'صف فروش به مثبت',
           'منفی به صف خرید',
-          'صف فروش به صف خرید',
+          'صف فروش به صف خرید'
         ],
+      },
+      yaxis: {
+        show: false,
       },
     },
   },
@@ -4594,43 +4593,6 @@ const ChartData = {
       stroke: {
         curve: 'smooth',
       },
-      responsive: [
-        {
-          breakpoint: 2337,
-          options: {
-            xaxis: {
-              labels: {
-                rotateAlways: false,
-                rotate: 0,
-              },
-            },
-          },
-        },
-        {
-          breakpoint: 1200,
-          options: {
-            xaxis: {
-              tickAmount: 7,
-              labels: {
-                rotateAlways: false,
-                rotate: 0,
-              },
-            },
-          },
-        },
-        {
-          breakpoint: 2428,
-          options: {
-            xaxis: {
-              tickAmount: 6,
-              labels: {
-                rotateAlways: false,
-                rotate: 0,
-              },
-            },
-          },
-        },
-      ],
       colors: [colors.indigo[500]],
       grid: {
         show: true,
@@ -5037,7 +4999,6 @@ const ChartData = {
   sellPerfomance: {
     options: {
       chart: {
-        width: "100%",
         parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
@@ -5052,9 +5013,8 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
-      legend: {
+      ledgend: {
         show: true,
-        offsetY: -10,
       },
       stroke: {
         width: [0, 4],
@@ -5114,18 +5074,15 @@ const ChartData = {
             },
           },
         },
-        {
-          breakpoint: 540,
-          options: {
-            xaxis: {
-              tickAmount: 4,
-            }
-          }
-        }
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
@@ -5151,7 +5108,6 @@ const ChartData = {
   perfomanceValue: {
     options: {
       chart: {
-        width: "100%",
         parentHeightOffset: 0,
         locales: [fa],
         defaultLocale: 'fa',
@@ -5166,9 +5122,8 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
-      legend: {
+      ledgend: {
         show: true,
-        offsetY: -10,
       },
       stroke: {
         width: [0, 4],
@@ -5179,7 +5134,7 @@ const ChartData = {
         padding: {
           left: 0,
           right: -5,
-          bottom: 10
+          bottom: 20
         },
         xaxis: {
           lines: {
@@ -5228,18 +5183,15 @@ const ChartData = {
             },
           },
         },
-        {
-          breakpoint: 540,
-          options: {
-            xaxis: {
-              tickAmount: 4,
-            }
-          }
-        }
       ],
       xaxis: {
         type: 'category',
         // tickAmount: 6,
+        categories: clockTime('09:00', '12:30', 15),
+        labels: {
+          rotateAlways: false,
+          offsetX: -2,
+        },
       },
       yaxis: {
         show: true,
