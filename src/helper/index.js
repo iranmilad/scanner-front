@@ -180,7 +180,6 @@ export function useConfig(array, key, callback) {
 
 export function useData(item, params, ...other) {
   return useQuery({
-    ...other,
     enabled: item.allow ? false : true,
     queryKey: [item.key, params],
     queryFn: async (key, page) => {
@@ -206,6 +205,7 @@ export function useData(item, params, ...other) {
     onError: (err) => {
       return err;
     },
+    ...other,
   });
 }
 

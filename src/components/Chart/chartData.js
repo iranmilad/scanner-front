@@ -137,7 +137,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: 'A1',
+        id: 'A2',
         fontFamily: 'Iran-sans',
       },
       legend: {
@@ -1441,7 +1441,7 @@ const ChartData = {
         animations: {
           enabled: false,
         },
-        id: 'A13',
+        id: 'A16',
         fontFamily: 'Iran-sans',
         events: {
           dataPointSelection: function (
@@ -5013,8 +5013,9 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
-      ledgend: {
+      legend: {
         show: true,
+        offsetY: -8
       },
       stroke: {
         width: [0, 4],
@@ -5078,7 +5079,6 @@ const ChartData = {
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,
@@ -5122,8 +5122,9 @@ const ChartData = {
       dataLabels: {
         enabled: false,
       },
-      ledgend: {
+      legend: {
         show: true,
+        offsetY: -8
       },
       stroke: {
         width: [0, 4],
@@ -5187,7 +5188,6 @@ const ChartData = {
       xaxis: {
         type: 'category',
         // tickAmount: 6,
-        categories: clockTime('09:00', '12:30', 15),
         labels: {
           rotateAlways: false,
           offsetX: -2,

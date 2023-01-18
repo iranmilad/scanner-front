@@ -14,7 +14,7 @@ class Chartx extends Component {
     super(props);
     this.state = {
       selectBox: [],
-      selectBoxValue: '11',
+      selectBoxValue: null,
       id: this.props.route.match.params.id,
     };
     this.technical = props.chartAndtables.find(
@@ -29,8 +29,7 @@ class Chartx extends Component {
       );
       getEveryFeeder(`${thatItem.feeder_url}/${id}`)
         .then((res) => {
-          this.setState({ selectBox: res.data.data });
-          console.log(res.data.data);
+          this.setState({ selectBox: res.data.data, selectBoxValue: res.data.data[0].value })
           resolve(id);
         })
         .catch((err) => {
@@ -84,6 +83,10 @@ class Chartx extends Component {
     );
   }
 }
+
+// const Chartx = (props) => {
+
+// }
 
 const mapStateToProps = (state) => ({
   chartAndtables: state.config.needs.chartAndtables,

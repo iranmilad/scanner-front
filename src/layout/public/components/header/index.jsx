@@ -1,19 +1,21 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
 import { headers, marketHeader } from '../../../../helper/navbar';
 import LogoWhite from '../../../../assets/images/header.svg';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
-import { Link,withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { getEveryFeeder } from '../../../../apis/main';
 import { connect } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setReportList } from '../../../../redux/reducers/config';
 import { matchSorter } from 'match-sorter';
-import RoutesContext from "../../../../contexts/routes"
+import RoutesContext from '../../../../contexts/routes';
+import { useQuery } from '@tanstack/react-query';
+import { useConfig, useData } from '../../../../helper';
 
 const Header = withRouter((props) => {
-  const {headerType,stockID} = useContext(RoutesContext)
+  const { headerType, stockID } = useContext(RoutesContext);
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
   const [search, setSearch] = useState([]);
@@ -41,17 +43,13 @@ const Header = withRouter((props) => {
   const setStocks = async () => {
     if (props.reportList.length === 0) {
       try {
-        let thatItem = props.chartAndtables
-        thatItem = thatItem.find(item => item.key === "stockSearch");
+        let thatItem = props.chartAndtables;
+        thatItem = thatItem.find((item) => item.key === 'stockSearch');
         let response = await getEveryFeeder(thatItem.feeder_url);
         dispatch(setReportList(response.data.data));
       } catch (error) {}
     }
   };
-
-  useEffect(() => {
-    setStocks();
-  }, []);
 
   return (
     <div className=" bg-gray-100">
@@ -78,52 +76,11 @@ const Header = withRouter((props) => {
           </div>
           <div className="hidden lg:block">
             <Link to="/">
-              <img src={LogoWhite} width="150" />
+              <img src={LogoWhite} width="150" alt='Logo' />
             </Link>
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">
-            <Autocomplete
-              zIndex={9999999}
-              color="blue"
-              placeholder="جستجوی نماد / شرکت"
-              value={searchValue}
-              onChange={searchSymbol}
-              dir="rtl"
-              onItemSubmit={(item) => props.history.push(`/stock/${item.id}`)}
-              itemComponent={AutoCompleteItem}
-              rightSection={
-                <svg className='w-3.5 h-3.5 fill-gray-200' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                  <defs>
-                    <style>{`.fa-secondary{opacity:.4}`}</style>
-                  </defs>
-                  <path
-                    className="fa-primary"
-                    d="M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7z"
-                  />
-                  <path
-                    className="fa-secondary"
-                    d="M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 128 128C335.1 278.6 278.6 336 207.1 336z"
-                  />
-                </svg>
-              }
-              filter={(value, item) =>
-                item.label.toLowerCase().includes(value.toLowerCase().trim())
-              }
-              data={search}
-              sx={(theme) => ({
-                width: '100%',
-                background: 'transparent',
-                '& .mantine-Autocomplete-input': {
-                  background: 'transparent',
-                  color: 'white',
-                  fontSize: '13px',
-                },
-                '& .mantine-Autocomplete-input:focus': {
-                  borderColor: `${theme.colors.blue[6]} !important`,
-                },
-              })}
-              variant="filled"
-            />
+            <SearchBox reportList={props.reportList} />
           </div>
           <PrivateSection />
         </div>
@@ -142,6 +99,102 @@ const Header = withRouter((props) => {
     </div>
   );
 });
+
+const SearchBox = (props) => {
+  const [searchValue, setSearchValue] = useState('');
+  const [search, setSearch] = useState([]);
+
+  const searchSymbol = async (value) => {
+    setSearchValue(value);
+    if (value.length < 2) setSearch([]);
+
+    if (value.length > 2) {
+      // match sorter with label and name
+      let result = matchSorter(props.reportList, value, {
+        keys: ['label', 'name'],
+      });
+      result.length > 0 ? setSearch(result) : setSearch([]);
+    }
+  };
+
+  const stockSearch = useConfig('stockSearch');
+  const { isLoading } = useData(stockSearch, '/' , {
+    refetchInterval: false
+  });
+
+  return (
+    <Autocomplete
+      disabled={isLoading}
+      zIndex={9999999}
+      color="blue"
+      placeholder="جستجوی نماد / شرکت"
+      value={searchValue}
+      onChange={searchSymbol}
+      dir="rtl"
+      onItemSubmit={(item) => props.history.push(`/stock/${item.id}`)}
+      itemComponent={AutoCompleteItem}
+      rightSection={
+        isLoading ? (
+          <svg
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        ) : (
+          <svg
+            className="w-3.5 h-3.5 fill-gray-200"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <defs>
+              <style>{`.fa-secondary{opacity:.4}`}</style>
+            </defs>
+            <path
+              className="fa-primary"
+              d="M500.3 443.7l-119.7-119.7c-15.03 22.3-34.26 41.54-56.57 56.57l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7z"
+            />
+            <path
+              className="fa-secondary"
+              d="M207.1 0C93.12 0-.0002 93.13-.0002 208S93.12 416 207.1 416s208-93.13 208-208S322.9 0 207.1 0zM207.1 336c-70.58 0-128-57.42-128-128c0-70.58 57.42-128 128-128s128 57.42 128 128C335.1 278.6 278.6 336 207.1 336z"
+            />
+          </svg>
+        )
+      }
+      filter={(value, item) =>
+        item.label.toLowerCase().includes(value.toLowerCase().trim())
+      }
+      data={search}
+      sx={(theme) => ({
+        width: '100%',
+        background: 'transparent',
+        '& .mantine-Autocomplete-input': {
+          background: 'transparent',
+          color: 'white',
+          fontSize: '13px',
+        },
+        '& .mantine-Autocomplete-input:focus': {
+          borderColor: `${theme.colors.blue[6]} !important`,
+        },
+      })}
+      variant="filled"
+    />
+  );
+};
 const AutoCompleteItem = React.forwardRef(
   ({ id, label, name, ...others }, ref) => (
     <div ref={ref} {...others}>
@@ -155,7 +208,7 @@ const AutoCompleteItem = React.forwardRef(
 
 const mapStateToProps = (state) => ({
   reportList: state.config.reportList,
-  chartAndtables: state.config.needs.chartAndtables
+  chartAndtables: state.config.needs.chartAndtables,
 });
 
 export default connect(mapStateToProps)(Header);

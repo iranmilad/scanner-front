@@ -18,12 +18,14 @@ class Treemap extends PureComponent {
       loading: true,
       chart: anychart.treeMap([]),
       fullScreenMode: false,
+      pause:false
     };
     this.chartSettings();
     this.chartLegend();
     this.chartHeader();
     this.chartLabels();
     this.chartTooltip();
+    this.chartMode();
   }
 
   /**
@@ -32,6 +34,7 @@ class Treemap extends PureComponent {
   fetchData() {
     let treeConfig = this.props.config.needs.chartAndtables;
     treeConfig = treeConfig.find((item) => item.key === 'treemap');
+    if(this.state.pause) return;
     getEveryFeeder(treeConfig.feeder_url).then(async (res) => {
       let data = anychart.data.tree(res.data.data, 'as-table');
       this.state.chart.data(data);
@@ -51,6 +54,17 @@ class Treemap extends PureComponent {
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+  chartMode(){
+    this.state.chart.listen("drillchange",(e) => {
+      if(e.current.index !== 0){
+        this.setState({pause:true})
+      }
+      else{
+        this.setState({pause:false})
+      }
+    })
   }
 
   /**

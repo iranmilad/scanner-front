@@ -230,6 +230,9 @@ class LightChart extends Component {
     this.chart = createChart(this.chartRef.current, {
       width: this.chartRef.current.offsetWidth,
       height: this.chartRef.current.offsetHeight,
+      localization:{
+        locale: 'fa-IR',
+      },
       crosshair: {
         horzLine: {
           visible: false,
