@@ -12,9 +12,8 @@ import {
 import lodash from 'lodash';
 import { setReportList } from '../../../redux/reducers/config';
 import { connect } from 'react-redux';
-import { getEveryUser, getEveryFeeder } from '../../../apis/main';
+import { getEveryUser } from '../../../apis/main';
 import { withRouter } from 'react-router-dom';
-import { data } from 'autoprefixer';
 
 class Notifications extends Component {
   state = {
@@ -25,8 +24,13 @@ class Notifications extends Component {
     this.setState({ loading: true });
     getEveryUser('/user/member-lists', { token: true })
       .then((res) => {
+        // remove duplicated items by js not lodash and underscore and core js
+        let arr = res.data.data;
+        let unique = arr.filter((item, index) => {
+          return arr.indexOf(item) === index;
+        });
         this.setState({
-          data: res.data.data,
+          data: unique,
           loading: false,
         });
       })

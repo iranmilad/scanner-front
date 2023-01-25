@@ -104,6 +104,7 @@ class Market extends Component {
    * @param {string} value
    */
   changeGroup(value) {
+    this.setState({ pageID: value })
     this.history.push(`/market/chart/${value}`);
   }
 
@@ -573,6 +574,7 @@ class Market extends Component {
         <Group position="apart">
           <Text>{this.state.title}</Text>
           <Select
+            value={this.state.pageID}
             onChange={(e) => this.changeGroup(e)}
             placeholder="انتخاب کنید"
             data={this.state.industrieLists}

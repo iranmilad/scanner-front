@@ -1,55 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
 import { ActionIcon, Autocomplete, Text } from '@mantine/core';
-import { headers, marketHeader } from '../../../../helper/navbar';
+import { matchSorter } from 'match-sorter';
+import React, { useContext, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import { Link, withRouter,useHistory } from 'react-router-dom';
 import LogoWhite from '../../../../assets/images/header.svg';
+import RoutesContext from '../../../../contexts/routes';
+import { useConfig, useData } from '../../../../helper';
+import { headers, marketHeader } from '../../../../helper/navbar';
+import { setReportList } from '../../../../redux/reducers/config';
 import DesktopMenu from './desktopMenu';
 import PrivateSection from './PrivateSection';
-import { Link, withRouter } from 'react-router-dom';
-import { getEveryFeeder } from '../../../../apis/main';
-import { connect } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { setReportList } from '../../../../redux/reducers/config';
-import { matchSorter } from 'match-sorter';
-import RoutesContext from '../../../../contexts/routes';
-import { useQuery } from '@tanstack/react-query';
-import { useConfig, useData } from '../../../../helper';
 
 const Header = withRouter((props) => {
   const { headerType, stockID } = useContext(RoutesContext);
-  const dispatch = useDispatch();
-  const [searchValue, setSearchValue] = useState('');
-  const [search, setSearch] = useState([]);
-
-  /**
-   * search dynamic data
-   * @param {string} value - autocomplete value
-   */
-  const searchSymbol = async (value) => {
-    setSearchValue(value);
-    if (value.length < 2) setSearch([]);
-    /**
-     * when user type something if there isnt any data in the report list
-     * then get the data from the server
-     */
-    if (value.length > 2) {
-      // match sorter with label and name
-      let result = matchSorter(props.reportList, value, {
-        keys: ['label', 'name'],
-      });
-      result.length > 0 ? setSearch(result) : setSearch([]);
-    }
-  };
-
-  const setStocks = async () => {
-    if (props.reportList.length === 0) {
-      try {
-        let thatItem = props.chartAndtables;
-        thatItem = thatItem.find((item) => item.key === 'stockSearch');
-        let response = await getEveryFeeder(thatItem.feeder_url);
-        dispatch(setReportList(response.data.data));
-      } catch (error) {}
-    }
-  };
 
   return (
     <div className=" bg-gray-100">
@@ -76,11 +39,15 @@ const Header = withRouter((props) => {
           </div>
           <div className="hidden lg:block">
             <Link to="/">
-              <img src={LogoWhite} width="150" alt='Logo' />
+              <img src={LogoWhite} width="150" alt="Logo" />
             </Link>
           </div>
           <div className="md:flex w-[70%] sm:w-60 md:w-80 lg:w-96 items-center bg-slate-700 rounded-md">
-            <SearchBox reportList={props.reportList} />
+            {props.chartAndtables ? (
+              <SearchBox chartAndtables={props.chartAndtables} />
+            ) : (
+              <></>
+            )}
           </div>
           <PrivateSection />
         </div>
@@ -100,9 +67,21 @@ const Header = withRouter((props) => {
   );
 });
 
-const SearchBox = (props) => {
+const SearchBox = React.memo((props) => {
   const [searchValue, setSearchValue] = useState('');
   const [search, setSearch] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+
+
+  const stockSearch = useConfig(props.chartAndtables, 'stockSearch');
+  const { isLoading,data: stockLists } = useData(stockSearch, '', {
+    refetchInterval: false,
+    onSuccess: (data) => {
+      dispatch(setReportList(data.data));
+    },
+  });
 
   const searchSymbol = async (value) => {
     setSearchValue(value);
@@ -110,17 +89,12 @@ const SearchBox = (props) => {
 
     if (value.length > 2) {
       // match sorter with label and name
-      let result = matchSorter(props.reportList, value, {
-        keys: ['label', 'name'],
+      let result = matchSorter(stockLists.data, value, {
+        keys: ['label','name'],
       });
       result.length > 0 ? setSearch(result) : setSearch([]);
     }
   };
-
-  const stockSearch = useConfig('stockSearch');
-  const { isLoading } = useData(stockSearch, '/' , {
-    refetchInterval: false
-  });
 
   return (
     <Autocomplete
@@ -131,12 +105,12 @@ const SearchBox = (props) => {
       value={searchValue}
       onChange={searchSymbol}
       dir="rtl"
-      onItemSubmit={(item) => props.history.push(`/stock/${item.id}`)}
+      onItemSubmit={(item) => history.push(`/stock/${item.id}`)}
       itemComponent={AutoCompleteItem}
       rightSection={
         isLoading ? (
           <svg
-            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            class="animate-spin  h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -147,7 +121,7 @@ const SearchBox = (props) => {
               cy="12"
               r="10"
               stroke="currentColor"
-              stroke-width="4"
+              strokeWidth="4"
             ></circle>
             <path
               class="opacity-75"
@@ -190,11 +164,16 @@ const SearchBox = (props) => {
         '& .mantine-Autocomplete-input:focus': {
           borderColor: `${theme.colors.blue[6]} !important`,
         },
+        '& .mantine-Autocomplete-input:disabled': {
+          background: 'transparent',
+        },
       })}
       variant="filled"
     />
   );
-};
+});
+
+
 const AutoCompleteItem = React.forwardRef(
   ({ id, label, name, ...others }, ref) => (
     <div ref={ref} {...others}>

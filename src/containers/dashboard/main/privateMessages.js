@@ -28,23 +28,21 @@ class PrivateMessages extends Component {
       let response = await axios.put(
         `https://user.tseshow.com/api/notifications/seen/${id}`,
         {},
-        {
-
-        }
       );
       let count = 0;
       response.data.data.map(item => ! 'seen_at' in item ? count++ : null)
       this.setState({newMessage: count === 0 ? false : true});
-      this.props.setAllMessagesToState();
     } catch (error) {
       console.log(error);
     }
   }
   componentDidMount() {
+    console.log(this.props.messages)
     let count = 0;
     this.props.messages.map(item => ! 'seen_at' in item ? count++ : null)
     this.setState({newMessage: count === 0 ? false : true});
   }
+
   render() {
     return (
       <Stack>
